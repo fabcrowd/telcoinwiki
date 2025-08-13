@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="3mA-7hTJ1AkytTMz9anKLSKZ0_7fQT-M7WI58iHLWoU" />
+    <title>Telcoin Community Q&A - Unofficial Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 102, 204, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0066cc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .logo:hover {
+            color: #004499;
+            background-color: rgba(0, 102, 204, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #0066cc;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            outline: none;
+            transition: transform 0.3s ease;
+        }
+
+        .search-box:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            margin-top: -2rem;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-wrapper {
+            padding: 3rem 0;
+        }
+
+        /* Getting Started Section */
+        .getting-started {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 102, 204, 0.1);
+        }
+
+        .getting-started h2 {
+            color: #0066cc;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .checklist-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checklist-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .checklist-item h3 {
+            color: #0066cc;
+            margin-bottom: 0.5rem;
+        }
+        
+        .community-link {
+            display: block;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            color: #333;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 102, 204, 0.1);
+        }
+
+        .community-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.1);
+            border-color: #0066cc;
+        }
+
+        .community-link:last-child {
+            margin-bottom: 0;
+        }
+
+        /* FAQ Sections */
+        .faq-section {
+            margin-bottom: 3rem;
+        }
+
+        .faq-section h2 {
+            color: #0066cc;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .faq-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #0066cc, #004499);
+            border-radius: 2px;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #0066cc;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            border-bottom: 1px solid rgba(0, 102, 204, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: linear-gradient(135deg, #e8f2ff 0%, #f8f9ff 100%);
+        }
+
+        .faq-question h3 {
+            color: #0066cc;
+            font-size: 1.2rem;
+            margin: 0;
+            padding-right: 1rem;
+        }
+
+        .faq-toggle {
+            color: #0066cc;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer.active {
+            max-height: 2000px;
+        }
+
+        .faq-answer-content {
+            padding: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .faq-answer-content p {
+            margin-bottom: 1rem;
+        }
+
+        .faq-answer-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .faq-answer-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Citation Link Styling */
+        .citation-link {
+            color: #0066cc;
+            text-decoration: underline;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .citation-link:hover {
+            color: #004499;
+            text-decoration: none;
+            background-color: rgba(0, 102, 204, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #0066cc;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #0066cc;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #999;
+        }
+
+        .disclaimer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #ffcc00;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #0066cc;
+            padding: 0.5rem;
+            z-index: 1000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 80%;
+                max-width: 300px;
+                height: auto;
+                max-height: 90vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                padding: 5rem 1rem 2rem;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                z-index: 999;
+                border-radius: 0 0 0 20px;
+                box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.2);
+                overflow-y: auto;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                text-align: left;
+                margin: 0.5rem 0;
+                width: 100%;
+            }
+
+            .nav-links a {
+                padding: 0.8rem;
+                display: block;
+                width: 100%;
+                font-size: 1.1rem;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links a:hover {
+                background: rgba(0, 102, 204, 0.1);
+                color: #0066cc;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: relative;
+                z-index: 1000;
+            }
+
+            .checklist {
+                grid-template-columns: 1fr;
+            }
+
+            .category-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .category-btn {
+                width: 80%;
+                text-align: center;
+            }
+
+            .faq-question h3 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Telcoin Community</a>
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="#getting-started">Getting Started</a></li>
+                        <li><a href="#quick-qa">Quick Q&A</a></li>
+                        <li><a href="deep-dive.html">Deep Dive</a></li>
+                        <li><a href="#community">Community</a></li>
+                        <li><a href="links.html">Links</a></li>
+                        <li><a href="https://telcoin.org" target="_blank">Official Site</a></li>
+                    </ul>
+                    <button class="mobile-menu-btn">☰</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Telcoin Community Q&A</h1>
+            <p>Unofficial Community Guide for New Telcoin Users - The Future of Global Finance, Now in Your Pocket</p>
+            
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 15px; margin: 2rem 0; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);">
+                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem; opacity: 0.95;">
+                    Telcoin is pioneering the 'RegFi' (regulated DeFi) model, bridging the gap between traditional finance and decentralized finance in a compliant and scalable way. Unlike many projects, we own the full stack: a U.S.-chartered digital-asset bank, a carrier-secured Layer-1 blockchain validated by GSMA-member MNOs, and at the center of it all a regenerative TEL token that powers transactions and rewards user-generated liquidity. This 'triple advantage' positions Telcoin for unprecedented real-world adoption, demonstrating how blockchain can operate within established regulatory frameworks to serve billions of users globally.
+                </p>
+                
+                <h3 style="color: #ffcc00; font-size: 1.4rem; margin-bottom: 1rem; text-align: center;">Why Telcoin?</h3>
+                <p style="font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem; font-style: italic; text-align: center; opacity: 0.95;">
+                    <strong>Telcoin is building the future of global finance: regulated, mobile-first, and universally accessible. By combining a U.S.-chartered digital-asset bank, a telecom-validated blockchain, and user-powered liquidity, Telcoin empowers billions with fast, affordable, and compliant financial services directly through their mobile phones.</strong>
+                </p>
+            </div>
+            
+            <div class="disclaimer">
+                <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">
+                    ⚠️ <strong>Community Resource:</strong> This is an unofficial, community-created guide. 
+                    For official information, visit <a href="https://telcoin.org" target="_blank" style="color: #ffcc00; text-decoration: underline;">telcoin.org</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-wrapper">
+                <section id="getting-started" class="getting-started">
+                    <div class="container">
+                        <h2>Getting Started Checklist</h2>
+                        <div class="checklist">
+                            <div class="checklist-item" onclick="window.open('https://telcoin.org', '_blank')">
+                                <h3>📚 Learn the Basics</h3>
+                                <p>Read through this FAQ and visit telcoin.org</p>
+                                <span style="font-size: 0.8rem; color: #0066cc; margin-top: 0.5rem; display: block;">Click to visit →</span>
+                            </div>
+                            <div class="checklist-item" id="joinCommunityChecklist">
+                                <h3>🤝 Join the Community</h3>
+                                <p>Connect on Discord/Telegram and follow the forum</p>
+                                <span style="font-size: 0.8rem; color: #0066cc; margin-top: 0.5rem; display: block; cursor:pointer;">Click to show community links ↓</span>
+                                <div id="joinCommunityDropdown" style="display:none; position:relative;">
+                                    <div style="position:absolute;left:0;top:2.5rem;min-width:220px;z-index:999;background:white;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.12);border:2px solid #0066cc;max-width:320px;">
+                                        <a class="community-link" href="https://discord.gg/qzMUw57UJa" target="_blank">Discord</a>
+                                        <a class="community-link" href="https://t.me/TelcoinPowerHolders" target="_blank">Telegram: POWER Holders</a>
+                                        <a class="community-link" href="https://t.me/telfamcommunity" target="_blank">Telegram: TEL Community</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checklist-item" id="considerStakingChecklist">
+                                <h3>🔒 Consider Staking</h3>
+                                <p>Stake TEL to earn rewards and participate in governance</p>
+                                <span style="font-size: 0.8rem; color: #0066cc; margin-top: 0.5rem; display: block; cursor:pointer;">Click to learn about staking →</span>
+                            </div>
+                            <div class="checklist-item" id="stayUpdatedChecklist">
+                                <h3>📢 Stay Updated</h3>
+                                <p>Follow official channels for the latest developments</p>
+                                <span style="font-size: 0.8rem; color: #0066cc; margin-top: 0.5rem; display: block; cursor:pointer;">Click for official channels →</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="quick-qa" class="faq-section">
+                    <h2>Community Q&A - Get the Facts Fast</h2>
+                    <div class="search-container">
+                        <input type="text" class="search-box" placeholder="Filter Q&A topics..." id="searchBox">
+                    </div>
+                    <div class="faq-grid" id="faqGrid">
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" id="community">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Official Channels</h3>
+                    <a href="https://telcoin.org" target="_blank">Official Website</a>
+                    <a href="https://reddit.com/r/Telcoin/" target="_blank">Reddit</a>
+                    <a href="https://twitter.com/telcoin" target="_blank">Twitter</a>
+                    <a href="https://discord.gg/qzMUw57UJa" target="_blank">Discord</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <a href="https://github.com/Telcoin-Association" target="_blank">GitHub</a>
+                    <a href="https://youtube.com/@Telcoin_Team" target="_blank">YouTube</a>
+                    <a href="https://linkedin.com/company/telcoin/" target="_blank">LinkedIn</a>
+                    <a href="https://t.me/Telcoin_Announcements" target="_blank">Telegram</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Trading</h3>
+                    <a href="#" onclick="alert('Download from App Store or Google Play')">Telcoin App</a>
+                    <a href="https://www.kucoin.com/trade/TEL-USDT" target="_blank">KuCoin</a>
+                    <a href="https://www.bitget.com/spot/TELUSDT" target="_blank">Bitget</a>
+                    <a href="https://app.uniswap.org/#/swap?outputCurrency=0x467Bccd9d29f223BcE8043b84E8C8B282827790F" target="_blank">Uniswap</a>
+                </div>
+                <div class="footer-section">
+                    <h3>About This Site</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.6; color: #ccc;">
+                        This is an <strong>unofficial community resource</strong> created to help new Telcoin users. 
+                        For official information, updates, and support, always visit 
+                        <a href="https://telcoin.org" target="_blank" style="color: #0066cc;">telcoin.org</a> 
+                        and verify through official channels.
+                    </p>
+                    <p style="font-size: 0.8rem; color: #999; margin-top: 1rem;">
+                        Not affiliated with Telcoin Holdings or Telcoin Association.
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Community Resource - Unofficial Telcoin Guide. Not affiliated with Telcoin Holdings or Telcoin Association.</p>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem;">
+                    Always verify information through official channels: <a href="https://telcoin.org" target="_blank" style="color: #0066cc;">telcoin.org</a> | 
+                    Always verify official channels to avoid scams and impostors.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // FAQ Data
+        const faqData = [
+            {
+                category: 'basics',
+                question: 'What is Telcoin?',
+                answer: `<ul>
+<li>Telcoin (TEL) is a blockchain-based platform established in Singapore in 2017, aiming to make affordable remittances accessible globally through mobile networks and decentralized finance (DeFi) solutions.</li>
+<li>Its core mission is to bridge traditional fiat currencies and digital assets by providing fast, affordable, and compliant infrastructure for mobile-based financial services.</li>
+<li>The platform emphasizes a "RegFi" (regulated DeFi) model, integrating telecom partners as compliance-aware on-ramps and off-ramps.</li>
+<li><a href="deep-dive.html?category=differentiators" target="_blank" class="citation-link">See Deep Dive: Telcoin Differentiators</a></li>
+</ul>`
+            },
+            {
+                category: 'basics',
+                question: "What's Telcoin's value proposition?",
+                answer: `<ul>
+<li>Affordable Remittances: Aims for transaction fees of 2% or less, significantly lower than the 7% industry average.</li>
+<li>Global Accessibility: Leverages mobile networks and telecom partnerships to reach billions of users.</li>
+<li>Regulated DeFi (RegFi): Integrates traditional finance with blockchain through regulatory adherence, exemplified by Telcoin Bank and eUSD.</li>
+<li>User Ownership: Designed to be user-owned with governance and economic incentives distributed across its layers.</li>
+<li>Digital Cash: Developing multi-currency stablecoins (e.g., eUSD, eEUR) for seamless cross-border payments and blockchain banking.</li>
+<li><a href="deep-dive.html?category=differentiators" target="_blank" class="citation-link">See Deep Dive: Telcoin Differentiators</a></li>
+</ul>`
+            },
+            {
+                category: 'regulation',
+                question: "How Does the GENIUS Act Affect Telcoin?",
+                answer: `<h4>1. From State-Scoped to National-Scale Legitimacy</h4>
+                <p>Telcoin's Nebraska approval gave it a legal foundation—but only within Nebraska and states with mutual recognition (but they can get around that). The GENIUS Act unlocks national legitimacy, so Telcoin's stablecoins and banking services can be recognised across the U.S., not just in friendly states.</p>
+                <p><strong>Elaboration:</strong> Telcoin's existing framework is based on its Nebraska Digital Asset Banking charter, which grants it authority to issue stablecoins and offer banking-like services—but its scope is primarily limited to Nebraska and states that accept reciprocity (often via money transmitter license exemptions). The GENIUS Act effectively creates a federal legal framework that recognizes state-chartered, non-depository stablecoin issuers—giving Telcoin the legal clarity to operate nationwide without needing a federal banking charter or license. This transition from "state-permissible" to "federally protected" dramatically expands its operational and market reach.</p>
+
+                <h4>2. Legal Clarity Attracts Institutional Partners</h4>
+                <p>Even with a state charter, big institutions (e.g., Mastercard, Visa, or MNOs) are unlikely to engage fully without federal regulatory clarity. The GENIUS Act provides that.</p>
+                <p><strong>Elaboration:</strong> State-chartered digital asset institutions still operate in regulatory grey zones at the federal level, which makes risk-averse partners (like Mastercard, Visa, telecoms, or global remittance rails) hesitant to build deep integrations. The GENIUS Act provides a clear federal endorsement of the model Telcoin is already using—a state-supervised, 100%-reserve stablecoin issuer not engaged in fractional lending. That gives confidence to institutional partners that integration won't be blocked by future federal action or lead to regulatory entanglements.</p>
+
+                <h4>3. Shields Against Federal Preemption</h4>
+                <p>Without a federal law, there was always a risk that a future federal regulation could override Nebraska's framework. GENIUS locks in federal support for state-chartered stablecoin banks like Telcoin's.</p>
+                <p><strong>Elaboration:</strong> Without a law like GENIUS, future federal regulation (e.g., from the Federal Reserve, OCC, or Treasury) could invalidate or override Nebraska's authority to regulate stablecoin issuance. The GENIUS Act preempts that risk by establishing that states retain the right to charter and supervise non-depository stablecoin issuers—essentially carving out a space in federal law where Telcoin's model is both legitimate and protected. This is critical for long-term business continuity and investor confidence.</p>
+
+                <h4>4. First-Mover Advantage Is Now Exponentially More Valuable</h4>
+                <p>Telcoin is already chartered and positioned to issue stablecoins under GENIUS-compliant rules immediately. That gives it a huge head start over banks that now have to apply and build infrastructure.</p>
+                <p><strong>Elaboration:</strong> While other institutions may now rush to build GENIUS-compliant frameworks, Telcoin is already there. It spent years working with Nebraska to create the Digital Asset Bank model that inspired the GENIUS Act. That means Telcoin can immediately launch federally protected, state-supervised stablecoins (like TCUSD) while competitors are still navigating approvals and technology. This head start could be used to secure early telecom partnerships, remittance corridors, and wallet integrations—gaining users, liquidity, and relevance before incumbents can react.</p>`
+            },
+            {
+                category: 'basics',
+                question: "What is the Telcoin token (TEL)?",
+                answer: `<ul>
+<li>Native Utility Token: TEL is the native token of the Telcoin platform, used for governance, staking, and ecosystem incentives.</li>
+<li>Multi-Chain: Initially launched on Ethereum, TEL is now available on Polygon and other EVM-compatible chains.</li>
+<li>Tokenomics: Total supply is capped, with a portion allocated for ecosystem development and community incentives.</li>
+<li><a href="deep-dive.html?category=tokenomics" target="_blank" class="citation-link">See Deep Dive: Tokenomics</a></li>
+</ul>`
+            },
+            {
+                category: 'basics',
+                question: 'What is the Telcoin Association?',
+                answer: `<ul>
+<li>It's a Swiss-based non-profit organization that legally represents the Telcoin Platform's decentralized governance structure.</li>
+<li>Its mission is to represent the interests of GSMA Mobile Networks and other stakeholders in the ongoing maintenance and development of the Telcoin Network.</li>
+<li>It oversees the platform through various "Miner Councils" that manage different aspects of the network, ensuring long-term sustainability and self-management.</li>
+<li><a href="deep-dive.html?category=governance" target="_blank" class="citation-link">See Deep Dive: Association Governance</a></li>
+</ul>`
+            },
+            {
+                category: 'basics',
+                question: 'What are the different Councils and what responsibility does each have?',
+                answer: `<ul>
+<li>Platform and Treasury Councils: Govern the Telcoin Network's base layer, handling network upgrades, economic coordination, and rule changes.</li>
+<li>TELx Council: Manages the decentralized exchange (TELx), including liquidity allocation and incentive distribution.</li>
+<li>TAN Council: Governs the Telcoin Application Network (TAN), ensuring transparent rules for mobile access and user-level rewards.</li>
+<li>Compliance Council: Enforces platform rules and external regulations, with the authority to veto transactions that violate these standards.</li>
+<li><a href="deep-dive.html?category=governance" target="_blank" class="citation-link">See Deep Dive: Association Governance</a></li>
+</ul>`
+            },
+            {
+                category: 'basics',
+                question: "What's the difference between Telcoin Holdings and Telcoin Association?",
+                answer: `<ul>
+<li>Telcoin Holdings: This is the Singapore-based for-profit entity that initially founded Telcoin and is responsible for developing and operating Telcoin applications and services, such as the Telcoin Wallet.</li>
+<li>Telcoin Association: This is the Swiss-based non-profit organization that governs the underlying Telcoin Network and manages the TEL token, representing the interests of stakeholders in the decentralized protocol.</li>
+<li><a href="deep-dive.html?category=governance" target="_blank" class="citation-link">See Deep Dive: Association Governance</a></li>
+</ul>`
+            },
+            {
+                category: 'earning',
+                question: 'What is TANIP1?',
+                answer: `<ul>
+<li>TANIP1 stands for Telcoin Application Network Improvement Proposal 1.</li>
+<li>Its core purpose is to activate and define the mechanisms for distributing TEL incentives to stakers within the Telcoin Application Network (TAN).</li>
+<li>It focuses on a referral program as the primary means for regular users to earn TEL rewards by referring new users who actively transact on the Telcoin App.</li>
+<li><a href="deep-dive.html?category=earning" target="_blank" class="citation-link">See Deep Dive: Earning Mechanisms</a></li>
+</ul>`
+            },
+            {
+                category: 'network',
+                question: 'What is the status of the Telcoin Network?',
+                answer: `<ul>
+<li>It is an EVM (Ethereum Virtual Machine) Layer 1 blockchain and the foundational layer of the Telcoin Platform.</li>
+<li>It operates on a permissioned Proof-of-Stake (PoS) consensus mechanism, where only GSMA full-member Mobile Network Operators (MNOs) are authorized to validate blocks and earn rewards.</li>
+<li>The network currently reports "all systems operational" with no incidents for the past month, indicating stability.</li>
+<li>The Telcoin Network roadmap includes Alpha Mainnet (2025 Q3 - In Progress) and Beta Mainnet (2025 Q4).</li>
+<li><a href="deep-dive.html?category=network" target="_blank" class="citation-link">See Deep Dive: Network Status</a></li>
+</ul>`
+            },
+            {
+                category: 'bank',
+                question: 'What are the bank timelines and updates?',
+                answer: `<ul>
+<li>Telcoin received conditional approval to open Nebraska's first Digital Asset Bank in February 2025.</li>
+<li>Telcoin Bank is scheduled to commence operations "early this year" (referring to 2025) and anticipates receiving the full charter in the near future.</li>
+<li>After approval, Telcoin Bank is poised to offer regulated "Digital Cash" stablecoins (like eUSD in 2025) and blockchain banking services.</li>
+<li><a href="deep-dive.html?category=banking" target="_blank" class="citation-link">See Deep Dive: Bank & Digital Cash</a></li>
+</ul>`
+            },
+            {
+                category: 'trading',
+                question: 'What is the current status on Tier-1 exchange listings?',
+                answer: `<ul>
+<li>TEL is currently tradable on exchanges like KuCoin, Bitget, and others.</li>
+<li>It is not currently listed on major US-centric Tier-1 exchanges like Coinbase or Binance.</li>
+<li>Telcoin's "RegFi" approach suggests a focus on regulated product development before pursuing listings on certain top-tier exchanges.</li>
+<li><a href="deep-dive.html?category=marketing" target="_blank" class="citation-link">See Deep Dive: Marketing Strategy</a></li>
+</ul>`
+            },
+            {
+                category: 'trading',
+                question: 'Where can I buy Telcoin?',
+                answer: `<ul>
+<li><strong>Centralized Exchanges:</strong> KuCoin, Bitget, MEXC, Bybit, etc.</li>
+<li><strong>Wallets/Apps:</strong> The Telcoin App itself is a primary option.</li>
+<li><strong>Decentralized Exchanges (DEXs):</strong> Uniswap and Balancer.</li>
+<li><a href="deep-dive.html?category=getting-started" target="_blank" class="citation-link">See Deep Dive: Getting Started</a></li>
+</ul>`
+            },
+            {
+                category: 'earning',
+                question: 'How do I earn Telcoin from staking?',
+                answer: `<ul>
+<li>The primary method for users to earn TEL from staking in the app is via a referral program.</li>
+<li>Users stake TEL as "Proof of Alignment" and then earn a percentage of transaction fees from users they refer.</li>
+<li>Direct network validation staking is reserved for GSMA mobile network operators.</li>
+<li><a href="deep-dive.html?category=earning" target="_blank" class="citation-link">See Deep Dive: Earning Mechanisms</a></li>
+</ul>`
+            },
+            {
+                category: 'basics',
+                question: 'Where can I get involved with the Telcoin community?',
+                answer: `<ul>
+<li><strong>Official Channels:</strong> The best places for official information are the <a href="https://telcoin.org" target="_blank" class="citation-link">Official Website</a>, <a href="https://twitter.com/telcoin" target="_blank" class="citation-link">Twitter</a>, and the <a href="https://t.me/Telcoin_Announcements" target="_blank" class="citation-link">Telegram Announcements</a> channel.</li>
+<li><strong>Community Discussion:</strong> For community engagement, check out the official <a href="https://discord.gg/qzMUw57UJa" target="_blank" class="citation-link">Discord Server</a> and the <a href="https://reddit.com/r/Telcoin/" target="_blank" class="citation-link">Telcoin Subreddit</a>.</li>
+<li>Always verify official channels to avoid scams.</li>
+</ul>`
+            }
+        ];
+
+        // Function to render FAQ items
+        function renderFAQItems() {
+            const faqGrid = document.getElementById('faqGrid');
+            if (!faqGrid) return;
+
+            faqData.forEach(item => {
+                const faqItem = document.createElement('div');
+                faqItem.className = 'faq-item';
+
+                faqItem.innerHTML = `
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h3>${item.question}</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            ${item.answer}
+                        </div>
+                    </div>
+                `;
+                faqGrid.appendChild(faqItem);
+            });
+        }
+
+        // Function to toggle FAQ items
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            const toggle = element.querySelector('.faq-toggle');
+            
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all other open items
+            document.querySelectorAll('.faq-item.active').forEach(openItem => {
+                if (openItem !== faqItem) {
+                    openItem.classList.remove('active');
+                    openItem.querySelector('.faq-answer').classList.remove('active');
+                    openItem.querySelector('.faq-toggle').textContent = '+';
+                }
+            });
+
+            // Toggle the clicked item
+            if (!isActive) {
+                faqItem.classList.add('active');
+                answer.classList.add('active');
+                toggle.textContent = '−';
+            } else {
+                faqItem.classList.remove('active');
+                answer.classList.remove('active');
+                toggle.textContent = '+';
+            }
+        }
+
+        // Search functionality
+        function setupSearch() {
+            const searchBox = document.getElementById('searchBox');
+            if (!searchBox) return;
+            
+            searchBox.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const faqItems = document.querySelectorAll('.faq-item');
+                
+                faqItems.forEach(item => {
+                    const question = item.querySelector('h3').textContent.toLowerCase();
+                    const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+                    
+                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+        
+        // Checklist functionality
+        function setupChecklist() {
+            // Join the Community dropdown
+            const joinCommunityChecklist = document.getElementById('joinCommunityChecklist');
+            const joinCommunityDropdown = document.getElementById('joinCommunityDropdown');
+            if (joinCommunityChecklist && joinCommunityDropdown) {
+                joinCommunityChecklist.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isOpen = joinCommunityDropdown.style.display === 'block';
+                    joinCommunityDropdown.style.display = isOpen ? 'none' : 'block';
+                });
+                document.addEventListener('click', function(e) {
+                    if (!joinCommunityDropdown.contains(e.target) && e.target !== joinCommunityChecklist) {
+                        joinCommunityDropdown.style.display = 'none';
+                    }
+                });
+            }
+
+            // "Consider Staking" link
+            const considerStakingChecklist = document.getElementById('considerStakingChecklist');
+            if (considerStakingChecklist) {
+                considerStakingChecklist.addEventListener('click', function() {
+                    window.open('deep-dive.html?category=earning', '_blank');
+                });
+            }
+            
+            // "Stay Updated" scrolls to footer
+            const stayUpdatedChecklist = document.getElementById('stayUpdatedChecklist');
+            if (stayUpdatedChecklist) {
+                stayUpdatedChecklist.addEventListener('click', function() {
+                    document.getElementById('community').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+        }
+
+        // Initialize all scripts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderFAQItems();
+            setupSearch();
+            setupChecklist();
+
+            // Mobile menu functionality
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn && navLinks) {
+                mobileMenuBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navLinks.classList.toggle('active');
+                    document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+                });
+
+                // Close mobile menu when clicking a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
