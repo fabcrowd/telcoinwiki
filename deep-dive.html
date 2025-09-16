@@ -1,26 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <title>Telcoin Deep Dive: Wallet, Network, MNOs & TANIP-1</title>
-<meta name="description" content="In-depth overview of Telcoin’s wallet, 3-layer network, MNO validators, and TANIP-1 staking."/>
-<link rel="canonical" href="https://telcoinwiki.com/deep-dive.html"/>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Telcoin Deep Dive: Wallet, Network, MNOs & TANIP-1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="In-depth overview of Telcoin’s wallet, three-layer network design, GSMA MNO validators, TANIP-1 staking incentives, and governance." />
+    <meta name="keywords" content="Telcoin deep dive, Telcoin network, Telcoin TANIP-1, Telcoin staking, Telcoin governance">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0066cc">
+    <link rel="canonical" href="https://telcoinwiki.com/deep-dive.html" />
+    <link rel="alternate" href="https://telcoinwiki.com/deep-dive.html" hreflang="en" />
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
 
-<meta property="og:title" content="Telcoin Deep Dive: Wallet, Network, MNOs & TANIP-1">
-<meta property="og:description" content="In-depth overview of the tech and economics behind Telcoin.">
-<meta property="og:url" content="https://telcoinwiki.com/deep-dive.html">
-<meta property="og:type" content="article">
-<meta property="og:image" content="https://telcoinwiki.com/og-image.jpg">
-<meta name="twitter:card" content="summary_large_image">
+    <meta property="og:title" content="Telcoin Deep Dive: Wallet, Network, MNOs & TANIP-1">
+    <meta property="og:description" content="Explore Telcoin's wallet architecture, network governance, GSMA validator design, and TANIP-1 staking incentives." />
+    <meta property="og:url" content="https://telcoinwiki.com/deep-dive.html">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://telcoinwiki.com/governance-diagram-2.jpg">
+    <meta property="og:image:secure_url" content="https://telcoinwiki.com/governance-diagram-2.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1578">
+    <meta property="og:image:height" content="1494">
+    <meta property="og:image:alt" content="Illustration of Telcoin governance layers">
+    <meta property="og:site_name" content="Telcoin Wiki">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@telcoin">
+    <meta name="twitter:title" content="Telcoin Deep Dive: Wallet, Network, MNOs & TANIP-1">
+    <meta name="twitter:description" content="Explore Telcoin's wallet architecture, network governance, GSMA validator design, and TANIP-1 staking incentives." />
+    <meta name="twitter:image" content="https://telcoinwiki.com/governance-diagram-2.jpg">
+    <meta name="twitter:image:alt" content="Illustration of Telcoin governance layers">
 
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "Article",
- "headline": "Telcoin Deep Dive: Wallet, Network, MNOs & TANIP-1",
- "url": "https://telcoinwiki.com/deep-dive.html"
-}
-</script>
-<link rel="stylesheet" href="index.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://telcoinwiki.com/#organization",
+                "name": "Telcoin Wiki",
+                "url": "https://telcoinwiki.com/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://telcoinwiki.com/logo.svg",
+                    "width": 512,
+                    "height": 512
+                },
+                "sameAs": [
+                    "https://telcoin.org",
+                    "https://twitter.com/telcoin",
+                    "https://www.youtube.com/@Telcoin_Team",
+                    "https://discord.gg/qzMUw57UJa",
+                    "https://github.com/Telcoin-Association"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://telcoinwiki.com/#website",
+                "url": "https://telcoinwiki.com/",
+                "name": "Telcoin Wiki",
+                "inLanguage": "en-US",
+                "publisher": {
+                    "@id": "https://telcoinwiki.com/#organization"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": "https://telcoinwiki.com/deep-dive.html#breadcrumb",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://telcoinwiki.com/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Deep Dive",
+                        "item": "https://telcoinwiki.com/deep-dive.html"
+                    }
+                ]
+            },
+            {
+                "@type": "Article",
+                "@id": "https://telcoinwiki.com/deep-dive.html#article",
+                "headline": "Telcoin Deep Dive: Wallet, Network, MNOs & TANIP-1",
+                "description": "In-depth overview of Telcoin’s wallet, network layers, GSMA mobile network operator validators, and TANIP-1 staking incentives.",
+                "keywords": [
+                    "Telcoin wallet",
+                    "Telcoin governance",
+                    "TANIP-1",
+                    "GSMA validators"
+                ],
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://telcoinwiki.com/governance-diagram-2.jpg",
+                    "width": 1578,
+                    "height": 1494
+                },
+                "inLanguage": "en-US",
+                "author": {
+                    "@type": "Organization",
+                    "name": "Telcoin Wiki Community"
+                },
+                "publisher": {
+                    "@id": "https://telcoinwiki.com/#organization"
+                },
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://telcoinwiki.com/deep-dive.html"
+                },
+                "datePublished": "2025-02-01",
+                "dateModified": "2025-09-17"
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <header class="header">
