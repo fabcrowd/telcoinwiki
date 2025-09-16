@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://tcfaq.netlify.app/sitemap.xml 
+Sitemap: https://telcoinwiki.com/sitemap.xml
