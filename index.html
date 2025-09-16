@@ -1,27 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <title>Telcoin Wiki — Community Q&A, Guides & Links</title>
-<meta name="description" content="Clear, community-maintained answers about Telcoin: wallet, network, MNOs, staking (TANIP-1), and more."/>
-<link rel="canonical" href="https://telcoinwiki.com/"/>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Telcoin Wiki — Community Q&A, Guides & Links</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Clear, community-maintained answers about Telcoin: wallet setup, network governance, TANIP-1 staking, exchange listings, and more." />
+    <meta name="keywords" content="Telcoin, Telcoin wiki, Telcoin wallet, Tel token, TANIP-1, Telcoin staking, Telcoin guides, Telcoin FAQ">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0066cc">
+    <link rel="canonical" href="https://telcoinwiki.com/" />
+    <link rel="alternate" href="https://telcoinwiki.com/" hreflang="en" />
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
 
-<meta property="og:title" content="Telcoin Wiki — Community Q&A, Guides & Links">
-<meta property="og:description" content="Clear, community-maintained answers about Telcoin.">
-<meta property="og:url" content="https://telcoinwiki.com/">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://telcoinwiki.com/og-image.jpg">
-<meta name="twitter:card" content="summary_large_image">
+    <meta property="og:title" content="Telcoin Wiki — Community Q&A, Guides & Links">
+    <meta property="og:description" content="Community-maintained Telcoin knowledge: wallet setup guides, governance explainers, staking tips, and vetted exchange listings." />
+    <meta property="og:url" content="https://telcoinwiki.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://telcoinwiki.com/governance-diagram-1.jpg">
+    <meta property="og:image:secure_url" content="https://telcoinwiki.com/governance-diagram-1.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1769">
+    <meta property="og:image:height" content="1333">
+    <meta property="og:image:alt" content="Diagram explaining Telcoin network governance" />
+    <meta property="og:site_name" content="Telcoin Wiki">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@telcoin">
+    <meta name="twitter:title" content="Telcoin Wiki — Community Q&A, Guides & Links">
+    <meta name="twitter:description" content="Community-maintained Telcoin knowledge: wallet setup guides, governance explainers, staking tips, and vetted exchange listings." />
+    <meta name="twitter:image" content="https://telcoinwiki.com/governance-diagram-1.jpg">
+    <meta name="twitter:image:alt" content="Diagram explaining Telcoin network governance">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Telcoin Wiki",
-  "url": "https://telcoinwiki.com",
-  "logo": "https://telcoinwiki.com/logo.png"
-}
-</script>
-<link rel="stylesheet" href="index.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://telcoinwiki.com/#organization",
+                "name": "Telcoin Wiki",
+                "url": "https://telcoinwiki.com/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://telcoinwiki.com/logo.svg",
+                    "width": 512,
+                    "height": 512
+                },
+                "sameAs": [
+                    "https://telcoin.org",
+                    "https://twitter.com/telcoin",
+                    "https://www.youtube.com/@Telcoin_Team",
+                    "https://discord.gg/qzMUw57UJa",
+                    "https://github.com/Telcoin-Association"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://telcoinwiki.com/#website",
+                "url": "https://telcoinwiki.com/",
+                "name": "Telcoin Wiki",
+                "inLanguage": "en-US",
+                "publisher": {
+                    "@id": "https://telcoinwiki.com/#organization"
+                },
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://telcoinwiki.com/?q={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                }
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://telcoinwiki.com/#webpage",
+                "url": "https://telcoinwiki.com/",
+                "name": "Telcoin Wiki — Community Q&A, Guides & Links",
+                "isPartOf": {
+                    "@id": "https://telcoinwiki.com/#website"
+                },
+                "inLanguage": "en-US",
+                "description": "Community-maintained Telcoin knowledge base covering wallet setup, governance, staking, and trusted ecosystem resources.",
+                "primaryImageOfPage": {
+                    "@type": "ImageObject",
+                    "url": "https://telcoinwiki.com/governance-diagram-1.jpg",
+                    "width": 1769,
+                    "height": 1333
+                }
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="index.css">
     <style>
         * {
             margin: 0;
@@ -804,9 +873,9 @@
             const faqItem = element.parentElement;
             const answer = faqItem.querySelector('.faq-answer');
             const toggle = element.querySelector('.faq-toggle');
-            
+
             const isActive = faqItem.classList.contains('active');
-            
+
             // Close all other open items
             document.querySelectorAll('.faq-item.active').forEach(openItem => {
                 if (openItem !== faqItem) {
@@ -828,26 +897,96 @@
             }
         }
 
-        // Search functionality
+        function filterFAQs(searchTerm) {
+            const normalizedTerm = (searchTerm || '').toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('h3').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+
+                if (!normalizedTerm || question.includes(normalizedTerm) || answer.includes(normalizedTerm)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
         function setupSearch() {
             const searchBox = document.getElementById('searchBox');
-            if (!searchBox) return;
-            
+            if (!searchBox) return null;
+
             searchBox.addEventListener('input', function(e) {
-                const searchTerm = e.target.value.toLowerCase();
-                const faqItems = document.querySelectorAll('.faq-item');
-                
-                faqItems.forEach(item => {
-                    const question = item.querySelector('h3').textContent.toLowerCase();
-                    const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
-                    
-                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-                        item.style.display = '';
-                    } else {
-                        item.style.display = 'none';
+                const rawValue = e.target.value;
+                filterFAQs(rawValue);
+
+                if (window.history && window.history.replaceState) {
+                    try {
+                        const url = new URL(window.location.href);
+                        if (rawValue && rawValue.trim().length) {
+                            url.searchParams.set('q', rawValue.trim());
+                        } else {
+                            url.searchParams.delete('q');
+                        }
+                        window.history.replaceState({}, '', url);
+                    } catch (error) {
+                        // Ignore URL parsing errors in legacy browsers
                     }
-                });
+                }
             });
+
+            return searchBox;
+        }
+
+        function applyQueryFilters(searchBox) {
+            if (!searchBox || typeof URLSearchParams === 'undefined') return;
+
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('q') || params.get('search');
+            if (query) {
+                searchBox.value = query;
+                filterFAQs(query);
+            }
+        }
+
+        function injectFAQSchema() {
+            if (!Array.isArray(faqData) || !faqData.length) return;
+
+            const faqSchema = {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": "https://telcoinwiki.com/#faq",
+                "url": "https://telcoinwiki.com/#quick-qa",
+                "name": "Telcoin Wiki Quick Q&A",
+                "inLanguage": "en-US",
+                "isPartOf": {
+                    "@id": "https://telcoinwiki.com/#webpage"
+                },
+                "mainEntity": faqData.map(item => ({
+                    "@type": "Question",
+                    "name": item.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.answer
+                            .replace(/<br\s*\/?\s*>/gi, '\n')
+                            .replace(/<[^>]*>/g, ' ')
+                            .replace(/\s+/g, ' ')
+                            .trim()
+                    }
+                }))
+            };
+
+            const existingSchema = document.getElementById('faq-schema');
+            if (existingSchema) {
+                existingSchema.remove();
+            }
+
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.id = 'faq-schema';
+            script.textContent = JSON.stringify(faqSchema);
+            document.head.appendChild(script);
         }
         
         // Checklist functionality
@@ -887,8 +1026,10 @@
 
         // Initialize all scripts on page load
         document.addEventListener('DOMContentLoaded', function() {
+            injectFAQSchema();
             renderFAQItems();
-            setupSearch();
+            const searchBox = setupSearch();
+            applyQueryFilters(searchBox);
             setupChecklist();
 
             // Mobile menu functionality
