@@ -3,10 +3,35 @@
     'use strict';
 
     const ENDPOINTS = [
-        'https://www.telx.network/api/pools',
-        'https://telx.network/api/pools',
-        'https://api.telx.network/pools',
-        'https://www.telx.network/pools'
+        {
+            url: 'https://www.telx.network/api/trpc/pools.dashboard?batch=1&input=%7B%7D'
+        },
+        {
+            url: 'https://telx.network/api/trpc/pools.dashboard?batch=1&input=%7B%7D'
+        },
+        {
+            url: 'https://www.telx.network/api/pools'
+        },
+        {
+            url: 'https://telx.network/api/pools'
+        },
+        {
+            url: 'https://api.telx.network/pools'
+        },
+        {
+            url: 'https://www.telx.network/pools?__nextjs_data_req=1',
+            options: { headers: { 'x-nextjs-data': '1' } }
+        },
+        {
+            url: 'https://telx.network/pools?__nextjs_data_req=1',
+            options: { headers: { 'x-nextjs-data': '1' } }
+        },
+        {
+            url: 'https://www.telx.network/pools'
+        },
+        {
+            url: 'https://telx.network/pools'
+        }
     ];
 
     const METRIC_CONFIG = {
@@ -84,13 +109,25 @@
         if (index >= ENDPOINTS.length) {
             return Promise.reject(new Error('All TELx endpoints failed.'));
         }
-        const url = ENDPOINTS[index];
-        return fetch(url, {
+        const endpoint = ENDPOINTS[index];
+        const url = endpoint.url;
+        const fetchOptions = {
             headers: { accept: 'application/json, text/plain, */*' },
             credentials: 'omit',
             cache: 'no-store',
             mode: 'cors'
-        })
+        };
+        if (endpoint.options) {
+            if (endpoint.options.headers) {
+                fetchOptions.headers = Object.assign({}, fetchOptions.headers, endpoint.options.headers);
+            }
+            Object.keys(endpoint.options).forEach(function (key) {
+                if (key !== 'headers') {
+                    fetchOptions[key] = endpoint.options[key];
+                }
+            });
+        }
+        return fetch(url, fetchOptions)
             .then(function (response) {
                 if (!response.ok) {
                     throw new Error('HTTP ' + response.status);
@@ -176,6 +213,37 @@
     function normalizePools(data) {
         if (!data) {
             return [];
+        }
+        if (data.result && typeof data.result === 'object') {
+            const fromResult = normalizePools(data.result);
+            if (fromResult.length) {
+                return fromResult;
+            }
+        }
+        if (data.data && typeof data.data === 'object') {
+            const fromData = normalizePools(data.data);
+            if (fromData.length) {
+                return fromData;
+            }
+        }
+        if (data.json && typeof data.json === 'object') {
+            const fromJson = normalizePools(data.json);
+            if (fromJson.length) {
+                return fromJson;
+            }
+        }
+        if (typeof data === 'object') {
+            const numericKeys = Object.keys(data).filter(function (key) { return /^\d+$/.test(key); });
+            if (numericKeys.length && numericKeys.length === Object.keys(data).length) {
+                const merged = [];
+                for (let i = 0; i < numericKeys.length; i++) {
+                    const nested = normalizePools(data[numericKeys[i]]);
+                    if (nested.length) {
+                        return nested;
+                    }
+                }
+                return merged;
+            }
         }
         if (Array.isArray(data)) {
             return data.filter(function (item) { return item && typeof item === 'object'; });
