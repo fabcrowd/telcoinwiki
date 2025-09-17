@@ -628,6 +628,7 @@
                     wrapper.appendChild(table);
                 }
                 table.classList.add('table-glass', 'text-sm');
+                table.setAttribute('data-responsive-table', '');
             });
             document.querySelectorAll('#deepDiveContent figure img').forEach((img) => {
                 img.setAttribute('loading', 'lazy');
@@ -726,5 +727,6 @@
     <script src="/js/copy-code.js"></script>
     <script src="/js/lightbox.js"></script>
     <script src="/js/search.js"></script>
+    <script src="/js/mobile-optimizations.js"></script>
 </body>
 </html>
