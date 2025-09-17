@@ -17,8 +17,8 @@
     <meta property="og:description" content="Explore Telcoin's wallet architecture, network governance, GSMA validator design, and TANIP-1 staking incentives." />
     <meta property="og:url" content="https://telcoinwiki.com/deep-dive.html">
     <meta property="og:type" content="article">
-    <meta property="og:image" content="https://telcoinwiki.com/governance-diagram-2.jpg">
-    <meta property="og:image:secure_url" content="https://telcoinwiki.com/governance-diagram-2.jpg">
+    <meta property="og:image" content="https://telcoinwiki.com/assets/assets/governance-diagram-2.jpg">
+    <meta property="og:image:secure_url" content="https://telcoinwiki.com/assets/assets/governance-diagram-2.jpg">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1578">
     <meta property="og:image:height" content="1494">
@@ -29,7 +29,7 @@
     <meta name="twitter:site" content="@telcoin">
     <meta name="twitter:title" content="Telcoin Deep Dive: Wallet, Network, MNOs & TANIP-1">
     <meta name="twitter:description" content="Explore Telcoin's wallet architecture, network governance, GSMA validator design, and TANIP-1 staking incentives." />
-    <meta name="twitter:image" content="https://telcoinwiki.com/governance-diagram-2.jpg">
+    <meta name="twitter:image" content="https://telcoinwiki.com/assets/assets/governance-diagram-2.jpg">
     <meta name="twitter:image:alt" content="Illustration of Telcoin governance layers">
 
     <script type="application/ld+json">
@@ -96,7 +96,7 @@
                 ],
                 "image": {
                     "@type": "ImageObject",
-                    "url": "https://telcoinwiki.com/governance-diagram-2.jpg",
+                    "url": "https://telcoinwiki.com/assets/assets/governance-diagram-2.jpg",
                     "width": 1578,
                     "height": 1494
                 },
@@ -118,101 +118,171 @@
         ]
     }
     </script>
-    <link rel="stylesheet" href="index.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+      darkMode:'class',
+      theme:{ extend:{
+        colors:{
+          ink:{950:'#070b14',900:'#0b1220',800:'#0e1a33',700:'#112142',600:'#152a53'},
+          cobalt:{300:'#7db9ff',400:'#5aa8ff',500:'#4196ff',600:'#267dff',700:'#1a5ef0'},
+          primary:{400:'#4e72ff',500:'#3a63ff',600:'#2e50e6',700:'#2746c0',800:'#1f3a9b'},
+          mint:{300:'#9af2e0',400:'#7ef2da',500:'#49e0c5',600:'#2bd0b2'}
+        },
+        borderRadius:{xl:'1rem','2xl':'1.25rem','3xl':'1.75rem',pill:'9999px'},
+        boxShadow:{
+          glass:'0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
+          glow:'0 0 0 1px rgba(120,180,255,.18), 0 14px 44px rgba(41,112,255,.22)'
+        },
+        backdropBlur:{xs:'2px'},
+        transitionTimingFunction:{smooth:'cubic-bezier(.22,.61,.36,1)'},
+        transitionDuration:{base:'200ms'}
+      }}
+    }
+    </script>
+    <link rel="stylesheet" href="/styles/site.css">
 </head>
-<body>
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">Telcoin Community</a>
-                <nav>
-                    <ul class="nav-links">
-                        <li><a href="index.html#getting-started">Getting Started</a></li>
-                        <li><a href="index.html#quick-qa">Quick Q&A</a></li>
-                        <li><a href="deep-dive.html">Deep Dive</a></li>
-                        <li><a href="index.html#community">Community</a></li>
-                        <li><a href="links.html">Links</a></li>
-                        <li><a href="https://telcoin.org" target="_blank">Official Site</a></li>
+<body class="min-h-screen flex flex-col text-white/90">
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur-xs">
+        <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:py-5">
+            <a href="index.html" class="flex items-center gap-3 rounded-2xl px-3 py-2 text-white transition hover:bg-white/5 focus-ring" aria-label="Telcoin Wiki home">
+                <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-lg font-semibold text-mint-400 shadow-inner">T</span>
+                <span class="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Telcoin Wiki</span>
+            </a>
+            <div class="hidden flex-1 items-center justify-end gap-6 lg:flex">
+                <nav aria-label="Main" class="flex items-center">
+                    <ul class="flex items-center gap-4 text-sm font-medium text-white/70">
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="index.html#getting-started">Getting Started</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="index.html#quick-qa">Quick Q&amp;A</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2 text-white" href="deep-dive.html">Deep Dive</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="index.html#community">Community</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="links.html">Links</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="pools.html">Pools</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="portfolio.html">Portfolio</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="about.html">About</a></li>
+                        <li><a class="hover:text-mint-400 focus-ring rounded-xl px-3 py-2" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a></li>
                     </ul>
-                    <button class="mobile-menu-btn">☰</button>
+                </nav>
+                <div class="flex items-center gap-3">
+                    <div class="relative w-64">
+                        <label for="site-search" class="visually-hidden">Search Telcoin Deep Dive</label>
+                        <input id="site-search" data-site-search type="search" placeholder="Search this page" class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none focus:ring-0" autocomplete="off">
+                        <div class="search-panel" data-search-results aria-hidden="true"></div>
+                    </div>
+                    <button type="button" data-theme-toggle class="btn-secondary focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 lg:hidden">
+                <button type="button" data-theme-toggle class="rounded-2xl border border-white/10 bg-white/5 p-2 text-lg text-white focus-ring" aria-label="Toggle theme"><span aria-hidden="true">🌗</span></button>
+                <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="rounded-2xl border border-white/10 bg-white/5 p-2 text-white focus-ring">
+                    <span class="sr-only">Open navigation</span>
+                    ☰
+                </button>
+            </div>
+        </div>
+        <div class="mobile-overlay" data-mobile-overlay aria-hidden="true"></div>
+        <aside id="mobile-drawer" class="mobile-drawer" data-mobile-drawer aria-hidden="true">
+            <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
+                <p class="text-sm font-semibold tracking-wide text-white/70">Menu</p>
+                <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-sm focus-ring" data-mobile-toggle>
+                    Close
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto px-6 py-6">
+                <div class="mb-6">
+                    <label for="mobile-search" class="text-xs uppercase tracking-[0.2em] text-white/50">Search</label>
+                    <div class="mt-2">
+                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none" autocomplete="off">
+                        <div class="search-panel" data-search-results aria-hidden="true"></div>
+                    </div>
+                </div>
+                <nav aria-label="Mobile" class="space-y-2">
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="index.html#getting-started">Getting Started</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="index.html#quick-qa">Quick Q&amp;A</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="deep-dive.html">Deep Dive</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="index.html#community">Community</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="links.html">Links</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="pools.html">Pools</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="portfolio.html">Portfolio</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="about.html">About</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a>
                 </nav>
             </div>
-        </div>
+        </aside>
     </header>
-    <main class="main-content">
-        <div class="container" style="margin-top: 4.5rem;">
-            <h1 style="text-align:center; color:#0066cc;">Telcoin Deep Dive Topics</h1>
-            <div style="background: rgba(0, 102, 204, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #0066cc; text-align: center;">
-                <p style="margin: 0; font-size: 0.9rem; color: #666;">
-                    <strong>🔍 Advanced Topics:</strong> In-depth analysis and comprehensive information for those wanting to understand Telcoin at a deeper level.
-                </p>
-            </div>
-            <div class="category-nav" style="margin-bottom: 2rem;">
-                <button class="category-btn active" onclick="showDeepDive('all')">All Topics</button>
-                <button class="category-btn" onclick="showDeepDive('differentiators')">Differentiators</button>
-                <button class="category-btn" onclick="showDeepDive('governance')">Governance</button>
-                <button class="category-btn" onclick="showDeepDive('earning')">Earning</button>
-                <button class="category-btn" onclick="showDeepDive('network')">Network</button>
-                <button class="category-btn" onclick="showDeepDive('banking')">Banking</button>
-                <button class="category-btn" onclick="showDeepDive('getting-started')">Getting Started</button>
-                <button class="category-btn" onclick="showDeepDive('marketing')">Marketing</button>
-                <button class="category-btn" onclick="showDeepDive('resources')">Resources</button>
-                <button class="category-btn" onclick="showDeepDive('links')">Helpful Links & News Articles</button>
-            </div>
-            <div id="deepDiveContent" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+
+    <main class="flex-1 pb-24">
+        <section class="pt-16 sm:pt-20">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6">
+                <div class="max-w-3xl">
+                    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-mint-300/80">Deep dive knowledge base</p>
+                    <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Explore Telcoin’s decentralized liquidity engine</h1>
+                    <p class="mt-4 text-lg text-white/70">This guide assembles the core research, governance documentation, and staking mechanics that power the Telcoin platform. Use the in-page navigation to jump between topics and copy snippets into your own research notes.</p>
+                    <div class="mt-8 glass p-6">
+                        <p class="text-sm text-white/70">🔔 Tip: Click any diagram to expand it, and use the Copy buttons on code blocks or command snippets. We respect <span class="font-semibold">prefers-reduced-motion</span> so everything stays accessible.</p>
+                    </div>
                 </div>
-        </div>
+                <div class="mt-10 lg:hidden">
+                    <button type="button" class="glass toc-toggle w-full justify-between px-4 py-3 text-sm font-semibold text-white" data-toc-toggle aria-expanded="false" aria-controls="mobile-toc-panel">
+                        In this guide
+                        <span aria-hidden="true">▾</span>
+                    </button>
+                    <div id="mobile-toc-panel" class="mt-4 hidden rounded-2xl border border-white/10 bg-white/5 p-4" aria-hidden="true"></div>
+                </div>
+                <div class="mt-12 grid gap-10 lg:grid-cols-[300px,1fr] lg:gap-16">
+                    <aside id="desktop-toc" class="hidden lg:block toc-desktop glass p-6" aria-label="Deep dive table of contents"></aside>
+                    <div id="deepDiveContent" class="space-y-10"></div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="footer" id="community">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Official Channels</h3>
-                    <a href="https://telcoin.org" target="_blank">Official Website</a>
-                    <a href="https://reddit.com/r/Telcoin/" target="_blank">Reddit</a>
-                    <a href="https://twitter.com/telcoin" target="_blank">Twitter</a>
-                    <a href="https://discord.gg/qzMUw57UJa" target="_blank">Discord</a>
+    <footer class="border-t border-white/10 bg-ink-950/80" id="community">
+        <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+            <div class="grid gap-10 lg:grid-cols-4">
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Official Channels</h3>
+                    <ul class="mt-4 space-y-2 text-sm text-white/70">
+                        <li><a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">Official Website</a></li>
+                        <li><a class="link-ux" href="https://reddit.com/r/Telcoin/" target="_blank" rel="noopener">Reddit</a></li>
+                        <li><a class="link-ux" href="https://twitter.com/telcoin" target="_blank" rel="noopener">Twitter</a></li>
+                        <li><a class="link-ux" href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Discord</a></li>
+                    </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>Resources</h3>
-                    <a href="https://github.com/Telcoin-Association" target="_blank">GitHub</a>
-                    <a href="https://youtube.com/@Telcoin_Team" target="_blank">YouTube</a>
-                    <a href="https://linkedin.com/company/telcoin/" target="_blank">LinkedIn</a>
-                    <a href="https://t.me/Telcoin_Announcements" target="_blank">Telegram</a>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Resources</h3>
+                    <ul class="mt-4 space-y-2 text-sm text-white/70">
+                        <li><a class="link-ux" href="https://github.com/Telcoin-Association" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a class="link-ux" href="https://youtube.com/@Telcoin_Team" target="_blank" rel="noopener">YouTube</a></li>
+                        <li><a class="link-ux" href="https://linkedin.com/company/telcoin/" target="_blank" rel="noopener">LinkedIn</a></li>
+                        <li><a class="link-ux" href="https://t.me/Telcoin_Announcements" target="_blank" rel="noopener">Telegram</a></li>
+                    </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>Trading</h3>
-                    <a href="#" onclick="alert('Download from App Store or Google Play')">Telcoin App</a>
-                    <a href="https://www.kucoin.com/trade/TEL-USDT" target="_blank">KuCoin</a>
-                    <a href="https://www.bitget.com/spot/TELUSDT" target="_blank">Bitget</a>
-                    <a href="https://app.uniswap.org/#/swap?outputCurrency=0x467Bccd9d29f223BcE8043b84E8C8B282827790F" target="_blank">Uniswap</a>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Trading</h3>
+                    <ul class="mt-4 space-y-2 text-sm text-white/70">
+                        <li><a class="link-ux" href="#" onclick="alert('Download from App Store or Google Play'); return false;">Telcoin App</a></li>
+                        <li><a class="link-ux" href="https://www.kucoin.com/trade/TEL-USDT" target="_blank" rel="noopener">KuCoin</a></li>
+                        <li><a class="link-ux" href="https://www.bitget.com/spot/TELUSDT" target="_blank" rel="noopener">Bitget</a></li>
+                        <li><a class="link-ux" href="https://app.uniswap.org/#/swap?outputCurrency=0x467Bccd9d29f223BcE8043b84E8C8B282827790F" target="_blank" rel="noopener">Uniswap</a></li>
+                    </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>About This Site</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.6; color: #ccc;">
-                        This is an <strong>unofficial community resource</strong> created to help new Telcoin users. 
-                        For official information, updates, and support, always visit 
-                        <a href="https://telcoin.org" target="_blank" style="color: #0066cc;">telcoin.org</a> 
-                        and verify through official channels.
-                    </p>
-                    <p style="font-size: 0.8rem; color: #999; margin-top: 1rem;">
-                        Not affiliated with Telcoin Holdings or Telcoin Association.
-                    </p>
+                <div class="glass p-6">
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">About This Site</h3>
+                    <p class="mt-4 text-sm text-white/70">This is an <strong>unofficial community resource</strong> created to help new Telcoin users. For official information, updates, and support, always visit <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a> and verify through official channels.</p>
+                    <p class="mt-4 text-xs text-white/50">Not affiliated with Telcoin Holdings or Telcoin Association.</p>
                 </div>
             </div>
-            <div class="footer-bottom">
+            <div class="mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/50">
                 <p>© 2025 Community Resource - Unofficial Telcoin Guide. Not affiliated with Telcoin Holdings or Telcoin Association.</p>
-                <p style="font-size: 0.8rem; margin-top: 0.5rem;">
-                    Always verify information through official channels: <a href="https://telcoin.org" target="_blank" style="color: #0066cc;">telcoin.org</a> | 
-                    Always verify official channels to avoid scams and impostors.
-                </p>
+                <p class="mt-2">Always verify information through official channels: <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a> · Beware of scams and impostors.</p>
             </div>
         </div>
     </footer>
+
     <script>
-    // Deep Dive Content Data (fully copied from index.html)
-    const deepDiveData = {
+        const deepDiveData = {
         differentiators: {
             title: "Telcoin Differentiators",
             content: `
@@ -283,8 +353,8 @@
                         </tbody>
                     </table>
                     <div style="text-align:center; margin: 2rem 0;">
-                        <img src="governance-diagram-1.jpg" alt="Telcoin Governance Model Diagram 1" style="max-width:100%;margin-bottom:2rem;box-shadow:0 4px 20px rgba(0,0,0,0.08);border-radius:12px;" />
-                        <img src="governance-diagram-2.jpg" alt="Telcoin Governance Model Diagram 2" style="max-width:100%;box-shadow:0 4px 20px rgba(0,0,0,0.08);border-radius:12px;" />
+                        <img src="assets/governance-diagram-1.jpg" alt="Telcoin Governance Model Diagram 1" style="max-width:100%;margin-bottom:2rem;box-shadow:0 4px 20px rgba(0,0,0,0.08);border-radius:12px;" />
+                        <img src="assets/governance-diagram-2.jpg" alt="Telcoin Governance Model Diagram 2" style="max-width:100%;box-shadow:0 4px 20px rgba(0,0,0,0.08);border-radius:12px;" />
                     </div>
                 </div>
             `
@@ -524,72 +594,137 @@
         }
     };
 
-    function showDeepDive(category) {
-        const deepDiveContent = document.getElementById('deepDiveContent');
-        let content = '';
+        function renderDeepDiveSections() {
+            const container = document.getElementById('deepDiveContent');
+            if (!container) return;
+            container.innerHTML = '';
 
-        if (category === 'all') {
-            content = Object.keys(deepDiveData).map(key => deepDiveData[key].content).join('<hr style="margin:2rem 0;">');
-        } else if (deepDiveData[category]) {
-            content = deepDiveData[category].content;
-        } else {
-            // Fallback to all if category is invalid
-            content = Object.keys(deepDiveData).map(key => deepDiveData[key].content).join('<hr style="margin:2rem 0;">');
-            category = 'all'; 
-        }
-
-        document.querySelectorAll('.category-nav button').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        
-        // Find the button that corresponds to the category and set it to active
-        const activeButton = Array.from(document.querySelectorAll('.category-nav button')).find(btn => {
-            const onclickAttr = btn.getAttribute('onclick');
-            return onclickAttr && onclickAttr.includes(`showDeepDive('${category}')`);
-        });
-
-        if (activeButton) {
-            activeButton.classList.add('active');
-        }
-
-        deepDiveContent.style.opacity = '0';
-        setTimeout(() => {
-            deepDiveContent.innerHTML = content;
-            deepDiveContent.style.opacity = '1';
-        }, 300);
-    }
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        // Check for URL parameters to show a specific category
-        const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category');
-
-        if (category && deepDiveData[category]) {
-            showDeepDive(category);
-        } else {
-            // Default to showing all topics
-            showDeepDive('all');
-        }
-
-        // Mobile menu functionality
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        if (mobileMenuBtn && navLinks) {
-            mobileMenuBtn.addEventListener('click', function() {
-                navLinks.classList.toggle('active');
+            Object.entries(deepDiveData).forEach(([key, value]) => {
+                const section = document.createElement('section');
+                section.id = `deep-dive-${key}`;
+                section.className = 'glass p-6 lg:p-8';
+                section.innerHTML = `
+                    <div class="flex flex-col gap-4">
+                        <header>
+                            <p class="text-xs uppercase tracking-[0.25em] text-white/50">Topic Insight</p>
+                            <h2 class="mt-2 text-2xl font-semibold text-white">${value.title}</h2>
+                        </header>
+                        <div class="prose max-w-none">${value.content}</div>
+                    </div>
+                `;
+                container.appendChild(section);
             });
+        }
 
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                    navLinks.classList.remove('active');
+        function cleanseContent() {
+            document.querySelectorAll('#deepDiveContent [style]').forEach((el) => {
+                el.removeAttribute('style');
+            });
+            document.querySelectorAll('#deepDiveContent table').forEach((table) => {
+                if (!table.closest('.table-wrapper')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'table-wrapper overflow-x-auto';
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
+                }
+                table.classList.add('table-glass', 'text-sm');
+            });
+            document.querySelectorAll('#deepDiveContent figure img').forEach((img) => {
+                img.setAttribute('loading', 'lazy');
+            });
+            document.querySelectorAll('#deepDiveContent div').forEach((panel) => {
+                const text = panel.textContent || '';
+                if (text.includes('⚠️')) {
+                    panel.classList.add('callout-warning');
                 }
             });
         }
-    });
+
+        function setupLightboxFigures() {
+            document.querySelectorAll('#deepDiveContent img').forEach((img) => {
+                if (img.closest('figure')) return;
+                const wrapper = document.createElement('figure');
+                wrapper.dataset.lightbox = '';
+                wrapper.className = 'mt-6 glass p-4 flex justify-center';
+                img.classList.add('rounded-2xl');
+                img.replaceWith(wrapper);
+                wrapper.appendChild(img);
+            });
+        }
+
+        function buildTOC() {
+            const sections = Array.from(document.querySelectorAll('#deepDiveContent section'));
+            const desktopToc = document.getElementById('desktop-toc');
+            const mobilePanel = document.getElementById('mobile-toc-panel');
+            if (!desktopToc || !mobilePanel) return;
+
+            const list = document.createElement('ul');
+            list.className = 'space-y-3 text-sm text-white/70';
+
+            sections.forEach((section) => {
+                const heading = section.querySelector('h2');
+                if (!heading) return;
+                const id = section.id;
+                const link = document.createElement('a');
+                link.href = `#${id}`;
+                link.className = 'block rounded-xl px-3 py-2 transition hover:bg-white/10 focus-ring';
+                link.textContent = heading.textContent;
+                const item = document.createElement('li');
+                item.appendChild(link);
+                list.appendChild(item);
+
+                section.querySelectorAll('h3').forEach((subHeading) => {
+                    if (!subHeading.id) {
+                        subHeading.id = `${id}-${subHeading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+                    }
+                    const subItem = document.createElement('li');
+                    subItem.className = 'ml-3 border-l border-white/10 pl-3';
+                    const subLink = document.createElement('a');
+                    subLink.href = `#${subHeading.id}`;
+                    subLink.className = 'block rounded-xl px-3 py-2 text-xs text-white/60 transition hover:bg-white/10 focus-ring';
+                    subLink.textContent = subHeading.textContent;
+                    list.appendChild(subItem);
+                    subItem.appendChild(subLink);
+                });
+            });
+
+            desktopToc.innerHTML = '<h2 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">On this page</h2>';
+            desktopToc.appendChild(list.cloneNode(true));
+            mobilePanel.innerHTML = '';
+            mobilePanel.appendChild(list);
+        }
+
+        function setupMobileTOC() {
+            const toggle = document.querySelector('[data-toc-toggle]');
+            const panel = document.getElementById('mobile-toc-panel');
+            if (!toggle || !panel) return;
+            toggle.addEventListener('click', () => {
+                const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!isOpen));
+                panel.classList.toggle('hidden', isOpen);
+                panel.setAttribute('aria-hidden', String(isOpen));
+            });
+            panel.addEventListener('click', (event) => {
+                const link = event.target.closest('a');
+                if (link) {
+                    toggle.setAttribute('aria-expanded', 'false');
+                    panel.classList.add('hidden');
+                    panel.setAttribute('aria-hidden', 'true');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDeepDiveSections();
+            cleanseContent();
+            setupLightboxFigures();
+            buildTOC();
+            setupMobileTOC();
+        });
     </script>
+    <script src="/js/theme-toggle.js"></script>
+    <script src="/js/copy-code.js"></script>
+    <script src="/js/lightbox.js"></script>
+    <script src="/js/search.js"></script>
 </body>
-
 </html>
-
