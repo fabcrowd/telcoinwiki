@@ -197,34 +197,36 @@
                         <p class="mt-3 text-base italic text-white/75"><strong>Telcoin is building the future of global finance: regulated, mobile-first, and universally accessible. By combining a U.S.-chartered digital-asset bank, a telecom-validated blockchain, and user-powered liquidity, Telcoin empowers billions with fast, affordable, and compliant financial services directly through their mobile phones.</strong></p>
                     </div>
                 </div>
-                <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stat-group>
                     <div class="glass p-5">
                         <p class="stat-label">Total Value Locked</p>
-                        <p class="stat-value mt-2">$5,051,066.47</p>
+                        <p class="stat-value mt-2" data-stat-value="tvl">—</p>
+                        <p class="stat-change mt-2 text-xs font-medium" data-stat-change="tvl">Loading…</p>
                         <p class="mt-2 text-xs text-white/60">TVL across TELx liquidity pools.</p>
                     </div>
                     <div class="glass p-5">
                         <p class="stat-label">Staked TEL</p>
-                        <p class="stat-value mt-2">1,985,000,000 TEL</p>
+                        <p class="stat-value mt-2" data-stat-value="staked">—</p>
+                        <p class="stat-change mt-2 text-xs font-medium" data-stat-change="staked">Loading…</p>
                         <p class="mt-2 text-xs text-white/60">Aligned with the Telcoin Application Network.</p>
                     </div>
                     <div class="glass p-5">
                         <p class="stat-label">Volume (24h)</p>
-                        <p class="stat-value mt-2">$892,634.39</p>
+                        <p class="stat-value mt-2" data-stat-value="volume">—</p>
+                        <p class="stat-change mt-2 text-xs font-medium" data-stat-change="volume">Loading…</p>
                         <p class="mt-2 text-xs text-white/60">Swap liquidity flowing through TELx markets.</p>
                     </div>
                     <div class="glass p-5">
                         <p class="stat-label">Fees (24h)</p>
-                        <p class="stat-value mt-2">$12,857.47</p>
+                        <p class="stat-value mt-2" data-stat-value="fees">—</p>
+                        <p class="stat-change mt-2 text-xs font-medium" data-stat-change="fees">Loading…</p>
                         <p class="mt-2 text-xs text-white/60">Value returned to TELx liquidity providers.</p>
                     </div>
                 </div>
+                <div class="mt-3 hidden text-xs text-amber-200" data-pool-stats-error>
+                    Live TELx metrics are temporarily unavailable. Check <a class="link-ux" href="https://www.telx.network/pools" target="_blank" rel="noopener">telx.network/pools</a> for the latest data.
+                </div>
                 <div class="mt-10 grid gap-6 lg:grid-cols-2">
-                    <article class="glass p-6 transition-transform duration-base ease-smooth hover:scale-[1.01]">
-                        <h3 class="text-xl font-semibold text-white">TELx Liquidity Engine</h3>
-                        <p class="mt-3 text-sm text-white/70">TELx is Telcoin’s decentralized liquidity engine, enabling telecom-grade rails for permissionless swaps. Liquidity miners and stakers collaborate with governance councils to route incentives where they create the most value.</p>
-                        <a href="deep-dive.html?category=differentiators" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-mint-300 link-ux">Explore the differentiators →</a>
-                    </article>
                     <article class="glass p-6 transition-transform duration-base ease-smooth hover:scale-[1.01]">
                         <h3 class="text-xl font-semibold text-white">Mobile-first, RegFi ready</h3>
                         <p class="mt-3 text-sm text-white/70">From the Nebraska Digital Asset Bank charter to TANIP-1 incentives, Telcoin aligns telecom operators, developers, and regulators so mobile users can access compliant digital cash, remittance, and liquidity services globally.</p>
@@ -674,5 +676,6 @@
     <script src="/js/lightbox.js"></script>
     <script src="/js/search.js"></script>
     <script src="/js/mobile-optimizations.js"></script>
+    <script src="/js/pools-data.js"></script>
 </body>
 </html>
