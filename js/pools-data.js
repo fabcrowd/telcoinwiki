@@ -3,10 +3,35 @@
     'use strict';
 
     const ENDPOINTS = [
-        'https://www.telx.network/api/pools',
-        'https://telx.network/api/pools',
-        'https://api.telx.network/pools',
-        'https://www.telx.network/pools'
+        {
+            url: 'https://www.telx.network/api/trpc/pools.dashboard?batch=1&input=%7B%7D'
+        },
+        {
+            url: 'https://telx.network/api/trpc/pools.dashboard?batch=1&input=%7B%7D'
+        },
+        {
+            url: 'https://www.telx.network/api/pools'
+        },
+        {
+            url: 'https://telx.network/api/pools'
+        },
+        {
+            url: 'https://api.telx.network/pools'
+        },
+        {
+            url: 'https://www.telx.network/pools?__nextjs_data_req=1',
+            options: { headers: { 'x-nextjs-data': '1' } }
+        },
+        {
+            url: 'https://telx.network/pools?__nextjs_data_req=1',
+            options: { headers: { 'x-nextjs-data': '1' } }
+        },
+        {
+            url: 'https://www.telx.network/pools'
+        },
+        {
+            url: 'https://telx.network/pools'
+        }
     ];
 
     const METRIC_CONFIG = {
@@ -53,6 +78,24 @@
         }
     };
 
+    const IDENTITY_KEYWORDS = ['pool', 'pair', 'token', 'asset', 'market', 'symbol', 'name', 'ticker', 'lp', 'amm', 'dex'];
+    const METRIC_KEYWORDS = [
+        'tvl',
+        'liquidity',
+        'volume',
+        'fee',
+        'apy',
+        'apr',
+        'staked',
+        'reward',
+        'depth',
+        'balance',
+        'usd',
+        'change',
+        'delta',
+        'yield'
+    ];
+
     document.addEventListener('DOMContentLoaded', function () {
         const statValueElement = document.querySelector('[data-stat-value]');
         const tableBody = document.querySelector('[data-pool-table-body]');
@@ -84,13 +127,25 @@
         if (index >= ENDPOINTS.length) {
             return Promise.reject(new Error('All TELx endpoints failed.'));
         }
-        const url = ENDPOINTS[index];
-        return fetch(url, {
+        const endpoint = ENDPOINTS[index];
+        const url = endpoint.url;
+        const fetchOptions = {
             headers: { accept: 'application/json, text/plain, */*' },
             credentials: 'omit',
             cache: 'no-store',
             mode: 'cors'
-        })
+        };
+        if (endpoint.options) {
+            if (endpoint.options.headers) {
+                fetchOptions.headers = Object.assign({}, fetchOptions.headers, endpoint.options.headers);
+            }
+            Object.keys(endpoint.options).forEach(function (key) {
+                if (key !== 'headers') {
+                    fetchOptions[key] = endpoint.options[key];
+                }
+            });
+        }
+        return fetch(url, fetchOptions)
             .then(function (response) {
                 if (!response.ok) {
                     throw new Error('HTTP ' + response.status);
@@ -177,100 +232,202 @@
         if (!data) {
             return [];
         }
-        if (Array.isArray(data)) {
-            return data.filter(function (item) { return item && typeof item === 'object'; });
+
+        const candidates = collectPoolCandidates(data);
+        if (!candidates.length) {
+            return [];
         }
-        const directKeys = ['pools', 'data', 'result', 'items', 'records', 'nodes', 'edges'];
-        for (let i = 0; i < directKeys.length; i++) {
-            const key = directKeys[i];
-            const value = data[key];
-            if (Array.isArray(value)) {
-                const nested = normalizePools(value);
-                if (nested.length) {
-                    return nested;
-                }
-            } else if (value && typeof value === 'object') {
-                const nestedObject = normalizePools(value);
-                if (nestedObject.length) {
-                    return nestedObject;
-                }
-            }
-        }
-        if (data.props && typeof data.props === 'object') {
-            const fromProps = normalizePools(data.props);
-            if (fromProps.length) {
-                return fromProps;
-            }
-        }
-        if (data.pageProps && typeof data.pageProps === 'object') {
-            const fromPageProps = normalizePools(data.pageProps);
-            if (fromPageProps.length) {
-                return fromPageProps;
-            }
-        }
-        if (data.attributes && typeof data.attributes === 'object') {
-            const fromAttributes = normalizePools(data.attributes);
-            if (fromAttributes.length) {
-                return fromAttributes;
-            }
-        }
-        const found = findPoolsInObject(data, new WeakSet());
-        if (Array.isArray(found)) {
-            return found.filter(function (item) { return item && typeof item === 'object'; });
-        }
-        return [];
+
+        candidates.sort(function (a, b) {
+            return b.score - a.score;
+        });
+
+        return candidates[0].items;
     }
 
-    function findPoolsInObject(node, visited) {
-        if (!node || typeof node !== 'object') {
-            return null;
-        }
-        if (visited.has(node)) {
-            return null;
-        }
-        visited.add(node);
-        if (Array.isArray(node)) {
-            if (node.length && typeof node[0] === 'object') {
-                const sampleKeys = Object.keys(node[0]).map(function (key) { return key.toLowerCase(); });
-                const hasIdentity = sampleKeys.some(function (key) {
-                    return key.indexOf('pool') !== -1 || key.indexOf('pair') !== -1 || key.indexOf('name') !== -1 || key.indexOf('token') !== -1;
-                });
-                const hasMetrics = sampleKeys.some(function (key) {
-                    return key.indexOf('tvl') !== -1 || key.indexOf('volume') !== -1 || key.indexOf('fee') !== -1 || key.indexOf('staked') !== -1;
-                });
-                if (hasIdentity && hasMetrics) {
-                    return node;
-                }
+    function collectPoolCandidates(root) {
+        const visited = new WeakSet();
+        const arrays = [];
+
+        function walk(value) {
+            if (!value || typeof value !== 'object') {
+                return;
             }
-            for (let i = 0; i < node.length; i++) {
-                const nested = findPoolsInObject(node[i], visited);
-                if (nested) {
-                    return nested;
-                }
+            if (visited.has(value)) {
+                return;
             }
-            return null;
-        }
-        for (const key in node) {
-            if (!Object.prototype.hasOwnProperty.call(node, key)) {
-                continue;
-            }
-            const value = node[key];
-            if (!value) {
-                continue;
-            }
+            visited.add(value);
+
             if (Array.isArray(value)) {
-                const arrayResult = findPoolsInObject(value, visited);
-                if (arrayResult) {
-                    return arrayResult;
+                if (value.some(function (entry) { return entry && typeof entry === 'object'; })) {
+                    arrays.push(value);
                 }
-            } else if (typeof value === 'object') {
-                const objectResult = findPoolsInObject(value, visited);
-                if (objectResult) {
-                    return objectResult;
+                for (let i = 0; i < value.length; i++) {
+                    walk(value[i]);
+                }
+                return;
+            }
+
+            const directKeys = ['pools', 'data', 'result', 'items', 'records', 'nodes', 'edges', 'list', 'entries', 'values'];
+            for (let i = 0; i < directKeys.length; i++) {
+                const key = directKeys[i];
+                if (Array.isArray(value[key])) {
+                    arrays.push(value[key]);
                 }
             }
+
+            for (const key in value) {
+                if (!Object.prototype.hasOwnProperty.call(value, key)) {
+                    continue;
+                }
+                walk(value[key]);
+            }
         }
-        return null;
+
+        walk(root);
+
+        const seen = new WeakSet();
+        const scored = [];
+
+        arrays.forEach(function (array) {
+            if (!array || typeof array !== 'object') {
+                return;
+            }
+            if (seen.has(array)) {
+                return;
+            }
+            seen.add(array);
+            const evaluated = evaluateCandidateArray(array);
+            if (evaluated.items.length) {
+                scored.push(evaluated);
+            }
+        });
+
+        return scored;
+    }
+
+    function evaluateCandidateArray(array) {
+        const objects = array.filter(function (item) {
+            return item && typeof item === 'object';
+        });
+
+        if (!objects.length) {
+            return { score: -Infinity, items: [] };
+        }
+
+        const identityMatches = new Set();
+        const metricMatches = new Set();
+        let numberCount = 0;
+        let directIdentityCount = 0;
+        let directMetricCount = 0;
+
+        const sampleCount = Math.min(objects.length, 8);
+        for (let i = 0; i < sampleCount; i++) {
+            const stats = analyzeCandidateObject(objects[i]);
+            stats.identityMatches.forEach(function (value) {
+                identityMatches.add(value);
+            });
+            stats.metricMatches.forEach(function (value) {
+                metricMatches.add(value);
+            });
+            numberCount += stats.numberCount;
+            if (stats.directIdentity) {
+                directIdentityCount++;
+            }
+            if (stats.directMetric) {
+                directMetricCount++;
+            }
+        }
+
+        const hasIdentity = identityMatches.size > 0 || directIdentityCount > 0;
+        const hasMetrics = metricMatches.size > 0 || numberCount > 0 || directMetricCount > 0;
+
+        if (!hasIdentity || !hasMetrics) {
+            return { score: -Infinity, items: [] };
+        }
+
+        const score =
+            identityMatches.size * 6 +
+            metricMatches.size * 4 +
+            directIdentityCount * 5 +
+            directMetricCount * 3 +
+            Math.min(numberCount, 60) +
+            Math.min(objects.length, 80);
+
+        return { score: score, items: objects };
+    }
+
+    function analyzeCandidateObject(item) {
+        const stats = {
+            identityMatches: new Set(),
+            metricMatches: new Set(),
+            numberCount: 0,
+            directIdentity: false,
+            directMetric: false
+        };
+        scanCandidateValue(item, 0, stats, new WeakSet());
+        return stats;
+    }
+
+    function scanCandidateValue(value, depth, stats, visited) {
+        if (value === null || value === undefined) {
+            return;
+        }
+        if (typeof value === 'number' && isFinite(value)) {
+            stats.numberCount++;
+            return;
+        }
+        if (typeof value === 'string') {
+            const trimmed = value.trim();
+            if (!trimmed) {
+                return;
+            }
+            const numeric = Number(trimmed.replace(/[^0-9eE+\-\.]/g, ''));
+            if (!isNaN(numeric) && trimmed.replace(/[^0-9]/g, '') !== '') {
+                stats.numberCount++;
+            }
+            return;
+        }
+        if (typeof value !== 'object' || depth > 3) {
+            return;
+        }
+        if (visited.has(value)) {
+            return;
+        }
+        visited.add(value);
+
+        if (Array.isArray(value)) {
+            for (let i = 0; i < value.length; i++) {
+                scanCandidateValue(value[i], depth + 1, stats, visited);
+            }
+            return;
+        }
+
+        for (const key in value) {
+            if (!Object.prototype.hasOwnProperty.call(value, key)) {
+                continue;
+            }
+            const lowerKey = key.toLowerCase();
+            for (let i = 0; i < IDENTITY_KEYWORDS.length; i++) {
+                if (lowerKey.indexOf(IDENTITY_KEYWORDS[i]) !== -1) {
+                    stats.identityMatches.add(IDENTITY_KEYWORDS[i]);
+                    if (depth === 0) {
+                        stats.directIdentity = true;
+                    }
+                    break;
+                }
+            }
+            for (let i = 0; i < METRIC_KEYWORDS.length; i++) {
+                if (lowerKey.indexOf(METRIC_KEYWORDS[i]) !== -1) {
+                    stats.metricMatches.add(METRIC_KEYWORDS[i]);
+                    if (depth === 0) {
+                        stats.directMetric = true;
+                    }
+                    break;
+                }
+            }
+            scanCandidateValue(value[key], depth + 1, stats, visited);
+        }
     }
 
     function preparePools(rawPools) {
