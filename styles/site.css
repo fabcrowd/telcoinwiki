@@ -379,6 +379,32 @@ summary:focus-visible {
   border-color: rgba(56, 189, 248, 0.3);
 }
 
+.stat-change,
+.value-change {
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.stat-change.positive,
+.value-change.positive {
+  color: rgba(108, 227, 216, 0.9);
+}
+
+.stat-change.negative,
+.value-change.negative {
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.stat-change.neutral,
+.value-change.neutral {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.metric-value {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+
 .table-container {
   overflow: hidden;
   border-radius: 1.75rem;
