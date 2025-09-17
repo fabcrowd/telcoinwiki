@@ -660,6 +660,7 @@ summary:focus-visible {
   -webkit-backdrop-filter: blur(4px);
   display: none;
   z-index: 1020;
+  height: 100vh;
 }
 
 .mobile-overlay.active {
@@ -680,6 +681,19 @@ summary:focus-visible {
   z-index: 1030;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+@supports (height: 100dvh) {
+  .mobile-overlay {
+    height: 100dvh;
+  }
+
+  .mobile-drawer {
+    height: 100dvh;
+    max-height: 100dvh;
+  }
 }
 
 .mobile-drawer button[data-mobile-toggle] {
