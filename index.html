@@ -17,8 +17,8 @@
     <meta property="og:description" content="Community-maintained Telcoin knowledge: wallet setup guides, governance explainers, staking tips, and vetted exchange listings." />
     <meta property="og:url" content="https://telcoinwiki.com/">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://telcoinwiki.com/governance-diagram-1.jpg">
-    <meta property="og:image:secure_url" content="https://telcoinwiki.com/governance-diagram-1.jpg">
+    <meta property="og:image" content="https://telcoinwiki.com/assets/governance-diagram-1.jpg">
+    <meta property="og:image:secure_url" content="https://telcoinwiki.com/assets/governance-diagram-1.jpg">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1769">
     <meta property="og:image:height" content="1333">
@@ -29,7 +29,7 @@
     <meta name="twitter:site" content="@telcoin">
     <meta name="twitter:title" content="Telcoin Wiki — Community Q&A, Guides & Links">
     <meta name="twitter:description" content="Community-maintained Telcoin knowledge: wallet setup guides, governance explainers, staking tips, and vetted exchange listings." />
-    <meta name="twitter:image" content="https://telcoinwiki.com/governance-diagram-1.jpg">
+    <meta name="twitter:image" content="https://telcoinwiki.com/assets/governance-diagram-1.jpg">
     <meta name="twitter:image:alt" content="Diagram explaining Telcoin network governance">
 
     <script type="application/ld+json">
@@ -82,7 +82,7 @@
                 "description": "Community-maintained Telcoin knowledge base covering wallet setup, governance, staking, and trusted ecosystem resources.",
                 "primaryImageOfPage": {
                     "@type": "ImageObject",
-                    "url": "https://telcoinwiki.com/governance-diagram-1.jpg",
+                    "url": "https://telcoinwiki.com/assets/governance-diagram-1.jpg",
                     "width": 1769,
                     "height": 1333
                 }
@@ -90,606 +90,260 @@
         ]
     }
     </script>
-    <link rel="stylesheet" href="index.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 102, 204, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #0066cc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-
-        .logo:hover {
-            color: #004499;
-            background-color: rgba(0, 102, 204, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #333;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #0066cc;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .search-container {
-            max-width: 600px;
-            margin: 2rem auto 0;
-            position: relative;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            outline: none;
-            transition: transform 0.3s ease;
-        }
-
-        .search-box:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Main Content */
-        .main-content {
-            background: white;
-            margin-top: -2rem;
-            border-radius: 20px 20px 0 0;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .content-wrapper {
-            padding: 3rem 0;
-        }
-
-        /* Getting Started Section */
-        .getting-started {
-            background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
-            padding: 3rem 0;
-            margin-bottom: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(0, 102, 204, 0.1);
-        }
-
-        .getting-started h2 {
-            color: #0066cc;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .checklist {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .checklist-item {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .checklist-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .checklist-item h3 {
-            color: #0066cc;
-            margin-bottom: 0.5rem;
-        }
-        
-        .community-link {
-            display: block;
-            padding: 0.8rem;
-            margin-bottom: 0.5rem;
-            text-decoration: none;
-            color: #333;
-            background: white;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 102, 204, 0.1);
-        }
-
-        .community-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.1);
-            border-color: #0066cc;
-        }
-
-        .community-link:last-child {
-            margin-bottom: 0;
-        }
-
-        /* FAQ Sections */
-        .faq-section {
-            margin-bottom: 3rem;
-        }
-
-        .faq-section h2 {
-            color: #0066cc;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .faq-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(135deg, #0066cc, #004499);
-            border-radius: 2px;
-        }
-
-        .faq-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .faq-item {
-            background: white;
-            border: 1px solid rgba(0, 102, 204, 0.1);
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-
-        .faq-item:hover {
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border-color: #0066cc;
-        }
-
-        .faq-question {
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-            border-bottom: 1px solid rgba(0, 102, 204, 0.1);
-            transition: background 0.3s ease;
-        }
-
-        .faq-question:hover {
-            background: linear-gradient(135deg, #e8f2ff 0%, #f8f9ff 100%);
-        }
-
-        .faq-question h3 {
-            color: #0066cc;
-            font-size: 1.2rem;
-            margin: 0;
-            padding-right: 1rem;
-        }
-
-        .faq-toggle {
-            color: #0066cc;
-            font-size: 1.5rem;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(45deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .faq-answer.active {
-            max-height: 2000px;
-        }
-
-        .faq-answer-content {
-            padding: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .faq-answer-content p {
-            margin-bottom: 1rem;
-        }
-
-        .faq-answer-content ul {
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .faq-answer-content li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Citation Link Styling */
-        .citation-link {
-            color: #0066cc;
-            text-decoration: underline;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .citation-link:hover {
-            color: #004499;
-            text-decoration: none;
-            background-color: rgba(0, 102, 204, 0.1);
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-
-        /* Footer */
-        .footer {
-            background: #1a1a1a;
-            color: white;
-            padding: 3rem 0;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            color: #0066cc;
-            margin-bottom: 1rem;
-        }
-
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: #0066cc;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #333;
-            color: #999;
-        }
-
-        .disclaimer {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-            border-left: 4px solid #ffcc00;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #0066cc;
-            padding: 0.5rem;
-            z-index: 1000;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 80%;
-                max-width: 300px;
-                height: auto;
-                max-height: 90vh;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(10px);
-                padding: 5rem 1rem 2rem;
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: flex-start;
-                z-index: 999;
-                border-radius: 0 0 0 20px;
-                box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.2);
-                overflow-y: auto;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links li {
-                text-align: left;
-                margin: 0.5rem 0;
-                width: 100%;
-            }
-
-            .nav-links a {
-                padding: 0.8rem;
-                display: block;
-                width: 100%;
-                font-size: 1.1rem;
-                border-radius: 8px;
-                transition: all 0.3s ease;
-            }
-
-            .nav-links a:hover {
-                background: rgba(0, 102, 204, 0.1);
-                color: #0066cc;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-                position: relative;
-                z-index: 1000;
-            }
-
-            .checklist {
-                grid-template-columns: 1fr;
-            }
-
-            .category-nav {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .category-btn {
-                width: 80%;
-                text-align: center;
-            }
-
-            .faq-question h3 {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+      darkMode:'class',
+      theme:{ extend:{
+        colors:{
+          ink:{950:'#070b14',900:'#0b1220',800:'#0e1a33',700:'#112142',600:'#152a53'},
+          cobalt:{300:'#7db9ff',400:'#5aa8ff',500:'#4196ff',600:'#267dff',700:'#1a5ef0'},
+          primary:{400:'#4e72ff',500:'#3a63ff',600:'#2e50e6',700:'#2746c0',800:'#1f3a9b'},
+          mint:{300:'#9af2e0',400:'#7ef2da',500:'#49e0c5',600:'#2bd0b2'}
+        },
+        borderRadius:{xl:'1rem','2xl':'1.25rem','3xl':'1.75rem',pill:'9999px'},
+        boxShadow:{
+          glass:'0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
+          glow:'0 0 0 1px rgba(120,180,255,.18), 0 14px 44px rgba(41,112,255,.22)'
+        },
+        backdropBlur:{xs:'2px'},
+        transitionTimingFunction:{smooth:'cubic-bezier(.22,.61,.36,1)'},
+        transitionDuration:{base:'200ms'}
+      }}
+    }
+    </script>
+    <link rel="stylesheet" href="/styles/site.css">
 </head>
-<body>
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">Telcoin Community</a>
-                <nav>
-                    <ul class="nav-links">
-                        <li><a href="#getting-started">Getting Started</a></li>
-                        <li><a href="#quick-qa">Quick Q&A</a></li>
-                        <li><a href="deep-dive.html">Deep Dive</a></li>
-                        <li><a href="#community">Community</a></li>
-                        <li><a href="links.html">Links</a></li>
-                        <li><a href="https://telcoin.org" target="_blank">Official Site</a></li>
+<body class="min-h-screen flex flex-col text-white/90">
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur-xs">
+        <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:py-5">
+            <a href="index.html" class="flex items-center gap-3 rounded-2xl px-3 py-2 text-white transition hover:bg-white/5 focus-ring" aria-label="Telcoin Wiki home">
+                <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-lg font-semibold text-mint-400 shadow-inner">T</span>
+                <span class="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Telcoin Wiki</span>
+            </a>
+            <div class="hidden flex-1 items-center justify-end gap-6 lg:flex">
+                <nav aria-label="Main" class="flex items-center">
+                    <ul class="flex items-center gap-4 text-sm font-medium text-white/70">
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="#getting-started">Getting Started</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="#quick-qa">Quick Q&amp;A</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="deep-dive.html">Deep Dive</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="#community">Community</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="links.html">Links</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="pools.html">Pools</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="portfolio.html">Portfolio</a></li>
+                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="about.html">About</a></li>
+                        <li><a class="hover:text-mint-400 focus-ring rounded-xl px-3 py-2" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a></li>
                     </ul>
-                    <button class="mobile-menu-btn">☰</button>
+                </nav>
+                <div class="flex items-center gap-3">
+                    <div class="relative w-64">
+                        <label for="site-search" class="visually-hidden">Search Telcoin Wiki</label>
+                        <input id="site-search" data-site-search type="search" placeholder="Search this page" class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none focus:ring-0" autocomplete="off">
+                        <div class="search-panel" data-search-results aria-hidden="true"></div>
+                    </div>
+                    <button type="button" data-theme-toggle class="btn-secondary focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 lg:hidden">
+                <button type="button" data-theme-toggle class="rounded-2xl border border-white/10 bg-white/5 p-2 text-lg text-white focus-ring" aria-label="Toggle theme"><span aria-hidden="true">🌗</span></button>
+                <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="rounded-2xl border border-white/10 bg-white/5 p-2 text-white focus-ring">
+                    <span class="sr-only">Open navigation</span>
+                    ☰
+                </button>
+            </div>
+        </div>
+        <div class="mobile-overlay" data-mobile-overlay aria-hidden="true"></div>
+        <aside id="mobile-drawer" class="mobile-drawer" data-mobile-drawer aria-hidden="true">
+            <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
+                <p class="text-sm font-semibold tracking-wide text-white/70">Menu</p>
+                <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-sm focus-ring" data-mobile-toggle>
+                    Close
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto px-6 py-6">
+                <div class="mb-6">
+                    <label for="mobile-search" class="text-xs uppercase tracking-[0.2em] text-white/50">Search</label>
+                    <div class="mt-2">
+                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none" autocomplete="off">
+                        <div class="search-panel" data-search-results aria-hidden="true"></div>
+                    </div>
+                </div>
+                <nav aria-label="Mobile" class="space-y-2">
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="#getting-started">Getting Started</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="#quick-qa">Quick Q&amp;A</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="deep-dive.html">Deep Dive</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="#community">Community</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="links.html">Links</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="pools.html">Pools</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="portfolio.html">Portfolio</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="about.html">About</a>
+                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a>
                 </nav>
             </div>
-        </div>
+        </aside>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Telcoin Community Q&A</h1>
-            <p>Unofficial Community Guide for New Telcoin Users - The Future of Global Finance, Now in Your Pocket</p>
-            
-            <div style="background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 15px; margin: 2rem 0; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);">
-                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem; opacity: 0.95;">
-                    Telcoin is pioneering the 'RegFi' (regulated DeFi) model, bridging the gap between traditional finance and decentralized finance in a compliant and scalable way. Unlike many projects, we own the full stack: a U.S.-chartered digital-asset bank, a carrier-secured Layer-1 blockchain validated by GSMA-member MNOs, and at the center of it all a regenerative TEL token that powers transactions and rewards user-generated liquidity. This 'triple advantage' positions Telcoin for unprecedented real-world adoption, demonstrating how blockchain can operate within established regulatory frameworks to serve billions of users globally.
-                </p>
-                
-                <h3 style="color: #ffcc00; font-size: 1.4rem; margin-bottom: 1rem; text-align: center;">Why Telcoin?</h3>
-                <p style="font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem; font-style: italic; text-align: center; opacity: 0.95;">
-                    <strong>Telcoin is building the future of global finance: regulated, mobile-first, and universally accessible. By combining a U.S.-chartered digital-asset bank, a telecom-validated blockchain, and user-powered liquidity, Telcoin empowers billions with fast, affordable, and compliant financial services directly through their mobile phones.</strong>
-                </p>
+    <main id="main-content" class="flex-1 pb-24">
+        <section id="hero" class="relative overflow-hidden pt-16 sm:pt-20">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6">
+                <div class="max-w-3xl">
+                    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-mint-300/80">Community knowledge for TELx builders</p>
+                    <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Telcoin Community Q&amp;A</h1>
+                    <p class="mt-4 max-w-2xl text-lg text-white/70">Unofficial Community Guide for New Telcoin Users - The Future of Global Finance, Now in Your Pocket</p>
+                    <div class="mt-8 glass p-6">
+                        <p class="text-base text-white/80">Telcoin is pioneering the 'RegFi' (regulated DeFi) model, bridging the gap between traditional finance and decentralized finance in a compliant and scalable way. Unlike many projects, we own the full stack: a U.S.-chartered digital-asset bank, a carrier-secured Layer-1 blockchain validated by GSMA-member MNOs, and at the center of it all a regenerative TEL token that powers transactions and rewards user-generated liquidity. This 'triple advantage' positions Telcoin for unprecedented real-world adoption, demonstrating how blockchain can operate within established regulatory frameworks to serve billions of users globally.</p>
+                        <h3 class="mt-6 text-lg font-semibold text-mint-300">Why Telcoin?</h3>
+                        <p class="mt-3 text-base italic text-white/75"><strong>Telcoin is building the future of global finance: regulated, mobile-first, and universally accessible. By combining a U.S.-chartered digital-asset bank, a telecom-validated blockchain, and user-powered liquidity, Telcoin empowers billions with fast, affordable, and compliant financial services directly through their mobile phones.</strong></p>
+                    </div>
+                </div>
+                <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="glass p-5">
+                        <p class="stat-label">Total Value Locked</p>
+                        <p class="stat-value mt-2">$5,051,066.47</p>
+                        <p class="mt-2 text-xs text-white/60">TVL across TELx liquidity pools.</p>
+                    </div>
+                    <div class="glass p-5">
+                        <p class="stat-label">Staked TEL</p>
+                        <p class="stat-value mt-2">1,985,000,000 TEL</p>
+                        <p class="mt-2 text-xs text-white/60">Aligned with the Telcoin Application Network.</p>
+                    </div>
+                    <div class="glass p-5">
+                        <p class="stat-label">Volume (24h)</p>
+                        <p class="stat-value mt-2">$892,634.39</p>
+                        <p class="mt-2 text-xs text-white/60">Swap liquidity flowing through TELx markets.</p>
+                    </div>
+                    <div class="glass p-5">
+                        <p class="stat-label">Fees (24h)</p>
+                        <p class="stat-value mt-2">$12,857.47</p>
+                        <p class="mt-2 text-xs text-white/60">Value returned to TELx liquidity providers.</p>
+                    </div>
+                </div>
+                <div class="mt-10 grid gap-6 lg:grid-cols-2">
+                    <article class="glass p-6 transition-transform duration-base ease-smooth hover:scale-[1.01]">
+                        <h3 class="text-xl font-semibold text-white">TELx Liquidity Engine</h3>
+                        <p class="mt-3 text-sm text-white/70">TELx is Telcoin’s decentralized liquidity engine, enabling telecom-grade rails for permissionless swaps. Liquidity miners and stakers collaborate with governance councils to route incentives where they create the most value.</p>
+                        <a href="deep-dive.html?category=differentiators" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-mint-300 link-ux">Explore the differentiators →</a>
+                    </article>
+                    <article class="glass p-6 transition-transform duration-base ease-smooth hover:scale-[1.01]">
+                        <h3 class="text-xl font-semibold text-white">Mobile-first, RegFi ready</h3>
+                        <p class="mt-3 text-sm text-white/70">From the Nebraska Digital Asset Bank charter to TANIP-1 incentives, Telcoin aligns telecom operators, developers, and regulators so mobile users can access compliant digital cash, remittance, and liquidity services globally.</p>
+                        <a href="deep-dive.html?category=banking" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-mint-300 link-ux">Understand governance &amp; bank strategy →</a>
+                    </article>
+                </div>
+                <div class="mt-8 rounded-2xl border border-amber-300/30 bg-amber-400/10 px-6 py-4 text-sm text-amber-100">
+                    <p class="font-medium">⚠️ Community Resource:</p>
+                    <p class="mt-2 text-amber-50/90">This is an unofficial, community-created guide. For official information, visit <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a>.</p>
+                </div>
             </div>
-            
-            <div class="disclaimer">
-                <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">
-                    ⚠️ <strong>Community Resource:</strong> This is an unofficial, community-created guide. 
-                    For official information, visit <a href="https://telcoin.org" target="_blank" style="color: #ffcc00; text-decoration: underline;">telcoin.org</a>
-                </p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <main class="main-content">
-        <div class="container">
-            <div class="content-wrapper">
-                <section id="getting-started" class="getting-started">
-                    <div class="container">
-                        <h2>Getting Started Checklist</h2>
-                        <div class="checklist">
-                            <div class="checklist-item" onclick="window.open('https://telcoin.org', '_blank')">
-                                <h3>📚 Learn the Basics</h3>
-                                <p>Read through this FAQ and visit telcoin.org</p>
-                                <span style="font-size: 0.8rem; color: #0066cc; margin-top: 0.5rem; display: block;">Click to visit →</span>
-                            </div>
-                            <div class="checklist-item" id="joinCommunityChecklist">
-                                <h3>🤝 Join the Community</h3>
-                                <p>Connect on Discord/Telegram and follow the forum</p>
-                                <span style="font-size: 0.8rem; color: #0066cc; margin-top: 0.5rem; display: block; cursor:pointer;">Click to show community links ↓</span>
-                                <div id="joinCommunityDropdown" style="display:none; position:relative;">
-                                    <div style="position:absolute;left:0;top:2.5rem;min-width:220px;z-index:999;background:white;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.12);border:2px solid #0066cc;max-width:320px;">
-                                        <a class="community-link" href="https://discord.gg/qzMUw57UJa" target="_blank">Discord</a>
-                                        <a class="community-link" href="https://t.me/TelcoinPowerHolders" target="_blank">Telegram: POWER Holders</a>
-                                        <a class="community-link" href="https://t.me/telfamcommunity" target="_blank">Telegram: TEL Community</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checklist-item" id="considerStakingChecklist">
-                                <h3>🔒 Consider Staking</h3>
-                                <p>Stake TEL to earn rewards and participate in governance</p>
-                                <span style="font-size: 0.8rem; color: #0066cc; margin-top: 0.5rem; display: block; cursor:pointer;">Click to learn about staking →</span>
-                            </div>
-                            <div class="checklist-item" id="stayUpdatedChecklist">
-                                <h3>📢 Stay Updated</h3>
-                                <p>Follow official channels for the latest developments</p>
-                                <span style="font-size: 0.8rem; color: #0066cc; margin-top: 0.5rem; display: block; cursor:pointer;">Click for official channels →</span>
-                            </div>
+        <section id="getting-started" class="mt-20">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6">
+                <div class="flex flex-col gap-8 lg:flex-row lg:items-start">
+                    <div class="max-w-2xl">
+                        <h2 class="text-3xl font-semibold tracking-tight text-white">Getting Started Checklist</h2>
+                        <p class="mt-3 text-base text-white/70">Follow these high-impact steps to get aligned with Telcoin’s ecosystem and the TELx liquidity engine. Each card links to official documentation or trusted community explainers.</p>
+                    </div>
+                </div>
+                <div class="mt-10 grid gap-6 lg:grid-cols-2">
+                    <a href="https://telcoin.org" target="_blank" rel="noopener" class="glass block p-6 transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
+                        <h3 class="text-lg font-semibold text-white">📚 Learn the Basics</h3>
+                        <p class="mt-2 text-sm text-white/70">Read through this FAQ and visit telcoin.org</p>
+                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Open telcoin.org →</span>
+                    </a>
+                    <div class="glass relative p-6" id="joinCommunityChecklist">
+                        <button type="button" class="flex w-full items-start justify-between text-left text-white focus-ring">
+                            <span>
+                                <span class="block text-lg font-semibold">🤝 Join the Community</span>
+                                <span class="mt-2 block text-sm text-white/70">Connect on Discord/Telegram and follow the forum</span>
+                                <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Show community links ↓</span>
+                            </span>
+                            <span aria-hidden="true" class="ml-4 text-xl text-mint-300">▾</span>
+                        </button>
+                        <div id="joinCommunityDropdown" class="absolute left-0 right-0 top-full z-20 mt-3 hidden rounded-2xl border border-white/10 bg-ink-800/95 p-4 shadow-glass">
+                            <ul class="space-y-2 text-sm">
+                                <li><a class="link-ux text-mint-300" href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Discord</a></li>
+                                <li><a class="link-ux text-mint-300" href="https://t.me/TelcoinPowerHolders" target="_blank" rel="noopener">Telegram: POWER Holders</a></li>
+                                <li><a class="link-ux text-mint-300" href="https://t.me/telfamcommunity" target="_blank" rel="noopener">Telegram: TEL Community</a></li>
+                            </ul>
                         </div>
                     </div>
-                </section>
-
-                <section id="quick-qa" class="faq-section">
-                    <h2>Community Q&A - Get the Facts Fast</h2>
-                    <div class="search-container">
-                        <input type="text" class="search-box" placeholder="Filter Q&A topics..." id="searchBox">
-                    </div>
-                    <div class="faq-grid" id="faqGrid">
-                    </div>
-                </section>
+                    <button type="button" id="considerStakingChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
+                        <h3 class="text-lg font-semibold text-white">🔒 Consider Staking</h3>
+                        <p class="mt-2 text-sm text-white/70">Stake TEL to earn rewards and participate in governance</p>
+                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Read about staking →</span>
+                    </button>
+                    <button type="button" id="stayUpdatedChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
+                        <h3 class="text-lg font-semibold text-white">📢 Stay Updated</h3>
+                        <p class="mt-2 text-sm text-white/70">Follow official channels for the latest developments</p>
+                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Jump to community links →</span>
+                    </button>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section id="quick-qa" class="mt-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6">
+                <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                    <div class="max-w-3xl">
+                        <h2 class="text-3xl font-semibold tracking-tight text-white">Community Q&amp;A - Get the Facts Fast</h2>
+                        <p class="mt-3 text-base text-white/70">Browse verified community answers spanning Telcoin governance, liquidity mining, digital cash, and more. Use the filter or the global search to jump straight to the insight you need.</p>
+                    </div>
+                    <div class="lg:min-w-[280px]">
+                        <label for="searchBox" class="text-xs uppercase tracking-[0.25em] text-white/50">Filter Q&amp;A</label>
+                        <input id="searchBox" type="search" placeholder="Filter Q&amp;A topics..." class="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none" autocomplete="off">
+                    </div>
+                </div>
+                <div class="mt-12 grid gap-6" id="faqGrid" role="list"></div>
+            </div>
+        </section>
     </main>
 
-    <footer class="footer" id="community">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Official Channels</h3>
-                    <a href="https://telcoin.org" target="_blank">Official Website</a>
-                    <a href="https://reddit.com/r/Telcoin/" target="_blank">Reddit</a>
-                    <a href="https://twitter.com/telcoin" target="_blank">Twitter</a>
-                    <a href="https://discord.gg/qzMUw57UJa" target="_blank">Discord</a>
+    <footer class="border-t border-white/10 bg-ink-950/80" id="community">
+        <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+            <div class="grid gap-10 lg:grid-cols-4">
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Official Channels</h3>
+                    <ul class="mt-4 space-y-2 text-sm text-white/70">
+                        <li><a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">Official Website</a></li>
+                        <li><a class="link-ux" href="https://reddit.com/r/Telcoin/" target="_blank" rel="noopener">Reddit</a></li>
+                        <li><a class="link-ux" href="https://twitter.com/telcoin" target="_blank" rel="noopener">Twitter</a></li>
+                        <li><a class="link-ux" href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Discord</a></li>
+                    </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>Resources</h3>
-                    <a href="https://github.com/Telcoin-Association" target="_blank">GitHub</a>
-                    <a href="https://youtube.com/@Telcoin_Team" target="_blank">YouTube</a>
-                    <a href="https://linkedin.com/company/telcoin/" target="_blank">LinkedIn</a>
-                    <a href="https://t.me/Telcoin_Announcements" target="_blank">Telegram</a>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Resources</h3>
+                    <ul class="mt-4 space-y-2 text-sm text-white/70">
+                        <li><a class="link-ux" href="https://github.com/Telcoin-Association" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a class="link-ux" href="https://youtube.com/@Telcoin_Team" target="_blank" rel="noopener">YouTube</a></li>
+                        <li><a class="link-ux" href="https://linkedin.com/company/telcoin/" target="_blank" rel="noopener">LinkedIn</a></li>
+                        <li><a class="link-ux" href="https://t.me/Telcoin_Announcements" target="_blank" rel="noopener">Telegram</a></li>
+                    </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>Trading</h3>
-                    <a href="#" onclick="alert('Download from App Store or Google Play')">Telcoin App</a>
-                    <a href="https://www.kucoin.com/trade/TEL-USDT" target="_blank">KuCoin</a>
-                    <a href="https://www.bitget.com/spot/TELUSDT" target="_blank">Bitget</a>
-                    <a href="https://app.uniswap.org/#/swap?outputCurrency=0x467Bccd9d29f223BcE8043b84E8C8B282827790F" target="_blank">Uniswap</a>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Trading</h3>
+                    <ul class="mt-4 space-y-2 text-sm text-white/70">
+                        <li><a class="link-ux" href="#" onclick="alert('Download from App Store or Google Play'); return false;">Telcoin App</a></li>
+                        <li><a class="link-ux" href="https://www.kucoin.com/trade/TEL-USDT" target="_blank" rel="noopener">KuCoin</a></li>
+                        <li><a class="link-ux" href="https://www.bitget.com/spot/TELUSDT" target="_blank" rel="noopener">Bitget</a></li>
+                        <li><a class="link-ux" href="https://app.uniswap.org/#/swap?outputCurrency=0x467Bccd9d29f223BcE8043b84E8C8B282827790F" target="_blank" rel="noopener">Uniswap</a></li>
+                    </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>About This Site</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.6; color: #ccc;">
-                        This is an <strong>unofficial community resource</strong> created to help new Telcoin users. 
-                        For official information, updates, and support, always visit 
-                        <a href="https://telcoin.org" target="_blank" style="color: #0066cc;">telcoin.org</a> 
-                        and verify through official channels.
-                    </p>
-                    <p style="font-size: 0.8rem; color: #999; margin-top: 1rem;">
-                        Not affiliated with Telcoin Holdings or Telcoin Association.
-                    </p>
+                <div class="glass p-6">
+                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">About This Site</h3>
+                    <p class="mt-4 text-sm text-white/70">This is an <strong>unofficial community resource</strong> created to help new Telcoin users. For official information, updates, and support, always visit <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a> and verify through official channels.</p>
+                    <p class="mt-4 text-xs text-white/50">Not affiliated with Telcoin Holdings or Telcoin Association.</p>
                 </div>
             </div>
-            <div class="footer-bottom">
+            <div class="mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/50">
                 <p>© 2025 Community Resource - Unofficial Telcoin Guide. Not affiliated with Telcoin Holdings or Telcoin Association.</p>
-                <p style="font-size: 0.8rem; margin-top: 0.5rem;">
-                    Always verify information through official channels: <a href="https://telcoin.org" target="_blank" style="color: #0066cc;">telcoin.org</a> | 
-                    Always verify official channels to avoid scams and impostors.
-                </p>
+                <p class="mt-2">Always verify information through official channels: <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a> · Beware of scams and impostors.</p>
             </div>
         </div>
     </footer>
-    
+
     <script>
-        // FAQ Data
         const faqData = [
             {
                 category: 'basics',
@@ -844,71 +498,60 @@
             }
         ];
 
-        // Function to render FAQ items
         function renderFAQItems() {
             const faqGrid = document.getElementById('faqGrid');
             if (!faqGrid) return;
+            faqGrid.innerHTML = '';
 
-            faqData.forEach(item => {
-                const faqItem = document.createElement('div');
-                faqItem.className = 'faq-item';
+            faqData.forEach((item, index) => {
+                const faqItem = document.createElement('article');
+                faqItem.className = 'glass p-6 transition duration-base ease-smooth hover:scale-[1.01]';
+                faqItem.setAttribute('role', 'listitem');
 
                 faqItem.innerHTML = `
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        <h3>${item.question}</h3>
-                        <span class="faq-toggle">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            ${item.answer}
-                        </div>
+                    <button class="flex w-full items-center justify-between text-left focus-ring" aria-expanded="false" aria-controls="faq-answer-${index}">
+                        <span class="text-lg font-semibold text-white">${item.question}</span>
+                        <span class="ml-4 rounded-full bg-white/10 px-3 py-1 text-sm text-mint-300" aria-hidden="true">View</span>
+                    </button>
+                    <div id="faq-answer-${index}" class="max-h-0 overflow-hidden transition-all duration-300 ease-out">
+                        <div class="pt-5 text-sm leading-7 text-white/70">${item.answer}</div>
                     </div>
                 `;
+
+                const toggleButton = faqItem.querySelector('button');
+                const answer = faqItem.querySelector(`#faq-answer-${index}`);
+
+                toggleButton.addEventListener('click', () => {
+                    const expanded = toggleButton.getAttribute('aria-expanded') === 'true';
+                    document.querySelectorAll('#faqGrid button[aria-expanded="true"]').forEach((openButton) => {
+                        if (openButton !== toggleButton) {
+                            openButton.setAttribute('aria-expanded', 'false');
+                            const panel = openButton.parentElement.querySelector('[id^="faq-answer-"]');
+                            panel.style.maxHeight = '0px';
+                        }
+                    });
+                    if (expanded) {
+                        toggleButton.setAttribute('aria-expanded', 'false');
+                        answer.style.maxHeight = '0px';
+                    } else {
+                        toggleButton.setAttribute('aria-expanded', 'true');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    }
+                });
+
                 faqGrid.appendChild(faqItem);
             });
         }
 
-        // Function to toggle FAQ items
-        function toggleFAQ(element) {
-            const faqItem = element.parentElement;
-            const answer = faqItem.querySelector('.faq-answer');
-            const toggle = element.querySelector('.faq-toggle');
-
-            const isActive = faqItem.classList.contains('active');
-
-            // Close all other open items
-            document.querySelectorAll('.faq-item.active').forEach(openItem => {
-                if (openItem !== faqItem) {
-                    openItem.classList.remove('active');
-                    openItem.querySelector('.faq-answer').classList.remove('active');
-                    openItem.querySelector('.faq-toggle').textContent = '+';
-                }
-            });
-
-            // Toggle the clicked item
-            if (!isActive) {
-                faqItem.classList.add('active');
-                answer.classList.add('active');
-                toggle.textContent = '−';
-            } else {
-                faqItem.classList.remove('active');
-                answer.classList.remove('active');
-                toggle.textContent = '+';
-            }
-        }
-
         function filterFAQs(searchTerm) {
             const normalizedTerm = (searchTerm || '').toLowerCase();
-            const faqItems = document.querySelectorAll('.faq-item');
-
-            faqItems.forEach(item => {
-                const question = item.querySelector('h3').textContent.toLowerCase();
-                const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
-
+            document.querySelectorAll('#faqGrid article').forEach((item) => {
+                const question = item.querySelector('button span').textContent.toLowerCase();
+                const answer = item.querySelector('[id^="faq-answer-"]').textContent.toLowerCase();
                 if (!normalizedTerm || question.includes(normalizedTerm) || answer.includes(normalizedTerm)) {
-                    item.style.display = '';
+                    item.classList.remove('hidden');
                 } else {
-                    item.style.display = 'none';
+                    item.classList.add('hidden');
                 }
             });
         }
@@ -916,32 +559,28 @@
         function setupSearch() {
             const searchBox = document.getElementById('searchBox');
             if (!searchBox) return null;
-
-            searchBox.addEventListener('input', function(e) {
-                const rawValue = e.target.value;
-                filterFAQs(rawValue);
-
+            searchBox.addEventListener('input', (event) => {
+                const value = event.target.value || '';
+                filterFAQs(value);
                 if (window.history && window.history.replaceState) {
                     try {
                         const url = new URL(window.location.href);
-                        if (rawValue && rawValue.trim().length) {
-                            url.searchParams.set('q', rawValue.trim());
+                        if (value.trim().length) {
+                            url.searchParams.set('q', value.trim());
                         } else {
                             url.searchParams.delete('q');
                         }
                         window.history.replaceState({}, '', url);
                     } catch (error) {
-                        // Ignore URL parsing errors in legacy browsers
+                        /* noop */
                     }
                 }
             });
-
             return searchBox;
         }
 
         function applyQueryFilters(searchBox) {
             if (!searchBox || typeof URLSearchParams === 'undefined') return;
-
             const params = new URLSearchParams(window.location.search);
             const query = params.get('q') || params.get('search');
             if (query) {
@@ -952,7 +591,6 @@
 
         function injectFAQSchema() {
             if (!Array.isArray(faqData) || !faqData.length) return;
-
             const faqSchema = {
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
@@ -963,7 +601,7 @@
                 "isPartOf": {
                     "@id": "https://telcoinwiki.com/#webpage"
                 },
-                "mainEntity": faqData.map(item => ({
+                "mainEntity": faqData.map((item) => ({
                     "@type": "Question",
                     "name": item.question,
                     "acceptedAnswer": {
@@ -988,81 +626,52 @@
             script.textContent = JSON.stringify(faqSchema);
             document.head.appendChild(script);
         }
-        
-        // Checklist functionality
+
         function setupChecklist() {
-            // Join the Community dropdown
             const joinCommunityChecklist = document.getElementById('joinCommunityChecklist');
             const joinCommunityDropdown = document.getElementById('joinCommunityDropdown');
             if (joinCommunityChecklist && joinCommunityDropdown) {
-                joinCommunityChecklist.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const isOpen = joinCommunityDropdown.style.display === 'block';
-                    joinCommunityDropdown.style.display = isOpen ? 'none' : 'block';
+                joinCommunityChecklist.addEventListener('click', (event) => {
+                    const isButton = event.target.closest('button');
+                    if (!isButton) return;
+                    event.stopPropagation();
+                    const isOpen = !joinCommunityDropdown.classList.contains('hidden');
+                    document.querySelectorAll('#joinCommunityDropdown').forEach((panel) => panel.classList.add('hidden'));
+                    joinCommunityDropdown.classList.toggle('hidden', isOpen);
                 });
-                document.addEventListener('click', function(e) {
-                    if (!joinCommunityDropdown.contains(e.target) && e.target !== joinCommunityChecklist) {
-                        joinCommunityDropdown.style.display = 'none';
+                document.addEventListener('click', (event) => {
+                    if (!joinCommunityChecklist.contains(event.target)) {
+                        joinCommunityDropdown.classList.add('hidden');
                     }
                 });
             }
 
-            // "Consider Staking" link
             const considerStakingChecklist = document.getElementById('considerStakingChecklist');
             if (considerStakingChecklist) {
-                considerStakingChecklist.addEventListener('click', function() {
+                considerStakingChecklist.addEventListener('click', () => {
                     window.open('deep-dive.html?category=earning', '_blank');
                 });
             }
-            
-            // "Stay Updated" scrolls to footer
+
             const stayUpdatedChecklist = document.getElementById('stayUpdatedChecklist');
             if (stayUpdatedChecklist) {
-                stayUpdatedChecklist.addEventListener('click', function() {
+                stayUpdatedChecklist.addEventListener('click', () => {
                     document.getElementById('community').scrollIntoView({ behavior: 'smooth' });
                 });
             }
         }
 
-        // Initialize all scripts on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            injectFAQSchema();
+        document.addEventListener('DOMContentLoaded', () => {
             renderFAQItems();
+            injectFAQSchema();
             const searchBox = setupSearch();
             applyQueryFilters(searchBox);
             setupChecklist();
-
-            // Mobile menu functionality
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const navLinks = document.querySelector('.nav-links');
-            
-            if (mobileMenuBtn && navLinks) {
-                mobileMenuBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    navLinks.classList.toggle('active');
-                    document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-                });
-
-                // Close mobile menu when clicking a link
-                navLinks.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        navLinks.classList.remove('active');
-                        document.body.style.overflow = '';
-                    });
-                });
-
-                // Close mobile menu when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                        navLinks.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }
-                });
-            }
         });
     </script>
+    <script src="/js/theme-toggle.js"></script>
+    <script src="/js/copy-code.js"></script>
+    <script src="/js/lightbox.js"></script>
+    <script src="/js/search.js"></script>
 </body>
-
 </html>
-
