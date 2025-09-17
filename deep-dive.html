@@ -125,10 +125,10 @@
       darkMode:'class',
       theme:{ extend:{
         colors:{
-          ink:{950:'#070b14',900:'#0b1220',800:'#0e1a33',700:'#112142',600:'#152a53'},
-          cobalt:{300:'#7db9ff',400:'#5aa8ff',500:'#4196ff',600:'#267dff',700:'#1a5ef0'},
-          primary:{400:'#4e72ff',500:'#3a63ff',600:'#2e50e6',700:'#2746c0',800:'#1f3a9b'},
-          mint:{300:'#9af2e0',400:'#7ef2da',500:'#49e0c5',600:'#2bd0b2'}
+          ink:{950:'#030b1f',900:'#051330',800:'#071d45',700:'#0a285d',600:'#0c3275'},
+          cobalt:{300:'#6ec9ff',400:'#4fb8ff',500:'#2f9cff',600:'#1c7df0',700:'#155fcc'},
+          primary:{400:'#4fb8ff',500:'#2f9cff',600:'#1c7df0',700:'#1353c2',800:'#0d419b'},
+          mint:{300:'#8ff0e6',400:'#6ce3d8',500:'#3dd0c3',600:'#26b9ae'}
         },
         borderRadius:{xl:'1rem','2xl':'1.25rem','3xl':'1.75rem',pill:'9999px'},
         boxShadow:{
@@ -144,38 +144,38 @@
     <link rel="stylesheet" href="/styles/site.css">
 </head>
 <body class="min-h-screen flex flex-col text-white/90">
-    <header class="sticky top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur-xs">
-        <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:py-5">
-            <a href="index.html" class="flex items-center gap-3 rounded-2xl px-3 py-2 text-white transition hover:bg-white/5 focus-ring" aria-label="Telcoin Wiki home">
-                <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-lg font-semibold text-mint-400 shadow-inner">T</span>
-                <span class="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Telcoin Wiki</span>
+    <header class="site-header">
+        <div class="site-header__inner mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:py-5">
+            <a href="index.html" class="site-header__brand focus-ring" aria-label="Telcoin Wiki home">
+                <img src="logo.svg" alt="Telcoin Wiki" class="site-header__logo">
+                <span class="sr-only">Telcoin Wiki</span>
             </a>
             <div class="hidden flex-1 items-center justify-end gap-6 lg:flex">
-                <nav aria-label="Main" class="flex items-center">
-                    <ul class="flex items-center gap-4 text-sm font-medium text-white/70">
-                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="index.html#getting-started">Getting Started</a></li>
-                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="index.html#quick-qa">Quick Q&amp;A</a></li>
-                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2 text-white" href="deep-dive.html">Deep Dive</a></li>
-                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="index.html#community">Community</a></li>
-                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="links.html">Links</a></li>
-                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="pools.html">Pools</a></li>
-                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="portfolio.html">Portfolio</a></li>
-                        <li><a class="hover:text-white focus-ring rounded-xl px-3 py-2" href="about.html">About</a></li>
-                        <li><a class="hover:text-mint-400 focus-ring rounded-xl px-3 py-2" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a></li>
+                <nav aria-label="Main" class="site-nav">
+                    <ul class="site-nav__list">
+                        <li><a class="site-nav__link focus-ring" href="index.html#getting-started">Getting Started</a></li>
+                        <li><a class="site-nav__link focus-ring" href="index.html#quick-qa">Quick Q&amp;A</a></li>
+                        <li><a class="site-nav__link focus-ring" href="deep-dive.html" aria-current="page">Deep Dive</a></li>
+                        <li><a class="site-nav__link focus-ring" href="index.html#community">Community</a></li>
+                        <li><a class="site-nav__link focus-ring" href="links.html">Links</a></li>
+                        <li><a class="site-nav__link focus-ring" href="pools.html">Pools</a></li>
+                        <li><a class="site-nav__link focus-ring" href="portfolio.html">Portfolio</a></li>
+                        <li><a class="site-nav__link focus-ring" href="about.html">About</a></li>
+                        <li><a class="site-nav__link site-nav__link--cta focus-ring" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a></li>
                     </ul>
                 </nav>
                 <div class="flex items-center gap-3">
                     <div class="relative w-64">
                         <label for="site-search" class="visually-hidden">Search Telcoin Deep Dive</label>
-                        <input id="site-search" data-site-search type="search" placeholder="Search this page" class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none focus:ring-0" autocomplete="off">
+                        <input id="site-search" data-site-search type="search" placeholder="Search this page" class="site-search" autocomplete="off">
                         <div class="search-panel" data-search-results aria-hidden="true"></div>
                     </div>
-                    <button type="button" data-theme-toggle class="btn-secondary focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
+                    <button type="button" data-theme-toggle class="site-header__icon-button focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
                 </div>
             </div>
             <div class="flex items-center gap-3 lg:hidden">
-                <button type="button" data-theme-toggle class="rounded-2xl border border-white/10 bg-white/5 p-2 text-lg text-white focus-ring" aria-label="Toggle theme"><span aria-hidden="true">🌗</span></button>
-                <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="rounded-2xl border border-white/10 bg-white/5 p-2 text-white focus-ring">
+                <button type="button" data-theme-toggle class="site-header__icon-button focus-ring" aria-label="Toggle theme"><span aria-hidden="true">🌗</span></button>
+                <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="site-header__icon-button focus-ring">
                     <span class="sr-only">Open navigation</span>
                     ☰
                 </button>
@@ -192,8 +192,8 @@
             <div class="flex-1 overflow-y-auto px-6 py-6">
                 <div class="mb-6">
                     <label for="mobile-search" class="text-xs uppercase tracking-[0.2em] text-white/50">Search</label>
-                    <div class="mt-2">
-                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none" autocomplete="off">
+                    <div class="relative mt-2">
+                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" class="site-search site-search--mobile" autocomplete="off">
                         <div class="search-panel" data-search-results aria-hidden="true"></div>
                     </div>
                 </div>

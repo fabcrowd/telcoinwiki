@@ -1,1 +1,17 @@
-
+<svg width="260" height="72" viewBox="0 0 260 72" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">Telcoin Wiki logo</title>
+  <desc id="logoDesc">Wordmark showing the Telcoin name in white with Wiki in a bright Telx blue and a swoosh underline.</desc>
+  <defs>
+    <linearGradient id="wikiGradient" x1="188" y1="10" x2="188" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2DC9FF"/>
+      <stop offset="1" stop-color="#0F6BFF"/>
+    </linearGradient>
+    <linearGradient id="underlineGradient" x1="150" y1="60" x2="236" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2DC9FF"/>
+      <stop offset="1" stop-color="#0F6BFF"/>
+    </linearGradient>
+  </defs>
+  <text x="0" y="46" fill="#F4F8FF" font-family="'Inter', 'Inter var', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="38" font-weight="700" letter-spacing="0.015em">Telcoin</text>
+  <text x="146" y="46" fill="url(#wikiGradient)" font-family="'Inter', 'Inter var', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="38" font-weight="700" letter-spacing="0.015em">Wiki</text>
+  <path d="M150 56C166 64 186 66 204 64C214 63 224 60 236 56" stroke="url(#underlineGradient)" stroke-width="6" stroke-linecap="round"/>
+</svg>
