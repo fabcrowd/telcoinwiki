@@ -127,7 +127,7 @@ main {
 
 @media (min-width: 1024px) {
   .site-header__logo {
-    height: 48px;
+    height: clamp(56px, 5vw, 72px);
   }
 }
 
