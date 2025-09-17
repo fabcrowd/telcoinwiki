@@ -291,6 +291,22 @@ summary:focus-visible {
   box-shadow: 0 0 0 1px rgba(120, 180, 255, 0.18), 0 14px 44px rgba(41, 112, 255, 0.22);
 }
 
+#joinCommunityChecklist {
+  position: relative;
+}
+
+#joinCommunityDropdown {
+  z-index: 80;
+}
+
+@media (max-width: 1023px) {
+  #joinCommunityDropdown {
+    position: static;
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
 .stat-label {
   font-size: 0.75rem;
   letter-spacing: 0.05em;
