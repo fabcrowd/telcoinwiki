@@ -152,16 +152,20 @@
   }
 
   function initMobileNavigation() {
-    const trigger = document.querySelector('[data-mobile-toggle]');
+    const toggles = Array.from(document.querySelectorAll('[data-mobile-toggle]'));
     const drawer = document.querySelector('[data-mobile-drawer]');
     const overlay = document.querySelector('[data-mobile-overlay]');
-    if (!trigger || !drawer) return;
+    if (!toggles.length || !drawer) return;
 
     let previousFocus = null;
     let focusables = [];
 
     function setExpanded(state) {
-      trigger.setAttribute('aria-expanded', state ? 'true' : 'false');
+      toggles.forEach((button) => {
+        if (button.hasAttribute('aria-expanded')) {
+          button.setAttribute('aria-expanded', state ? 'true' : 'false');
+        }
+      });
       drawer.setAttribute('aria-hidden', state ? 'false' : 'true');
       if (overlay) overlay.setAttribute('aria-hidden', state ? 'false' : 'true');
     }
@@ -190,8 +194,9 @@
       }
     }
 
-    function openDrawer() {
-      previousFocus = document.activeElement;
+    function openDrawer(source) {
+      if (drawer.classList.contains('active')) return;
+      previousFocus = source || document.activeElement;
       drawer.classList.add('active');
       overlay?.classList.add('active');
       focusables = Array.from(drawer.querySelectorAll(FOCUSABLE_SELECTORS)).filter((el) => {
@@ -203,31 +208,52 @@
       (focusables[0] || drawer).focus();
     }
 
-    function closeDrawer() {
+    function closeDrawer(options = {}) {
+      const wasActive = drawer.classList.contains('active');
       drawer.classList.remove('active');
       overlay?.classList.remove('active');
       setExpanded(false);
       document.body.style.overflow = '';
       document.removeEventListener('keydown', handleKeydown);
-      previousFocus?.focus();
+      focusables = [];
+      if (wasActive && options.returnFocus !== false && previousFocus && typeof previousFocus.focus === 'function') {
+        previousFocus.focus();
+      }
+      previousFocus = null;
     }
 
-    trigger.addEventListener('click', (event) => {
-      event.preventDefault();
-      if (drawer.classList.contains('active')) {
-        closeDrawer();
-      } else {
-        openDrawer();
-      }
+    toggles.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (drawer.classList.contains('active')) {
+          closeDrawer();
+        } else {
+          openDrawer(event.currentTarget);
+        }
+      });
     });
 
-    overlay?.addEventListener('click', closeDrawer);
+    overlay?.addEventListener('click', () => closeDrawer());
 
     drawer.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         closeDrawer();
       });
     });
+
+    const mediaQuery = typeof window.matchMedia === 'function' ? window.matchMedia('(min-width: 1024px)') : null;
+    if (mediaQuery) {
+      const handleBreakpoint = (event) => {
+        if (event.matches) {
+          closeDrawer({ returnFocus: false });
+        }
+      };
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', handleBreakpoint);
+      } else if (typeof mediaQuery.addListener === 'function') {
+        mediaQuery.addListener(handleBreakpoint);
+      }
+    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
