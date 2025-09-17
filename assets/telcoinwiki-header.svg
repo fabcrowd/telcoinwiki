@@ -1,0 +1,34 @@
+<svg width="256" height="82" viewBox="0 0 640 206" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">Telcoin Wiki header logo</title>
+  <desc id="logoDesc">Rounded rectangle with a Telcoin blue gradient background and the Telcoin Wiki wordmark.</desc>
+  <defs>
+    <linearGradient id="bgGradient" x1="38" y1="12" x2="602" y2="194" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0B2D73" />
+      <stop offset="0.52" stop-color="#0C4FB1" />
+      <stop offset="1" stop-color="#1590FF" />
+    </linearGradient>
+    <linearGradient id="wikiGradient" x1="352" y1="60" x2="542" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#54D9FF" />
+      <stop offset="0.4" stop-color="#2EC3FF" />
+      <stop offset="1" stop-color="#1290FF" />
+    </linearGradient>
+    <linearGradient id="underlineGradient" x1="340" y1="150" x2="568" y2="168" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#54D9FF" stop-opacity="0.95" />
+      <stop offset="1" stop-color="#1584F5" stop-opacity="0.95" />
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="640" height="206" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feOffset in="SourceAlpha" dy="8" result="offset" />
+      <feGaussianBlur in="offset" stdDeviation="18" result="blur" />
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.0431373 0 0 0 0 0.152941 0 0 0 0 0.317647 0 0 0 0.28 0" result="shadow" />
+      <feBlend in="SourceGraphic" in2="shadow" mode="normal" />
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect x="24" y="16" width="592" height="170" rx="44" fill="url(#bgGradient)" />
+    <g font-family="'Inter', 'Inter var', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="700" letter-spacing="0.01em">
+      <text x="88" y="134" font-size="96" fill="#F8FBFF">Telcoin</text>
+      <text x="342" y="134" font-size="96" fill="url(#wikiGradient)">Wiki</text>
+    </g>
+    <path d="M342 148C368 164 400 172 436 172C472 172 514 164 554 148" stroke="url(#underlineGradient)" stroke-width="12" stroke-linecap="round" />
+  </g>
+</svg>
