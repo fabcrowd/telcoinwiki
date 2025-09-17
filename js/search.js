@@ -152,16 +152,20 @@
   }
 
   function initMobileNavigation() {
-    const triggers = Array.from(document.querySelectorAll('[data-mobile-toggle]'));
     const drawer = document.querySelector('[data-mobile-drawer]');
-    const overlay = document.querySelector('[data-mobile-overlay]');
-    if (!triggers.length || !drawer) return;
+    if (!drawer) return;
 
+    const toggles = Array.from(document.querySelectorAll('[data-mobile-toggle]'));
+    if (!toggles.length) return;
+
+    const overlay = document.querySelector('[data-mobile-overlay]');
     let previousFocus = null;
     let focusables = [];
+    let previousBodyOverflow = '';
+    let isOpen = false;
 
     function setExpanded(state) {
-      triggers.forEach((btn) => {
+      toggles.forEach((btn) => {
         if (btn.hasAttribute('aria-expanded')) {
           btn.setAttribute('aria-expanded', state ? 'true' : 'false');
         }
@@ -185,7 +189,8 @@
       }
     }
 
-    function handleKeydown(event) {
+    function handleDocumentKeydown(event) {
+      if (!isOpen) return;
       if (event.key === 'Escape') {
         event.preventDefault();
         closeDrawer();
@@ -195,44 +200,61 @@
     }
 
     function openDrawer(trigger) {
+      if (isOpen) return;
+      isOpen = true;
       previousFocus = trigger || document.activeElement;
+      previousBodyOverflow = document.body.style.overflow;
       drawer.classList.add('active');
       overlay?.classList.add('active');
       focusables = Array.from(drawer.querySelectorAll(FOCUSABLE_SELECTORS)).filter((el) => {
-        return !el.hasAttribute('disabled') && el.tabIndex !== -1;
+        if (el.hasAttribute('disabled')) return false;
+        if (el.tabIndex === -1) return false;
+        if (el.getAttribute('aria-hidden') === 'true') return false;
+        return true;
       });
       setExpanded(true);
       document.body.style.overflow = 'hidden';
-      document.addEventListener('keydown', handleKeydown);
+      document.addEventListener('keydown', handleDocumentKeydown);
       (focusables[0] || drawer).focus();
     }
 
     function closeDrawer() {
+      if (!isOpen) return;
+      isOpen = false;
       drawer.classList.remove('active');
       overlay?.classList.remove('active');
       setExpanded(false);
-      document.body.style.overflow = '';
-      document.removeEventListener('keydown', handleKeydown);
-      previousFocus?.focus?.();
+      document.body.style.overflow = previousBodyOverflow || '';
+      previousBodyOverflow = '';
+      document.removeEventListener('keydown', handleDocumentKeydown);
+      if (previousFocus && typeof previousFocus.focus === 'function') {
+        previousFocus.focus();
+      }
+      previousFocus = null;
+      focusables = [];
     }
 
-    triggers.forEach((trigger) => {
-      trigger.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (drawer.classList.contains('active')) {
-          closeDrawer();
-        } else {
-          openDrawer(trigger);
-        }
-      });
+    function handleToggleClick(event) {
+      event.preventDefault();
+      if (isOpen) {
+        closeDrawer();
+      } else {
+        openDrawer(event.currentTarget);
+      }
+    }
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener('click', handleToggleClick);
     });
 
     overlay?.addEventListener('click', closeDrawer);
 
-    drawer.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
+    drawer.addEventListener('click', (event) => {
+      if (!isOpen) return;
+      const closeTarget = event.target.closest('[data-mobile-toggle], [data-mobile-close], a[href]');
+      if (closeTarget) {
         closeDrawer();
-      });
+      }
     });
   }
 
