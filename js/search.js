@@ -152,16 +152,20 @@
   }
 
   function initMobileNavigation() {
-    const trigger = document.querySelector('[data-mobile-toggle]');
+    const toggles = Array.from(document.querySelectorAll('[data-mobile-toggle]'));
     const drawer = document.querySelector('[data-mobile-drawer]');
     const overlay = document.querySelector('[data-mobile-overlay]');
-    if (!trigger || !drawer) return;
+    if (!toggles.length || !drawer) return;
 
     let previousFocus = null;
     let focusables = [];
 
     function setExpanded(state) {
-      trigger.setAttribute('aria-expanded', state ? 'true' : 'false');
+      toggles.forEach((toggle) => {
+        if (toggle.hasAttribute('aria-expanded')) {
+          toggle.setAttribute('aria-expanded', state ? 'true' : 'false');
+        }
+      });
       drawer.setAttribute('aria-hidden', state ? 'false' : 'true');
       if (overlay) overlay.setAttribute('aria-hidden', state ? 'false' : 'true');
     }
@@ -190,8 +194,8 @@
       }
     }
 
-    function openDrawer() {
-      previousFocus = document.activeElement;
+    function openDrawer(origin) {
+      previousFocus = origin instanceof HTMLElement ? origin : document.activeElement;
       drawer.classList.add('active');
       overlay?.classList.add('active');
       focusables = Array.from(drawer.querySelectorAll(FOCUSABLE_SELECTORS)).filter((el) => {
@@ -210,15 +214,18 @@
       document.body.style.overflow = '';
       document.removeEventListener('keydown', handleKeydown);
       previousFocus?.focus();
+      previousFocus = null;
     }
 
-    trigger.addEventListener('click', (event) => {
-      event.preventDefault();
-      if (drawer.classList.contains('active')) {
-        closeDrawer();
-      } else {
-        openDrawer();
-      }
+    toggles.forEach((toggle) => {
+      toggle.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (drawer.classList.contains('active')) {
+          closeDrawer();
+        } else {
+          openDrawer(toggle);
+        }
+      });
     });
 
     overlay?.addEventListener('click', closeDrawer);
