@@ -150,70 +150,59 @@
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
-    tailwind.config = {
-      darkMode:'class',
-      theme:{ extend:{
-        colors:{
-          ink:{950:'#030b1f',900:'#051330',800:'#071d45',700:'#0a285d',600:'#0c3275'},
-          cobalt:{300:'#6ec9ff',400:'#4fb8ff',500:'#2f9cff',600:'#1c7df0',700:'#155fcc'},
-          primary:{400:'#4fb8ff',500:'#2f9cff',600:'#1c7df0',700:'#1353c2',800:'#0d419b'},
-          mint:{300:'#8ff0e6',400:'#6ce3d8',500:'#3dd0c3',600:'#26b9ae'}
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          ink: { 950: '#070b14', 900: '#0b1220', 800: '#0e1a33', 700: '#112142', 600: '#152a53' },
+          cobalt: { 300: '#7db9ff', 400: '#5aa8ff', 500: '#4196ff', 600: '#267dff', 700: '#1a5ef0' },
+          primary: { 400: '#4e72ff', 500: '#3a63ff', 600: '#2e50e6', 700: '#2746c0', 800: '#1f3a9b' },
+          mint: { 300: '#9af2e0', 400: '#7ef2da', 500: '#49e0c5', 600: '#2bd0b2' }
         },
-        borderRadius:{xl:'1rem','2xl':'1.25rem','3xl':'1.75rem',pill:'9999px'},
-        boxShadow:{
-          glass:'0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
-          glow:'0 0 0 1px rgba(120,180,255,.18), 0 14px 44px rgba(41,112,255,.22)'
+        borderRadius: { xl: '1rem', '2xl': '1.25rem', '3xl': '1.75rem', pill: '9999px' },
+        boxShadow: {
+          glass: '0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
+          glow: '0 0 0 1px rgba(120,180,255,.18), 0 14px 44px rgba(41,112,255,.22)'
         },
-        backdropBlur:{xs:'2px'},
-        transitionTimingFunction:{smooth:'cubic-bezier(.22,.61,.36,1)'},
-        transitionDuration:{base:'200ms'}
-      }}
+        backdropBlur: { xs: '2px' },
+        transitionTimingFunction: { smooth: 'cubic-bezier(.22,.61,.36,1)' },
+        transitionDuration: { base: '200ms' }
+      }
     }
+  }
     </script>
     <link rel="stylesheet" href="/styles/site.css">
 </head>
-<body class="min-h-screen flex flex-col text-white/90">
-    <header class="site-header">
-        <div class="site-header__inner mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:py-5">
-            <a href="index.html" class="site-header__brand focus-ring" aria-label="Telcoin Wiki home">
-                <img src="logo.svg" alt="Telcoin Wiki" class="site-header__logo">
-                <span class="sr-only">Telcoin Wiki</span>
-            </a>
-            <div class="hidden flex-1 items-center justify-end gap-6 lg:flex">
-                <nav aria-label="Main" class="site-nav">
-                    <ul class="site-nav__list">
-                        <li><a class="site-nav__link focus-ring" href="index.html#getting-started">Getting Started</a></li>
-                        <li><a class="site-nav__link focus-ring" href="index.html#quick-qa">Quick Q&amp;A</a></li>
-                        <li><a class="site-nav__link focus-ring" href="deep-dive.html">Deep Dive</a></li>
-                        <li><a class="site-nav__link focus-ring" href="index.html#community">Community</a></li>
-                        <li><a class="site-nav__link focus-ring" href="links.html" aria-current="page">Links</a></li>
-                        <li><a class="site-nav__link focus-ring" href="pools.html">Pools</a></li>
-                        <li><a class="site-nav__link focus-ring" href="portfolio.html">Portfolio</a></li>
-                        <li><a class="site-nav__link focus-ring" href="about.html">About</a></li>
-                        <li><a class="site-nav__link site-nav__link--cta focus-ring" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a></li>
-                    </ul>
-                </nav>
-                <div class="flex items-center gap-3">
-                    <div class="relative w-64">
-                        <label for="site-search" class="visually-hidden">Search Telcoin links</label>
-                        <input id="site-search" data-site-search type="search" placeholder="Search this page" class="site-search" autocomplete="off">
+<body data-page="links" class="bg-ink-950 text-white/90 antialiased">
+    <div class="relative flex min-h-screen flex-col">
+        <div id="top"></div>
+        <header class="sticky top-0 z-50 border-b border-white/10 bg-ink-950/80 backdrop-blur-xs">
+            <div class="mx-auto flex w-full max-w-7xl items-center gap-3 px-4 py-4">
+                <a href="index.html" class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10 focus-ring" aria-label="Telcoin Wiki home">
+                    <img src="logo.svg" alt="Telcoin Wiki" class="h-10 w-auto">
+                    <span class="sr-only">Telcoin Wiki</span>
+                </a>
+                <div class="flex flex-1 items-center justify-center">
+                    <div class="relative w-full max-w-xl">
+                        <label for="site-search" class="sr-only">Search Telcoin links</label>
+                        <input id="site-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
                         <div class="search-panel" data-search-results aria-hidden="true"></div>
                     </div>
-                    <button type="button" data-theme-toggle class="site-header__icon-button focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" data-theme-toggle class="icon-button focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
+                    <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="icon-button lg:hidden focus-ring">
+                        <span class="sr-only">Open navigation</span>
+                        ☰
+                    </button>
                 </div>
             </div>
-            <div class="flex items-center gap-3 lg:hidden">
-                <button type="button" data-theme-toggle class="site-header__icon-button focus-ring" aria-label="Toggle theme"><span aria-hidden="true">🌗</span></button>
-                <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="site-header__icon-button focus-ring">
-                    <span class="sr-only">Open navigation</span>
-                    ☰
-                </button>
-            </div>
-        </div>
-        <div class="mobile-overlay" data-mobile-overlay aria-hidden="true"></div>
-        <aside id="mobile-drawer" class="mobile-drawer" data-mobile-drawer aria-hidden="true">
+        </header>
+        <div class="docs-overlay" data-mobile-overlay aria-hidden="true"></div>
+        <aside id="mobile-drawer" class="docs-drawer" data-mobile-drawer aria-hidden="true" tabindex="-1">
             <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
                 <p class="text-sm font-semibold tracking-wide text-white/70">Menu</p>
                 <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-sm focus-ring" data-mobile-toggle>
@@ -224,121 +213,101 @@
                 <div class="mb-6">
                     <label for="mobile-search" class="text-xs uppercase tracking-[0.2em] text-white/50">Search</label>
                     <div class="relative mt-2">
-                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" class="site-search site-search--mobile" autocomplete="off">
+                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
                         <div class="search-panel" data-search-results aria-hidden="true"></div>
                     </div>
                 </div>
-                <nav aria-label="Mobile" class="space-y-2">
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="index.html#getting-started">Getting Started</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="index.html#quick-qa">Quick Q&amp;A</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="deep-dive.html">Deep Dive</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="index.html#community">Community</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="links.html">Links</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="pools.html">Pools</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="portfolio.html">Portfolio</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="about.html">About</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a>
-                </nav>
+                <nav aria-label="Mobile" data-mobile-nav class="space-y-2"></nav>
             </div>
         </aside>
-    </header>
 
-    <main class="flex-1 pb-24">
-        <section class="pt-16 sm:pt-20">
-            <div class="mx-auto max-w-6xl px-4 sm:px-6">
-                <div class="max-w-3xl">
-                    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-mint-300/80">Resource library</p>
-                    <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Works cited &amp; trusted Telcoin resources</h1>
-                    <p class="mt-4 text-lg text-white/70">Every resource referenced across the Telcoin Wiki lives here. Explore official documentation, liquidity tools, regulatory filings, and community hubs—all organized into glass cards for quick scanning.</p>
-                    <div class="mt-8 glass p-6">
-                        <p class="text-sm text-white/70">💡 Tip: Use the global search to filter by keyword—results surface direct anchors to each category or article. Links open in a new tab and include subtle arrows for external destinations.</p>
-                    </div>
-                </div>
-                <div class="mt-12 grid gap-6 lg:grid-cols-2">
-                    <article class="glass p-6" aria-labelledby="official-resources">
-                        <h2 id="official-resources" class="text-xl font-semibold text-white">Official docs &amp; support</h2>
-                        <ul class="mt-4 space-y-2 text-sm text-white/75">
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/" target="_blank" rel="noopener">Telcoin: Home<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/digital-cash" target="_blank" rel="noopener">Digital Cash | Telcoin<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telcoin.network/" target="_blank" rel="noopener">Telcoin Network - Home<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/telcoin-services-and-support/navigating-your-telcoin-app" target="_blank" rel="noopener">Navigating Your Telcoin App<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/cryptocurrency-basics/staking-and-yield-farming" target="_blank" rel="noopener">Staking and Yield Farming guide<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/cryptocurrency-basics/permissioned-vs-permissionless-blockchains" target="_blank" rel="noopener">Permissioned vs. permissionless blockchains<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/cryptocurrency-basics/setting-up-a-crypto-wallet" target="_blank" rel="noopener">Setting up a crypto wallet<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/cryptocurrency-basics/understanding-liquidity-pools" target="_blank" rel="noopener">Understanding liquidity pools<span aria-hidden="true">↗</span></a></li>
-                        </ul>
-                    </article>
+        <div class="flex-1 w-full">
+            <div class="mx-auto max-w-7xl px-4 pb-24 pt-12 sm:pt-16">
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-[16rem_minmax(0,1fr)_14rem]">
+                    <aside class="hidden lg:block sticky top-16 h-[calc(100dvh-4rem)] overflow-y-auto pr-2" data-docs-sidebar>
+                        <nav data-docs-nav class="docs-nav space-y-3"></nav>
+                    </aside>
+                    <main id="main-content" class="space-y-12">
+                        <section id="links-overview" class="space-y-8">
+                            <div class="glass p-8">
+                                <p class="text-sm font-semibold uppercase tracking-[0.3em] text-mint-300/80">Resource library</p>
+                                <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Works cited &amp; trusted Telcoin resources</h1>
+                                <p class="mt-4 text-lg text-white/70">Every resource referenced across the Telcoin Wiki lives here. Explore official documentation, liquidity tools, regulatory filings, and community hubs—all organized into glass cards for quick scanning.</p>
+                                <div class="mt-8 rounded-2xl border border-white/10 bg-ink-900/60 p-6">
+                                    <p class="text-sm text-white/70">💡 Tip: Use the global search to filter by keyword—results surface direct anchors to each category or article. Links open in a new tab and include subtle arrows for external destinations.</p>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="links-directory" class="space-y-10">
+                            <div class="grid gap-6 lg:grid-cols-2">
+                                <article class="glass p-6" aria-labelledby="official-resources">
+                                    <h2 id="official-resources" class="text-xl font-semibold text-white">Official docs &amp; support</h2>
+                                    <ul class="mt-4 space-y-2 text-sm text-white/75">
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/" target="_blank" rel="noopener">Telcoin: Home<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/digital-cash" target="_blank" rel="noopener">Digital Cash | Telcoin<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telcoin.network/" target="_blank" rel="noopener">Telcoin Network - Home<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/telcoin-services-and-support/navigating-your-telcoin-app" target="_blank" rel="noopener">Navigating Your Telcoin App<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/cryptocurrency-basics/staking-and-yield-farming" target="_blank" rel="noopener">Staking and Yield Farming guide<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/cryptocurrency-basics/permissioned-vs-permissionless-blockchains" target="_blank" rel="noopener">Permissioned vs. permissionless blockchains<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/cryptocurrency-basics/setting-up-a-crypto-wallet" target="_blank" rel="noopener">Setting up a crypto wallet<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.telco.in/support-center/cryptocurrency-basics/understanding-liquidity-pools" target="_blank" rel="noopener">Understanding liquidity pools<span aria-hidden="true">↗</span></a></li>
+                                    </ul>
+                                </article>
 
-                    <article class="glass p-6" aria-labelledby="governance-resources">
-                        <h2 id="governance-resources" class="text-xl font-semibold text-white">Governance &amp; compliance</h2>
-                        <ul class="mt-4 space-y-2 text-sm text-white/75">
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://cantina.xyz/competitions/26d5255b-6f68-46cf-be55-81dd565d9d16" target="_blank" rel="noopener">Telcoin Association / telcoin-network competition (Cantina)<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.businesswire.com/news/home/20250204461633/en/Telcoin-Granted-Approval-to-Open-Nebraskas-First-Digital-Asset-Bank" target="_blank" rel="noopener">Telcoin granted Nebraska digital asset bank charter<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://thefintechtimes.com/telcoin-bank-steps-closer-to-becoming-the-first-regulated-crypto-bank-in-the-us/" target="_blank" rel="noopener">Telcoin Bank steps closer to regulated launch<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.nebraska.gov/ndbf/searches/Orders/20250203_Telcoin%20Inc_Order%20Granting%20Digital%20Asset%20Depository%20Charter.pdf" target="_blank" rel="noopener">Nebraska order granting Telcoin digital asset charter<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://northeast.newschannelnebraska.com/story/52831472/norfolk-bank-poised-to-revolutionize-finance-as-cryptocurrency-regulations-evolve" target="_blank" rel="noopener">Norfolk bank poised to revolutionize finance<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://members.norfolkareachamber.com/list/member/telcoin-llc-9686" target="_blank" rel="noopener">Telcoin LLC listing — Norfolk Chamber of Commerce<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://open.substack.com/pub/telcoinmagazine/p/telcoin-the-stablecoin-issuer-of?utm_source=post&comments=true&utm_medium=web" target="_blank" rel="noopener">Telcoin Magazine: The Stablecoin Issuer of Choice in the US<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://telcoinmagazine.substack.com/p/stake-tel-and-earn#:~:text=You%20must%20buy%20some%20TEL,be%20locked%20in%20to%20participate." target="_blank" rel="noopener">Telcoin Magazine: Stake TEL and earn overview<span aria-hidden="true">↗</span></a></li>
-                        </ul>
-                    </article>
+                                <article class="glass p-6" aria-labelledby="governance-resources">
+                                    <h2 id="governance-resources" class="text-xl font-semibold text-white">Governance &amp; compliance</h2>
+                                    <ul class="mt-4 space-y-2 text-sm text-white/75">
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://cantina.xyz/competitions/26d5255b-6f68-46cf-be55-81dd565d9d16" target="_blank" rel="noopener">Telcoin Association / telcoin-network competition (Cantina)<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.businesswire.com/news/home/20250204461633/en/Telcoin-Granted-Approval-to-Open-Nebraskas-First-Digital-Asset-Bank" target="_blank" rel="noopener">Telcoin granted Nebraska digital asset bank charter<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://thefintechtimes.com/telcoin-bank-steps-closer-to-becoming-the-first-regulated-crypto-bank-in-the-us/" target="_blank" rel="noopener">Telcoin Bank steps closer to regulated launch<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.nebraska.gov/ndbf/searches/Orders/20250203_Telcoin%20Inc_Order%20Granting%20Digital%20Asset%20Depository%20Charter.pdf" target="_blank" rel="noopener">Nebraska order granting Telcoin digital asset charter<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://northeast.newschannelnebraska.com/story/52831472/norfolk-bank-poised-to-revolutionize-finance-as-cryptocurrency-regulations-evolve" target="_blank" rel="noopener">Norfolk bank poised to revolutionize finance<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://members.norfolkareachamber.com/list/member/telcoin-inc-9077" target="_blank" rel="noopener">Telcoin Inc. — Norfolk Chamber of Commerce<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.linkedin.com/company/telcoin/posts/?feedView=all" target="_blank" rel="noopener">Telcoin company updates (LinkedIn)<span aria-hidden="true">↗</span></a></li>
+                                    </ul>
+                                </article>
 
-                    <article class="glass p-6" aria-labelledby="market-research">
-                        <h2 id="market-research" class="text-xl font-semibold text-white">Market data &amp; research</h2>
-                        <ul class="mt-4 space-y-2 text-sm text-white/75">
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.gate.com/learn/articles/what-is-telcoin-all-you-need-to-know-about-tel/8441" target="_blank" rel="noopener">What is Telcoin? (Gate.com)<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://coinmarketcap.com/currencies/telcoin/" target="_blank" rel="noopener">Telcoin price today — CoinMarketCap<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://capital.com/en-int/analysis/telcoin-tel-price-prediction-the-future-of-blockchain-remittances-on-mobile" target="_blank" rel="noopener">Telcoin price prediction — Capital.com<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.fundz.net/products/telcoin-product-launch-34db34" target="_blank" rel="noopener">Telcoin product launch coverage — Fundz<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.coinbase.com/price/telcoin" target="_blank" rel="noopener">Telcoin market page — Coinbase<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.nadcab.com/tier-1-exchange-listing" target="_blank" rel="noopener">Tier 1 exchange listing insights — Nadcab Labs<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.forbes.com/digital-assets/assets/telcoin-tel/" target="_blank" rel="noopener">Telcoin profile — Forbes Crypto Market Data<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://coinstats.app/news/b9f960a1a67880f4b02a562c93f205ec6caf9d7aee6f16fc31b7f53b0322cd96_Telcoin-Price-Prediction-20252031-Will-TEL-reach-01/" target="_blank" rel="noopener">Telcoin price prediction 2025-2031 — CoinStats<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://3commas.io/predictions/telcoin" target="_blank" rel="noopener">Telcoin forecasts — 3Commas<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.ccn.com/analysis/crypto/telcoin-tel-price-prediction/" target="_blank" rel="noopener">Telcoin price prediction 2025 — CCN.com<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://crypto-state-of-the-union.beehiiv.com/p/telcoin-listing-on-t1-exchange-rumored-as-coin-price-surges" target="_blank" rel="noopener">Telcoin listing rumors — Crypto State of the Union<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://blog.bitunix.com/what-is-telcoin/" target="_blank" rel="noopener">What is Telcoin &amp; how to buy — Bitunix<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.reddit.com/r/CryptoCurrency/comments/1h7klpr/telcoin/" target="_blank" rel="noopener">Telcoin discussion — r/CryptoCurrency<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://in.tradingview.com/symbols/TEL_TELEGRAMMEMBERS/minds/" target="_blank" rel="noopener">Telegram member analytics — TradingView<span aria-hidden="true">↗</span></a></li>
-                        </ul>
-                    </article>
+                                <article class="glass p-6" aria-labelledby="trading-wallets">
+                                    <h2 id="trading-wallets" class="text-xl font-semibold text-white">Trading &amp; wallet access</h2>
+                                    <ul class="mt-4 space-y-2 text-sm text-white/75">
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.kucoin.com/how-to-buy/telcoin" target="_blank" rel="noopener">How to buy Telcoin — KuCoin guide<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.kucoin.com/how-to-buy/telcoin#:~:text=Buy%20Telcoin%20(TEL)%20with%20crypto,to%20buy%20Telcoin%20(TEL)." target="_blank" rel="noopener">KuCoin fast buy instructions<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://coinmerce.io/en/telcoin/" target="_blank" rel="noopener">Buy Telcoin — Coinmerce<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://zengo.com/buy/telcoin-tel/" target="_blank" rel="noopener">Buy Telcoin instantly — Zengo Wallet<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.bitgetapp.com/how-to-buy/telcoin/togo" target="_blank" rel="noopener">How to buy Telcoin in Togo — Bitget<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.bitget.com/price/telcoin/what-is" target="_blank" rel="noopener">Telcoin overview — Bitget<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://apps.apple.com/us/app/telcoin/id1455060641" target="_blank" rel="noopener">Download the Telcoin app (iOS)<span aria-hidden="true">↗</span></a></li>
+                                    </ul>
+                                </article>
 
-                    <article class="glass p-6" aria-labelledby="trading-wallets">
-                        <h2 id="trading-wallets" class="text-xl font-semibold text-white">Trading &amp; wallet access</h2>
-                        <ul class="mt-4 space-y-2 text-sm text-white/75">
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.kucoin.com/how-to-buy/telcoin" target="_blank" rel="noopener">How to buy Telcoin — KuCoin guide<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.kucoin.com/how-to-buy/telcoin#:~:text=Buy%20Telcoin%20(TEL)%20with%20crypto,to%20buy%20Telcoin%20(TEL)." target="_blank" rel="noopener">KuCoin fast buy instructions<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://coinmerce.io/en/telcoin/" target="_blank" rel="noopener">Buy Telcoin — Coinmerce<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://zengo.com/buy/telcoin-tel/" target="_blank" rel="noopener">Buy Telcoin instantly — Zengo Wallet<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.bitgetapp.com/how-to-buy/telcoin/togo" target="_blank" rel="noopener">How to buy Telcoin in Togo — Bitget<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.bitget.com/price/telcoin/what-is" target="_blank" rel="noopener">Telcoin overview — Bitget<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://apps.apple.com/us/app/telcoin/id1455060641" target="_blank" rel="noopener">Download the Telcoin app (iOS)<span aria-hidden="true">↗</span></a></li>
-                        </ul>
-                    </article>
+                                <article class="glass p-6" aria-labelledby="community-media">
+                                    <h2 id="community-media" class="text-xl font-semibold text-white">Community &amp; media</h2>
+                                    <ul class="mt-4 space-y-2 text-sm text-white/75">
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.reddit.com/r/Telcoin/" target="_blank" rel="noopener">r/Telcoin — subreddit hub<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.reddit.com/r/Telcoin/comments/1kgn74h/telcoin_cares_about_your_security_so_heres_a/" target="_blank" rel="noopener">Security reminder — r/Telcoin<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.youtube.com/c/telcoin_team/about" target="_blank" rel="noopener">Telcoin Team on YouTube<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.youtube.com/channel/UCBEKBh64cZy7U3O7VtKsLOg" target="_blank" rel="noopener">Telcoin official YouTube archive<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://www.youtube.com/watch?v=rcLniiBY0a0" target="_blank" rel="noopener">Telcoin community Discord walkthrough<span aria-hidden="true">↗</span></a></li>
+                                    </ul>
+                                </article>
 
-                    <article class="glass p-6" aria-labelledby="community-media">
-                        <h2 id="community-media" class="text-xl font-semibold text-white">Community &amp; media</h2>
-                        <ul class="mt-4 space-y-2 text-sm text-white/75">
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.reddit.com/r/Telcoin/" target="_blank" rel="noopener">r/Telcoin — subreddit hub<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.reddit.com/r/Telcoin/comments/1kgn74h/telcoin_cares_about_your_security_so_heres_a/" target="_blank" rel="noopener">Security reminder — r/Telcoin<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.youtube.com/c/telcoin_team/about" target="_blank" rel="noopener">Telcoin Team on YouTube<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.youtube.com/channel/UCBEKBh64cZy7U3O7VtKsLOg" target="_blank" rel="noopener">Telcoin official YouTube archive<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://www.youtube.com/watch?v=rcLniiBY0a0" target="_blank" rel="noopener">Telcoin community Discord walkthrough<span aria-hidden="true">↗</span></a></li>
-                        </ul>
-                    </article>
-
-                    <article class="glass p-6" aria-labelledby="developer-tools">
-                        <h2 id="developer-tools" class="text-xl font-semibold text-white">Developer &amp; ecosystem tools</h2>
-                        <ul class="mt-4 space-y-2 text-sm text-white/75">
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://github.com/telcoin-association" target="_blank" rel="noopener">Telcoin Association GitHub<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://github.com/Telcoin-Association/" target="_blank" rel="noopener">Telcoin-Association organization<span aria-hidden="true">↗</span></a></li>
-                            <li><a class="link-ux inline-flex items-center gap-2" href="https://github.com/Telcoin-Association/telcoin-application-network-issuance" target="_blank" rel="noopener">TAN issuance repository<span aria-hidden="true">↗</span></a></li>
-                        </ul>
-                    </article>
+                                <article class="glass p-6" aria-labelledby="developer-tools">
+                                    <h2 id="developer-tools" class="text-xl font-semibold text-white">Developer &amp; ecosystem tools</h2>
+                                    <ul class="mt-4 space-y-2 text-sm text-white/75">
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://github.com/telcoin-association" target="_blank" rel="noopener">Telcoin Association GitHub<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://github.com/Telcoin-Association/" target="_blank" rel="noopener">Telcoin-Association organization<span aria-hidden="true">↗</span></a></li>
+                                        <li><a class="link-ux inline-flex items-center gap-2" href="https://github.com/Telcoin-Association/telcoin-application-network-issuance" target="_blank" rel="noopener">TAN issuance repository<span aria-hidden="true">↗</span></a></li>
+                                    </ul>
+                                </article>
+                            </div>
+                        </section>
+                    </main>
+                    <aside class="hidden xl:block sticky top-16 h-[calc(100dvh-4rem)] overflow-y-auto pl-2" data-docs-toc>
+                        <div class="docs-toc space-y-4" data-toc></div>
+                    </aside>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
 
     <footer class="border-t border-white/10 bg-ink-950/80" id="community">
         <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
@@ -383,6 +352,7 @@
         </div>
     </footer>
 
+    <script src="/js/docs-layout.js"></script>
     <script src="/js/theme-toggle.js"></script>
     <script src="/js/copy-code.js"></script>
     <script src="/js/lightbox.js"></script>

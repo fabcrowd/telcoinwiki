@@ -91,70 +91,60 @@
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
     <script>
-    tailwind.config = {
-      darkMode:'class',
-      theme:{ extend:{
-        colors:{
-          ink:{950:'#030b1f',900:'#051330',800:'#071d45',700:'#0a285d',600:'#0c3275'},
-          cobalt:{300:'#6ec9ff',400:'#4fb8ff',500:'#2f9cff',600:'#1c7df0',700:'#155fcc'},
-          primary:{400:'#4fb8ff',500:'#2f9cff',600:'#1c7df0',700:'#1353c2',800:'#0d419b'},
-          mint:{300:'#8ff0e6',400:'#6ce3d8',500:'#3dd0c3',600:'#26b9ae'}
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          ink: { 950: '#070b14', 900: '#0b1220', 800: '#0e1a33', 700: '#112142', 600: '#152a53' },
+          cobalt: { 300: '#7db9ff', 400: '#5aa8ff', 500: '#4196ff', 600: '#267dff', 700: '#1a5ef0' },
+          primary: { 400: '#4e72ff', 500: '#3a63ff', 600: '#2e50e6', 700: '#2746c0', 800: '#1f3a9b' },
+          mint: { 300: '#9af2e0', 400: '#7ef2da', 500: '#49e0c5', 600: '#2bd0b2' }
         },
-        borderRadius:{xl:'1rem','2xl':'1.25rem','3xl':'1.75rem',pill:'9999px'},
-        boxShadow:{
-          glass:'0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
-          glow:'0 0 0 1px rgba(120,180,255,.18), 0 14px 44px rgba(41,112,255,.22)'
+        borderRadius: { xl: '1rem', '2xl': '1.25rem', '3xl': '1.75rem', pill: '9999px' },
+        boxShadow: {
+          glass: '0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
+          glow: '0 0 0 1px rgba(120,180,255,.18), 0 14px 44px rgba(41,112,255,.22)'
         },
-        backdropBlur:{xs:'2px'},
-        transitionTimingFunction:{smooth:'cubic-bezier(.22,.61,.36,1)'},
-        transitionDuration:{base:'200ms'}
-      }}
+        backdropBlur: { xs: '2px' },
+        transitionTimingFunction: { smooth: 'cubic-bezier(.22,.61,.36,1)' },
+        transitionDuration: { base: '200ms' }
+      }
     }
+  }
     </script>
     <link rel="stylesheet" href="/styles/site.css">
 </head>
-<body class="min-h-screen flex flex-col text-white/90">
-    <header class="site-header">
-        <div class="site-header__inner mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:py-5">
-            <a href="index.html" class="site-header__brand focus-ring" aria-label="Telcoin Wiki home">
-                <img src="logo.svg" alt="Telcoin Wiki" class="site-header__logo">
-                <span class="sr-only">Telcoin Wiki</span>
-            </a>
-            <div class="hidden flex-1 items-center justify-end gap-6 lg:flex">
-                <nav aria-label="Main" class="site-nav">
-                    <ul class="site-nav__list">
-                        <li><a class="site-nav__link focus-ring" href="#getting-started">Getting Started</a></li>
-                        <li><a class="site-nav__link focus-ring" href="#quick-qa">Quick Q&amp;A</a></li>
-                        <li><a class="site-nav__link focus-ring" href="deep-dive.html">Deep Dive</a></li>
-                        <li><a class="site-nav__link focus-ring" href="#community">Community</a></li>
-                        <li><a class="site-nav__link focus-ring" href="links.html">Links</a></li>
-                        <li><a class="site-nav__link focus-ring" href="pools.html">Pools</a></li>
-                        <li><a class="site-nav__link focus-ring" href="portfolio.html">Portfolio</a></li>
-                        <li><a class="site-nav__link focus-ring" href="about.html">About</a></li>
-                        <li><a class="site-nav__link site-nav__link--cta focus-ring" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a></li>
-                    </ul>
-                </nav>
-                <div class="flex items-center gap-3">
-                    <div class="relative w-64">
-                        <label for="site-search" class="visually-hidden">Search Telcoin Wiki</label>
-                        <input id="site-search" data-site-search type="search" placeholder="Search this page" class="site-search" autocomplete="off">
+<body data-page="index" class="bg-ink-950 text-white/90 antialiased">
+    <div class="relative flex min-h-screen flex-col">
+        <div id="top"></div>
+        <header class="sticky top-0 z-50 border-b border-white/10 bg-ink-950/80 backdrop-blur-xs">
+            <div class="mx-auto flex w-full max-w-7xl items-center gap-3 px-4 py-4">
+                <a href="index.html" class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10 focus-ring" aria-label="Telcoin Wiki home">
+                    <img src="logo.svg" alt="Telcoin Wiki" class="h-10 w-auto">
+                    <span class="sr-only">Telcoin Wiki</span>
+                </a>
+                <div class="flex flex-1 items-center justify-center">
+                    <div class="relative w-full max-w-xl">
+                        <label for="site-search" class="sr-only">Search Telcoin Wiki</label>
+                        <input id="site-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
                         <div class="search-panel" data-search-results aria-hidden="true"></div>
                     </div>
-                    <button type="button" data-theme-toggle class="site-header__icon-button focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" data-theme-toggle class="icon-button focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
+                    <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="icon-button lg:hidden focus-ring">
+                        <span class="sr-only">Open navigation</span>
+                        ☰
+                    </button>
                 </div>
             </div>
-            <div class="flex items-center gap-3 lg:hidden">
-                <button type="button" data-theme-toggle class="site-header__icon-button focus-ring" aria-label="Toggle theme"><span aria-hidden="true">🌗</span></button>
-                <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="site-header__icon-button focus-ring">
-                    <span class="sr-only">Open navigation</span>
-                    ☰
-                </button>
-            </div>
-        </div>
-        <div class="mobile-overlay" data-mobile-overlay aria-hidden="true"></div>
-        <aside id="mobile-drawer" class="mobile-drawer" data-mobile-drawer aria-hidden="true">
+        </header>
+        <div class="docs-overlay" data-mobile-overlay aria-hidden="true"></div>
+        <aside id="mobile-drawer" class="docs-drawer" data-mobile-drawer aria-hidden="true" tabindex="-1">
             <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
                 <p class="text-sm font-semibold tracking-wide text-white/70">Menu</p>
                 <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-sm focus-ring" data-mobile-toggle>
@@ -165,142 +155,139 @@
                 <div class="mb-6">
                     <label for="mobile-search" class="text-xs uppercase tracking-[0.2em] text-white/50">Search</label>
                     <div class="relative mt-2">
-                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" class="site-search site-search--mobile" autocomplete="off">
+                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
                         <div class="search-panel" data-search-results aria-hidden="true"></div>
                     </div>
                 </div>
-                <nav aria-label="Mobile" class="space-y-2">
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="#getting-started">Getting Started</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="#quick-qa">Quick Q&amp;A</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="deep-dive.html">Deep Dive</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="#community">Community</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="links.html">Links</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="pools.html">Pools</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="portfolio.html">Portfolio</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="about.html">About</a>
-                    <a class="block rounded-2xl bg-white/5 px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 focus-ring" href="https://telcoin.org" target="_blank" rel="noopener">Official Site</a>
-                </nav>
+                <nav aria-label="Mobile" data-mobile-nav class="space-y-2"></nav>
             </div>
         </aside>
-    </header>
 
-    <main id="main-content" class="flex-1 pb-24">
-        <section id="hero" class="relative overflow-hidden pt-16 sm:pt-20">
-            <div class="mx-auto max-w-6xl px-4 sm:px-6">
-                <div class="max-w-3xl">
-                    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-mint-300/80">Community knowledge for TELx builders</p>
-                    <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Telcoin Community Q&amp;A</h1>
-                    <p class="mt-4 max-w-2xl text-lg text-white/70">Unofficial Community Guide for New Telcoin Users - The Future of Global Finance, Now in Your Pocket</p>
-                    <div class="mt-8 glass p-6">
-                        <p class="text-base text-white/80">Telcoin is pioneering the 'RegFi' (regulated DeFi) model, bridging the gap between traditional finance and decentralized finance in a compliant and scalable way. Unlike many projects, we own the full stack: a U.S.-chartered digital-asset bank, a carrier-secured Layer-1 blockchain validated by GSMA-member MNOs, and at the center of it all a regenerative TEL token that powers transactions and rewards user-generated liquidity. This 'triple advantage' positions Telcoin for unprecedented real-world adoption, demonstrating how blockchain can operate within established regulatory frameworks to serve billions of users globally.</p>
-                        <h3 class="mt-6 text-lg font-semibold text-mint-300">Why Telcoin?</h3>
-                        <p class="mt-3 text-base italic text-white/75"><strong>Telcoin is building the future of global finance: regulated, mobile-first, and universally accessible. By combining a U.S.-chartered digital-asset bank, a telecom-validated blockchain, and user-powered liquidity, Telcoin empowers billions with fast, affordable, and compliant financial services directly through their mobile phones.</strong></p>
-                    </div>
-                </div>
-                <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stat-group>
-                    <div class="glass p-5">
-                        <p class="stat-label">Total Value Locked</p>
-                        <p class="stat-value mt-2" data-stat-value="tvl">—</p>
-                        <p class="stat-change mt-2 text-xs font-medium" data-stat-change="tvl">Loading…</p>
-                        <p class="mt-2 text-xs text-white/60">TVL across TELx liquidity pools.</p>
-                    </div>
-                    <div class="glass p-5">
-                        <p class="stat-label">Staked TEL</p>
-                        <p class="stat-value mt-2" data-stat-value="staked">—</p>
-                        <p class="stat-change mt-2 text-xs font-medium" data-stat-change="staked">Loading…</p>
-                        <p class="mt-2 text-xs text-white/60">Aligned with the Telcoin Application Network.</p>
-                    </div>
-                    <div class="glass p-5">
-                        <p class="stat-label">Volume (24h)</p>
-                        <p class="stat-value mt-2" data-stat-value="volume">—</p>
-                        <p class="stat-change mt-2 text-xs font-medium" data-stat-change="volume">Loading…</p>
-                        <p class="mt-2 text-xs text-white/60">Swap liquidity flowing through TELx markets.</p>
-                    </div>
-                    <div class="glass p-5">
-                        <p class="stat-label">Fees (24h)</p>
-                        <p class="stat-value mt-2" data-stat-value="fees">—</p>
-                        <p class="stat-change mt-2 text-xs font-medium" data-stat-change="fees">Loading…</p>
-                        <p class="mt-2 text-xs text-white/60">Value returned to TELx liquidity providers.</p>
-                    </div>
-                </div>
-                <div class="mt-3 hidden text-xs text-amber-200" data-pool-stats-error>
-                    Live TELx metrics are temporarily unavailable. Check <a class="link-ux" href="https://www.telx.network/pools" target="_blank" rel="noopener">telx.network/pools</a> for the latest data.
-                </div>
-                <div class="mt-10 grid gap-6 lg:grid-cols-2">
-                    <article class="glass p-6 transition-transform duration-base ease-smooth hover:scale-[1.01]">
-                        <h3 class="text-xl font-semibold text-white">Mobile-first, RegFi ready</h3>
-                        <p class="mt-3 text-sm text-white/70">From the Nebraska Digital Asset Bank charter to TANIP-1 incentives, Telcoin aligns telecom operators, developers, and regulators so mobile users can access compliant digital cash, remittance, and liquidity services globally.</p>
-                        <a href="deep-dive.html?category=banking" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-mint-300 link-ux">Understand governance &amp; bank strategy →</a>
-                    </article>
-                </div>
-                <div class="mt-8 rounded-2xl border border-amber-300/30 bg-amber-400/10 px-6 py-4 text-sm text-amber-100">
-                    <p class="font-medium">⚠️ Community Resource:</p>
-                    <p class="mt-2 text-amber-50/90">This is an unofficial, community-created guide. For official information, visit <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a>.</p>
+        <div class="flex-1 w-full">
+            <div class="mx-auto max-w-7xl px-4 pb-24 pt-12 sm:pt-16">
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-[16rem_minmax(0,1fr)_14rem]">
+                    <aside class="hidden lg:block sticky top-16 h-[calc(100dvh-4rem)] overflow-y-auto pr-2" data-docs-sidebar>
+                        <nav data-docs-nav class="docs-nav space-y-3"></nav>
+                    </aside>
+                    <main id="main-content" class="space-y-16">
+                        <section id="hero" class="space-y-10 pt-16 sm:pt-20">
+                            <div class="glass overflow-hidden border border-white/10 bg-white/5 p-8 shadow-glass">
+                                <p class="text-xs font-semibold uppercase tracking-[0.3em] text-mint-300/80">Community knowledge for TELx builders</p>
+                                <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Telcoin Community Q&amp;A</h1>
+                                <p class="mt-4 max-w-2xl text-lg text-white/70">Unofficial Community Guide for New Telcoin Users - The Future of Global Finance, Now in Your Pocket</p>
+                                <div class="mt-8 rounded-2xl border border-white/10 bg-ink-900/60 p-6">
+                                    <p class="text-base text-white/80">Telcoin is pioneering the 'RegFi' (regulated DeFi) model, bridging the gap between traditional finance and decentralized finance in a compliant and scalable way. Unlike many projects, we own the full stack: a U.S.-chartered digital-asset bank, a carrier-secured Layer-1 blockchain validated by GSMA-member MNOs, and at the center of it all a regenerative TEL token that powers transactions and rewards user-generated liquidity. This 'triple advantage' positions Telcoin for unprecedented real-world adoption, demonstrating how blockchain can operate within established regulatory frameworks to serve billions of users globally.</p>
+                                    <h3 class="mt-6 text-lg font-semibold text-mint-300">Why Telcoin?</h3>
+                                    <p class="mt-3 text-base italic text-white/75"><strong>Telcoin is building the future of global finance: regulated, mobile-first, and universally accessible. By combining a U.S.-chartered digital-asset bank, a telecom-validated blockchain, and user-powered liquidity, Telcoin empowers billions with fast, affordable, and compliant financial services directly through their mobile phones.</strong></p>
+                                </div>
+                            </div>
+                            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" data-stat-group>
+                                <div class="glass p-5">
+                                    <p class="stat-label">Total Value Locked</p>
+                                    <p class="stat-value mt-2" data-stat-value="tvl">—</p>
+                                    <p class="stat-change mt-2 text-xs font-medium" data-stat-change="tvl">Loading…</p>
+                                    <p class="mt-2 text-xs text-white/60">TVL across TELx liquidity pools.</p>
+                                </div>
+                                <div class="glass p-5">
+                                    <p class="stat-label">Staked TEL</p>
+                                    <p class="stat-value mt-2" data-stat-value="staked">—</p>
+                                    <p class="stat-change mt-2 text-xs font-medium" data-stat-change="staked">Loading…</p>
+                                    <p class="mt-2 text-xs text-white/60">Aligned with the Telcoin Application Network.</p>
+                                </div>
+                                <div class="glass p-5">
+                                    <p class="stat-label">Volume (24h)</p>
+                                    <p class="stat-value mt-2" data-stat-value="volume">—</p>
+                                    <p class="stat-change mt-2 text-xs font-medium" data-stat-change="volume">Loading…</p>
+                                    <p class="mt-2 text-xs text-white/60">Swap liquidity flowing through TELx markets.</p>
+                                </div>
+                                <div class="glass p-5">
+                                    <p class="stat-label">Fees (24h)</p>
+                                    <p class="stat-value mt-2" data-stat-value="fees">—</p>
+                                    <p class="stat-change mt-2 text-xs font-medium" data-stat-change="fees">Loading…</p>
+                                    <p class="mt-2 text-xs text-white/60">Value returned to TELx liquidity providers.</p>
+                                </div>
+                            </div>
+                            <div class="hidden text-xs text-amber-200" data-pool-stats-error>
+                                Live TELx metrics are temporarily unavailable. Check <a class="link-ux" href="https://www.telx.network/pools" target="_blank" rel="noopener">telx.network/pools</a> for the latest data.
+                            </div>
+                            <div class="grid gap-6 lg:grid-cols-2">
+                                <article class="glass p-6 transition-transform duration-base ease-smooth hover:scale-[1.01]">
+                                    <h3 class="text-xl font-semibold text-white">Mobile-first, RegFi ready</h3>
+                                    <p class="mt-3 text-sm text-white/70">From the Nebraska Digital Asset Bank charter to TANIP-1 incentives, Telcoin aligns telecom operators, developers, and regulators so mobile users can access compliant digital cash, remittance, and liquidity services globally.</p>
+                                    <a href="deep-dive.html?category=banking" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-mint-300 link-ux">Understand governance &amp; bank strategy →</a>
+                                </article>
+                            </div>
+                            <div class="glass border-l-4 border-amber-300/60 bg-amber-400/10 px-6 py-4 text-sm text-amber-100">
+                                <p class="font-medium">⚠️ Community Resource:</p>
+                                <p class="mt-2 text-amber-50/90">This is an unofficial, community-created guide. For official information, visit <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a>.</p>
+                            </div>
+                        </section>
+
+                        <section id="getting-started" class="space-y-8">
+                            <div class="glass p-8">
+                                <div class="prose prose-invert max-w-none">
+                                    <h2>Getting Started Checklist</h2>
+                                    <p>Follow these high-impact steps to get aligned with Telcoin’s ecosystem and the TELx liquidity engine. Each card links to official documentation or trusted community explainers.</p>
+                                </div>
+                                <div class="mt-10 grid gap-6 lg:grid-cols-2">
+                                    <a href="https://telcoin.org" target="_blank" rel="noopener" class="glass block p-6 transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
+                                        <h3 class="text-lg font-semibold text-white">📚 Learn the Basics</h3>
+                                        <p class="mt-2 text-sm text-white/70">Read through this FAQ and visit telcoin.org</p>
+                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Open telcoin.org →</span>
+                                    </a>
+                                    <div class="glass relative p-6" id="joinCommunityChecklist">
+                                        <button type="button" class="flex w-full items-start justify-between text-left text-white focus-ring">
+                                            <span>
+                                                <span class="block text-lg font-semibold">🤝 Join the Community</span>
+                                                <span class="mt-2 block text-sm text-white/70">Connect on Discord/Telegram and follow the forum</span>
+                                                <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Show community links ↓</span>
+                                            </span>
+                                            <span aria-hidden="true" class="ml-4 text-xl text-mint-300">▾</span>
+                                        </button>
+                                        <div id="joinCommunityDropdown" class="absolute left-0 right-0 top-full z-20 mt-3 hidden rounded-2xl border border-white/10 bg-ink-800/95 p-4 shadow-glass">
+                                            <ul class="space-y-2 text-sm">
+                                                <li><a class="link-ux text-mint-300" href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Discord</a></li>
+                                                <li><a class="link-ux text-mint-300" href="https://t.me/TelcoinPowerHolders" target="_blank" rel="noopener">Telegram: POWER Holders</a></li>
+                                                <li><a class="link-ux text-mint-300" href="https://t.me/telfamcommunity" target="_blank" rel="noopener">Telegram: TEL Community</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <button type="button" id="considerStakingChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
+                                        <h3 class="text-lg font-semibold text-white">🔒 Consider Staking</h3>
+                                        <p class="mt-2 text-sm text-white/70">Stake TEL to earn rewards and participate in governance</p>
+                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Read about staking →</span>
+                                    </button>
+                                    <button type="button" id="stayUpdatedChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
+                                        <h3 class="text-lg font-semibold text-white">📢 Stay Updated</h3>
+                                        <p class="mt-2 text-sm text-white/70">Follow official channels for the latest developments</p>
+                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Jump to community links →</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="quick-qa" class="space-y-8">
+                            <div class="glass p-8">
+                                <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                                    <div class="prose prose-invert max-w-none lg:max-w-3xl">
+                                        <h2>Community Q&amp;A - Get the Facts Fast</h2>
+                                        <p>Browse verified community answers spanning Telcoin governance, liquidity mining, digital cash, and more. Use the filter or the global search to jump straight to the insight you need.</p>
+                                    </div>
+                                    <div class="lg:min-w-[280px]">
+                                        <label for="searchBox" class="text-xs uppercase tracking-[0.25em] text-white/50">Filter Q&amp;A</label>
+                                        <input id="searchBox" type="search" placeholder="Filter Q&amp;A topics..." class="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="mt-12 grid gap-6" id="faqGrid" role="list"></div>
+                            </div>
+                        </section>
+                    </main>
+                    <aside class="hidden xl:block sticky top-16 h-[calc(100dvh-4rem)] overflow-y-auto pl-2" data-docs-toc>
+                        <div class="docs-toc space-y-4" data-toc></div>
+                    </aside>
                 </div>
             </div>
-        </section>
-
-        <section id="getting-started" class="mt-20">
-            <div class="mx-auto max-w-6xl px-4 sm:px-6">
-                <div class="flex flex-col gap-8 lg:flex-row lg:items-start">
-                    <div class="max-w-2xl">
-                        <h2 class="text-3xl font-semibold tracking-tight text-white">Getting Started Checklist</h2>
-                        <p class="mt-3 text-base text-white/70">Follow these high-impact steps to get aligned with Telcoin’s ecosystem and the TELx liquidity engine. Each card links to official documentation or trusted community explainers.</p>
-                    </div>
-                </div>
-                <div class="mt-10 grid gap-6 lg:grid-cols-2">
-                    <a href="https://telcoin.org" target="_blank" rel="noopener" class="glass block p-6 transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                        <h3 class="text-lg font-semibold text-white">📚 Learn the Basics</h3>
-                        <p class="mt-2 text-sm text-white/70">Read through this FAQ and visit telcoin.org</p>
-                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Open telcoin.org →</span>
-                    </a>
-                    <div class="glass relative p-6" id="joinCommunityChecklist">
-                        <button type="button" class="flex w-full items-start justify-between text-left text-white focus-ring">
-                            <span>
-                                <span class="block text-lg font-semibold">🤝 Join the Community</span>
-                                <span class="mt-2 block text-sm text-white/70">Connect on Discord/Telegram and follow the forum</span>
-                                <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Show community links ↓</span>
-                            </span>
-                            <span aria-hidden="true" class="ml-4 text-xl text-mint-300">▾</span>
-                        </button>
-                        <div id="joinCommunityDropdown" class="absolute left-0 right-0 top-full z-20 mt-3 hidden rounded-2xl border border-white/10 bg-ink-800/95 p-4 shadow-glass">
-                            <ul class="space-y-2 text-sm">
-                                <li><a class="link-ux text-mint-300" href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Discord</a></li>
-                                <li><a class="link-ux text-mint-300" href="https://t.me/TelcoinPowerHolders" target="_blank" rel="noopener">Telegram: POWER Holders</a></li>
-                                <li><a class="link-ux text-mint-300" href="https://t.me/telfamcommunity" target="_blank" rel="noopener">Telegram: TEL Community</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <button type="button" id="considerStakingChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                        <h3 class="text-lg font-semibold text-white">🔒 Consider Staking</h3>
-                        <p class="mt-2 text-sm text-white/70">Stake TEL to earn rewards and participate in governance</p>
-                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Read about staking →</span>
-                    </button>
-                    <button type="button" id="stayUpdatedChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                        <h3 class="text-lg font-semibold text-white">📢 Stay Updated</h3>
-                        <p class="mt-2 text-sm text-white/70">Follow official channels for the latest developments</p>
-                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Jump to community links →</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section id="quick-qa" class="mt-24">
-            <div class="mx-auto max-w-6xl px-4 sm:px-6">
-                <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                    <div class="max-w-3xl">
-                        <h2 class="text-3xl font-semibold tracking-tight text-white">Community Q&amp;A - Get the Facts Fast</h2>
-                        <p class="mt-3 text-base text-white/70">Browse verified community answers spanning Telcoin governance, liquidity mining, digital cash, and more. Use the filter or the global search to jump straight to the insight you need.</p>
-                    </div>
-                    <div class="lg:min-w-[280px]">
-                        <label for="searchBox" class="text-xs uppercase tracking-[0.25em] text-white/50">Filter Q&amp;A</label>
-                        <input id="searchBox" type="search" placeholder="Filter Q&amp;A topics..." class="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none" autocomplete="off">
-                    </div>
-                </div>
-                <div class="mt-12 grid gap-6" id="faqGrid" role="list"></div>
-            </div>
-        </section>
-    </main>
+        </div>
 
     <footer class="border-t border-white/10 bg-ink-950/80" id="community">
         <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
@@ -671,6 +658,7 @@
             setupChecklist();
         });
     </script>
+    <script src="/js/docs-layout.js"></script>
     <script src="/js/theme-toggle.js"></script>
     <script src="/js/copy-code.js"></script>
     <script src="/js/lightbox.js"></script>
