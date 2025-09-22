@@ -33,6 +33,16 @@
     }
   }
     </script>
+    <script>
+      (function () {
+        const root = document.documentElement;
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          root.classList.add('dark');
+        } else {
+          root.classList.remove('dark');
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="/styles/site.css">
 </head>
 <body data-page="portfolio" class="bg-ink-950 text-white/90 antialiased">
@@ -51,8 +61,7 @@
                         <div class="search-panel" data-search-results aria-hidden="true"></div>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button type="button" data-theme-toggle class="icon-button focus-ring"><span aria-hidden="true">🌗</span><span class="sr-only">Toggle theme</span></button>
+                <div class="flex items-center">
                     <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="icon-button lg:hidden focus-ring">
                         <span class="sr-only">Open navigation</span>
                         ☰
