@@ -263,6 +263,23 @@ html:not(.dark) .docs-drawer {
   gap: 0.65rem;
 }
 
+[data-docs-header-nav] {
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.docs-nav--header {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.docs-nav--header .docs-nav-section {
+  flex: 1 1 13rem;
+  min-width: 12rem;
+  max-width: 16rem;
+}
+
 .docs-nav-section {
   border: 1px solid rgba(120, 180, 255, 0.2);
   border-radius: 1.1rem;
