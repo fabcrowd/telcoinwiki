@@ -310,7 +310,7 @@
                 </div>
                 <div class="deep-dive-section">
                     <h3>Council Membership Chart</h3>
-                    <table class="governance-table" style="width:100%;margin:2rem 0;">
+                    <table class="governance-table">
                         <thead>
                             <tr>
                                 <th>Council</th>
@@ -341,9 +341,9 @@
                             <tr><td>TELx Council</td><td>Validators</td><td>Mike McNearney</td></tr>
                         </tbody>
                     </table>
-                    <div style="text-align:center; margin: 2rem 0;">
-                        <img src="assets/governance-diagram-1.jpg" alt="Telcoin Governance Model Diagram 1" style="max-width:100%;margin-bottom:2rem;box-shadow:0 4px 20px rgba(0,0,0,0.08);border-radius:12px;" />
-                        <img src="assets/governance-diagram-2.jpg" alt="Telcoin Governance Model Diagram 2" style="max-width:100%;box-shadow:0 4px 20px rgba(0,0,0,0.08);border-radius:12px;" />
+                    <div class="deep-dive-media">
+                        <img src="assets/governance-diagram-1.jpg" alt="Telcoin Governance Model Diagram 1" class="deep-dive-media-img" />
+                        <img src="assets/governance-diagram-2.jpg" alt="Telcoin Governance Model Diagram 2" class="deep-dive-media-img" />
                     </div>
                 </div>
             `
@@ -376,9 +376,9 @@
                         <li><strong>Earn Rewards:</strong> By staking your LP tokens, you earn a portion of the trading fees generated within the pool, as well as TEL issuance incentives over time.</li>
                     </ol>
                     <p>For detailed information on each pool, including reward rates and vesting periods, please refer to the Rewards section on the Telx website.</p>
-                    <div style="background: #fff3cd; border-left: 4px solid #ffcc00; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; color: #856404;">
-                        <h4 style="color:#c00; margin-top:0;">⚠️ Risk Warning & Disclaimer</h4>
-                        <ul style="margin-bottom:0;">
+                    <div class="deep-dive-callout">
+                        <h4>⚠️ Risk Warning & Disclaimer</h4>
+                        <ul>
                             <li><strong>Impermanent Loss:</strong> Providing liquidity to DeFi pools exposes you to impermanent loss, where the value of your deposited assets may decrease compared to simply holding them.</li>
                             <li><strong>Smart Contract Risk:</strong> All DeFi protocols, including TELx, carry risks of bugs or vulnerabilities in smart contracts that could result in loss of funds.</li>
                             <li><strong>Regulatory & Platform Risk:</strong> Earning mechanisms may be subject to change based on regulatory developments or platform updates.</li>
@@ -432,7 +432,7 @@
                         <tr><td>eSDR</td><td>IMF Special Drawing Rights</td><td>Live</td><td>Available</td><td>IMF</td></tr>
                         <tr><td>eZAR</td><td>South African Rand</td><td>Live</td><td>Available</td><td>South Africa</td></tr>
                     </table>
-                    <p style="font-size: 0.95rem; color: #555;">Note: Contract addresses are truncated for brevity. Full addresses are available on the Telcoin Digital Cash page.</p>
+                    <p class="deep-dive-note">Note: Contract addresses are truncated for brevity. Full addresses are available on the Telcoin Digital Cash page.</p>
                 </div>
             `
         },
@@ -550,8 +550,8 @@
                         <li><a href="https://t.me/TelcoinPowerHolders" target="_blank">Telegram</a> - Telcoin POWER Holders</li>
                         <li><a href="https://t.me/telfamcommunity" target="_blank">Telegram</a> - TEL Community</li>
                     </ul>
-                    <div style="background: #fff3cd; border-left: 4px solid #ffcc00; padding: 1rem; border-radius: 8px; margin: 1.5rem 0; color: #856404;">
-                        <p style="margin: 0;"><strong>⚠️ Security Reminder:</strong> Always verify official channels to avoid scams and impostors. For official information and support, always visit <a href="https://telcoin.org" target="_blank">telcoin.org</a>.</p>
+                    <div class="deep-dive-callout">
+                        <p><strong>⚠️ Security Reminder:</strong> Always verify official channels to avoid scams and impostors. For official information and support, always visit <a href="https://telcoin.org" target="_blank">telcoin.org</a>.</p>
                     </div>
                 </div>
             `
@@ -598,7 +598,7 @@
                             <p class="text-xs uppercase tracking-[0.25em] text-white/50">Topic Insight</p>
                             <h2 class="mt-2 text-2xl font-semibold text-white">${value.title}</h2>
                         </header>
-                        <div class="prose max-w-none">${value.content}</div>
+                        <div class="prose prose-invert max-w-none">${value.content}</div>
                     </div>
                 `;
                 container.appendChild(section);
