@@ -1,5 +1,13 @@
 :root {
   color-scheme: dark;
+  --page-text-color: #e9f1ff;
+  --page-background:
+    radial-gradient(1200px 540px at -10% -10%, rgba(77, 155, 255, 0.28), transparent 65%),
+    radial-gradient(920px 620px at 115% -5%, rgba(56, 210, 255, 0.18), transparent 60%),
+    radial-gradient(880px 820px at 46% 120%, rgba(11, 37, 92, 0.55), transparent 65%),
+    linear-gradient(180deg, #040a1d 0%, #082560 45%, #0b3f94 80%, #104fc6 100%);
+  --page-noise-opacity: 0.04;
+  --page-noise-blend-mode: overlay;
 }
 
 html {
@@ -7,16 +15,12 @@ html {
   font-size: clamp(15px, 0.45vw + 14px, 17px);
 }
 
-body {
+.page-skin {
   margin: 0;
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   line-height: 1.6;
-  color: #e9f1ff;
-  background:
-    radial-gradient(1200px 540px at -10% -10%, rgba(77, 155, 255, 0.28), transparent 65%),
-    radial-gradient(920px 620px at 115% -5%, rgba(56, 210, 255, 0.18), transparent 60%),
-    radial-gradient(880px 820px at 46% 120%, rgba(11, 37, 92, 0.55), transparent 65%),
-    linear-gradient(180deg, #040a1d 0%, #082560 45%, #0b3f94 80%, #104fc6 100%);
+  color: var(--page-text-color, #e9f1ff);
+  background: var(--page-background, #040a1d);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -25,13 +29,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-body::before {
+.page-skin::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.04;
-  mix-blend-mode: overlay;
+  opacity: var(--page-noise-opacity, 0.04);
+  mix-blend-mode: var(--page-noise-blend-mode, overlay);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   z-index: 0;
 }
@@ -44,20 +48,14 @@ main {
 
 html:not(.dark) {
   color-scheme: light;
-}
-
-html:not(.dark) body {
-  color: #0b1220;
-  background:
+  --page-text-color: #0b1220;
+  --page-background:
     radial-gradient(1200px 540px at -10% -10%, rgba(73, 190, 255, 0.22), transparent 65%),
     radial-gradient(920px 620px at 115% -5%, rgba(60, 214, 195, 0.16), transparent 60%),
     radial-gradient(880px 820px at 46% 120%, rgba(215, 235, 255, 0.75), transparent 65%),
     linear-gradient(180deg, #eef5ff 0%, #d4e6ff 50%, #e4f3ff 100%);
-}
-
-html:not(.dark) body::before {
-  opacity: 0.08;
-  mix-blend-mode: normal;
+  --page-noise-opacity: 0.08;
+  --page-noise-blend-mode: normal;
 }
 
 a {
