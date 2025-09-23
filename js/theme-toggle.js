@@ -1,48 +1,50 @@
 (function () {
-  const STORAGE_KEY = 'telcoinwiki-theme';
   const root = document.documentElement;
+  const mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  let currentTheme = '';
 
   function applyTheme(next) {
+    if (next === currentTheme) return;
+    currentTheme = next;
+
     if (next === 'dark') {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
+
     document.body?.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
   }
 
-  function resolveInitialTheme() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === 'dark' || stored === 'light') {
-      return stored;
+  function resolvePreferredTheme() {
+    if (!mediaQuery) {
+      return 'dark';
     }
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+    return mediaQuery.matches ? 'dark' : 'light';
   }
 
-  function toggleTheme() {
-    const next = root.classList.contains('dark') ? 'light' : 'dark';
-    applyTheme(next);
-    localStorage.setItem(STORAGE_KEY, next);
+  function handlePreferenceChange(event) {
+    applyTheme(event.matches ? 'dark' : 'light');
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    applyTheme(resolveInitialTheme());
+  function init() {
+    applyTheme(resolvePreferredTheme());
 
-    document.querySelectorAll('[data-theme-toggle]').forEach((toggle) => {
-      toggle.addEventListener('click', (event) => {
-        event.preventDefault();
-        toggleTheme();
-      });
-    });
-
-    if (window.matchMedia) {
-      const mq = window.matchMedia('(prefers-color-scheme: dark)');
-      mq.addEventListener('change', (event) => {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (!stored) {
-          applyTheme(event.matches ? 'dark' : 'light');
-        }
-      });
+    if (!mediaQuery) {
+      return;
     }
-  });
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handlePreferenceChange);
+    } else if (typeof mediaQuery.addListener === 'function') {
+      mediaQuery.addListener(handlePreferenceChange);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
 })();
