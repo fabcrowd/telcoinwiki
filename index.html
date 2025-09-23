@@ -237,13 +237,13 @@
                         <section id="getting-started" class="space-y-8">
                             <div class="glass p-8">
                                 <div class="prose prose-invert max-w-none">
-                                    <h2>Getting Started Checklist</h2>
+                                    <h2 id="wallet-basics">Wallet Basics Checklist</h2>
                                     <p>Follow these high-impact steps to get aligned with Telcoin’s ecosystem and the TELx liquidity engine. Each card links to official documentation or trusted community explainers.</p>
                                 </div>
                                 <div class="mt-10 grid gap-6 lg:grid-cols-2">
                                     <a href="https://telcoin.org" target="_blank" rel="noopener" class="glass block p-6 transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                                        <h3 class="text-lg font-semibold text-white">📚 Learn the Basics</h3>
-                                        <p class="mt-2 text-sm text-white/70">Read through this FAQ and visit telcoin.org</p>
+                                        <h3 id="create-account" class="text-lg font-semibold text-white">🆕 Create Account</h3>
+                                        <p class="mt-2 text-sm text-white/70">Download the Telcoin App, complete verification, and unlock in-app support.</p>
                                         <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Open telcoin.org →</span>
                                     </a>
                                     <div class="glass relative p-6" id="joinCommunityChecklist">
@@ -263,15 +263,15 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <button type="button" id="considerStakingChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                                        <h3 class="text-lg font-semibold text-white">🔒 Consider Staking</h3>
-                                        <p class="mt-2 text-sm text-white/70">Stake TEL to earn rewards and participate in governance</p>
-                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Read about staking →</span>
+                                    <button type="button" id="fundWalletChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
+                                        <h3 id="fund-wallet" class="text-lg font-semibold text-white">💳 Fund Your Wallet</h3>
+                                        <p class="mt-2 text-sm text-white/70">Explore trusted on-ramps and exchange partners that support TEL.</p>
+                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">View funding options →</span>
                                     </button>
-                                    <button type="button" id="stayUpdatedChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                                        <h3 class="text-lg font-semibold text-white">📢 Stay Updated</h3>
-                                        <p class="mt-2 text-sm text-white/70">Follow official channels for the latest developments</p>
-                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Jump to community links →</span>
+                                    <button type="button" id="securityChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
+                                        <h3 id="security-checklist" class="text-lg font-semibold text-white">✅ Security Checklist</h3>
+                                        <p class="mt-2 text-sm text-white/70">Review safety tips, official alerts, and where to report suspicious activity.</p>
+                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Read safety guidance →</span>
                                     </button>
                                 </div>
                             </div>
@@ -281,8 +281,10 @@
                             <div class="glass p-8">
                                 <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                                     <div class="prose prose-invert max-w-none lg:max-w-3xl">
-                                        <h2>Community Q&amp;A - Get the Facts Fast</h2>
+                                        <h2 id="quick-facts">Community Q&amp;A - Get the Facts Fast</h2>
                                         <p>Browse verified community answers spanning Telcoin governance, liquidity mining, digital cash, and more. Use the filter or the global search to jump straight to the insight you need.</p>
+                                        <h3 id="faq-troubleshooting">Troubleshooting</h3>
+                                        <p>If you hit an error in the Telcoin App, search for the exact message, then cross-check the answers below or escalate through the in-app support form. For outages, review the Telcoin Network status update in the TELx DeFi section.</p>
                                     </div>
                                     <div class="lg:min-w-[280px]">
                                         <label for="searchBox" class="text-xs uppercase tracking-[0.25em] text-white/50">Filter Q&amp;A</label>
@@ -595,7 +597,7 @@
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
                 "@id": "https://telcoinwiki.com/#faq",
-                "url": "https://telcoinwiki.com/#quick-qa",
+                "url": "https://telcoinwiki.com/#quick-facts",
                 "name": "Telcoin Wiki Quick Q&A",
                 "inLanguage": "en-US",
                 "isPartOf": {
@@ -646,17 +648,17 @@
                 });
             }
 
-            const considerStakingChecklist = document.getElementById('considerStakingChecklist');
-            if (considerStakingChecklist) {
-                considerStakingChecklist.addEventListener('click', () => {
-                    window.location.href = 'deep-dive.html?category=earning';
+            const fundWalletChecklist = document.getElementById('fundWalletChecklist');
+            if (fundWalletChecklist) {
+                fundWalletChecklist.addEventListener('click', () => {
+                    window.location.href = 'links.html#trading-wallets';
                 });
             }
 
-            const stayUpdatedChecklist = document.getElementById('stayUpdatedChecklist');
-            if (stayUpdatedChecklist) {
-                stayUpdatedChecklist.addEventListener('click', () => {
-                    document.getElementById('community').scrollIntoView({ behavior: 'smooth' });
+            const securityChecklist = document.getElementById('securityChecklist');
+            if (securityChecklist) {
+                securityChecklist.addEventListener('click', () => {
+                    window.location.href = 'links.html#official-resources';
                 });
             }
         }

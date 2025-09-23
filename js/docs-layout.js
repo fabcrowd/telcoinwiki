@@ -8,6 +8,45 @@
     { id: 'about', path: 'about.html' }
   ];
 
+  const HEADER_NAV = [
+    {
+      id: 'qa',
+      label: 'Q&A',
+      items: [
+        { label: 'Quick Answers', pageId: 'index', targetId: 'quick-facts' },
+        { label: 'Wallet Basics', pageId: 'index', targetId: 'wallet-basics' },
+        { label: 'Troubleshooting', pageId: 'index', targetId: 'faq-troubleshooting' }
+      ]
+    },
+    {
+      id: 'getting-started',
+      label: 'Getting Started',
+      items: [
+        { label: 'Create Account', pageId: 'index', targetId: 'create-account' },
+        { label: 'Fund Wallet', pageId: 'index', targetId: 'fund-wallet' },
+        { label: 'Security Checklist', pageId: 'index', targetId: 'security-checklist' }
+      ]
+    },
+    {
+      id: 'telx-defi',
+      label: 'TELx DeFi',
+      items: [
+        { label: 'Pools Overview', pageId: 'pools', targetId: 'pools-overview' },
+        { label: 'LP Guides', pageId: 'deep-dive', targetId: 'deep-dive-liquidity' },
+        { label: 'Portfolio Tracker', pageId: 'portfolio', targetId: 'portfolio-overview' }
+      ]
+    },
+    {
+      id: 'community-support',
+      label: 'Community & Support',
+      items: [
+        { label: 'Official Links', pageId: 'links', targetId: 'official-resources' },
+        { label: 'Governance', pageId: 'deep-dive', targetId: 'deep-dive-governance' },
+        { label: 'Contact', pageId: 'links', targetId: 'contact' }
+      ]
+    }
+  ];
+
   const currentPageId = document.body?.dataset?.page || '';
   const navLinkTargets = new Map();
   const tocLinkTargets = new Map();
@@ -152,23 +191,30 @@
     if (sidebarNav) sidebarNav.innerHTML = '';
     if (mobileNav) mobileNav.innerHTML = '';
 
-    pages.forEach((page, index) => {
-      const isCurrent = page.id === currentPageId;
-      const label = page.title || fallbackLabel(page.id) || page.path;
+    const pagePathMap = new Map();
+    pages.forEach((page) => {
+      if (!page || !page.id || !page.path) return;
+      pagePathMap.set(page.id, page.path);
+    });
+
+    HEADER_NAV.forEach((group, index) => {
+      if (!group || !group.items || !group.items.length) return;
+      const isCurrentGroup = group.items.some((item) => item?.pageId === currentPageId);
 
       if (sidebarNav) {
-        const section = createNavSection(page, label, isCurrent, `docs-nav-${index}`, false);
+        const section = createNavSection(group, isCurrentGroup, `docs-nav-${index}`, false, pagePathMap);
         if (section) sidebarNav.appendChild(section);
       }
 
       if (mobileNav) {
-        const section = createNavSection(page, label, isCurrent, `mobile-nav-${index}`, true);
+        const section = createNavSection(group, isCurrentGroup, `mobile-nav-${index}`, true, pagePathMap);
         if (section) mobileNav.appendChild(section);
       }
     });
   }
 
-  function createNavSection(page, label, isCurrent, idPrefix, isMobile) {
+  function createNavSection(group, isCurrent, idPrefix, isMobile, pagePathMap) {
+    if (!group || !Array.isArray(group.items)) return null;
     const section = document.createElement('section');
     section.className = 'docs-nav-section';
 
@@ -180,7 +226,7 @@
     trigger.setAttribute('aria-controls', panelId);
 
     const triggerLabel = document.createElement('span');
-    triggerLabel.textContent = label;
+    triggerLabel.textContent = group.label || '';
     const triggerIcon = document.createElement('span');
     triggerIcon.className = 'docs-nav-trigger-icon';
     triggerIcon.setAttribute('aria-hidden', 'true');
@@ -196,21 +242,18 @@
       panel.hidden = true;
     }
 
-    const headings = page.headings || [];
-    headings.forEach((heading) => {
-      if (!heading || heading.level > 3) return;
+    group.items.forEach((item) => {
+      if (!item || !item.label) return;
       const link = document.createElement('a');
       link.className = 'docs-nav-link focus-ring';
-      if (heading.level === 3) {
-        link.classList.add('docs-nav-link--child');
+      link.href = resolveNavHref(item, pagePathMap);
+      link.textContent = item.label;
+      if (item.pageId) {
+        link.dataset.page = item.pageId;
       }
-      const targetHref = page.id === currentPageId ? `#${heading.id}` : `${page.path}#${heading.id}`;
-      link.href = targetHref;
-      link.textContent = heading.text;
-      link.dataset.page = page.id;
-      if (page.id === currentPageId) {
-        link.dataset.targetId = heading.id;
-        addNavLinkReference(heading.id, link);
+      if (item.pageId === currentPageId && item.targetId) {
+        link.dataset.targetId = item.targetId;
+        addNavLinkReference(item.targetId, link);
       }
       panel.appendChild(link);
     });
@@ -222,11 +265,29 @@
     section.appendChild(trigger);
     section.appendChild(panel);
 
-    if (isMobile) {
-      section.dataset.navSection = page.id;
+    if (isMobile && group.id) {
+      section.dataset.navSection = group.id;
     }
 
     return section;
+  }
+
+  function resolveNavHref(item, pagePathMap) {
+    if (!item) return '#';
+    if (item.href) return item.href;
+
+    const targetId = item.targetId ? `#${item.targetId}` : '';
+    if (item.pageId) {
+      if (item.pageId === currentPageId) {
+        return targetId || '#';
+      }
+      const path = pagePathMap.get(item.pageId) || SITE_PAGES.find((page) => page.id === item.pageId)?.path;
+      if (path) {
+        return targetId ? `${path}${targetId}` : path;
+      }
+    }
+
+    return targetId || '#';
   }
 
   function renderTOC(page, tocContainer) {
@@ -411,22 +472,4 @@
     return text ? text.trim().replace(/\s+/g, ' ') : '';
   }
 
-  function fallbackLabel(pageId) {
-    switch (pageId) {
-      case 'index':
-        return 'Telcoin Community Q&A';
-      case 'deep-dive':
-        return 'Telcoin Deep Dive';
-      case 'links':
-        return 'Telcoin Links';
-      case 'pools':
-        return 'TELx Pools';
-      case 'portfolio':
-        return 'TELx Portfolio';
-      case 'about':
-        return 'About TELx';
-      default:
-        return '';
-    }
-  }
 })();
