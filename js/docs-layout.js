@@ -332,22 +332,66 @@
   function setupAccordion(container) {
     if (!container) return;
     const triggers = Array.from(container.querySelectorAll('.docs-nav-trigger'));
+    if (!triggers.length) return;
+
+    const hoverEnabled = container.classList.contains('docs-nav--header');
+
+    const closeOthers = (activeTrigger) => {
+      triggers.forEach((other) => {
+        if (other === activeTrigger) return;
+        const otherPanelId = other.getAttribute('aria-controls');
+        if (!otherPanelId) return;
+        const otherPanel = document.getElementById(otherPanelId);
+        if (!otherPanel) return;
+        other.setAttribute('aria-expanded', 'false');
+        otherPanel.hidden = true;
+      });
+    };
+
     triggers.forEach((trigger) => {
+      const panelId = trigger.getAttribute('aria-controls');
+      if (!panelId) return;
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+
+      const section = trigger.closest('.docs-nav-section');
+
+      const openPanel = () => {
+        closeOthers(trigger);
+        trigger.setAttribute('aria-expanded', 'true');
+        panel.hidden = false;
+      };
+
+      const closePanel = () => {
+        trigger.setAttribute('aria-expanded', 'false');
+        panel.hidden = true;
+      };
+
       trigger.addEventListener('click', () => {
         const expanded = trigger.getAttribute('aria-expanded') === 'true';
-        triggers.forEach((other) => {
-          if (other === trigger) return;
-          const otherPanel = document.getElementById(other.getAttribute('aria-controls'));
-          if (!otherPanel) return;
-          other.setAttribute('aria-expanded', 'false');
-          otherPanel.hidden = true;
-        });
-        const panelId = trigger.getAttribute('aria-controls');
-        const panel = document.getElementById(panelId);
-        if (!panel) return;
-        trigger.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        panel.hidden = expanded;
+        if (expanded) {
+          closePanel();
+        } else {
+          openPanel();
+        }
       });
+
+      trigger.addEventListener('focus', openPanel);
+
+      if (hoverEnabled) {
+        trigger.addEventListener('mouseenter', openPanel);
+        if (section) {
+          section.addEventListener('mouseleave', () => {
+            if (section.contains(document.activeElement)) return;
+            closePanel();
+          });
+          section.addEventListener('focusout', (event) => {
+            if (!section.contains(event.relatedTarget)) {
+              closePanel();
+            }
+          });
+        }
+      }
     });
   }
 
