@@ -6,6 +6,7 @@
     <title>TELx Portfolio — Claimable Rewards & LPT Stakes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="Track simulated TELx rewards, LPT stakes, and deprecated pool notices in a TELx-inspired portfolio dashboard." />
+    <meta name="theme-color" content="#0066cc">
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/svg+xml" href="logo.svg">
 
@@ -56,7 +57,7 @@
                 </a>
                 <div class="flex flex-1 items-center justify-center">
                     <div class="relative w-full max-w-xl">
-                        <label for="site-search" class="sr-only">Search TELx portfolio</label>
+                        <label for="site-search" class="sr-only">Search Telcoin Wiki</label>
                         <input id="site-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
                         <div class="search-panel" data-search-results aria-hidden="true"></div>
                     </div>
@@ -96,8 +97,8 @@
                         <nav data-docs-nav class="docs-nav space-y-3"></nav>
                     </aside>
                     <main id="main-content" class="space-y-16">
-                        <section id="portfolio-overview" class="space-y-8">
-                            <div class="glass p-8">
+                        <section id="portfolio-overview" class="space-y-8 pt-16 sm:pt-20">
+                            <div class="glass overflow-hidden border border-white/10 bg-white/5 p-8 shadow-glass">
                                 <p class="text-sm font-semibold uppercase tracking-[0.3em] text-mint-300/80">Portfolio snapshot</p>
                                 <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Your TELx positions</h1>
                                 <p class="mt-4 text-lg text-white/70">A design-time view of TEL claimable rewards and liquidity provider tokens. Use it to imagine how TELx wallets surface positions with glass panels, friendly chips, and clear callouts.</p>
