@@ -36,7 +36,7 @@
     {
         "id": "where-can-i-send-remittances",
         "question": "Where can I send remittances today?",
-        "answer": "<p>Telcoin currently supports remittance corridors across 20+ countries, focusing on fast and low-cost mobile money payouts. Live corridor availability and fees are listed inside the Telcoin Wallet and on the official remittance corridors page.</p>",
+        "answer": "<p>Telcoin currently supports remittance corridors across <span data-status-key=\"remittanceCorridors\" data-status-format=\"plus\">20+</span> countries, focusing on fast and low-cost mobile money payouts. Live corridor availability and fees are listed inside the Telcoin Wallet and on the official remittance corridors page.</p>",
         "tags": [
             "Remittances",
             "Wallet"

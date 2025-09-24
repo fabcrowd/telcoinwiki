@@ -9,7 +9,7 @@
     "check:html": "html-validate '**/*.html'",
     "check:links": "linkinator . --recurse --silent --skip 'node_modules|dist'",
     "build:css": "csso styles/index.css --output dist/styles.css",
-    "build:js": "mkdir -p dist && terser js/main.js -o dist/main.js --compress --mangle && terser js/faq.js -o dist/faq.js --compress --mangle && terser js/pools-data.js -o dist/pools.js --compress --mangle",
+    "build:js": "mkdir -p dist && node scripts/build-status-data.js && terser js/main.js -o dist/main.js --compress --mangle && terser js/faq.js -o dist/faq.js --compress --mangle && terser js/pools-data.js -o dist/pools.js --compress --mangle",
     "build:img": "node scripts/optimize-images.js",
     "build": "npm run build:css && npm run build:js && npm run build:img"
   },

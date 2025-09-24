@@ -259,6 +259,10 @@
       container.appendChild(article);
     });
 
+    if (window.TelcoinWiki && typeof window.TelcoinWiki.applyStatusText === 'function') {
+      window.TelcoinWiki.applyStatusText(container);
+    }
+
     handleDeepLink();
   }
 
