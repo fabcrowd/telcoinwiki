@@ -50,11 +50,15 @@
 
   const searchInstances = [];
   const FAQ_CARD_TOGGLE_SELECTOR = '[data-faq-card-toggle]';
+  const GETTING_STARTED_HOST_SELECTOR = '[data-getting-started]';
+  const GETTING_STARTED_TOGGLE_SELECTOR = '[data-getting-started-toggle]';
+  const GETTING_STARTED_CARD_TOGGLE_SELECTOR = '[data-getting-started-card-toggle]';
 
   document.addEventListener('DOMContentLoaded', () => {
     initLayout();
     initSearch();
     initInlineFaqCards();
+    initGettingStartedSection();
   });
 
   function initLayout() {
@@ -327,6 +331,52 @@
 
     window.addEventListener('hashchange', openFromHash);
     openFromHash();
+  }
+
+  function initGettingStartedSection() {
+    const host = document.querySelector(GETTING_STARTED_HOST_SELECTOR);
+    if (!host) {
+      return;
+    }
+
+    const toggle = host.querySelector(GETTING_STARTED_TOGGLE_SELECTOR);
+    const panel = host.querySelector('[data-getting-started-panel]');
+    const cardToggles = Array.from(host.querySelectorAll(GETTING_STARTED_CARD_TOGGLE_SELECTOR));
+
+    if (toggle && panel) {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        panel.hidden = expanded;
+        host.classList.toggle('is-open', !expanded);
+        if (!expanded) {
+          const firstToggle = cardToggles[0];
+          if (firstToggle) {
+            firstToggle.focus({ preventScroll: true });
+          }
+        }
+      });
+    }
+
+    if (!cardToggles.length) {
+      return;
+    }
+
+    cardToggles.forEach((button) => {
+      button.addEventListener('click', () => {
+        const panelId = button.getAttribute('aria-controls');
+        const panelEl = panelId ? document.getElementById(panelId) : null;
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        if (panelEl) {
+          panelEl.hidden = expanded;
+        }
+        const card = button.closest('[data-getting-started-card]');
+        if (card) {
+          card.classList.toggle('is-open', !expanded);
+        }
+      });
+    });
   }
 
   function normalise(value) {

@@ -545,6 +545,183 @@ pre {
   font-weight: 500;
 }
 
+.getting-started {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  background: rgba(10, 21, 45, 0.72);
+  box-shadow: var(--shadow-xs);
+}
+
+.getting-started__toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.getting-started__toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
+.getting-started__toggle-text {
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+  font-weight: 600;
+}
+
+.getting-started__toggle-icon {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background: var(--color-primary-soft);
+  position: relative;
+  transition: background var(--transition-base);
+}
+
+.getting-started__toggle-icon::before,
+.getting-started__toggle-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+}
+
+.getting-started__toggle-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  transition: opacity var(--transition-base);
+}
+
+.getting-started.is-open .getting-started__toggle-icon {
+  background: rgba(78, 163, 255, 0.32);
+}
+
+.getting-started.is-open .getting-started__toggle-icon::after {
+  opacity: 0;
+}
+
+.getting-started__panel {
+  border-top: 1px solid var(--color-border-subtle);
+  padding: 0 var(--space-4) var(--space-5);
+}
+
+.getting-started__intro {
+  margin: var(--space-4) 0;
+  color: var(--color-text-muted);
+}
+
+.getting-started__grid {
+  margin-top: var(--space-4);
+}
+
+.getting-started-card {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.getting-started-card:hover,
+.getting-started-card:focus-within,
+.getting-started-card.is-open {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: var(--shadow-md);
+}
+
+.getting-started-card__summary {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  cursor: pointer;
+}
+
+.getting-started-card__summary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.getting-started-card__summary .card__title {
+  margin: 0;
+}
+
+.getting-started-card__chevron {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: var(--color-primary-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-base), background var(--transition-base);
+}
+
+.getting-started-card__chevron::before {
+  content: '';
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border: 2px solid var(--color-primary);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.getting-started-card.is-open .getting-started-card__chevron {
+  transform: rotate(180deg);
+  background: rgba(78, 163, 255, 0.28);
+}
+
+.getting-started-card__content {
+  border-top: 1px solid var(--color-border-subtle);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.getting-started-card__content p {
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.getting-started-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+.getting-started-card__cta::after {
+  content: '→';
+  font-size: 0.95em;
+}
+
+.getting-started-card__cta:hover,
+.getting-started-card__cta:focus-visible {
+  text-decoration: none;
+  color: var(--color-secondary);
+}
+
 .notice {
   border-radius: var(--radius-lg);
   padding: var(--space-4);
