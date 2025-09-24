@@ -43,8 +43,16 @@ main {
 }
 
 @media (min-width: 1280px) {
-  .max-w-7xl {
-    max-width: clamp(80rem, 88vw, 120rem);
+  .max-w-7xl,
+  .max-w-6xl {
+    max-width: clamp(80rem, 94vw, 150rem) !important;
+  }
+}
+
+@media (min-width: 1800px) {
+  .max-w-7xl,
+  .max-w-6xl {
+    max-width: clamp(96rem, 92vw, 160rem) !important;
   }
 }
 
