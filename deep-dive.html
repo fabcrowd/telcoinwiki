@@ -2,14 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Deep Dive — How Association, Network, TEL, and TELx Connect</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Deep Dive — How Association, Network, TEL, and TELx Connect</title>
   <meta name="description" content="Explore how the Telcoin Association, Telcoin Network, TEL token, and TELx liquidity layer work together with links to official resources.">
   <link rel="canonical" href="https://telcoinwiki.com/deep-dive.html">
+  <meta name="theme-color" content="#050a1b">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Telcoin Wiki">
+  <meta property="og:title" content="Deep Dive — How Association, Network, TEL, and TELx Connect">
+  <meta property="og:description" content="Explore how the Telcoin Association, Telcoin Network, TEL token, and TELx liquidity layer work together with links to official resources.">
+  <meta property="og:url" content="https://telcoinwiki.com/deep-dive.html">
+  <meta property="og:image" content="https://telcoinwiki.com/assets/Telcoinwiki.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Telcoin Wiki community knowledge base overview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Deep Dive — How Association, Network, TEL, and TELx Connect">
+  <meta name="twitter:description" content="Explore how the Telcoin Association, Telcoin Network, TEL token, and TELx liquidity layer work together with links to official resources.">
+  <meta name="twitter:image" content="https://telcoinwiki.com/assets/Telcoinwiki.png">
+  <meta name="twitter:site" content="@telcoin">
   <link rel="icon" type="image/svg+xml" href="/logo.svg">
-  <link rel="stylesheet" href="/styles/variables.css">
-  <link rel="stylesheet" href="/styles/site.css">
+  <link rel="preload" href="/dist/styles.css" as="style">
+  <link rel="stylesheet" href="/dist/styles.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -25,25 +39,36 @@
   }
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/elasticlunr@0.9.6/elasticlunr.min.js" integrity="sha384-VY2k6pNnZX1hmzLwAlSP8nHbn8WCsuozN4/p2JjNyQaIJZL8SaJIs/VIVqVdPXge" crossorigin="anonymous"></script>
-  <script defer src="/js/layout.js"></script>
-  <script defer src="/js/search.js"></script>
+  <script defer src="/dist/main.js"></script>
 </head>
 <body data-page="deep-dive">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header" data-header>
     <div class="site-header__inner">
-      <a class="site-logo" href="/index.html">
-        <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" loading="lazy" fetchpriority="high">
+      <a class="site-logo" href="/index.html" aria-label="Telcoin Wiki home">
+        <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" fetchpriority="high">
         <span>Telcoin Wiki</span>
       </a>
       <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-expanded="false" aria-controls="site-sidebar">Menu</button>
       <nav class="top-nav" aria-label="Primary">
-        <ul class="top-nav__list" data-nav></ul>
+        <ul class="top-nav__list" data-nav>
+          <li><a class="top-nav__link" href="/start-here.html">Start Here</a></li>
+          <li><a class="top-nav__link" href="/faq/">FAQ</a></li>
+          <li><a class="top-nav__link" href="/wallet.html">Wallet</a></li>
+          <li><a class="top-nav__link" href="/digital-cash.html">Digital Cash</a></li>
+          <li><a class="top-nav__link" href="/remittances.html">Remittances</a></li>
+          <li><a class="top-nav__link" href="/tel-token.html">TEL Token</a></li>
+          <li><a class="top-nav__link" href="/network.html">Telcoin Network</a></li>
+          <li><a class="top-nav__link is-active" href="/telx.html" aria-current="page">TELx</a></li>
+          <li><a class="top-nav__link" href="/governance.html">Governance & Association</a></li>
+          <li><a class="top-nav__link" href="/builders.html">Builders</a></li>
+          <li><a class="top-nav__link" href="/links.html">Links</a></li>
+        </ul>
       </nav>
-      <div class="header-search">
+      <div class="header-search" role="search">
         <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
         <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
-        <div class="search-panel" data-search-results aria-hidden="true"></div>
+        <div class="search-panel" data-search-results hidden aria-label="Search suggestions"></div>
       </div>
     </div>
   </header>
@@ -52,10 +77,51 @@
     <aside id="site-sidebar" class="sidebar" data-sidebar>
       <div class="sidebar__inner">
         <p class="sidebar__heading">Knowledge base</p>
-        <ul class="sidebar__list" data-sidebar-list></ul>
+        <nav class="sidebar__nav" aria-label="Knowledge base">
+          <ul class="sidebar__list" data-sidebar-list>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/start-here.html">Start Here</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/faq/">FAQ</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/wallet.html">Wallet</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/digital-cash.html">Digital Cash</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/remittances.html">Remittances</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/tel-token.html">TEL Token</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/network.html">Telcoin Network</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link is-active" href="/telx.html" aria-current="page">TELx</a>
+              <ul class="sidebar__sublist">
+                <li class="sidebar__subitem"><a class="sidebar__sublink" href="#deep-dive-overview">How Telcoin’s pieces fit together</a></li>
+                <li class="sidebar__subitem"><a class="sidebar__sublink" href="#deep-dive-cards">Systems at a glance</a></li>
+                <li class="sidebar__subitem"><a class="sidebar__sublink" href="#deep-dive-links">Suggested reading order</a></li>
+              </ul>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/governance.html">Governance & Association</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/builders.html">Builders</a>
+            </li>
+            <li class="sidebar__item">
+              <a class="sidebar__link" href="/links.html">Links</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </aside>
-    <main id="main-content" class="site-main">
+    <main id="main-content" class="site-main" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
       <section id="deep-dive-overview" class="page-intro anchor-offset">
