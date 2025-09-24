@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>TELx Pools Dashboard — Telcoin Liquidity Overview</title>
+  <title>Governance &amp; Association — Telcoin Councils and Compliance</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Snapshot of TELx liquidity pools with status chips, TVL, staking balances, 24h volume, fees, and reward programs.">
-  <link rel="canonical" href="https://telcoinwiki.com/pools.html">
+  <meta name="description" content="Understand the Telcoin Association, community councils, and how proposals move from idea to implementation.">
+  <link rel="canonical" href="https://telcoinwiki.com/governance.html">
   <link rel="icon" type="image/svg+xml" href="/logo.svg">
   <link rel="stylesheet" href="/styles/variables.css">
   <link rel="stylesheet" href="/styles/site.css">
@@ -27,9 +27,8 @@
   <script defer src="https://cdn.jsdelivr.net/npm/elasticlunr@0.9.6/elasticlunr.min.js" integrity="sha384-VY2k6pNnZX1hmzLwAlSP8nHbn8WCsuozN4/p2JjNyQaIJZL8SaJIs/VIVqVdPXge" crossorigin="anonymous"></script>
   <script defer src="/js/layout.js"></script>
   <script defer src="/js/search.js"></script>
-  <script defer src="/js/pools-data.js"></script>
 </head>
-<body data-page="pools">
+<body data-page="governance">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header" data-header>
     <div class="site-header__inner">
@@ -59,54 +58,60 @@
     <main id="main-content" class="site-main">
       <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
-      <section id="pools-overview" class="page-intro anchor-offset">
-        <p class="page-intro__eyebrow">TELx Pools</p>
-        <h1 class="page-intro__title">Pools overview</h1>
-        <p class="page-intro__lede">Monitor the health of Telcoin’s on-chain liquidity. Status chips reflect governance-defined lifecycle stages; metrics refresh alongside community updates.</p>
+      <section id="governance-overview" class="page-intro anchor-offset">
+        <p class="page-intro__eyebrow">Governance &amp; Association</p>
+        <h1 class="page-intro__title">Who stewards Telcoin?</h1>
+        <p class="page-intro__lede">The Telcoin Association, a Swiss Verein, leads Telcoin Network governance, validator onboarding, and issuance policies for TEL and Digital Cash. Community councils partner with the Association to review and advance proposals.</p>
       </section>
 
-      <section id="pools-context" class="anchor-offset">
-        <h2>How newcomers use this dashboard</h2>
-        <div class="context-box">
-          <p class="context-box__title">Why TELx pools matter</p>
-          <p>TELx pools route the liquidity that powers Telcoin Wallet swaps and remittance settlement. This community dashboard mirrors the official TELx data so you can understand pool status, incentives, and liquidity depth before interacting with the in-app experiences.</p>
-          <p>Always compare the information below with the live listings at telx.network and any Telcoin Association governance updates before supplying funds.</p>
+      <section id="governance-structure" class="anchor-offset">
+        <h2>Structure</h2>
+        <div class="card-grid card-grid--cols-3" role="list">
+          <article class="card" role="listitem">
+            <h3 class="card__title">Association board</h3>
+            <p>Sets strategic direction, approves validator additions, and ratifies TEL/TANIP issuance schedules.</p>
+            <p><a href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Association overview →</a></p>
+          </article>
+          <article class="card" role="listitem">
+            <h3 class="card__title">Community councils</h3>
+            <p>Subject-matter councils (network, product, compliance) assess proposals before they reach the Association for ratification.</p>
+            <p><a href="https://www.telcoinassociation.org/governance" target="_blank" rel="noopener">Council framework →</a></p>
+          </article>
+          <article class="card" role="listitem">
+            <h3 class="card__title">Working groups</h3>
+            <p>Specialized groups coordinate upgrades such as TELx lifecycle changes, compliance reviews, and mobile UX enhancements.</p>
+            <p><a href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">TELx docs →</a></p>
+          </article>
         </div>
       </section>
 
-      <section id="pools-table" class="anchor-offset">
-        <h2>Live TELx pools</h2>
-        <p>The table updates automatically when TELx publishes new dashboard data. Review pool TVL, staking balances, and recent activity to understand market depth.</p>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Pool</th>
-                <th scope="col">Status</th>
-                <th scope="col">TVL</th>
-                <th scope="col">Staked</th>
-                <th scope="col">Volume (24h)</th>
-                <th scope="col">Fees (24h)</th>
-                <th scope="col">Rewards</th>
-              </tr>
-            </thead>
-            <tbody data-pool-table-body>
-              <tr>
-                <td class="table-note" colspan="7">Loading TELx pool metrics…</td>
-              </tr>
-            </tbody>
-          </table>
+      <section id="proposal-flow" class="anchor-offset">
+        <h2>Proposal flow</h2>
+        <ol>
+          <li>Ideas start in community channels or Association-led working groups.</li>
+          <li>Councils evaluate scope, compliance impact, and technical readiness.</li>
+          <li>The Association votes to approve, adjust, or reject proposals before implementation.</li>
+        </ol>
+        <p>Implementation details are published through Association announcements and coordinated with Telcoin Holdings for product rollouts.</p>
+      </section>
+
+      <section id="compliance" class="anchor-offset">
+        <h2>Compliance &amp; transparency</h2>
+        <div class="notice notice--info">
+          <p>Telcoin Holdings provides SOC reporting and legal documentation while the Association ensures network governance meets telecom and financial regulatory expectations.</p>
         </div>
-        <div class="notice notice--warning hidden" data-pools-error role="status">Live TELx pool data is currently unavailable. Visit <a href="https://www.telx.network/pools" target="_blank" rel="noopener">telx.network/pools</a> for the latest dashboard.</div>
-        <p>Live metrics aggregate from <a href="https://www.telx.network/pools" target="_blank" rel="noopener">telx.network/pools</a>. Values refresh alongside the source site.</p>
+        <ul>
+          <li><a href="https://telco.in/legal" target="_blank" rel="noopener">Legal resources</a> — privacy policies, terms, and jurisdictional notes.</li>
+          <li><a href="https://telco.in/newsroom/security" target="_blank" rel="noopener">Security newsroom</a> — compliance announcements and security advisories.</li>
+        </ul>
       </section>
 
       <div class="source-box">
         <p class="source-box__title">From the source</p>
         <ul class="source-box__links">
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">TELx overview</a></li>
-          <li><a class="source-box__link" href="https://www.telx.network/pools" target="_blank" rel="noopener">TELx pools dashboard</a></li>
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org/tel" target="_blank" rel="noopener">TEL token</a></li>
+          <li><a class="source-box__link" href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Telcoin Association</a></li>
+          <li><a class="source-box__link" href="https://www.telcoinassociation.org/governance" target="_blank" rel="noopener">Governance framework</a></li>
+          <li><a class="source-box__link" href="https://telco.in/legal" target="_blank" rel="noopener">Legal &amp; compliance</a></li>
         </ul>
       </div>
     </main>
@@ -117,10 +122,10 @@
         <div>
           <h2 class="footer__title">Official resources</h2>
           <ul class="footer__list">
-            <li><a href="https://telco.in/wallet" target="_blank" rel="noopener">Telcoin Wallet</a></li>
-            <li><a href="https://telco.in/digital-cash" target="_blank" rel="noopener">Digital Cash</a></li>
-            <li><a href="https://telco.in/remittances" target="_blank" rel="noopener">Remittances</a></li>
             <li><a href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Telcoin Association</a></li>
+            <li><a href="https://www.telcoinassociation.org/governance" target="_blank" rel="noopener">Governance framework</a></li>
+            <li><a href="https://www.telcoinassociation.org/tel" target="_blank" rel="noopener">TEL token</a></li>
+            <li><a href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">TELx docs</a></li>
           </ul>
         </div>
         <div>
@@ -135,8 +140,8 @@
         <div>
           <h2 class="footer__title">Community tools</h2>
           <ul class="footer__list">
+            <li><a href="/start-here.html">Start here</a></li>
             <li><a href="/faq/">Knowledge base FAQ</a></li>
-            <li><a href="/builders.html">Builder resources</a></li>
             <li><a href="/links.html">Official links</a></li>
             <li><a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community Discord</a></li>
           </ul>
