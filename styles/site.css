@@ -42,6 +42,30 @@ main {
   flex: 1;
 }
 
+@media (min-width: 1280px) {
+  .max-w-7xl,
+  .max-w-6xl {
+    max-width: clamp(80rem, 94vw, 150rem) !important;
+  }
+}
+
+@media (min-width: 1800px) {
+  .max-w-7xl,
+  .max-w-6xl {
+    max-width: clamp(96rem, 92vw, 160rem) !important;
+  }
+}
+
+.faq-grid {
+  grid-template-columns: repeat(auto-fit, minmax(clamp(16rem, 28vw, 22rem), 1fr));
+}
+
+@media (min-width: 1280px) {
+  .faq-grid {
+    grid-template-columns: repeat(auto-fit, minmax(clamp(18rem, 22vw, 24rem), 1fr));
+  }
+}
+
 html:not(.dark) {
   color-scheme: light;
 }
