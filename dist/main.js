@@ -43,7 +43,7 @@
   };
 
   const searchState = {
-    index: null,
+    index: new Map(),
     documents: new Map(),
     query: ''
   };
@@ -358,19 +358,8 @@
   }
 
   function buildSearchIndex(pages, faqEntries) {
-    if (typeof elasticlunr === 'undefined') {
-      return;
-    }
-
-    const index = elasticlunr(function () {
-      this.setRef('ref');
-      this.addField('title');
-      this.addField('summary');
-      this.addField('body');
-      this.addField('tags');
-    });
-
     const documents = new Map();
+    const records = new Map();
 
     (pages || []).forEach((page) => {
       if (!page || !page.id) return;
@@ -383,8 +372,8 @@
         url: page.url || '#',
         tags: page.tags || []
       };
-      index.addDoc(doc);
       documents.set(doc.ref, doc);
+      records.set(doc.ref, prepareRecord(doc));
     });
 
     (faqEntries || []).forEach((entry) => {
@@ -400,11 +389,11 @@
         tags: entry.tags || [],
         sources: entry.sources || []
       };
-      index.addDoc(doc);
       documents.set(doc.ref, doc);
+      records.set(doc.ref, prepareRecord(doc));
     });
 
-    searchState.index = index;
+    searchState.index = records;
     searchState.documents = documents;
   }
 
@@ -521,14 +510,83 @@
   }
 
   function searchDocuments(query) {
-    if (!searchState.index) return [];
-    const trimmed = query.trim();
+    if (!searchState.index || !searchState.index.size) return [];
+    const trimmed = normalise(query);
     if (!trimmed) return [];
-    try {
-      return searchState.index.search(trimmed, { expand: true });
-    } catch (error) {
-      return [];
+
+    const lowerQuery = trimmed.toLowerCase();
+    const terms = buildNeedles(lowerQuery);
+    const results = [];
+
+    searchState.index.forEach((record, ref) => {
+      const score = scoreRecord(record, terms, lowerQuery);
+      if (score > 0) {
+        results.push({ ref, score });
+      }
+    });
+
+    if (!results.length) {
+      searchState.index.forEach((record, ref) => {
+        if (record.title.includes(lowerQuery)) {
+          results.push({ ref, score: 0.1 });
+        }
+      });
     }
+
+    results.sort((a, b) => {
+      if (b.score === a.score) {
+        return a.ref.localeCompare(b.ref);
+      }
+      return b.score - a.score;
+    });
+
+    return results;
+  }
+
+  function prepareRecord(doc) {
+    const title = normalise(doc.title || '').toLowerCase();
+    const summary = normalise(doc.summary || '').toLowerCase();
+    const body = normalise(doc.body || '').toLowerCase();
+    const tags = Array.isArray(doc.tags)
+      ? doc.tags
+          .map((tag) => normalise(typeof tag === 'string' ? tag : String(tag)))
+          .filter(Boolean)
+          .map((tag) => tag.toLowerCase())
+      : [];
+    return {
+      title,
+      summary,
+      body,
+      tags,
+      combined: `${title} ${summary} ${body} ${tags.join(' ')}`.trim()
+    };
+  }
+
+  function scoreRecord(record, terms, fullQuery) {
+    if (!record) return 0;
+    let score = 0;
+
+    if (fullQuery && record.combined.includes(fullQuery)) {
+      score += Math.min(10, 2 + fullQuery.length);
+    }
+
+    terms.forEach((term) => {
+      if (!term) return;
+      if (record.title.includes(term)) {
+        score += 6;
+      }
+      if (record.summary.includes(term)) {
+        score += 3;
+      }
+      if (record.body.includes(term)) {
+        score += 1;
+      }
+      if (record.tags.some((tag) => tag.includes(term))) {
+        score += 4;
+      }
+    });
+
+    return score;
   }
 
   function groupResults(results) {

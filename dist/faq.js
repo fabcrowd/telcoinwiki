@@ -7,7 +7,7 @@
 
   const state = {
     entries: [],
-    index: null,
+    index: new Map(),
     query: '',
     tag: 'all'
   };
@@ -16,7 +16,7 @@
 
   function initFaq() {
     const container = document.querySelector(FAQ_CONTAINER_SELECTOR);
-    if (!container || typeof elasticlunr === 'undefined') {
+    if (!container) {
       return;
     }
 
@@ -55,19 +55,24 @@
   }
 
   function buildIndex(entries) {
-    const index = elasticlunr(function () {
-      this.setRef('id');
-      this.addField('question');
-      this.addField('answer');
-      this.addField('tags');
-    });
+    const index = new Map();
 
     entries.forEach((entry) => {
-      index.addDoc({
-        id: entry.id,
-        question: entry.question,
-        answer: stripHtml(entry.answer || ''),
-        tags: (entry.tags || []).join(' ')
+      if (!entry || !entry.id) return;
+      const question = normalise(entry.question || '').toLowerCase();
+      const answer = normalise(stripHtml(entry.answer || '')).toLowerCase();
+      const tags = Array.isArray(entry.tags)
+        ? entry.tags
+            .map((tag) => normalise(typeof tag === 'string' ? tag : String(tag)))
+            .filter(Boolean)
+            .map((tag) => tag.toLowerCase())
+        : [];
+
+      index.set(entry.id, {
+        question,
+        answer,
+        tags,
+        combined: `${question} ${answer} ${tags.join(' ')}`.trim()
       });
     });
 
@@ -278,21 +283,36 @@
       results = results.filter((entry) => Array.isArray(entry.tags) && entry.tags.includes(state.tag));
     }
 
-    if (state.query && state.index) {
-      const queryResults = state.index.search(state.query, { expand: true });
-      const ids = queryResults.map((result) => result.ref);
-      const lookup = new Map(entries.map((entry) => [entry.id, entry]));
-      const matched = ids
-        .map((id) => lookup.get(id))
-        .filter(Boolean)
-        .filter((entry) => results.includes(entry));
+    const query = normalise(state.query).toLowerCase();
+    if (query && state.index && state.index.size) {
+      const terms = buildTerms(query);
+      const matches = [];
 
-      const unique = Array.from(new Set(matched));
-      const queryLower = state.query.toLowerCase();
-      const others = results.filter(
-        (entry) => !unique.includes(entry) && entry.question.toLowerCase().includes(queryLower)
-      );
-      results = unique.concat(others);
+      results.forEach((entry) => {
+        const record = state.index.get(entry.id);
+        if (!record) return;
+        const score = scoreEntry(record, terms, query);
+        if (score > 0) {
+          matches.push({ entry, score });
+        }
+      });
+
+      if (matches.length) {
+        matches.sort((a, b) => {
+          if (b.score === a.score) {
+            return a.entry.question.localeCompare(b.entry.question);
+          }
+          return b.score - a.score;
+        });
+        return matches.map((item) => item.entry);
+      }
+
+      const fallback = results.filter((entry) => entry.question.toLowerCase().includes(query));
+      if (fallback.length) {
+        return fallback;
+      }
+
+      return [];
     }
 
     return results;
@@ -335,6 +355,42 @@
     script.type = 'application/ld+json';
     script.textContent = JSON.stringify(schema, null, 2);
     target.appendChild(script);
+  }
+
+  function normalise(value) {
+    return value ? value.toString().trim().replace(/\s+/g, ' ') : '';
+  }
+
+  function buildTerms(query) {
+    return (query || '')
+      .split(/\s+/)
+      .map((term) => term.trim())
+      .filter(Boolean)
+      .slice(0, 5);
+  }
+
+  function scoreEntry(record, terms, fullQuery) {
+    if (!record) return 0;
+    let score = 0;
+
+    if (fullQuery && record.combined.includes(fullQuery)) {
+      score += Math.min(10, 2 + fullQuery.length);
+    }
+
+    terms.forEach((term) => {
+      if (!term) return;
+      if (record.question.includes(term)) {
+        score += 6;
+      }
+      if (record.tags.some((tag) => tag.includes(term))) {
+        score += 4;
+      }
+      if (record.answer.includes(term)) {
+        score += 2;
+      }
+    });
+
+    return score;
   }
 
   function stripHtml(value) {
