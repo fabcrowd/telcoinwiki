@@ -56,6 +56,16 @@ main {
   }
 }
 
+.faq-grid {
+  grid-template-columns: repeat(auto-fit, minmax(clamp(16rem, 28vw, 22rem), 1fr));
+}
+
+@media (min-width: 1280px) {
+  .faq-grid {
+    grid-template-columns: repeat(auto-fit, minmax(clamp(18rem, 22vw, 24rem), 1fr));
+  }
+}
+
 html:not(.dark) {
   color-scheme: light;
 }
