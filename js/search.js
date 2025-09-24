@@ -1,244 +1,292 @@
 (function () {
-  const FOCUSABLE_SELECTORS = [
-    'a[href]',
-    'button:not([disabled])',
-    'textarea:not([disabled])',
-    'input:not([type="hidden"]):not([disabled])',
-    'select:not([disabled])',
-    '[tabindex]:not([tabindex="-1"])'
-  ].join(',');
+  const SEARCH_DATA_URL = '/data/search-index.json';
+  const FAQ_DATA_URL = '/data/faq.json';
+  const MAX_RESULTS_PER_GROUP = 5;
 
-  function normalise(text) {
-    return text ? text.trim().replace(/\s+/g, ' ') : '';
-  }
+  const state = {
+    index: null,
+    documents: new Map(),
+    query: ''
+  };
 
-  function buildDataset() {
-    const nodes = document.querySelectorAll('main h1, main h2, main h3, main h4, main p, main li');
-    const dataset = [];
-    let counter = 0;
-
-    nodes.forEach((node) => {
-      const text = normalise(node.textContent || '');
-      if (!text || text.length < 12) return;
-
-      let target = node.id;
-      if (!target) {
-        const parentWithId = node.closest('[id]');
-        if (parentWithId) {
-          target = parentWithId.id;
-        } else {
-          counter += 1;
-          target = `section-${counter}`;
-          node.id = target;
-        }
-      }
-
-      dataset.push({
-        node,
-        text,
-        lowercase: text.toLowerCase(),
-        anchor: `#${target}`
-      });
-    });
-
-    return dataset;
-  }
-
-  function highlight(text, query) {
-    const index = text.toLowerCase().indexOf(query.toLowerCase());
-    if (index === -1) return text;
-    const before = text.slice(0, index);
-    const match = text.slice(index, index + query.length);
-    const after = text.slice(index + query.length);
-    return `${before}<mark>${match}</mark>${after}`;
-  }
+  document.addEventListener('DOMContentLoaded', initSearch);
 
   function initSearch() {
     const inputs = Array.from(document.querySelectorAll('[data-site-search]'));
-    if (!inputs.length) return null;
-
-    const dataset = buildDataset();
-
-    function renderResults(panel, value) {
-      const term = (value || '').trim().toLowerCase();
-      panel.innerHTML = '';
-
-      if (!term) {
-        panel.setAttribute('aria-hidden', 'true');
-        return;
-      }
-
-      const matches = dataset.filter((item) => item.lowercase.includes(term)).slice(0, 8);
-
-      if (!matches.length) {
-        const empty = document.createElement('div');
-        empty.className = 'px-5 py-4 text-sm text-white/60';
-        empty.textContent = 'No matches yet. Try a different keyword.';
-        panel.appendChild(empty);
-        panel.setAttribute('aria-hidden', 'false');
-        return;
-      }
-
-      matches.forEach((item) => {
-        const link = document.createElement('a');
-        link.className = 'search-result-item focus-ring';
-        link.href = item.anchor;
-        link.innerHTML = `${highlight(item.text.slice(0, 160), term)}${item.text.length > 160 ? '…' : ''}`;
-        panel.appendChild(link);
-      });
-
-      panel.setAttribute('aria-hidden', 'false');
+    if (!inputs.length || typeof elasticlunr === 'undefined') {
+      return;
     }
 
-    const pairs = inputs.map((input) => {
-      const panel = input.parentElement?.querySelector('[data-search-results]');
-      if (!panel) return null;
+    Promise.all([fetchJson(SEARCH_DATA_URL), fetchJson(FAQ_DATA_URL)])
+      .then(([pageData, faqData]) => {
+        buildIndex(pageData || [], faqData || []);
+        exposeFaqData(faqData || []);
+        setupInputs(inputs);
+      })
+      .catch(() => {
+        setupInputs(inputs);
+      });
+  }
 
-      const debouncedRender = debounce((value) => renderResults(panel, value), 80);
+  function fetchJson(url) {
+    return fetch(url, { credentials: 'omit', cache: 'no-store' })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch search data');
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.warn('[search] Unable to load', url, error);
+        return [];
+      });
+  }
+
+  function buildIndex(pages, faqEntries) {
+    const index = elasticlunr(function () {
+      this.setRef('ref');
+      this.addField('title');
+      this.addField('summary');
+      this.addField('body');
+      this.addField('tags');
+    });
+
+    const documents = new Map();
+
+    (pages || []).forEach((page) => {
+      if (!page || !page.id) return;
+      const doc = {
+        ref: `page:${page.id}`,
+        type: 'page',
+        title: page.title || '',
+        summary: page.summary || '',
+        body: buildPageBody(page),
+        url: page.url || '#',
+        tags: page.tags || []
+      };
+      index.addDoc(doc);
+      documents.set(doc.ref, doc);
+    });
+
+    (faqEntries || []).forEach((entry) => {
+      if (!entry || !entry.id) return;
+      const body = stripHtml(entry.answer || '');
+      const doc = {
+        ref: `faq:${entry.id}`,
+        type: 'faq',
+        title: entry.question || '',
+        summary: body.slice(0, 220),
+        body,
+        url: `/faq/#${entry.id}`,
+        tags: entry.tags || [],
+        sources: entry.sources || []
+      };
+      index.addDoc(doc);
+      documents.set(doc.ref, doc);
+    });
+
+    state.index = index;
+    state.documents = documents;
+  }
+
+  function exposeFaqData(faqEntries) {
+    if (!faqEntries || !faqEntries.length) return;
+    if (!window.TelcoinWikiData) {
+      window.TelcoinWikiData = {};
+    }
+    window.TelcoinWikiData.faq = faqEntries;
+  }
+
+  function setupInputs(inputs) {
+    inputs.forEach((input) => {
+      const panel = input.parentElement?.querySelector('[data-search-results]');
+      if (!panel) return;
+      panel.setAttribute('aria-hidden', 'true');
+      panel.innerHTML = '';
 
       input.addEventListener('input', (event) => {
-        debouncedRender(event.target.value);
+        const value = event.target.value || '';
+        state.query = value.trim();
+        renderResults(panel, state.query);
       });
 
       input.addEventListener('focus', () => {
-        if (input.value.trim()) {
-          renderResults(panel, input.value);
+        if (state.query) {
+          renderResults(panel, state.query);
         }
       });
 
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-          panel.setAttribute('aria-hidden', 'true');
+          hidePanel(panel);
           input.blur();
         }
-        if (event.key === 'ArrowDown') {
-          const firstResult = panel.querySelector('a');
-          if (firstResult) {
-            event.preventDefault();
-            firstResult.focus();
-          }
-        }
       });
 
-      panel.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          panel.setAttribute('aria-hidden', 'true');
-          input.focus();
+      document.addEventListener('click', (event) => {
+        if (event.target === input || panel.contains(event.target)) {
+          return;
         }
-      });
-
-      return { input, panel };
-    }).filter(Boolean);
-
-    if (!pairs.length) return null;
-
-    document.addEventListener('click', (event) => {
-      pairs.forEach(({ input, panel }) => {
-        if (!panel.contains(event.target) && event.target !== input) {
-          panel.setAttribute('aria-hidden', 'true');
-        }
+        hidePanel(panel);
       });
     });
-
-    return pairs[0].input;
   }
 
-  function debounce(fn, delay) {
-    let timer = null;
-    return function debounced(...args) {
-      clearTimeout(timer);
-      timer = setTimeout(() => fn.apply(this, args), delay);
+  function renderResults(panel, query) {
+    if (!panel) return;
+    panel.innerHTML = '';
+
+    if (!query || !state.index) {
+      hidePanel(panel);
+      return;
+    }
+
+    const results = searchDocuments(query);
+    if (!results.length) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.textContent = 'No matches yet. Try another keyword or check the FAQ.';
+      panel.appendChild(empty);
+      panel.setAttribute('aria-hidden', 'false');
+      return;
+    }
+
+    const groups = groupResults(results);
+    groups.forEach((group) => {
+      if (!group.items.length) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'search-panel__group';
+
+      const title = document.createElement('p');
+      title.className = 'search-panel__title';
+      title.textContent = group.label;
+      wrapper.appendChild(title);
+
+      group.items.slice(0, MAX_RESULTS_PER_GROUP).forEach((item) => {
+        const doc = state.documents.get(item.ref);
+        if (!doc) return;
+        const link = document.createElement('a');
+        link.className = 'search-result';
+        link.href = doc.url;
+        const snippet = buildSnippet(doc, query);
+        link.innerHTML = `<strong>${escapeHtml(doc.title)}</strong><br>${snippet}`;
+        wrapper.appendChild(link);
+      });
+
+      panel.appendChild(wrapper);
+    });
+
+    panel.setAttribute('aria-hidden', panel.children.length ? 'false' : 'true');
+  }
+
+  function hidePanel(panel) {
+    if (!panel) return;
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  function searchDocuments(query) {
+    if (!state.index) return [];
+    const trimmed = query.trim();
+    if (!trimmed) return [];
+    try {
+      return state.index.search(trimmed, {
+        expand: true
+      });
+    } catch (error) {
+      console.warn('[search] Unable to query index', error);
+      return [];
+    }
+  }
+
+  function groupResults(results) {
+    const grouped = {
+      page: [],
+      faq: []
     };
+    results.forEach((result) => {
+      const doc = state.documents.get(result.ref);
+      if (!doc) return;
+      if (!grouped[doc.type]) {
+        grouped[doc.type] = [];
+      }
+      grouped[doc.type].push(result);
+    });
+    return [
+      { label: 'Pages', items: grouped.page || [] },
+      { label: 'FAQ', items: grouped.faq || [] }
+    ];
   }
 
-  function initMobileNavigation() {
-    const toggles = Array.from(document.querySelectorAll('[data-mobile-toggle]'));
-    const drawer = document.querySelector('[data-mobile-drawer]');
-    const overlay = document.querySelector('[data-mobile-overlay]');
-    if (!toggles.length || !drawer) return;
-
-    let previousFocus = null;
-    let focusables = [];
-
-    function setExpanded(state) {
-      toggles.forEach((toggle) => {
-        if (toggle.hasAttribute('aria-expanded')) {
-          toggle.setAttribute('aria-expanded', state ? 'true' : 'false');
-        }
-      });
-      drawer.setAttribute('aria-hidden', state ? 'false' : 'true');
-      if (overlay) overlay.setAttribute('aria-hidden', state ? 'false' : 'true');
-    }
-
-    function trapFocus(event) {
-      if (event.key !== 'Tab' || !focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      const active = document.activeElement;
-
-      if (event.shiftKey && active === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && active === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-
-    function handleKeydown(event) {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        closeDrawer();
-      } else {
-        trapFocus(event);
-      }
-    }
-
-    function openDrawer(origin) {
-      previousFocus = origin instanceof HTMLElement ? origin : document.activeElement;
-      drawer.classList.add('active');
-      overlay?.classList.add('active');
-      focusables = Array.from(drawer.querySelectorAll(FOCUSABLE_SELECTORS)).filter((el) => {
-        return !el.hasAttribute('disabled') && el.tabIndex !== -1;
-      });
-      setExpanded(true);
-      document.body.style.overflow = 'hidden';
-      document.addEventListener('keydown', handleKeydown);
-      (focusables[0] || drawer).focus();
-    }
-
-    function closeDrawer() {
-      drawer.classList.remove('active');
-      overlay?.classList.remove('active');
-      setExpanded(false);
-      document.body.style.overflow = '';
-      document.removeEventListener('keydown', handleKeydown);
-      previousFocus?.focus();
-      previousFocus = null;
-    }
-
-    toggles.forEach((toggle) => {
-      toggle.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (drawer.classList.contains('active')) {
-          closeDrawer();
-        } else {
-          openDrawer(toggle);
-        }
-      });
-    });
-
-    overlay?.addEventListener('click', closeDrawer);
-
-    drawer.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        closeDrawer();
-      });
-    });
+  function buildPageBody(page) {
+    const headings = Array.isArray(page.headings) ? page.headings.map((heading) => heading.title || '').join(' ') : '';
+    const summary = page.summary || '';
+    const extra = Array.isArray(page.highlights) ? page.highlights.join(' ') : '';
+    return `${summary} ${headings} ${extra}`.trim();
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    initSearch();
-    initMobileNavigation();
-  });
+  function buildSnippet(doc, query) {
+    const source = doc.summary || doc.body || '';
+    if (!source) return '';
+    const cleaned = source.replace(/\s+/g, ' ');
+    const lower = cleaned.toLowerCase();
+    const needles = buildNeedles(query);
+    let matchIndex = -1;
+    let matchLength = 0;
+
+    needles.forEach((needle) => {
+      const index = lower.indexOf(needle.toLowerCase());
+      if (index !== -1 && (matchIndex === -1 || index < matchIndex)) {
+        matchIndex = index;
+        matchLength = needle.length;
+      }
+    });
+
+    let snippet;
+    if (matchIndex === -1) {
+      snippet = cleaned.slice(0, 160);
+    } else {
+      const start = Math.max(0, matchIndex - 60);
+      const end = Math.min(cleaned.length, matchIndex + matchLength + 80);
+      snippet = `${start > 0 ? '…' : ''}${cleaned.slice(start, end)}${end < cleaned.length ? '…' : ''}`;
+    }
+
+    return highlightTerms(snippet, needles);
+  }
+
+  function buildNeedles(query) {
+    return (query || '')
+      .split(/\s+/)
+      .filter((word) => word.length > 1)
+      .slice(0, 5);
+  }
+
+  function highlightTerms(text, terms) {
+    if (!text || !terms.length) return escapeHtml(text);
+    const escaped = terms.map((term) => escapeRegExp(term)).filter(Boolean);
+    if (!escaped.length) return escapeHtml(text);
+    const pattern = new RegExp(`(${escaped.join('|')})`, 'gi');
+    return escapeHtml(text).replace(pattern, '<mark>$1</mark>');
+  }
+
+  function stripHtml(value) {
+    if (!value) return '';
+    const temp = document.createElement('div');
+    temp.innerHTML = value;
+    return temp.textContent || temp.innerText || '';
+  }
+
+  function escapeHtml(value) {
+    const input = value == null ? '' : String(value);
+    return input
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function escapeRegExp(value) {
+    const input = value == null ? '' : String(value);
+    return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
 })();

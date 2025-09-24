@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>TELx Pools Dashboard — Telcoin Liquidity Overview</title>
+  <title>Telcoin FAQ — Filterable Questions &amp; Official Links</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Snapshot of TELx liquidity pools with status chips, TVL, staking balances, 24h volume, fees, and reward programs.">
-  <link rel="canonical" href="https://telcoinwiki.com/pools.html">
+  <meta name="description" content="Browse Telcoin FAQs with tag filters and direct links to official Wallet, Digital Cash, TEL, Network, and governance resources.">
+  <link rel="canonical" href="https://telcoinwiki.com/faq/">
   <link rel="icon" type="image/svg+xml" href="/logo.svg">
   <link rel="stylesheet" href="/styles/variables.css">
   <link rel="stylesheet" href="/styles/site.css">
@@ -27,9 +27,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/elasticlunr@0.9.6/elasticlunr.min.js" integrity="sha384-VY2k6pNnZX1hmzLwAlSP8nHbn8WCsuozN4/p2JjNyQaIJZL8SaJIs/VIVqVdPXge" crossorigin="anonymous"></script>
   <script defer src="/js/layout.js"></script>
   <script defer src="/js/search.js"></script>
-  <script defer src="/js/pools-data.js"></script>
+  <script defer src="/js/faq.js"></script>
 </head>
-<body data-page="pools">
+<body data-page="faq">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header" data-header>
     <div class="site-header__inner">
@@ -59,56 +59,39 @@
     <main id="main-content" class="site-main">
       <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
-      <section id="pools-overview" class="page-intro anchor-offset">
-        <p class="page-intro__eyebrow">TELx Pools</p>
-        <h1 class="page-intro__title">Pools overview</h1>
-        <p class="page-intro__lede">Monitor the health of Telcoin’s on-chain liquidity. Status chips reflect governance-defined lifecycle stages; metrics refresh alongside community updates.</p>
+      <section id="faq-hero" class="page-intro anchor-offset">
+        <p class="page-intro__eyebrow">FAQ</p>
+        <h1 class="page-intro__title">Filterable Telcoin FAQ</h1>
+        <p class="page-intro__lede">Search by keyword or filter by topic to find trusted answers. Every entry links back to Telcoin Association or Telcoin product resources for verification.</p>
       </section>
 
-      <section id="pools-context" class="anchor-offset">
-        <h2>How newcomers use this dashboard</h2>
-        <div class="context-box">
-          <p class="context-box__title">Why TELx pools matter</p>
-          <p>TELx pools route the liquidity that powers Telcoin Wallet swaps and remittance settlement. This community dashboard mirrors the official TELx data so you can understand pool status, incentives, and liquidity depth before interacting with the in-app experiences.</p>
-          <p>Always compare the information below with the live listings at telx.network and any Telcoin Association governance updates before supplying funds.</p>
+      <section id="faq-controls" class="anchor-offset">
+        <div class="faq-controls">
+          <div>
+            <h2 class="sr-only">FAQ filters</h2>
+            <div class="faq-controls__tags" data-faq-tags></div>
+          </div>
+          <div class="faq-search">
+            <label class="sr-only" for="faq-search-input">Search FAQ</label>
+            <input id="faq-search-input" type="search" placeholder="Search questions" autocomplete="off" data-faq-search>
+          </div>
         </div>
       </section>
 
-      <section id="pools-table" class="anchor-offset">
-        <h2>Live TELx pools</h2>
-        <p>The table updates automatically when TELx publishes new dashboard data. Review pool TVL, staking balances, and recent activity to understand market depth.</p>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Pool</th>
-                <th scope="col">Status</th>
-                <th scope="col">TVL</th>
-                <th scope="col">Staked</th>
-                <th scope="col">Volume (24h)</th>
-                <th scope="col">Fees (24h)</th>
-                <th scope="col">Rewards</th>
-              </tr>
-            </thead>
-            <tbody data-pool-table-body>
-              <tr>
-                <td class="table-note" colspan="7">Loading TELx pool metrics…</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="notice notice--warning hidden" data-pools-error role="status">Live TELx pool data is currently unavailable. Visit <a href="https://www.telx.network/pools" target="_blank" rel="noopener">telx.network/pools</a> for the latest dashboard.</div>
-        <p>Live metrics aggregate from <a href="https://www.telx.network/pools" target="_blank" rel="noopener">telx.network/pools</a>. Values refresh alongside the source site.</p>
+      <section id="faq-list" class="anchor-offset">
+        <h2 class="sr-only">FAQ results</h2>
+        <div data-faq-list class="faq-list" role="list"></div>
       </section>
 
       <div class="source-box">
         <p class="source-box__title">From the source</p>
         <ul class="source-box__links">
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">TELx overview</a></li>
-          <li><a class="source-box__link" href="https://www.telx.network/pools" target="_blank" rel="noopener">TELx pools dashboard</a></li>
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org/tel" target="_blank" rel="noopener">TEL token</a></li>
+          <li><a class="source-box__link" href="https://telco.in/" target="_blank" rel="noopener">Telcoin product hub</a></li>
+          <li><a class="source-box__link" href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Telcoin Association</a></li>
+          <li><a class="source-box__link" href="https://telco.in/newsroom" target="_blank" rel="noopener">Newsroom</a></li>
         </ul>
       </div>
+      <div data-faq-schema></div>
     </main>
   </div>
   <footer class="footer">
@@ -135,7 +118,7 @@
         <div>
           <h2 class="footer__title">Community tools</h2>
           <ul class="footer__list">
-            <li><a href="/faq/">Knowledge base FAQ</a></li>
+            <li><a href="/start-here.html">Start here</a></li>
             <li><a href="/builders.html">Builder resources</a></li>
             <li><a href="/links.html">Official links</a></li>
             <li><a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community Discord</a></li>

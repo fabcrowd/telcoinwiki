@@ -1,256 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>TELx Portfolio — Claimable Rewards & LPT Stakes</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="Track simulated TELx rewards, LPT stakes, and deprecated pool notices in a TELx-inspired portfolio dashboard." />
-    <meta name="robots" content="index, follow">
-    <link rel="icon" type="image/svg+xml" href="logo.svg">
-
-    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-    <script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: {
-          ink: { 950: '#070b14', 900: '#0b1220', 800: '#0e1a33', 700: '#112142', 600: '#152a53' },
-          cobalt: { 300: '#7db9ff', 400: '#5aa8ff', 500: '#4196ff', 600: '#267dff', 700: '#1a5ef0' },
-          primary: { 400: '#4e72ff', 500: '#3a63ff', 600: '#2e50e6', 700: '#2746c0', 800: '#1f3a9b' },
-          mint: { 300: '#9af2e0', 400: '#7ef2da', 500: '#49e0c5', 600: '#2bd0b2' }
-        },
-        borderRadius: { xl: '1rem', '2xl': '1.25rem', '3xl': '1.75rem', pill: '9999px' },
-        boxShadow: {
-          glass: '0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
-          glow: '0 0 0 1px rgba(120,180,255,.18), 0 14px 44px rgba(41,112,255,.22)'
-        },
-        backdropBlur: { xs: '2px' },
-        transitionTimingFunction: { smooth: 'cubic-bezier(.22,.61,.36,1)' },
-        transitionDuration: { base: '200ms' }
-      }
-    }
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>TELx Portfolio — Claimable Rewards &amp; LPT Stakes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Track simulated TELx rewards, LPT stakes, and deprecated pool notices in a TELx-inspired portfolio dashboard.">
+  <link rel="canonical" href="https://telcoinwiki.com/portfolio.html">
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/styles/variables.css">
+  <link rel="stylesheet" href="/styles/site.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Telcoin Wiki",
+    "url": "https://telcoinwiki.com/",
+    "logo": "https://telcoinwiki.com/logo.svg",
+    "description": "Community-maintained Telcoin knowledge base (unofficial)",
+    "sameAs": [
+      "https://telco.in/",
+      "https://telcoin.org"
+    ]
   }
-    </script>
-    <script>
-      (function () {
-        const root = document.documentElement;
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          root.classList.add('dark');
-        } else {
-          root.classList.remove('dark');
-        }
-      })();
-    </script>
-    <link rel="stylesheet" href="/styles/site.css">
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/elasticlunr@0.9.6/elasticlunr.min.js" integrity="sha384-VY2k6pNnZX1hmzLwAlSP8nHbn8WCsuozN4/p2JjNyQaIJZL8SaJIs/VIVqVdPXge" crossorigin="anonymous"></script>
+  <script defer src="/js/layout.js"></script>
+  <script defer src="/js/search.js"></script>
 </head>
-<body data-page="portfolio" class="bg-ink-950 text-white/90 antialiased">
-    <div class="relative flex min-h-screen flex-col">
-        <div id="top"></div>
-        <header class="sticky top-0 z-50 border-b border-white/10 bg-ink-950/80 backdrop-blur-xs">
-            <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10 2xl:px-14 py-3 lg:py-2.5">
-                <div class="flex w-full flex-wrap items-center gap-3 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_minmax(0,15rem)] lg:items-center lg:gap-4">
-                    <a href="index.html" class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10 focus-ring" aria-label="Telcoin Wiki home">
-                        <img src="logo.svg" alt="Telcoin Wiki" class="h-10 w-auto">
-                        <span class="sr-only">Telcoin Wiki</span>
-                    </a>
-                    <div class="order-3 hidden w-full lg:order-2 lg:block lg:justify-self-center" data-docs-header-nav>
-                        <nav data-docs-nav class="docs-nav docs-nav--header"></nav>
-                    </div>
-                    <div class="order-2 flex flex-1 items-center justify-end lg:order-3 lg:flex-none lg:justify-self-end">
-                        <div class="relative w-full max-w-md lg:max-w-xs">
-                            <label for="site-search" class="sr-only">Search TELx portfolio</label>
-                            <input id="site-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
-                            <div class="search-panel" data-search-results aria-hidden="true"></div>
-                        </div>
-                    </div>
-                    <div class="order-4 flex items-center flex-shrink-0 lg:hidden">
-                        <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="icon-button focus-ring">
-                            <span class="sr-only">Open navigation</span>
-                            ☰
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <div class="docs-overlay" data-mobile-overlay aria-hidden="true"></div>
-        <aside id="mobile-drawer" class="docs-drawer" data-mobile-drawer aria-hidden="true" tabindex="-1">
-            <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
-                <p class="text-sm font-semibold tracking-wide text-white/70">Menu</p>
-                <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-sm focus-ring" data-mobile-toggle>
-                    Close
-                </button>
-            </div>
-            <div class="flex-1 overflow-y-auto px-6 py-6">
-                <div class="mb-6">
-                    <label for="mobile-search" class="text-xs uppercase tracking-[0.2em] text-white/50">Search</label>
-                    <div class="relative mt-2">
-                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
-                        <div class="search-panel" data-search-results aria-hidden="true"></div>
-                    </div>
-                </div>
-                <nav aria-label="Mobile" data-mobile-nav class="space-y-2"></nav>
-            </div>
-        </aside>
-
-        <div class="flex-1 w-full">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 2xl:px-14 pb-24 pt-12 sm:pt-16">
-                <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_14rem] 2xl:grid-cols-[minmax(0,1fr)_18rem]">
-                    <main id="main-content" class="space-y-16">
-                        <section id="portfolio-overview" class="space-y-8">
-                            <div class="glass p-8">
-                                <p class="text-sm font-semibold uppercase tracking-[0.3em] text-mint-300/80">Portfolio snapshot</p>
-                                <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Your TELx positions</h1>
-                                <p class="mt-4 text-lg text-white/70">A design-time view of TEL claimable rewards and liquidity provider tokens. Use it to imagine how TELx wallets surface positions with glass panels, friendly chips, and clear callouts.</p>
-                                <div class="mt-8 callout-warning">
-                                    <h2 class="text-sm font-semibold uppercase tracking-[0.25em] text-amber-200/90">Deprecated pool notice</h2>
-                                    <p class="mt-2 text-sm text-amber-100/90">Rewards from deprecated pools stop compounding after the sunset date. Restake to an active pair to keep earning TEL.</p>
-                                </div>
-                                <div class="mt-12 grid gap-6 lg:grid-cols-2">
-                                    <article class="glass p-6" aria-labelledby="claimable-rewards">
-                                        <header class="flex items-center justify-between">
-                                            <div>
-                                                <h2 id="claimable-rewards" class="text-xl font-semibold text-white">Claimable rewards</h2>
-                                                <p class="mt-1 text-sm text-white/60">Hypothetical accruals ready to harvest.</p>
-                                            </div>
-                                            <button type="button" class="btn-primary focus-ring">Claim all</button>
-                                        </header>
-                                        <div class="mt-6 space-y-4">
-                                            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                                                <div class="flex items-center justify-between">
-                                                    <div>
-                                                        <p class="text-sm text-white/60">TEL / USDC</p>
-                                                        <p class="text-lg font-semibold text-white">1,248 TEL</p>
-                                                    </div>
-                                                    <span class="chip chip-active">Active</span>
-                                                </div>
-                                                <p class="mt-3 text-xs text-white/60">Next unlock: 03:12 UTC • Reward stream via TEL issuance</p>
-                                            </div>
-                                            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                                                <div class="flex items-center justify-between">
-                                                    <div>
-                                                        <p class="text-sm text-white/60">TEL / WETH</p>
-                                                        <p class="text-lg font-semibold text-white">482 TEL</p>
-                                                    </div>
-                                                    <span class="chip chip-active">Active</span>
-                                                </div>
-                                                <p class="mt-3 text-xs text-white/60">Fees accrued in last 24h: $212</p>
-                                            </div>
-                                            <div class="rounded-2xl border border-amber-300/40 bg-amber-400/15 p-4">
-                                                <div class="flex items-center justify-between">
-                                                    <div>
-                                                        <p class="text-sm text-amber-100/90">TEL / eUSD</p>
-                                                        <p class="text-lg font-semibold text-amber-50">176 TEL</p>
-                                                    </div>
-                                                    <span class="chip chip-deprecated">Deprecated</span>
-                                                </div>
-                                                <p class="mt-3 text-xs text-amber-100/80">Claim before 15 Sep • incentives ending soon</p>
-                                            </div>
-                                        </div>
-                                    </article>
-
-                                    <article class="glass p-6" aria-labelledby="lpt-stakes">
-                                        <header class="flex items-center justify-between">
-                                            <div>
-                                                <h2 id="lpt-stakes" class="text-xl font-semibold text-white">Your LPT stakes</h2>
-                                                <p class="mt-1 text-sm text-white/60">Illustrative balances across TELx positions.</p>
-                                            </div>
-                                            <button type="button" class="btn-secondary focus-ring">Manage</button>
-                                        </header>
-                                        <div class="mt-6 space-y-4">
-                                            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                                                <div class="flex items-center justify-between">
-                                                    <div>
-                                                        <p class="text-sm text-white/60">TEL / USDC</p>
-                                                        <p class="text-lg font-semibold text-white">12.8 LPT</p>
-                                                    </div>
-                                                    <span class="chip chip-active">Active</span>
-                                                </div>
-                                                <p class="mt-3 text-xs text-white/60">Share of pool: 0.82% • Staked since 12 Jul 2025</p>
-                                            </div>
-                                            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                                                <div class="flex items-center justify-between">
-                                                    <div>
-                                                        <p class="text-sm text-white/60">TEL / MATIC</p>
-                                                        <p class="text-lg font-semibold text-white">6.4 LPT</p>
-                                                    </div>
-                                                    <span class="chip chip-active">Active</span>
-                                                </div>
-                                                <p class="mt-3 text-xs text-white/60">Rewards streaming: 98 TEL / day</p>
-                                            </div>
-                                            <div class="rounded-2xl border border-sky-300/30 bg-sky-400/10 p-4">
-                                                <div class="flex items-center justify-between">
-                                                    <div>
-                                                        <p class="text-sm text-sky-100/90">TEL / eCAD</p>
-                                                        <p class="text-lg font-semibold text-sky-50">3.1 LPT</p>
-                                                    </div>
-                                                    <span class="chip chip-archived">Archived</span>
-                                                </div>
-                                                <p class="mt-3 text-xs text-sky-100/80">Consider migrating to TEL / USDC for active incentives</p>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                            </div>
-                        </section>
-                    </main>
-                    <aside class="hidden xl:block sticky top-16 h-[calc(100dvh-4rem)] overflow-y-auto pl-2" data-docs-toc>
-                        <div class="docs-toc space-y-4" data-toc></div>
-                    </aside>
-                </div>
-            </div>
-        </div>
-
-        <footer class="border-t border-white/10 bg-ink-950/80" id="community">
-            <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-                <div class="grid gap-10 lg:grid-cols-4">
-                    <div>
-                        <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Official Channels</h3>
-                        <ul class="mt-4 space-y-2 text-sm text-white/70">
-                            <li><a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">Official Website</a></li>
-                            <li><a class="link-ux" href="https://reddit.com/r/Telcoin/" target="_blank" rel="noopener">Reddit</a></li>
-                            <li><a class="link-ux" href="https://twitter.com/telcoin" target="_blank" rel="noopener">Twitter</a></li>
-                            <li><a class="link-ux" href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Discord</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Resources</h3>
-                        <ul class="mt-4 space-y-2 text-sm text-white/70">
-                            <li><a class="link-ux" href="https://github.com/Telcoin-Association" target="_blank" rel="noopener">GitHub</a></li>
-                            <li><a class="link-ux" href="https://youtube.com/@Telcoin_Team" target="_blank" rel="noopener">YouTube</a></li>
-                            <li><a class="link-ux" href="https://linkedin.com/company/telcoin/" target="_blank" rel="noopener">LinkedIn</a></li>
-                            <li><a class="link-ux" href="https://t.me/Telcoin_Announcements" target="_blank" rel="noopener">Telegram</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Trading</h3>
-                        <ul class="mt-4 space-y-2 text-sm text-white/70">
-                            <li><a class="link-ux" href="#" onclick="alert('Download from App Store or Google Play'); return false;">Telcoin App</a></li>
-                            <li><a class="link-ux" href="https://www.kucoin.com/trade/TEL-USDT" target="_blank" rel="noopener">KuCoin</a></li>
-                            <li><a class="link-ux" href="https://www.bitget.com/spot/TELUSDT" target="_blank" rel="noopener">Bitget</a></li>
-                            <li><a class="link-ux" href="https://app.uniswap.org/#/swap?outputCurrency=0x467Bccd9d29f223BcE8043b84E8C8B282827790F" target="_blank" rel="noopener">Uniswap</a></li>
-                        </ul>
-                    </div>
-                    <div class="glass p-6">
-                        <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">About This Site</h3>
-                        <p class="mt-4 text-sm text-white/70">This is an <strong>unofficial community resource</strong> created to help new Telcoin users. For official information, updates, and support, always visit <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a> and verify through official channels.</p>
-                        <p class="mt-4 text-xs text-white/50">Not affiliated with Telcoin Holdings or Telcoin Association.</p>
-                    </div>
-                </div>
-                <div class="mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/50">
-                    <p>© 2025 Community Resource - Unofficial Telcoin Guide. Not affiliated with Telcoin Holdings or Telcoin Association.</p>
-                    <p class="mt-2">Always verify information through official channels: <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a> · Beware of scams and impostors.</p>
-                </div>
-            </div>
-        </footer>
+<body data-page="portfolio">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header" data-header>
+    <div class="site-header__inner">
+      <a class="site-logo" href="/index.html">
+        <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" loading="lazy" fetchpriority="high">
+        <span>Telcoin Wiki</span>
+      </a>
+      <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-expanded="false" aria-controls="site-sidebar">Menu</button>
+      <nav class="top-nav" aria-label="Primary">
+        <ul class="top-nav__list" data-nav></ul>
+      </nav>
+      <div class="header-search">
+        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
+        <div class="search-panel" data-search-results aria-hidden="true"></div>
+      </div>
     </div>
+  </header>
+  <div class="sidebar-overlay" data-sidebar-overlay></div>
+  <div class="site-shell">
+    <aside id="site-sidebar" class="sidebar" data-sidebar>
+      <div class="sidebar__inner">
+        <p class="sidebar__heading">Knowledge base</p>
+        <ul class="sidebar__list" data-sidebar-list></ul>
+      </div>
+    </aside>
+    <main id="main-content" class="site-main">
+      <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
-    <script src="/js/docs-layout.js"></script>
-    <script src="/js/theme-toggle.js"></script>
-    <script src="/js/copy-code.js"></script>
-    <script src="/js/lightbox.js"></script>
-    <script src="/js/search.js"></script>
-    <script src="/js/mobile-optimizations.js"></script>
+      <section id="portfolio-overview" class="page-intro anchor-offset">
+        <p class="page-intro__eyebrow">TELx Portfolio</p>
+        <h1 class="page-intro__title">Your TELx positions</h1>
+        <p class="page-intro__lede">A design-time view of TEL claimable rewards and liquidity provider tokens. Use it to imagine how TELx wallets surface positions with glass panels, friendly chips, and clear callouts.</p>
+      </section>
+
+      <section id="portfolio-context" class="anchor-offset">
+        <h2>How to read this mock-up</h2>
+        <div class="context-box">
+          <p class="context-box__title">Context for newcomers</p>
+          <p>This walkthrough simulates what a TELx portfolio page could show—balances, claimable rewards, and lifecycle notices. Values are illustrative only. Always verify live staking positions and rewards inside the Telcoin Wallet and on telx.network before taking action.</p>
+        </div>
+      </section>
+
+      <section id="portfolio-claimable" class="anchor-offset">
+        <div class="section-header">
+          <h2>Claimable rewards</h2>
+          <button type="button" class="btn-primary" disabled aria-disabled="true">Claim all</button>
+        </div>
+        <p>Hypothetical accruals ready to harvest.</p>
+        <div class="notice notice--warning">
+          <p class="notice__title">Deprecated pool notice</p>
+          <p>Rewards from deprecated pools stop compounding after the sunset date. Restake to an active pair to keep earning TEL.</p>
+        </div>
+        <ul class="entry-list" role="list">
+          <li class="entry-list__item">
+            <div class="entry-list__header">
+              <div>
+                <p class="entry-list__label">TEL / USDC</p>
+                <p class="entry-list__value">1,248 TEL</p>
+              </div>
+              <span class="chip chip-active">Active</span>
+            </div>
+            <p class="entry-list__meta">Next unlock: 03:12 UTC • Reward stream via TEL issuance</p>
+          </li>
+          <li class="entry-list__item">
+            <div class="entry-list__header">
+              <div>
+                <p class="entry-list__label">TEL / WETH</p>
+                <p class="entry-list__value">482 TEL</p>
+              </div>
+              <span class="chip chip-active">Active</span>
+            </div>
+            <p class="entry-list__meta">Fees accrued in last 24h: $212</p>
+          </li>
+          <li class="entry-list__item entry-list__item--deprecated">
+            <div class="entry-list__header">
+              <div>
+                <p class="entry-list__label">TEL / eUSD</p>
+                <p class="entry-list__value">176 TEL</p>
+              </div>
+              <span class="chip chip-deprecated">Deprecated</span>
+            </div>
+            <p class="entry-list__meta">Claim before 15 Sep • incentives ending soon</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="portfolio-stakes" class="anchor-offset">
+        <div class="section-header">
+          <h2>Your LPT stakes</h2>
+          <button type="button" class="btn-secondary" disabled aria-disabled="true">Manage</button>
+        </div>
+        <p>Illustrative balances across TELx positions.</p>
+        <ul class="entry-list" role="list">
+          <li class="entry-list__item">
+            <div class="entry-list__header">
+              <div>
+                <p class="entry-list__label">TEL / USDC</p>
+                <p class="entry-list__value">12.8 LPT</p>
+              </div>
+              <span class="chip chip-active">Active</span>
+            </div>
+            <p class="entry-list__meta">Share of pool: 0.82% • Staked since 12 Jul 2025</p>
+          </li>
+          <li class="entry-list__item">
+            <div class="entry-list__header">
+              <div>
+                <p class="entry-list__label">TEL / MATIC</p>
+                <p class="entry-list__value">6.4 LPT</p>
+              </div>
+              <span class="chip chip-active">Active</span>
+            </div>
+            <p class="entry-list__meta">Rewards streaming: 98 TEL / day</p>
+          </li>
+          <li class="entry-list__item entry-list__item--archived">
+            <div class="entry-list__header">
+              <div>
+                <p class="entry-list__label">TEL / eCAD</p>
+                <p class="entry-list__value">3.1 LPT</p>
+              </div>
+              <span class="chip chip-archived">Archived</span>
+            </div>
+            <p class="entry-list__meta">Consider migrating to TEL / USDC for active incentives</p>
+          </li>
+        </ul>
+      </section>
+
+      <div class="source-box">
+        <p class="source-box__title">From the source</p>
+        <ul class="source-box__links">
+          <li><a class="source-box__link" href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">TELx overview</a></li>
+          <li><a class="source-box__link" href="https://www.telx.network/pools" target="_blank" rel="noopener">TELx pools dashboard</a></li>
+          <li><a class="source-box__link" href="https://www.telcoinassociation.org/tel" target="_blank" rel="noopener">TEL token</a></li>
+        </ul>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__cols">
+        <div>
+          <h2 class="footer__title">Official resources</h2>
+          <ul class="footer__list">
+            <li><a href="https://telco.in/wallet" target="_blank" rel="noopener">Telcoin Wallet</a></li>
+            <li><a href="https://telco.in/digital-cash" target="_blank" rel="noopener">Digital Cash</a></li>
+            <li><a href="https://telco.in/remittances" target="_blank" rel="noopener">Remittances</a></li>
+            <li><a href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Telcoin Association</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer__title">Stay informed</h2>
+          <ul class="footer__list">
+            <li><a href="https://telco.in/newsroom" target="_blank" rel="noopener">Newsroom</a></li>
+            <li><a href="https://status.telco.in" target="_blank" rel="noopener">Status Page</a></li>
+            <li><a href="https://telco.in/legal" target="_blank" rel="noopener">Legal &amp; policies</a></li>
+            <li><a href="https://x.com/telcoin" target="_blank" rel="noopener">Telcoin on X</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer__title">Community tools</h2>
+          <ul class="footer__list">
+            <li><a href="/faq/">Knowledge base FAQ</a></li>
+            <li><a href="/builders.html">Builder resources</a></li>
+            <li><a href="/links.html">Official links</a></li>
+            <li><a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer__note">Telcoin Wiki is an unofficial, community-maintained resource. Always verify details through the Telcoin Wallet, Telcoin Association publications, and official legal notices.</p>
+    </div>
+  </footer>
 </body>
 </html>

@@ -818,7 +818,7 @@
             const row = document.createElement('tr');
             const cell = document.createElement('td');
             cell.colSpan = 7;
-            cell.className = 'text-sm text-white/60';
+            cell.className = 'table-note';
             cell.textContent = 'No live TELx pool data available.';
             row.appendChild(cell);
             tableBody.appendChild(row);
@@ -856,7 +856,7 @@
             const tr = document.createElement('tr');
 
             const nameCell = document.createElement('td');
-            nameCell.className = 'font-medium text-white';
+            nameCell.className = 'table-name';
             nameCell.textContent = row.name;
             tr.appendChild(nameCell);
 
@@ -871,14 +871,14 @@
                 valueWrapper.textContent = formatMetricValue(row.metrics[metricKey].value, METRIC_CONFIG[metricKey]);
                 metricCell.appendChild(valueWrapper);
                 const changeWrapper = document.createElement('div');
-                changeWrapper.classList.add('value-change', 'mt-1', 'text-xs', 'font-medium');
+                changeWrapper.className = 'value-change';
                 applyChange(changeWrapper, row.metrics[metricKey].percent, { suffix: ' · 24h' });
                 metricCell.appendChild(changeWrapper);
                 tr.appendChild(metricCell);
             });
 
             const rewardsCell = document.createElement('td');
-            rewardsCell.className = 'text-sm text-white/70';
+            rewardsCell.className = 'table-note';
             rewardsCell.textContent = row.rewards || '—';
             tr.appendChild(rewardsCell);
 
@@ -906,7 +906,7 @@
             const row = document.createElement('tr');
             const cell = document.createElement('td');
             cell.colSpan = 7;
-            cell.className = 'text-sm text-white/60';
+            cell.className = 'table-note';
             cell.textContent = 'Unable to load TELx pool data. Visit telx.network/pools for the official dashboard.';
             row.appendChild(cell);
             tableBody.appendChild(row);

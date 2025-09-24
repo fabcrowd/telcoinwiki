@@ -1,682 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Telcoin Wiki — Community Q&A, Guides & Links</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="Clear, community-maintained answers about Telcoin: wallet setup, network governance, TANIP-1 staking, exchange listings, and more." />
-    <meta name="keywords" content="Telcoin, Telcoin wiki, Telcoin wallet, Tel token, TANIP-1, Telcoin staking, Telcoin guides, Telcoin FAQ">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#0066cc">
-    <link rel="canonical" href="https://telcoinwiki.com/" />
-    <link rel="alternate" href="https://telcoinwiki.com/" hreflang="en" />
-    <link rel="icon" type="image/svg+xml" href="logo.svg">
-
-    <meta property="og:title" content="Telcoin Wiki — Community Q&A, Guides & Links">
-    <meta property="og:description" content="Community-maintained Telcoin knowledge: wallet setup guides, governance explainers, staking tips, and vetted exchange listings." />
-    <meta property="og:url" content="https://telcoinwiki.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://telcoinwiki.com/assets/governance-diagram-1.jpg">
-    <meta property="og:image:secure_url" content="https://telcoinwiki.com/assets/governance-diagram-1.jpg">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1769">
-    <meta property="og:image:height" content="1333">
-    <meta property="og:image:alt" content="Diagram explaining Telcoin network governance" />
-    <meta property="og:site_name" content="Telcoin Wiki">
-    <meta property="og:locale" content="en_US">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@telcoin">
-    <meta name="twitter:title" content="Telcoin Wiki — Community Q&A, Guides & Links">
-    <meta name="twitter:description" content="Community-maintained Telcoin knowledge: wallet setup guides, governance explainers, staking tips, and vetted exchange listings." />
-    <meta name="twitter:image" content="https://telcoinwiki.com/assets/governance-diagram-1.jpg">
-    <meta name="twitter:image:alt" content="Diagram explaining Telcoin network governance">
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "Organization",
-                "@id": "https://telcoinwiki.com/#organization",
-                "name": "Telcoin Wiki",
-                "url": "https://telcoinwiki.com/",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": "https://telcoinwiki.com/logo.svg",
-                    "width": 512,
-                    "height": 512
-                },
-                "sameAs": [
-                    "https://telcoin.org",
-                    "https://twitter.com/telcoin",
-                    "https://www.youtube.com/@Telcoin_Team",
-                    "https://discord.gg/qzMUw57UJa",
-                    "https://github.com/Telcoin-Association"
-                ]
-            },
-            {
-                "@type": "WebSite",
-                "@id": "https://telcoinwiki.com/#website",
-                "url": "https://telcoinwiki.com/",
-                "name": "Telcoin Wiki",
-                "inLanguage": "en-US",
-                "publisher": {
-                    "@id": "https://telcoinwiki.com/#organization"
-                },
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "https://telcoinwiki.com/?q={search_term_string}",
-                    "query-input": "required name=search_term_string"
-                }
-            },
-            {
-                "@type": "WebPage",
-                "@id": "https://telcoinwiki.com/#webpage",
-                "url": "https://telcoinwiki.com/",
-                "name": "Telcoin Wiki — Community Q&A, Guides & Links",
-                "isPartOf": {
-                    "@id": "https://telcoinwiki.com/#website"
-                },
-                "inLanguage": "en-US",
-                "description": "Community-maintained Telcoin knowledge base covering wallet setup, governance, staking, and trusted ecosystem resources.",
-                "primaryImageOfPage": {
-                    "@type": "ImageObject",
-                    "url": "https://telcoinwiki.com/assets/governance-diagram-1.jpg",
-                    "width": 1769,
-                    "height": 1333
-                }
-            }
-        ]
-    }
-    </script>
-
-    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-
-    <script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: {
-          ink: { 950: '#070b14', 900: '#0b1220', 800: '#0e1a33', 700: '#112142', 600: '#152a53' },
-          cobalt: { 300: '#7db9ff', 400: '#5aa8ff', 500: '#4196ff', 600: '#267dff', 700: '#1a5ef0' },
-          primary: { 400: '#4e72ff', 500: '#3a63ff', 600: '#2e50e6', 700: '#2746c0', 800: '#1f3a9b' },
-          mint: { 300: '#9af2e0', 400: '#7ef2da', 500: '#49e0c5', 600: '#2bd0b2' }
-        },
-        borderRadius: { xl: '1rem', '2xl': '1.25rem', '3xl': '1.75rem', pill: '9999px' },
-        boxShadow: {
-          glass: '0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06)',
-          glow: '0 0 0 1px rgba(120,180,255,.18), 0 14px 44px rgba(41,112,255,.22)'
-        },
-        backdropBlur: { xs: '2px' },
-        transitionTimingFunction: { smooth: 'cubic-bezier(.22,.61,.36,1)' },
-        transitionDuration: { base: '200ms' }
-      }
-    }
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Telcoin Wiki — Community Q&amp;A for the Telcoin Ecosystem</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Unofficial Telcoin knowledge base with quick answers, onboarding guides, and trusted links to official Wallet, Digital Cash, Remittance, TEL, and Network resources.">
+  <link rel="canonical" href="https://telcoinwiki.com/">
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/styles/variables.css">
+  <link rel="stylesheet" href="/styles/site.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Telcoin Wiki",
+    "url": "https://telcoinwiki.com/",
+    "logo": "https://telcoinwiki.com/logo.svg",
+    "description": "Community-maintained Telcoin knowledge base (unofficial)",
+    "sameAs": [
+      "https://telco.in/",
+      "https://telcoin.org"
+    ]
   }
-    </script>
-    <script>
-      (function () {
-        const root = document.documentElement;
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          root.classList.add('dark');
-        } else {
-          root.classList.remove('dark');
-        }
-      })();
-    </script>
-    <link rel="stylesheet" href="/styles/site.css">
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/elasticlunr@0.9.6/elasticlunr.min.js" integrity="sha384-VY2k6pNnZX1hmzLwAlSP8nHbn8WCsuozN4/p2JjNyQaIJZL8SaJIs/VIVqVdPXge" crossorigin="anonymous"></script>
+  <script defer src="/js/layout.js"></script>
+  <script defer src="/js/search.js"></script>
 </head>
-<body data-page="index" class="bg-ink-950 text-white/90 antialiased">
-    <div class="relative flex min-h-screen flex-col">
-        <div id="top"></div>
-        <header class="sticky top-0 z-50 border-b border-white/10 bg-ink-950/80 backdrop-blur-xs">
-            <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10 2xl:px-14 py-3 lg:py-2.5">
-                <div class="flex w-full flex-wrap items-center gap-3 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_minmax(0,15rem)] lg:items-center lg:gap-4">
-                    <a href="index.html" class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10 focus-ring" aria-label="Telcoin Wiki home">
-                        <img src="logo.svg" alt="Telcoin Wiki" class="h-10 w-auto">
-                        <span class="sr-only">Telcoin Wiki</span>
-                    </a>
-                    <div class="order-3 hidden w-full lg:order-2 lg:block lg:justify-self-center" data-docs-header-nav>
-                        <nav data-docs-nav class="docs-nav docs-nav--header"></nav>
-                    </div>
-                    <div class="order-2 flex flex-1 items-center justify-end lg:order-3 lg:flex-none lg:justify-self-end">
-                        <div class="relative w-full max-w-md lg:max-w-xs">
-                            <label for="site-search" class="sr-only">Search Telcoin Wiki</label>
-                            <input id="site-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
-                            <div class="search-panel" data-search-results aria-hidden="true"></div>
-                        </div>
-                    </div>
-                    <div class="order-4 flex items-center flex-shrink-0 lg:hidden">
-                        <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="icon-button focus-ring">
-                            <span class="sr-only">Open navigation</span>
-                            ☰
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <div class="docs-overlay" data-mobile-overlay aria-hidden="true"></div>
-        <aside id="mobile-drawer" class="docs-drawer" data-mobile-drawer aria-hidden="true" tabindex="-1">
-            <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
-                <p class="text-sm font-semibold tracking-wide text-white/70">Menu</p>
-                <button type="button" class="rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-sm focus-ring" data-mobile-toggle>
-                    Close
-                </button>
-            </div>
-            <div class="flex-1 overflow-y-auto px-6 py-6">
-                <div class="mb-6">
-                    <label for="mobile-search" class="text-xs uppercase tracking-[0.2em] text-white/50">Search</label>
-                    <div class="relative mt-2">
-                        <input id="mobile-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
-                        <div class="search-panel" data-search-results aria-hidden="true"></div>
-                    </div>
-                </div>
-                <nav aria-label="Mobile" data-mobile-nav class="space-y-2"></nav>
-            </div>
-        </aside>
+<body data-page="home">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header" data-header>
+    <div class="site-header__inner">
+      <a class="site-logo" href="/index.html">
+        <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" loading="lazy" fetchpriority="high">
+        <span>Telcoin Wiki</span>
+      </a>
+      <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-expanded="false" aria-controls="site-sidebar">Menu</button>
+      <nav class="top-nav" aria-label="Primary">
+        <ul class="top-nav__list" data-nav></ul>
+      </nav>
+      <div class="header-search">
+        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
+        <div class="search-panel" data-search-results aria-hidden="true"></div>
+      </div>
+    </div>
+  </header>
+  <div class="sidebar-overlay" data-sidebar-overlay></div>
+  <div class="site-shell">
+    <aside id="site-sidebar" class="sidebar" data-sidebar>
+      <div class="sidebar__inner">
+        <p class="sidebar__heading">Knowledge base</p>
+        <ul class="sidebar__list" data-sidebar-list></ul>
+      </div>
+    </aside>
+    <main id="main-content" class="site-main">
+      <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
-        <div class="flex-1 w-full">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 2xl:px-14 pb-24 pt-12 sm:pt-16">
-                <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_14rem] 2xl:grid-cols-[minmax(0,1fr)_18rem]">
-                    <main id="main-content" class="space-y-16">
-                        <section id="hero" class="space-y-10 pt-16 sm:pt-20">
-                            <div class="glass overflow-hidden border border-white/10 bg-white/5 p-8 shadow-glass">
-                                <p class="text-xs font-semibold uppercase tracking-[0.3em] text-mint-300/80">Community knowledge for TELx builders</p>
-                                <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Telcoin Community Q&amp;A</h1>
-                                <p class="mt-4 max-w-2xl text-lg text-white/70">Unofficial Community Guide for New Telcoin Users - The Future of Global Finance, Now in Your Pocket</p>
-                                <div class="mt-8 rounded-2xl border border-white/10 bg-ink-900/60 p-6">
-                                    <p class="text-base text-white/80">Telcoin is pioneering the 'RegFi' (regulated DeFi) model, bridging the gap between traditional finance and decentralized finance in a compliant and scalable way. Unlike many projects, we own the full stack: a U.S.-chartered digital-asset bank, a carrier-secured Layer-1 blockchain validated by GSMA-member MNOs, and at the center of it all a regenerative TEL token that powers transactions and rewards user-generated liquidity. This 'triple advantage' positions Telcoin for unprecedented real-world adoption, demonstrating how blockchain can operate within established regulatory frameworks to serve billions of users globally.</p>
-                                    <h3 class="mt-6 text-lg font-semibold text-mint-300">Why Telcoin?</h3>
-                                    <p class="mt-3 text-base italic text-white/75"><strong>Telcoin is building the future of global finance: regulated, mobile-first, and universally accessible. By combining a U.S.-chartered digital-asset bank, a telecom-validated blockchain, and user-powered liquidity, Telcoin empowers billions with fast, affordable, and compliant financial services directly through their mobile phones.</strong></p>
-                                </div>
-                            </div>
-                            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" data-stat-group>
-                                <div class="glass p-5">
-                                    <p class="stat-label">Total Value Locked</p>
-                                    <p class="stat-value mt-2" data-stat-value="tvl">—</p>
-                                    <p class="stat-change mt-2 text-xs font-medium" data-stat-change="tvl">Loading…</p>
-                                    <p class="mt-2 text-xs text-white/60">TVL across TELx liquidity pools.</p>
-                                </div>
-                                <div class="glass p-5">
-                                    <p class="stat-label">Staked TEL</p>
-                                    <p class="stat-value mt-2" data-stat-value="staked">—</p>
-                                    <p class="stat-change mt-2 text-xs font-medium" data-stat-change="staked">Loading…</p>
-                                    <p class="mt-2 text-xs text-white/60">Aligned with the Telcoin Application Network.</p>
-                                </div>
-                                <div class="glass p-5">
-                                    <p class="stat-label">Volume (24h)</p>
-                                    <p class="stat-value mt-2" data-stat-value="volume">—</p>
-                                    <p class="stat-change mt-2 text-xs font-medium" data-stat-change="volume">Loading…</p>
-                                    <p class="mt-2 text-xs text-white/60">Swap liquidity flowing through TELx markets.</p>
-                                </div>
-                                <div class="glass p-5">
-                                    <p class="stat-label">Fees (24h)</p>
-                                    <p class="stat-value mt-2" data-stat-value="fees">—</p>
-                                    <p class="stat-change mt-2 text-xs font-medium" data-stat-change="fees">Loading…</p>
-                                    <p class="mt-2 text-xs text-white/60">Value returned to TELx liquidity providers.</p>
-                                </div>
-                            </div>
-                            <div class="hidden text-xs text-amber-200" data-pool-stats-error>
-                                Live TELx metrics are temporarily unavailable. Check <a class="link-ux" href="https://www.telx.network/pools" target="_blank" rel="noopener">telx.network/pools</a> for the latest data.
-                            </div>
-                            <div class="grid gap-6 lg:grid-cols-2">
-                                <article class="glass p-6 transition-transform duration-base ease-smooth hover:scale-[1.01]">
-                                    <h3 class="text-xl font-semibold text-white">Mobile-first, RegFi ready</h3>
-                                    <p class="mt-3 text-sm text-white/70">From the Nebraska Digital Asset Bank charter to TANIP-1 incentives, Telcoin aligns telecom operators, developers, and regulators so mobile users can access compliant digital cash, remittance, and liquidity services globally.</p>
-                                    <a href="deep-dive.html?category=banking" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-mint-300 link-ux">Understand governance &amp; bank strategy →</a>
-                                </article>
-                            </div>
-                            <div class="glass border-l-4 border-amber-300/60 bg-amber-400/10 px-6 py-4 text-sm text-amber-100">
-                                <p class="font-medium">⚠️ Community Resource:</p>
-                                <p class="mt-2 text-amber-50/90">This is an unofficial, community-created guide. For official information, visit <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a>.</p>
-                            </div>
-                        </section>
-
-                        <section id="getting-started" class="space-y-8">
-                            <div class="glass p-8">
-                                <div class="prose prose-invert max-w-none">
-                                    <h2 id="wallet-basics">Wallet Basics Checklist</h2>
-                                    <p>Follow these high-impact steps to get aligned with Telcoin’s ecosystem and the TELx liquidity engine. Each card links to official documentation or trusted community explainers.</p>
-                                </div>
-                                <div class="mt-10 grid gap-6 lg:grid-cols-2">
-                                    <a href="https://telcoin.org" target="_blank" rel="noopener" class="glass block p-6 transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                                        <h3 id="create-account" class="text-lg font-semibold text-white">🆕 Create Account</h3>
-                                        <p class="mt-2 text-sm text-white/70">Download the Telcoin App, complete verification, and unlock in-app support.</p>
-                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Open telcoin.org →</span>
-                                    </a>
-                                    <div class="glass relative p-6" id="joinCommunityChecklist">
-                                        <button type="button" class="flex w-full items-start justify-between text-left text-white focus-ring">
-                                            <span>
-                                                <span class="block text-lg font-semibold">🤝 Join the Community</span>
-                                                <span class="mt-2 block text-sm text-white/70">Connect on Discord/Telegram and follow the forum</span>
-                                                <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Show community links ↓</span>
-                                            </span>
-                                            <span aria-hidden="true" class="ml-4 text-xl text-mint-300">▾</span>
-                                        </button>
-                                        <div id="joinCommunityDropdown" class="absolute left-0 right-0 top-full z-20 mt-3 hidden rounded-2xl border border-white/10 bg-ink-800/95 p-4 shadow-glass">
-                                            <ul class="space-y-2 text-sm">
-                                                <li><a class="link-ux text-mint-300" href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Discord</a></li>
-                                                <li><a class="link-ux text-mint-300" href="https://t.me/TelcoinPowerHolders" target="_blank" rel="noopener">Telegram: POWER Holders</a></li>
-                                                <li><a class="link-ux text-mint-300" href="https://t.me/telfamcommunity" target="_blank" rel="noopener">Telegram: TEL Community</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <button type="button" id="fundWalletChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                                        <h3 id="fund-wallet" class="text-lg font-semibold text-white">💳 Fund Your Wallet</h3>
-                                        <p class="mt-2 text-sm text-white/70">Explore trusted on-ramps and exchange partners that support TEL.</p>
-                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">View funding options →</span>
-                                    </button>
-                                    <button type="button" id="securityChecklist" class="glass p-6 text-left transition-transform duration-base ease-smooth hover:scale-[1.01] focus-ring">
-                                        <h3 id="security-checklist" class="text-lg font-semibold text-white">✅ Security Checklist</h3>
-                                        <p class="mt-2 text-sm text-white/70">Review safety tips, official alerts, and where to report suspicious activity.</p>
-                                        <span class="mt-4 inline-flex items-center text-xs font-medium text-mint-300">Read safety guidance →</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section id="quick-qa" class="space-y-8">
-                            <div class="glass p-8">
-                                <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                                    <div class="prose prose-invert max-w-none lg:max-w-3xl">
-                                        <h2 id="quick-facts">Community Q&amp;A - Get the Facts Fast</h2>
-                                        <p>Browse verified community answers spanning Telcoin governance, liquidity mining, digital cash, and more. Use the filter or the global search to jump straight to the insight you need.</p>
-                                        <h3 id="faq-troubleshooting">Troubleshooting</h3>
-                                        <p>If you hit an error in the Telcoin App, search for the exact message, then cross-check the answers below or escalate through the in-app support form. For outages, review the Telcoin Network status update in the TELx DeFi section.</p>
-                                    </div>
-                                    <div class="lg:min-w-[280px]">
-                                        <label for="searchBox" class="text-xs uppercase tracking-[0.25em] text-white/50">Filter Q&amp;A</label>
-                                        <input id="searchBox" type="search" placeholder="Filter Q&amp;A topics..." class="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/50 focus:border-mint-400 focus:outline-none" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="mt-12 grid gap-6 faq-grid" id="faqGrid" role="list"></div>
-                            </div>
-                        </section>
-                    </main>
-                    <aside class="hidden xl:block sticky top-16 h-[calc(100dvh-4rem)] overflow-y-auto pl-2" data-docs-toc>
-                        <div class="docs-toc space-y-4" data-toc></div>
-                    </aside>
-                </div>
-            </div>
+      <section id="home-hero" class="page-intro anchor-offset">
+        <p class="page-intro__eyebrow">Community Q&amp;A for Telcoin</p>
+        <h1 class="page-intro__title">Understand the Telcoin platform in minutes</h1>
+        <p class="page-intro__lede">This unofficial wiki curates verified answers, onboarding checklists, and direct links to Telcoin Association and Telcoin company resources so newcomers can get started with confidence.</p>
+        <div class="notice notice--info" role="note">
+          <p class="notice__title">Unofficial helper</p>
+          <p>Always confirm details inside the Telcoin Wallet or through official Association releases. The community keeps this wiki current, but the authoritative word lives at telco.in and telcoinassociation.org.</p>
         </div>
+      </section>
 
-    <footer class="border-t border-white/10 bg-ink-950/80" id="community">
-        <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-            <div class="grid gap-10 lg:grid-cols-4">
-                <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Official Channels</h3>
-                    <ul class="mt-4 space-y-2 text-sm text-white/70">
-                        <li><a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">Official Website</a></li>
-                        <li><a class="link-ux" href="https://reddit.com/r/Telcoin/" target="_blank" rel="noopener">Reddit</a></li>
-                        <li><a class="link-ux" href="https://twitter.com/telcoin" target="_blank" rel="noopener">Twitter</a></li>
-                        <li><a class="link-ux" href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Discord</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Resources</h3>
-                    <ul class="mt-4 space-y-2 text-sm text-white/70">
-                        <li><a class="link-ux" href="https://github.com/Telcoin-Association" target="_blank" rel="noopener">GitHub</a></li>
-                        <li><a class="link-ux" href="https://youtube.com/@Telcoin_Team" target="_blank" rel="noopener">YouTube</a></li>
-                        <li><a class="link-ux" href="https://linkedin.com/company/telcoin/" target="_blank" rel="noopener">LinkedIn</a></li>
-                        <li><a class="link-ux" href="https://t.me/Telcoin_Announcements" target="_blank" rel="noopener">Telegram</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">Trading</h3>
-                    <ul class="mt-4 space-y-2 text-sm text-white/70">
-                        <li><a class="link-ux" href="#" onclick="alert('Download from App Store or Google Play'); return false;">Telcoin App</a></li>
-                        <li><a class="link-ux" href="https://www.kucoin.com/trade/TEL-USDT" target="_blank" rel="noopener">KuCoin</a></li>
-                        <li><a class="link-ux" href="https://www.bitget.com/spot/TELUSDT" target="_blank" rel="noopener">Bitget</a></li>
-                        <li><a class="link-ux" href="https://app.uniswap.org/#/swap?outputCurrency=0x467Bccd9d29f223BcE8043b84E8C8B282827790F" target="_blank" rel="noopener">Uniswap</a></li>
-                    </ul>
-                </div>
-                <div class="glass p-6">
-                    <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-white/60">About This Site</h3>
-                    <p class="mt-4 text-sm text-white/70">This is an <strong>unofficial community resource</strong> created to help new Telcoin users. For official information, updates, and support, always visit <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a> and verify through official channels.</p>
-                    <p class="mt-4 text-xs text-white/50">Not affiliated with Telcoin Holdings or Telcoin Association.</p>
-                </div>
-            </div>
-            <div class="mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/50">
-                <p>© 2025 Community Resource - Unofficial Telcoin Guide. Not affiliated with Telcoin Holdings or Telcoin Association.</p>
-                <p class="mt-2">Always verify information through official channels: <a class="link-ux" href="https://telcoin.org" target="_blank" rel="noopener">telcoin.org</a> · Beware of scams and impostors.</p>
-            </div>
+      <section id="essential-services" class="anchor-offset">
+        <h2>Core Telcoin services</h2>
+        <p>Jump straight to the pillars most newcomers ask about. Each card points to an official product page so you can review supported regions, fees, and roadmap notes from the source.</p>
+        <div class="card-grid card-grid--cols-3" role="list">
+          <a class="card card--link" role="listitem" href="https://telco.in/wallet" target="_blank" rel="noopener">
+            <p class="card__meta">Wallet</p>
+            <h3 class="card__title">Telcoin Wallet essentials</h3>
+            <p>Download the app, verify your identity, and unlock swaps, remittances, and digital cash balances on mobile.</p>
+            <span class="card__cta">Open telco.in/wallet →</span>
+          </a>
+          <a class="card card--link" role="listitem" href="https://telco.in/digital-cash" target="_blank" rel="noopener">
+            <p class="card__meta">Digital Cash</p>
+            <h3 class="card__title">Multi-currency stablecoins</h3>
+            <p>Review the supported fiat-backed assets (eUSD, eCAD, ePHP and more) that settle instantly on the Telcoin Network.</p>
+            <span class="card__cta">Explore Digital Cash →</span>
+          </a>
+          <a class="card card--link" role="listitem" href="https://telco.in/remittances" target="_blank" rel="noopener">
+            <p class="card__meta">Remittances</p>
+            <h3 class="card__title">Active corridors &amp; fees</h3>
+            <p>See the 20+ supported send and receive markets, payout partners, and pricing straight from the official corridors page.</p>
+            <span class="card__cta">View corridors →</span>
+          </a>
         </div>
-    </footer>
+      </section>
 
-    <script>
-        const faqData = [
-            {
-                category: 'basics',
-                question: 'What is Telcoin?',
-                answer: `<ul>
-<li>Telcoin (TEL) is a blockchain-based platform established in Singapore in 2017, aiming to make affordable remittances accessible globally through mobile networks and decentralized finance (DeFi) solutions.</li>
-<li>Its core mission is to bridge traditional fiat currencies and digital assets by providing fast, affordable, and compliant infrastructure for mobile-based financial services.</li>
-<li>The platform emphasizes a "RegFi" (regulated DeFi) model, integrating telecom partners as compliance-aware on-ramps and off-ramps.</li>
-<li><a href="deep-dive.html?category=differentiators" class="citation-link">See Deep Dive: Telcoin Differentiators</a></li>
-</ul>`
-            },
-            {
-                category: 'basics',
-                question: "What's Telcoin's value proposition?",
-                answer: `<ul>
-<li>Affordable Remittances: Aims for transaction fees of 2% or less, significantly lower than the 7% industry average.</li>
-<li>Global Accessibility: Leverages mobile networks and telecom partnerships to reach billions of users.</li>
-<li>Regulated DeFi (RegFi): Integrates traditional finance with blockchain through regulatory adherence, exemplified by Telcoin Bank and eUSD.</li>
-<li>User Ownership: Designed to be user-owned with governance and economic incentives distributed across its layers.</li>
-<li>Digital Cash: Developing multi-currency stablecoins (e.g., eUSD, eEUR) for seamless cross-border payments and blockchain banking.</li>
-<li><a href="deep-dive.html?category=differentiators" class="citation-link">See Deep Dive: Telcoin Differentiators</a></li>
-</ul>`
-            },
-            {
-                category: 'regulation',
-                question: "How Does the GENIUS Act Affect Telcoin?",
-                answer: `<h4>1. From State-Scoped to National-Scale Legitimacy</h4>
-                <p>Telcoin's Nebraska approval gave it a legal foundation—but only within Nebraska and states with mutual recognition (but they can get around that). The GENIUS Act unlocks national legitimacy, so Telcoin's stablecoins and banking services can be recognised across the U.S., not just in friendly states.</p>
-                <p><strong>Elaboration:</strong> Telcoin's existing framework is based on its Nebraska Digital Asset Banking charter, which grants it authority to issue stablecoins and offer banking-like services—but its scope is primarily limited to Nebraska and states that accept reciprocity (often via money transmitter license exemptions). The GENIUS Act effectively creates a federal legal framework that recognizes state-chartered, non-depository stablecoin issuers—giving Telcoin the legal clarity to operate nationwide without needing a federal banking charter or license. This transition from "state-permissible" to "federally protected" dramatically expands its operational and market reach.</p>
+      <section id="getting-started" class="anchor-offset">
+        <h2>Getting started questions</h2>
+        <p>New to Telcoin? Start with the questions real users ask most and follow the linked answers for deeper dives.</p>
+        <div class="card-grid card-grid--cols-3" role="list">
+          <article class="card" role="listitem">
+            <h3 class="card__title">What is Telcoin in one paragraph?</h3>
+            <p>Understand how the Telcoin Wallet, Network, and Association fit together before you install the app.</p>
+            <p><a href="/start-here.html#telcoin-overview">Start here</a> · <a href="/faq/#what-is-telcoin">FAQ answer</a></p>
+          </article>
+          <article class="card" role="listitem">
+            <h3 class="card__title">How do I set up the Telcoin Wallet?</h3>
+            <p>Walk through verification, recovery, and security controls before adding funds.</p>
+            <p><a href="/start-here.html#wallet-setup">Start here</a> · <a href="/faq/#what-is-the-telcoin-wallet">FAQ answer</a></p>
+          </article>
+          <article class="card" role="listitem">
+            <h3 class="card__title">Where can I send remittances?</h3>
+            <p>Confirm supported payout partners and corridor availability from inside the Wallet and official updates.</p>
+            <p><a href="/start-here.html#remittance-coverage">Start here</a> · <a href="/faq/#where-can-i-send-remittances">FAQ answer</a></p>
+          </article>
+          <article class="card" role="listitem">
+            <h3 class="card__title">What is Digital Cash?</h3>
+            <p>See which fiat-backed tokens are live and how they power payouts and swaps.</p>
+            <p><a href="/start-here.html#digital-cash-basics">Start here</a> · <a href="/faq/#what-is-digital-cash">FAQ answer</a></p>
+          </article>
+          <article class="card" role="listitem">
+            <h3 class="card__title">How does TEL work?</h3>
+            <p>Learn how TEL fuels transactions, staking incentives, and TELx liquidity programs.</p>
+            <p><a href="/start-here.html#tel-utility">Start here</a> · <a href="/faq/#what-is-tel">FAQ answer</a></p>
+          </article>
+          <article class="card" role="listitem">
+            <h3 class="card__title">Who governs Telcoin?</h3>
+            <p>Meet the Telcoin Association and understand how proposals move from idea to implementation.</p>
+            <p><a href="/start-here.html#governance-basics">Start here</a> · <a href="/faq/#who-is-the-telcoin-association">FAQ answer</a></p>
+          </article>
+        </div>
+      </section>
 
-                <h4>2. Legal Clarity Attracts Institutional Partners</h4>
-                <p>Even with a state charter, big institutions (e.g., Mastercard, Visa, or MNOs) are unlikely to engage fully without federal regulatory clarity. The GENIUS Act provides that.</p>
-                <p><strong>Elaboration:</strong> State-chartered digital asset institutions still operate in regulatory grey zones at the federal level, which makes risk-averse partners (like Mastercard, Visa, telecoms, or global remittance rails) hesitant to build deep integrations. The GENIUS Act provides a clear federal endorsement of the model Telcoin is already using—a state-supervised, 100%-reserve stablecoin issuer not engaged in fractional lending. That gives confidence to institutional partners that integration won't be blocked by future federal action or lead to regulatory entanglements.</p>
+      <section id="deep-dive" class="anchor-offset">
+        <h2>Deep-dive pathways</h2>
+        <p>Ready for more? These guides connect Telcoin’s official documentation with community explainers for advanced topics.</p>
+        <div class="card-grid card-grid--cols-2" role="list">
+          <a class="card card--link" role="listitem" href="/network.html">
+            <p class="card__meta">Telcoin Network</p>
+            <h3 class="card__title">Validator &amp; infrastructure primer</h3>
+            <p>How mobile network operators secure the chain and what the Association expects from validators.</p>
+            <span class="card__cta">Read the network guide →</span>
+          </a>
+          <a class="card card--link" role="listitem" href="/tel-token.html">
+            <p class="card__meta">TEL Token</p>
+            <h3 class="card__title">Utility &amp; issuance</h3>
+            <p>Trace TEL’s gas role, staking mechanics, and the incentive programs that align wallets and liquidity providers.</p>
+            <span class="card__cta">Review TEL insights →</span>
+          </a>
+          <a class="card card--link" role="listitem" href="/telx.html">
+            <p class="card__meta">TELx</p>
+            <h3 class="card__title">Liquidity playbook</h3>
+            <p>See how TELx pools route rewards, how governance stages work, and where to monitor pool health.</p>
+            <span class="card__cta">Explore TELx →</span>
+          </a>
+          <a class="card card--link" role="listitem" href="/governance.html">
+            <p class="card__meta">Governance &amp; Association</p>
+            <h3 class="card__title">Policy, compliance, and councils</h3>
+            <p>Understand proposal flow, Association responsibilities, and how community councils influence Telcoin upgrades.</p>
+            <span class="card__cta">Go to governance →</span>
+          </a>
+        </div>
+      </section>
 
-                <h4>3. Shields Against Federal Preemption</h4>
-                <p>Without a federal law, there was always a risk that a future federal regulation could override Nebraska's framework. GENIUS locks in federal support for state-chartered stablecoin banks like Telcoin's.</p>
-                <p><strong>Elaboration:</strong> Without a law like GENIUS, future federal regulation (e.g., from the Federal Reserve, OCC, or Treasury) could invalidate or override Nebraska's authority to regulate stablecoin issuance. The GENIUS Act preempts that risk by establishing that states retain the right to charter and supervise non-depository stablecoin issuers—essentially carving out a space in federal law where Telcoin's model is both legitimate and protected. This is critical for long-term business continuity and investor confidence.</p>
-
-                <h4>4. First-Mover Advantage Is Now Exponentially More Valuable</h4>
-                <p>Telcoin is already chartered and positioned to issue stablecoins under GENIUS-compliant rules immediately. That gives it a huge head start over banks that now have to apply and build infrastructure.</p>
-                <p><strong>Elaboration:</strong> While other institutions may now rush to build GENIUS-compliant frameworks, Telcoin is already there. It spent years working with Nebraska to create the Digital Asset Bank model that inspired the GENIUS Act. That means Telcoin can immediately launch federally protected, state-supervised stablecoins (like TCUSD) while competitors are still navigating approvals and technology. This head start could be used to secure early telecom partnerships, remittance corridors, and wallet integrations—gaining users, liquidity, and relevance before incumbents can react.</p>`
-            },
-            {
-                category: 'basics',
-                question: "What is the Telcoin token (TEL)?",
-                answer: `<ul>
-<li>Native Utility Token: TEL is the native token of the Telcoin platform, used for governance, staking, and ecosystem incentives.</li>
-<li>Multi-Chain: Initially launched on Ethereum, TEL is now available on Polygon and other EVM-compatible chains.</li>
-<li>Tokenomics: Total supply is capped, with a portion allocated for ecosystem development and community incentives.</li>
-<li><a href="deep-dive.html?category=tokenomics" class="citation-link">See Deep Dive: Tokenomics</a></li>
-</ul>`
-            },
-            {
-                category: 'basics',
-                question: 'What is the Telcoin Association?',
-                answer: `<ul>
-<li>It's a Swiss-based non-profit organization that legally represents the Telcoin Platform's decentralized governance structure.</li>
-<li>Its mission is to represent the interests of GSMA Mobile Networks and other stakeholders in the ongoing maintenance and development of the Telcoin Network.</li>
-<li>It oversees the platform through various "Miner Councils" that manage different aspects of the network, ensuring long-term sustainability and self-management.</li>
-<li><a href="deep-dive.html?category=governance" class="citation-link">See Deep Dive: Association Governance</a></li>
-</ul>`
-            },
-            {
-                category: 'basics',
-                question: 'What are the different Councils and what responsibility does each have?',
-                answer: `<ul>
-<li>Platform and Treasury Councils: Govern the Telcoin Network's base layer, handling network upgrades, economic coordination, and rule changes.</li>
-<li>TELx Council: Manages the decentralized exchange (TELx), including liquidity allocation and incentive distribution.</li>
-<li>TAN Council: Governs the Telcoin Application Network (TAN), ensuring transparent rules for mobile access and user-level rewards.</li>
-<li>Compliance Council: Enforces platform rules and external regulations, with the authority to veto transactions that violate these standards.</li>
-<li><a href="deep-dive.html?category=governance" class="citation-link">See Deep Dive: Association Governance</a></li>
-</ul>`
-            },
-            {
-                category: 'basics',
-                question: "What's the difference between Telcoin Holdings and Telcoin Association?",
-                answer: `<ul>
-<li>Telcoin Holdings: This is the Singapore-based for-profit entity that initially founded Telcoin and is responsible for developing and operating Telcoin applications and services, such as the Telcoin Wallet.</li>
-<li>Telcoin Association: This is the Swiss-based non-profit organization that governs the underlying Telcoin Network and manages the TEL token, representing the interests of stakeholders in the decentralized protocol.</li>
-<li><a href="deep-dive.html?category=governance" class="citation-link">See Deep Dive: Association Governance</a></li>
-</ul>`
-            },
-            {
-                category: 'earning',
-                question: 'What is TANIP1?',
-                answer: `<ul>
-<li>TANIP1 stands for Telcoin Application Network Improvement Proposal 1.</li>
-<li>Its core purpose is to activate and define the mechanisms for distributing TEL incentives to stakers within the Telcoin Application Network (TAN).</li>
-<li>It focuses on a referral program as the primary means for regular users to earn TEL rewards by referring new users who actively transact on the Telcoin App.</li>
-<li><a href="deep-dive.html?category=earning" class="citation-link">See Deep Dive: Earning Mechanisms</a></li>
-</ul>`
-            },
-            {
-                category: 'network',
-                question: 'What is the status of the Telcoin Network?',
-                answer: `<ul>
-<li>It is an EVM (Ethereum Virtual Machine) Layer 1 blockchain and the foundational layer of the Telcoin Platform.</li>
-<li>It operates on a permissioned Proof-of-Stake (PoS) consensus mechanism, where only GSMA full-member Mobile Network Operators (MNOs) are authorized to validate blocks and earn rewards.</li>
-<li>The network currently reports "all systems operational" with no incidents for the past month, indicating stability.</li>
-<li>The Telcoin Network roadmap includes Alpha Mainnet (2025 Q3 - In Progress) and Beta Mainnet (2025 Q4).</li>
-<li><a href="deep-dive.html?category=network" class="citation-link">See Deep Dive: Network Status</a></li>
-</ul>`
-            },
-            {
-                category: 'bank',
-                question: 'What are the bank timelines and updates?',
-                answer: `<ul>
-<li>Telcoin received conditional approval to open Nebraska's first Digital Asset Bank in February 2025.</li>
-<li>Telcoin Bank is scheduled to commence operations "early this year" (referring to 2025) and anticipates receiving the full charter in the near future.</li>
-<li>After approval, Telcoin Bank is poised to offer regulated "Digital Cash" stablecoins (like eUSD in 2025) and blockchain banking services.</li>
-<li><a href="deep-dive.html?category=banking" class="citation-link">See Deep Dive: Bank & Digital Cash</a></li>
-</ul>`
-            },
-            {
-                category: 'trading',
-                question: 'What is the current status on Tier-1 exchange listings?',
-                answer: `<ul>
-<li>TEL is currently tradable on exchanges like KuCoin, Bitget, and others.</li>
-<li>It is not currently listed on major US-centric Tier-1 exchanges like Coinbase or Binance.</li>
-<li>Telcoin's "RegFi" approach suggests a focus on regulated product development before pursuing listings on certain top-tier exchanges.</li>
-<li><a href="deep-dive.html?category=marketing" class="citation-link">See Deep Dive: Marketing Strategy</a></li>
-</ul>`
-            },
-            {
-                category: 'trading',
-                question: 'Where can I buy Telcoin?',
-                answer: `<ul>
-<li><strong>Centralized Exchanges:</strong> KuCoin, Bitget, MEXC, Bybit, etc.</li>
-<li><strong>Wallets/Apps:</strong> The Telcoin App itself is a primary option.</li>
-<li><strong>Decentralized Exchanges (DEXs):</strong> Uniswap and Balancer.</li>
-<li><a href="deep-dive.html?category=getting-started" class="citation-link">See Deep Dive: Getting Started</a></li>
-</ul>`
-            },
-            {
-                category: 'earning',
-                question: 'How do I earn Telcoin from staking?',
-                answer: `<ul>
-<li>The primary method for users to earn TEL from staking in the app is via a referral program.</li>
-<li>Users stake TEL as "Proof of Alignment" and then earn a percentage of transaction fees from users they refer.</li>
-<li>Direct network validation staking is reserved for GSMA mobile network operators.</li>
-<li><a href="deep-dive.html?category=earning" class="citation-link">See Deep Dive: Earning Mechanisms</a></li>
-</ul>`
-            },
-            {
-                category: 'basics',
-                question: 'Where can I get involved with the Telcoin community?',
-                answer: `<ul>
-<li><strong>Official Channels:</strong> The best places for official information are the <a href="https://telcoin.org" target="_blank" class="citation-link">Official Website</a>, <a href="https://twitter.com/telcoin" target="_blank" class="citation-link">Twitter</a>, and the <a href="https://t.me/Telcoin_Announcements" target="_blank" class="citation-link">Telegram Announcements</a> channel.</li>
-<li><strong>Community Discussion:</strong> For community engagement, check out the official <a href="https://discord.gg/qzMUw57UJa" target="_blank" class="citation-link">Discord Server</a> and the <a href="https://reddit.com/r/Telcoin/" target="_blank" class="citation-link">Telcoin Subreddit</a>.</li>
-<li>Always verify official channels to avoid scams.</li>
-</ul>`
-            }
-        ];
-
-        function renderFAQItems() {
-            const faqGrid = document.getElementById('faqGrid');
-            if (!faqGrid) return;
-            faqGrid.innerHTML = '';
-
-            faqData.forEach((item, index) => {
-                const faqItem = document.createElement('article');
-                faqItem.className = 'glass p-6 transition duration-base ease-smooth hover:scale-[1.01]';
-                faqItem.setAttribute('role', 'listitem');
-
-                faqItem.innerHTML = `
-                    <button class="flex w-full items-center justify-between text-left focus-ring" aria-expanded="false" aria-controls="faq-answer-${index}">
-                        <span class="text-lg font-semibold text-white">${item.question}</span>
-                        <span class="ml-4 rounded-full bg-white/10 px-3 py-1 text-sm text-mint-300" aria-hidden="true">View</span>
-                    </button>
-                    <div id="faq-answer-${index}" class="max-h-0 overflow-hidden transition-all duration-300 ease-out">
-                        <div class="pt-5 text-sm leading-7 text-white/70">${item.answer}</div>
-                    </div>
-                `;
-
-                const toggleButton = faqItem.querySelector('button');
-                const answer = faqItem.querySelector(`#faq-answer-${index}`);
-
-                toggleButton.addEventListener('click', () => {
-                    const expanded = toggleButton.getAttribute('aria-expanded') === 'true';
-                    document.querySelectorAll('#faqGrid button[aria-expanded="true"]').forEach((openButton) => {
-                        if (openButton !== toggleButton) {
-                            openButton.setAttribute('aria-expanded', 'false');
-                            const panel = openButton.parentElement.querySelector('[id^="faq-answer-"]');
-                            panel.style.maxHeight = '0px';
-                        }
-                    });
-                    if (expanded) {
-                        toggleButton.setAttribute('aria-expanded', 'false');
-                        answer.style.maxHeight = '0px';
-                    } else {
-                        toggleButton.setAttribute('aria-expanded', 'true');
-                        answer.style.maxHeight = answer.scrollHeight + 'px';
-                    }
-                });
-
-                faqGrid.appendChild(faqItem);
-            });
-        }
-
-        function filterFAQs(searchTerm) {
-            const normalizedTerm = (searchTerm || '').toLowerCase();
-            document.querySelectorAll('#faqGrid article').forEach((item) => {
-                const question = item.querySelector('button span').textContent.toLowerCase();
-                const answer = item.querySelector('[id^="faq-answer-"]').textContent.toLowerCase();
-                if (!normalizedTerm || question.includes(normalizedTerm) || answer.includes(normalizedTerm)) {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-        }
-
-        function setupSearch() {
-            const searchBox = document.getElementById('searchBox');
-            if (!searchBox) return null;
-            searchBox.addEventListener('input', (event) => {
-                const value = event.target.value || '';
-                filterFAQs(value);
-                if (window.history && window.history.replaceState) {
-                    try {
-                        const url = new URL(window.location.href);
-                        if (value.trim().length) {
-                            url.searchParams.set('q', value.trim());
-                        } else {
-                            url.searchParams.delete('q');
-                        }
-                        window.history.replaceState({}, '', url);
-                    } catch (error) {
-                        /* noop */
-                    }
-                }
-            });
-            return searchBox;
-        }
-
-        function applyQueryFilters(searchBox) {
-            if (!searchBox || typeof URLSearchParams === 'undefined') return;
-            const params = new URLSearchParams(window.location.search);
-            const query = params.get('q') || params.get('search');
-            if (query) {
-                searchBox.value = query;
-                filterFAQs(query);
-            }
-        }
-
-        function injectFAQSchema() {
-            if (!Array.isArray(faqData) || !faqData.length) return;
-            const faqSchema = {
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                "@id": "https://telcoinwiki.com/#faq",
-                "url": "https://telcoinwiki.com/#quick-facts",
-                "name": "Telcoin Wiki Quick Q&A",
-                "inLanguage": "en-US",
-                "isPartOf": {
-                    "@id": "https://telcoinwiki.com/#webpage"
-                },
-                "mainEntity": faqData.map((item) => ({
-                    "@type": "Question",
-                    "name": item.question,
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": item.answer
-                            .replace(/<br\s*\/?\s*>/gi, '\n')
-                            .replace(/<[^>]*>/g, ' ')
-                            .replace(/\s+/g, ' ')
-                            .trim()
-                    }
-                }))
-            };
-
-            const existingSchema = document.getElementById('faq-schema');
-            if (existingSchema) {
-                existingSchema.remove();
-            }
-
-            const script = document.createElement('script');
-            script.type = 'application/ld+json';
-            script.id = 'faq-schema';
-            script.textContent = JSON.stringify(faqSchema);
-            document.head.appendChild(script);
-        }
-
-        function setupChecklist() {
-            const joinCommunityChecklist = document.getElementById('joinCommunityChecklist');
-            const joinCommunityDropdown = document.getElementById('joinCommunityDropdown');
-            if (joinCommunityChecklist && joinCommunityDropdown) {
-                joinCommunityChecklist.addEventListener('click', (event) => {
-                    const isButton = event.target.closest('button');
-                    if (!isButton) return;
-                    event.stopPropagation();
-                    const isOpen = !joinCommunityDropdown.classList.contains('hidden');
-                    document.querySelectorAll('#joinCommunityDropdown').forEach((panel) => panel.classList.add('hidden'));
-                    joinCommunityDropdown.classList.toggle('hidden', isOpen);
-                });
-                document.addEventListener('click', (event) => {
-                    if (!joinCommunityChecklist.contains(event.target)) {
-                        joinCommunityDropdown.classList.add('hidden');
-                    }
-                });
-            }
-
-            const fundWalletChecklist = document.getElementById('fundWalletChecklist');
-            if (fundWalletChecklist) {
-                fundWalletChecklist.addEventListener('click', () => {
-                    window.location.href = 'links.html#trading-wallets';
-                });
-            }
-
-            const securityChecklist = document.getElementById('securityChecklist');
-            if (securityChecklist) {
-                securityChecklist.addEventListener('click', () => {
-                    window.location.href = 'links.html#official-resources';
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderFAQItems();
-            injectFAQSchema();
-            const searchBox = setupSearch();
-            applyQueryFilters(searchBox);
-            setupChecklist();
-        });
-    </script>
-    <script src="/js/docs-layout.js"></script>
-    <script src="/js/theme-toggle.js"></script>
-    <script src="/js/copy-code.js"></script>
-    <script src="/js/lightbox.js"></script>
-    <script src="/js/search.js"></script>
-    <script src="/js/mobile-optimizations.js"></script>
-    <script src="/js/pools-data.js"></script>
+      <div class="source-box">
+        <p class="source-box__title">From the source</p>
+        <ul class="source-box__links">
+          <li><a class="source-box__link" href="https://telco.in/" target="_blank" rel="noopener">Telcoin product hub</a></li>
+          <li><a class="source-box__link" href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Telcoin Association</a></li>
+          <li><a class="source-box__link" href="https://www.telcoinnetwork.org" target="_blank" rel="noopener">Telcoin Network</a></li>
+        </ul>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__cols">
+        <div>
+          <h2 class="footer__title">Official resources</h2>
+          <ul class="footer__list">
+            <li><a href="https://telco.in/wallet" target="_blank" rel="noopener">Telcoin Wallet</a></li>
+            <li><a href="https://telco.in/digital-cash" target="_blank" rel="noopener">Digital Cash</a></li>
+            <li><a href="https://telco.in/remittances" target="_blank" rel="noopener">Remittances</a></li>
+            <li><a href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Telcoin Association</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer__title">Stay informed</h2>
+          <ul class="footer__list">
+            <li><a href="https://telco.in/newsroom" target="_blank" rel="noopener">Newsroom</a></li>
+            <li><a href="https://status.telco.in" target="_blank" rel="noopener">Status Page</a></li>
+            <li><a href="https://telco.in/legal" target="_blank" rel="noopener">Legal &amp; policies</a></li>
+            <li><a href="https://x.com/telcoin" target="_blank" rel="noopener">Telcoin on X</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer__title">Community tools</h2>
+          <ul class="footer__list">
+            <li><a href="/faq/">Knowledge base FAQ</a></li>
+            <li><a href="/builders.html">Builder resources</a></li>
+            <li><a href="/links.html">Official links</a></li>
+            <li><a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer__note">Telcoin Wiki is an unofficial, community-maintained resource. Always verify details through the Telcoin Wallet, Telcoin Association publications, and official legal notices.</p>
+    </div>
+  </footer>
 </body>
 </html>
