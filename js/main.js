@@ -344,6 +344,8 @@
     const cardToggles = Array.from(host.querySelectorAll(GETTING_STARTED_CARD_TOGGLE_SELECTOR));
 
     if (toggle && panel) {
+      panel.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
       toggle.addEventListener('click', () => {
         const expanded = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
@@ -376,6 +378,13 @@
           card.classList.toggle('is-open', !expanded);
         }
       });
+      const panelId = button.getAttribute('aria-controls');
+      const panelEl = panelId ? document.getElementById(panelId) : null;
+      if (panelEl) {
+        panelEl.hidden = true;
+      }
+      const card = button.closest('[data-getting-started-card]');
+      card?.classList.remove('is-open');
     });
   }
 
