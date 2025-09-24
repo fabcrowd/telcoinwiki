@@ -2,14 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>TELx Pools Dashboard — Telcoin Liquidity Overview</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TELx Pools Dashboard — Telcoin Liquidity Overview</title>
   <meta name="description" content="Snapshot of TELx liquidity pools with status chips, TVL, staking balances, 24h volume, fees, and reward programs.">
   <link rel="canonical" href="https://telcoinwiki.com/pools.html">
+  <meta name="theme-color" content="#050a1b">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Telcoin Wiki">
+  <meta property="og:title" content="TELx Pools Dashboard — Telcoin Liquidity Overview">
+  <meta property="og:description" content="Snapshot of TELx liquidity pools with status chips, TVL, staking balances, 24h volume, fees, and reward programs.">
+  <meta property="og:url" content="https://telcoinwiki.com/pools.html">
+  <meta property="og:image" content="https://telcoinwiki.com/assets/Telcoinwiki.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Telcoin Wiki community knowledge base overview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TELx Pools Dashboard — Telcoin Liquidity Overview">
+  <meta name="twitter:description" content="Snapshot of TELx liquidity pools with status chips, TVL, staking balances, 24h volume, fees, and reward programs.">
+  <meta name="twitter:image" content="https://telcoinwiki.com/assets/Telcoinwiki.png">
+  <meta name="twitter:site" content="@telcoin">
   <link rel="icon" type="image/svg+xml" href="/logo.svg">
-  <link rel="stylesheet" href="/styles/variables.css">
-  <link rel="stylesheet" href="/styles/site.css">
+  <link rel="preload" href="/dist/styles.css" as="style">
+  <link rel="stylesheet" href="/dist/styles.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -25,26 +39,25 @@
   }
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/elasticlunr@0.9.6/elasticlunr.min.js" integrity="sha384-VY2k6pNnZX1hmzLwAlSP8nHbn8WCsuozN4/p2JjNyQaIJZL8SaJIs/VIVqVdPXge" crossorigin="anonymous"></script>
-  <script defer src="/js/layout.js"></script>
-  <script defer src="/js/search.js"></script>
-  <script defer src="/js/pools-data.js"></script>
+  <script defer src="/dist/main.js"></script>
+  <script defer src="/dist/pools.js"></script>
 </head>
 <body data-page="pools">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header" data-header>
     <div class="site-header__inner">
-      <a class="site-logo" href="/index.html">
-        <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" loading="lazy" fetchpriority="high">
+      <a class="site-logo" href="/index.html" aria-label="Telcoin Wiki home">
+        <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" fetchpriority="high">
         <span>Telcoin Wiki</span>
       </a>
       <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-expanded="false" aria-controls="site-sidebar">Menu</button>
       <nav class="top-nav" aria-label="Primary">
         <ul class="top-nav__list" data-nav></ul>
       </nav>
-      <div class="header-search">
+      <div class="header-search" role="search">
         <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
         <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
-        <div class="search-panel" data-search-results aria-hidden="true"></div>
+        <div class="search-panel" data-search-results hidden aria-label="Search suggestions"></div>
       </div>
     </div>
   </header>
@@ -53,10 +66,12 @@
     <aside id="site-sidebar" class="sidebar" data-sidebar>
       <div class="sidebar__inner">
         <p class="sidebar__heading">Knowledge base</p>
-        <ul class="sidebar__list" data-sidebar-list></ul>
+        <nav class="sidebar__nav" aria-label="Knowledge base">
+          <ul class="sidebar__list" data-sidebar-list></ul>
+        </nav>
       </div>
     </aside>
-    <main id="main-content" class="site-main">
+    <main id="main-content" class="site-main" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
       <section id="pools-overview" class="page-intro anchor-offset">
@@ -79,6 +94,7 @@
         <p>The table updates automatically when TELx publishes new dashboard data. Review pool TVL, staking balances, and recent activity to understand market depth.</p>
         <div class="table-scroll">
           <table>
+            <caption class="sr-only">Live TELx pool metrics sourced from telx.network APIs</caption>
             <thead>
               <tr>
                 <th scope="col">Pool</th>
@@ -90,7 +106,7 @@
                 <th scope="col">Rewards</th>
               </tr>
             </thead>
-            <tbody data-pool-table-body>
+            <tbody data-pool-table-body aria-live="polite" aria-busy="true">
               <tr>
                 <td class="table-note" colspan="7">Loading TELx pool metrics…</td>
               </tr>
