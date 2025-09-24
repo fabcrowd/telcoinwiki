@@ -159,23 +159,28 @@
     <div class="relative flex min-h-screen flex-col">
         <div id="top"></div>
         <header class="sticky top-0 z-50 border-b border-white/10 bg-ink-950/80 backdrop-blur-xs">
-            <div class="mx-auto flex w-full max-w-7xl items-center gap-3 px-4 py-4">
-                <a href="index.html" class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10 focus-ring" aria-label="Telcoin Wiki home">
-                    <img src="logo.svg" alt="Telcoin Wiki" class="h-10 w-auto">
-                    <span class="sr-only">Telcoin Wiki</span>
-                </a>
-                <div class="flex flex-1 items-center justify-center">
-                    <div class="relative w-full max-w-xl">
-                        <label for="site-search" class="sr-only">Search Telcoin Deep Dive</label>
-                        <input id="site-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
-                        <div class="search-panel" data-search-results aria-hidden="true"></div>
+            <div class="mx-auto w-full max-w-7xl px-4 py-3 lg:py-2.5">
+                <div class="flex w-full flex-wrap items-center gap-3 lg:grid lg:grid-cols-[auto_minmax(0,1fr)_minmax(0,15rem)] lg:items-center lg:gap-4">
+                    <a href="index.html" class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/10 focus-ring" aria-label="Telcoin Wiki home">
+                        <img src="logo.svg" alt="Telcoin Wiki" class="h-10 w-auto">
+                        <span class="sr-only">Telcoin Wiki</span>
+                    </a>
+                    <div class="order-3 hidden w-full lg:order-2 lg:block lg:justify-self-center" data-docs-header-nav>
+                        <nav data-docs-nav class="docs-nav docs-nav--header"></nav>
                     </div>
-                </div>
-                <div class="flex items-center">
-                    <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="icon-button lg:hidden focus-ring">
-                        <span class="sr-only">Open navigation</span>
-                        ☰
-                    </button>
+                    <div class="order-2 flex flex-1 items-center justify-end lg:order-3 lg:flex-none lg:justify-self-end">
+                        <div class="relative w-full max-w-md lg:max-w-xs">
+                            <label for="site-search" class="sr-only">Search Telcoin Deep Dive</label>
+                            <input id="site-search" data-site-search type="search" placeholder="Search this page" autocomplete="off" class="site-search-input">
+                            <div class="search-panel" data-search-results aria-hidden="true"></div>
+                        </div>
+                    </div>
+                    <div class="order-4 flex items-center flex-shrink-0 lg:hidden">
+                        <button type="button" data-mobile-toggle aria-controls="mobile-drawer" aria-expanded="false" class="icon-button focus-ring">
+                            <span class="sr-only">Open navigation</span>
+                            ☰
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
@@ -201,10 +206,7 @@
 
         <div class="flex-1 w-full">
             <div class="mx-auto max-w-7xl px-4 pb-24 pt-12 sm:pt-16">
-                <div class="grid grid-cols-1 gap-6 lg:grid-cols-[16rem_minmax(0,1fr)_14rem]">
-                    <aside class="hidden lg:block sticky top-16 h-[calc(100dvh-4rem)] overflow-y-auto pr-2" data-docs-sidebar>
-                        <nav data-docs-nav class="docs-nav space-y-3"></nav>
-                    </aside>
+                <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_14rem]">
                     <main id="main-content" class="space-y-12">
                         <section class="space-y-8">
                             <div class="glass p-8">
