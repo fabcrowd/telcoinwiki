@@ -143,6 +143,13 @@
       <section id="pools-table" class="anchor-offset">
         <h2>Live TELx pools</h2>
         <p>The table updates automatically when TELx publishes new dashboard data. Review pool TVL, staking balances, and recent activity to understand market depth.</p>
+        <div class="refresh-banner" data-refresh-banner>
+          <p class="refresh-banner__label">Refreshing TELx data</p>
+          <div class="refresh-progress" data-progress-bar role="progressbar" aria-label="Loading TELx pool metrics" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100">
+            <span class="refresh-progress__indicator" data-progress-indicator></span>
+            <span class="sr-only" data-progress-label>Loading TELx pool metrics…</span>
+          </div>
+        </div>
         <div class="table-scroll">
           <table>
             <caption class="sr-only">Live TELx pool metrics sourced from telx.network APIs</caption>
@@ -158,8 +165,86 @@
               </tr>
             </thead>
             <tbody data-pool-table-body aria-live="polite" aria-busy="true">
-              <tr>
-                <td class="table-note" colspan="7">Loading TELx pool metrics…</td>
+              <tr class="skeleton-row" data-skeleton-row aria-hidden="true">
+                <td>
+                  <span class="skeleton skeleton--name"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--chip"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--wide"></span>
+                </td>
+              </tr>
+              <tr class="skeleton-row" data-skeleton-row aria-hidden="true">
+                <td>
+                  <span class="skeleton skeleton--name"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--chip"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--wide"></span>
+                </td>
+              </tr>
+              <tr class="skeleton-row" data-skeleton-row aria-hidden="true">
+                <td>
+                  <span class="skeleton skeleton--name"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--chip"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--value"></span>
+                  <span class="skeleton skeleton--change"></span>
+                </td>
+                <td>
+                  <span class="skeleton skeleton--wide"></span>
+                </td>
               </tr>
             </tbody>
           </table>

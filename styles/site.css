@@ -1185,34 +1185,182 @@ tr:last-child td {
   color: var(--color-text-muted);
 }
 
+.refresh-banner {
+  margin: var(--space-4) 0 var(--space-3);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.refresh-banner__label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+}
+
+.refresh-progress {
+  position: relative;
+  height: 0.4rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.6s var(--transition-smooth);
+}
+
+.refresh-progress.is-active {
+  opacity: 1;
+}
+
+.refresh-progress.is-complete {
+  opacity: 0;
+}
+
+.refresh-progress__indicator {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(45, 212, 191, 0.7), rgba(78, 163, 255, 0.85));
+  border-radius: inherit;
+  transform-origin: left center;
+}
+
+.refresh-progress.is-active .refresh-progress__indicator {
+  animation: progressFill 1.8s var(--transition-smooth) forwards;
+}
+
+.refresh-progress.is-complete .refresh-progress__indicator {
+  animation: none;
+  width: 100%;
+}
+
+.refresh-progress.is-error .refresh-progress__indicator {
+  background: linear-gradient(90deg, rgba(250, 204, 21, 0.65), rgba(248, 113, 113, 0.75));
+}
+
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+.skeleton-row td {
+  border-bottom: none;
+  color: transparent;
+}
+
+.skeleton {
+  display: block;
+  height: 0.75rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton + .skeleton {
+  margin-top: var(--space-1);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: translateX(-100%);
+  animation: skeletonSweep 1.8s ease-in-out infinite;
+}
+
+.skeleton--name {
+  width: clamp(6rem, 26vw, 11rem);
+  height: 1rem;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton--chip {
+  width: 5.5rem;
+  height: 1.2rem;
+}
+
+.skeleton--value {
+  width: clamp(5rem, 22vw, 8rem);
+  height: 0.95rem;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton--change {
+  width: clamp(3.5rem, 14vw, 6rem);
+  height: 0.75rem;
+  border-radius: var(--radius-sm);
+  opacity: 0.65;
+}
+
+.skeleton--wide {
+  width: clamp(8rem, 34vw, 15rem);
+  height: 0.9rem;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeletonSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  60% {
+    transform: translateX(120%);
+  }
+
+  100% {
+    transform: translateX(120%);
+  }
+}
+
 .status-chip,
 .chip {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-1);
-  border-radius: var(--radius-pill);
   padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
   font-size: 0.8rem;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .chip--active,
 .chip-active {
-  background: rgba(45, 212, 191, 0.18);
-  color: #bffef2;
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.28), rgba(78, 163, 255, 0.24));
+  border-color: rgba(45, 212, 191, 0.38);
+  color: #d9fff8;
+  box-shadow: inset 0 1px 0 rgba(45, 212, 191, 0.26);
 }
 
 .chip--archived,
 .chip-archived {
-  background: rgba(78, 163, 255, 0.18);
-  color: rgba(212, 232, 255, 0.9);
+  background: linear-gradient(135deg, rgba(78, 163, 255, 0.28), rgba(31, 109, 255, 0.34));
+  border-color: rgba(78, 163, 255, 0.45);
+  color: rgba(224, 238, 255, 0.94);
+  box-shadow: inset 0 1px 0 rgba(78, 163, 255, 0.24);
 }
 
 .chip--deprecated,
 .chip-deprecated {
-  background: rgba(250, 204, 21, 0.22);
-  color: #fee287;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.32), rgba(168, 85, 247, 0.2));
+  border-color: rgba(250, 204, 21, 0.38);
+  color: #fff9cc;
+  box-shadow: inset 0 1px 0 rgba(250, 204, 21, 0.28);
 }
 
 .btn,

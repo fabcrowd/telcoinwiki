@@ -78,11 +78,25 @@
         }
     };
 
+    const METRIC_LABELS = {
+        tvl: 'Total value locked',
+        staked: 'Staked TEL',
+        volume: '24 hour volume',
+        fees: '24 hour fees'
+    };
+
+    let progressController = null;
+
     document.addEventListener('DOMContentLoaded', function () {
+        progressController = createProgressController();
         const statValueElement = document.querySelector('[data-stat-value]');
         const tableBody = document.querySelector('[data-pool-table-body]');
         if (!statValueElement && !tableBody) {
             return;
+        }
+
+        if (progressController && tableBody) {
+            progressController.start();
         }
 
         setTableBusy(tableBody, true);
@@ -99,8 +113,16 @@
                 if (tableBody) {
                     updatePoolsTable(preparedPools);
                 }
+                if (progressController && tableBody) {
+                    progressController.finish();
+                }
             })
-            .catch(handleError)
+            .catch(function () {
+                handleError();
+                if (progressController && tableBody) {
+                    progressController.finish({ label: 'TELx pool metrics unavailable', error: true });
+                }
+            })
             .finally(function () {
                 setTableBusy(tableBody, false);
             });
@@ -686,24 +708,72 @@
     }
 
     function applyChange(element, change, options) {
-        if (!element) {
-            return;
+        const result = {
+            text: '',
+            tone: 'neutral',
+            aria: '',
+            numeric: Number.isFinite(change) ? change : null
+        };
+        if (element) {
+            element.classList.remove('positive', 'negative', 'neutral');
         }
-        element.classList.remove('positive', 'negative', 'neutral');
         if (!Number.isFinite(change)) {
-            element.textContent = options && options.unavailableText ? options.unavailableText : 'Data unavailable';
-            element.classList.add('neutral');
-            return;
+            result.text = options && options.unavailableText ? options.unavailableText : 'Data unavailable';
+            result.aria = result.text;
+            if (element) {
+                element.textContent = result.text;
+                element.classList.add('neutral');
+            }
+            return result;
         }
         const formatted = formatPercent(change);
-        element.textContent = options && options.suffix ? formatted + options.suffix : formatted;
-        if (change > 0) {
-            element.classList.add('positive');
-        } else if (change < 0) {
-            element.classList.add('negative');
-        } else {
-            element.classList.add('neutral');
+        result.text = options && options.suffix ? formatted + options.suffix : formatted;
+        result.tone = change > 0 ? 'positive' : change < 0 ? 'negative' : 'neutral';
+        result.aria = describeChangeForAria(change, options, formatted);
+        if (element) {
+            element.textContent = result.text;
+            element.classList.add(result.tone);
         }
+        return result;
+    }
+
+    function describeChangeForAria(change, options, formatted) {
+        const magnitude = formatted.replace(/^[-+]/, '').replace('%', ' percent');
+        const timeframe = describeSuffixForAria(options && options.suffix);
+        if (change > 0) {
+            return ['Up', magnitude, timeframe].filter(Boolean).join(' ');
+        }
+        if (change < 0) {
+            return ['Down', magnitude, timeframe].filter(Boolean).join(' ');
+        }
+        return timeframe ? ['No change', timeframe].join(' ') : 'No change';
+    }
+
+    function describeSuffixForAria(suffix) {
+        if (!suffix) {
+            return '';
+        }
+        const trimmed = suffix.replace(/^[\s·]+/, '').trim();
+        if (!trimmed) {
+            return '';
+        }
+        if (/24h/i.test(trimmed)) {
+            if (/^vs/i.test(trimmed)) {
+                return 'versus 24 hours ago';
+            }
+            return 'in the last 24 hours';
+        }
+        return trimmed;
+    }
+
+    function buildMetricAriaLabel(metricKey, valueText, changeInfo) {
+        const label = METRIC_LABELS[metricKey] || metricKey;
+        const normalizedValue = valueText === '—' ? 'Data unavailable' : valueText;
+        const segments = [label + ': ' + normalizedValue];
+        if (changeInfo && changeInfo.aria) {
+            segments.push(changeInfo.aria);
+        }
+        return segments.join('. ');
     }
 
     function getPoolName(pool) {
@@ -785,6 +855,7 @@
         } else if (normalized.indexOf('archived') !== -1 || normalized.indexOf('ended') !== -1 || normalized.indexOf('retired') !== -1) {
             span.classList.add('chip-archived');
         }
+        span.title = label;
         span.textContent = label;
         return span;
     }
@@ -868,32 +939,83 @@
             const nameCell = document.createElement('td');
             nameCell.className = 'table-name';
             nameCell.textContent = row.name;
+            nameCell.setAttribute('aria-label', 'Pool: ' + row.name);
             tr.appendChild(nameCell);
 
             const statusCell = document.createElement('td');
-            statusCell.appendChild(createStatusChip(row.status));
+            const statusChip = createStatusChip(row.status);
+            const statusLabel = statusChip.textContent || 'Unknown';
+            statusCell.setAttribute('aria-label', 'Pool status: ' + statusLabel);
+            statusCell.appendChild(statusChip);
             tr.appendChild(statusCell);
 
             ['tvl', 'staked', 'volume', 'fees'].forEach(function (metricKey) {
                 const metricCell = document.createElement('td');
                 const valueWrapper = document.createElement('div');
                 valueWrapper.className = 'metric-value';
-                valueWrapper.textContent = formatMetricValue(row.metrics[metricKey].value, METRIC_CONFIG[metricKey]);
+                const valueText = formatMetricValue(row.metrics[metricKey].value, METRIC_CONFIG[metricKey]);
+                valueWrapper.textContent = valueText;
+                valueWrapper.setAttribute('aria-hidden', 'true');
                 metricCell.appendChild(valueWrapper);
                 const changeWrapper = document.createElement('div');
                 changeWrapper.className = 'value-change';
-                applyChange(changeWrapper, row.metrics[metricKey].percent, { suffix: ' · 24h' });
+                const changeInfo = applyChange(changeWrapper, row.metrics[metricKey].percent, { suffix: ' · 24h' });
+                changeWrapper.setAttribute('aria-hidden', 'true');
                 metricCell.appendChild(changeWrapper);
+                metricCell.setAttribute('aria-label', buildMetricAriaLabel(metricKey, valueText, changeInfo));
                 tr.appendChild(metricCell);
             });
 
             const rewardsCell = document.createElement('td');
             rewardsCell.className = 'table-note';
-            rewardsCell.textContent = row.rewards || '—';
+            const rewardsText = row.rewards || '—';
+            rewardsCell.textContent = rewardsText;
+            rewardsCell.setAttribute(
+                'aria-label',
+                rewardsText === '—' ? 'Rewards data unavailable' : 'Rewards: ' + rewardsText
+            );
             tr.appendChild(rewardsCell);
 
             tableBody.appendChild(tr);
         });
+    }
+
+    function createProgressController() {
+        const bar = document.querySelector('[data-progress-bar]');
+        if (!bar) {
+            return null;
+        }
+        const indicator = bar.querySelector('[data-progress-indicator]');
+        if (!indicator) {
+            return null;
+        }
+        const label = bar.querySelector('[data-progress-label]');
+        return {
+            start: function () {
+                bar.setAttribute('aria-valuenow', '0');
+                bar.classList.remove('is-complete', 'is-error', 'is-active');
+                void bar.offsetWidth;
+                bar.classList.add('is-active');
+                if (label) {
+                    label.textContent = 'Loading TELx pool metrics…';
+                }
+                bar.setAttribute('aria-label', 'Loading TELx pool metrics');
+            },
+            finish: function (options) {
+                const finalLabel = options && options.label ? options.label : 'TELx pool metrics loaded';
+                const isError = Boolean(options && options.error);
+                bar.setAttribute('aria-valuenow', '100');
+                bar.classList.toggle('is-error', isError);
+                if (label) {
+                    label.textContent = finalLabel;
+                }
+                bar.setAttribute('aria-label', finalLabel);
+                bar.classList.add('is-complete');
+                window.setTimeout(function () {
+                    bar.classList.remove('is-active');
+                }, 600);
+            }
+        };
     }
 
     function handleError() {
