@@ -49,10 +49,12 @@
   };
 
   const searchInstances = [];
+  const FAQ_CARD_TOGGLE_SELECTOR = '[data-faq-card-toggle]';
 
   document.addEventListener('DOMContentLoaded', () => {
     initLayout();
     initSearch();
+    initInlineFaqCards();
   });
 
   function initLayout() {
@@ -254,6 +256,77 @@
         return { id, text };
       })
       .filter(Boolean);
+  }
+
+  function initInlineFaqCards() {
+    const toggles = Array.from(document.querySelectorAll(FAQ_CARD_TOGGLE_SELECTOR));
+    if (!toggles.length) {
+      return;
+    }
+
+    function handleToggle(event) {
+      const toggle = event.currentTarget;
+      if (!(toggle instanceof HTMLElement)) {
+        return;
+      }
+
+      const panelId = toggle.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if (panel) {
+        panel.hidden = expanded;
+      }
+      const host = toggle.closest('.faq-card');
+      if (host) {
+        host.classList.toggle('is-open', !expanded);
+      }
+    }
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener('click', handleToggle);
+    });
+
+    function openFromHash() {
+      const rawHash = window.location.hash ? window.location.hash.slice(1) : '';
+      if (!rawHash) {
+        return;
+      }
+
+      let targetId;
+      try {
+        targetId = decodeURIComponent(rawHash);
+      } catch (error) {
+        targetId = rawHash;
+      }
+
+      if (!targetId) {
+        return;
+      }
+
+      const host = document.getElementById(targetId);
+      if (!host) {
+        return;
+      }
+
+      const toggle = host.querySelector(FAQ_CARD_TOGGLE_SELECTOR);
+      if (!toggle) {
+        return;
+      }
+
+      const panelId = toggle.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      toggle.setAttribute('aria-expanded', 'true');
+      if (panel) {
+        panel.hidden = false;
+      }
+      host.classList.add('is-open');
+      const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      host.scrollIntoView({ behavior: prefersReduce ? 'auto' : 'smooth', block: 'start' });
+    }
+
+    window.addEventListener('hashchange', openFromHash);
+    openFromHash();
   }
 
   function normalise(value) {
