@@ -1,0 +1,25 @@
+{
+  "name": "telcoinwiki",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build tooling and quality checks for the Telcoin Wiki static site",
+  "scripts": {
+    "format": "prettier --write '**/*.{html,css,js,json,md}'",
+    "lint": "eslint '**/*.js' --max-warnings=0",
+    "check:html": "html-validate '**/*.html'",
+    "check:links": "linkinator . --recurse --silent --skip 'node_modules|dist'",
+    "build:css": "csso styles/index.css --output dist/styles.css",
+    "build:js": "mkdir -p dist && terser js/main.js -o dist/main.js --compress --mangle && terser js/faq.js -o dist/faq.js --compress --mangle && terser js/pools-data.js -o dist/pools.js --compress --mangle",
+    "build:img": "node scripts/optimize-images.js",
+    "build": "npm run build:css && npm run build:js && npm run build:img"
+  },
+  "devDependencies": {
+    "csso": "^5.0.5",
+    "eslint": "^8.57.0",
+    "html-validate": "^9.15.0",
+    "linkinator": "^4.1.0",
+    "prettier": "^3.3.2",
+    "sharp": "^0.33.2",
+    "terser": "^5.27.0"
+  }
+}
