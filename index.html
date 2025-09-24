@@ -521,39 +521,76 @@
       </section>
 
       <section id="getting-started" class="anchor-offset">
-        <h2>Getting started questions</h2>
-        <p>New to Telcoin? Start with the questions real users ask most and follow the linked answers for deeper dives.</p>
-        <div class="card-grid card-grid--cols-3" role="list">
-          <article class="card" role="listitem">
-            <h3 class="card__title">What is Telcoin in one paragraph?</h3>
-            <p>Understand how the Telcoin Wallet, Network, and Association fit together before you install the app.</p>
-            <p><a href="/start-here.html#telcoin-overview">Start here</a> · <a href="/faq/#what-is-telcoin">FAQ answer</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <h3 class="card__title">How do I set up the Telcoin Wallet?</h3>
-            <p>Walk through verification, recovery, and security controls before adding funds.</p>
-            <p><a href="/start-here.html#wallet-setup">Start here</a> · <a href="/faq/#what-is-the-telcoin-wallet">FAQ answer</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <h3 class="card__title">Where can I send remittances?</h3>
-            <p>Confirm supported payout partners and corridor availability from inside the Wallet and official updates.</p>
-            <p><a href="/start-here.html#remittance-coverage">Start here</a> · <a href="/faq/#where-can-i-send-remittances">FAQ answer</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <h3 class="card__title">What is Digital Cash?</h3>
-            <p>See which fiat-backed tokens are live and how they power payouts and swaps.</p>
-            <p><a href="/start-here.html#digital-cash-basics">Start here</a> · <a href="/faq/#what-is-digital-cash">FAQ answer</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <h3 class="card__title">How does TEL work?</h3>
-            <p>Learn how TEL fuels transactions, staking incentives, and TELx liquidity programs.</p>
-            <p><a href="/start-here.html#tel-utility">Start here</a> · <a href="/faq/#what-is-tel">FAQ answer</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <h3 class="card__title">Who governs Telcoin?</h3>
-            <p>Meet the Telcoin Association and understand how proposals move from idea to implementation.</p>
-            <p><a href="/start-here.html#governance-basics">Start here</a> · <a href="/faq/#who-is-the-telcoin-association">FAQ answer</a></p>
-          </article>
+        <div class="getting-started" data-getting-started>
+          <button class="getting-started__toggle" type="button" data-getting-started-toggle aria-expanded="false" aria-controls="getting-started-panel">
+            <span class="getting-started__toggle-text">Getting started questions</span>
+            <span class="getting-started__toggle-icon" aria-hidden="true"></span>
+          </button>
+          <div class="getting-started__panel" id="getting-started-panel" data-getting-started-panel>
+            <p class="getting-started__intro">New to Telcoin? Start with the questions real users ask most and follow the linked answers for deeper dives.</p>
+            <div class="card-grid card-grid--cols-3 getting-started__grid" role="list">
+              <article class="card getting-started-card" role="listitem" data-getting-started-card>
+                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-1">
+                  <span class="card__title" role="heading" aria-level="3">What is Telcoin in one paragraph?</span>
+                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
+                </button>
+                <div class="getting-started-card__content" id="getting-started-card-1">
+                  <p>Understand how the Telcoin Wallet, Network, and Association fit together before you install the app.</p>
+                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-overview">Learn more</a>
+                </div>
+              </article>
+              <article class="card getting-started-card" role="listitem" data-getting-started-card>
+                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-2">
+                  <span class="card__title" role="heading" aria-level="3">How do I set up the Telcoin Wallet?</span>
+                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
+                </button>
+                <div class="getting-started-card__content" id="getting-started-card-2">
+                  <p>Walk through verification, recovery, and security controls before adding funds.</p>
+                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-links">Learn more</a>
+                </div>
+              </article>
+              <article class="card getting-started-card" role="listitem" data-getting-started-card>
+                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-3">
+                  <span class="card__title" role="heading" aria-level="3">Where can I send remittances?</span>
+                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
+                </button>
+                <div class="getting-started-card__content" id="getting-started-card-3">
+                  <p>Confirm supported payout partners and corridor availability from inside the Wallet and official updates.</p>
+                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-cards">Learn more</a>
+                </div>
+              </article>
+              <article class="card getting-started-card" role="listitem" data-getting-started-card>
+                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-4">
+                  <span class="card__title" role="heading" aria-level="3">What is Digital Cash?</span>
+                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
+                </button>
+                <div class="getting-started-card__content" id="getting-started-card-4">
+                  <p>See which fiat-backed tokens are live and how they power payouts and swaps.</p>
+                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-cards">Learn more</a>
+                </div>
+              </article>
+              <article class="card getting-started-card" role="listitem" data-getting-started-card>
+                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-5">
+                  <span class="card__title" role="heading" aria-level="3">How does TEL work?</span>
+                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
+                </button>
+                <div class="getting-started-card__content" id="getting-started-card-5">
+                  <p>Learn how TEL fuels transactions, staking incentives, and TELx liquidity programs.</p>
+                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-cards">Learn more</a>
+                </div>
+              </article>
+              <article class="card getting-started-card" role="listitem" data-getting-started-card>
+                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-6">
+                  <span class="card__title" role="heading" aria-level="3">Who governs Telcoin?</span>
+                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
+                </button>
+                <div class="getting-started-card__content" id="getting-started-card-6">
+                  <p>Meet the Telcoin Association and understand how proposals move from idea to implementation.</p>
+                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-overview">Learn more</a>
+                </div>
+              </article>
+            </div>
+          </div>
         </div>
       </section>
 
