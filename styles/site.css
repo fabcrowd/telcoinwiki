@@ -42,6 +42,12 @@ main {
   flex: 1;
 }
 
+@media (min-width: 1280px) {
+  .max-w-7xl {
+    max-width: clamp(80rem, 88vw, 120rem);
+  }
+}
+
 html:not(.dark) {
   color-scheme: light;
 }
