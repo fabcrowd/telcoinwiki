@@ -49,6 +49,10 @@
   };
 
   const searchInstances = [];
+  const statusNumberFormatter = new Intl.NumberFormat('en-US');
+  const TelcoinWiki = (window.TelcoinWiki = window.TelcoinWiki || {});
+  TelcoinWiki.applyStatusText = applyStatusText;
+
   const FAQ_CARD_TOGGLE_SELECTOR = '[data-faq-card-toggle]';
   const GETTING_STARTED_HOST_SELECTOR = '[data-getting-started]';
   const GETTING_STARTED_TOGGLE_SELECTOR = '[data-getting-started-toggle]';
@@ -59,7 +63,56 @@
     initSearch();
     initInlineFaqCards();
     initGettingStartedSection();
+    applyStatusText(document);
   });
+
+  function getStatusData() {
+    const data = window.__STATUS__;
+    if (!data || typeof data !== 'object') {
+      return null;
+    }
+    return data;
+  }
+
+  function applyStatusText(root) {
+    const data = getStatusData();
+    if (!data) {
+      return;
+    }
+    const scope = root && typeof root.querySelectorAll === 'function' ? root : document;
+    const targets = scope.querySelectorAll('[data-status-key]');
+    if (!targets.length) {
+      return;
+    }
+    targets.forEach((element) => {
+      const key = element.getAttribute('data-status-key');
+      if (!key || !(key in data)) {
+        return;
+      }
+      const value = data[key];
+      if (typeof value !== 'number' || !Number.isFinite(value)) {
+        return;
+      }
+      const format = element.getAttribute('data-status-format') || 'number';
+      const formatted = formatStatusValue(value, format);
+      if (formatted !== null) {
+        element.textContent = formatted;
+      }
+    });
+  }
+
+  function formatStatusValue(value, format) {
+    if (!Number.isFinite(value)) {
+      return null;
+    }
+    switch (format) {
+      case 'plus':
+        return `${statusNumberFormatter.format(value)}+`;
+      case 'number':
+      default:
+        return statusNumberFormatter.format(value);
+    }
+  }
 
   function initLayout() {
     const currentPageId = document.body?.dataset?.page || 'home';
