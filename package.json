@@ -3,23 +3,32 @@
   "version": "1.0.0",
   "private": true,
   "description": "Build tooling and quality checks for the Telcoin Wiki static site",
+  "engines": {
+    "node": ">=22 <23"
+  },
   "scripts": {
     "format": "prettier --write '**/*.{html,css,js,json,md}'",
     "lint": "eslint '**/*.js' --max-warnings=0",
     "check:html": "html-validate '**/*.html'",
     "check:links": "linkinator . --recurse --silent --skip 'node_modules|dist'",
     "build:css": "csso styles/index.css --output dist/styles.css",
-    "build:js": "mkdir -p dist && node scripts/build-status-data.js && terser js/main.js -o dist/main.js --compress --mangle && terser js/faq.js -o dist/faq.js --compress --mangle && terser js/pools-data.js -o dist/pools.js --compress --mangle",
+    "build:js": "mkdir -p dist && node scripts/build-status-data.js && node node_modules/terser/bin/terser js/main.js -o dist/main.js --compress --mangle && node node_modules/terser/bin/terser js/faq.js -o dist/faq.js --compress --mangle && node node_modules/terser/bin/terser js/pools-data.js -o dist/pools.js --compress --mangle",
     "build:img": "node scripts/optimize-images.js",
     "build": "npm run build:css && npm run build:js && npm run build:img"
   },
   "devDependencies": {
+    "@jridgewell/source-map": "^0.3.3",
+    "acorn": "^8.11.3",
+    "commander": "^2.20.3",
+    "css-tree": "~2.2.0",
     "csso": "^5.0.5",
+    "csso-cli": "^4.0.2",
     "eslint": "^8.57.0",
     "html-validate": "^9.5.5",
     "linkinator": "^4.1.0",
     "prettier": "^3.3.2",
     "sharp": "^0.33.2",
+    "source-map-support": "~0.5.21",
     "terser": "^5.27.0"
   }
 }
