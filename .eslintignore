@@ -1,0 +1,8 @@
+dist
+js
+styles
+assets
+reference
+node_modules
+scripts/build-status-data.js
+scripts/optimize-images.js
