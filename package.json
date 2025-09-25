@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "Build tooling and quality checks for the Telcoin Wiki static site",
+  "engines": {
+    "node": ">=20 <21"
+  },
   "scripts": {
     "format": "prettier --write '**/*.{html,css,js,json,md}'",
     "lint": "eslint '**/*.js' --max-warnings=0",
@@ -15,6 +18,7 @@
   },
   "devDependencies": {
     "csso": "^5.0.5",
+    "csso-cli": "^5.0.0",
     "eslint": "^8.57.0",
     "html-validate": "^9.5.5",
     "linkinator": "^4.1.0",
