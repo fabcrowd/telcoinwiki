@@ -4,7 +4,8 @@
   "private": true,
   "description": "Build tooling and quality checks for the Telcoin Wiki static site",
   "engines": {
-    "node": ">=20 <21"
+"engines": {
+  "node": ">=22 <23"
   },
   "scripts": {
     "format": "prettier --write '**/*.{html,css,js,json,md}'",
