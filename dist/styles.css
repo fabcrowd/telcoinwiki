@@ -1474,6 +1474,259 @@ tr:last-child td {
   box-shadow: none;
 }
 
+.architecture-diagram {
+  position: relative;
+  border-radius: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid rgba(78, 163, 255, 0.35);
+  background:
+    radial-gradient(120% 100% at 15% 0%, rgba(78, 163, 255, 0.16), transparent),
+    radial-gradient(120% 100% at 85% 0%, rgba(45, 212, 191, 0.16), transparent),
+    rgba(11, 20, 46, 0.92);
+  padding: clamp(var(--space-5), 4vw, var(--space-7));
+  box-shadow: 0 18px 48px rgba(3, 9, 26, 0.42);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.architecture-diagram::before,
+.architecture-diagram::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(60px);
+  opacity: 0.45;
+  z-index: -1;
+}
+
+.architecture-diagram::before {
+  width: 42%;
+  height: 42%;
+  top: -18%;
+  left: 12%;
+  background: rgba(78, 163, 255, 0.4);
+}
+
+.architecture-diagram::after {
+  width: 48%;
+  height: 48%;
+  bottom: -22%;
+  right: 8%;
+  background: rgba(168, 85, 247, 0.38);
+}
+
+.architecture-diagram__header {
+  text-align: center;
+  margin-bottom: clamp(var(--space-5), 4vw, var(--space-7));
+}
+
+.architecture-diagram__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(78, 163, 255, 0.12);
+  color: rgba(222, 237, 255, 0.92);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.architecture-diagram__title {
+  font-size: clamp(2.1rem, 4vw, 3.1rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.architecture-diagram__summary {
+  margin: var(--space-3) auto 0;
+  max-width: 46rem;
+  color: var(--color-text-muted);
+}
+
+.architecture-diagram__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(var(--space-4), 4vw, var(--space-7));
+}
+
+.architecture-diagram__rail {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(var(--space-4), 3vw, var(--space-6));
+}
+
+.architecture-diagram__core {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(var(--space-4), 3vw, var(--space-6));
+}
+
+.architecture-diagram__split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--space-4), 3vw, var(--space-5));
+}
+
+.architecture-diagram__footer {
+  margin-top: clamp(var(--space-6), 5vw, var(--space-8));
+  display: flex;
+  justify-content: center;
+}
+
+.architecture-node {
+  position: relative;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(160deg, rgba(12, 22, 48, 0.92), rgba(21, 38, 74, 0.9));
+  padding: clamp(var(--space-4), 2.8vw, var(--space-5));
+  box-shadow: 0 10px 28px rgba(5, 13, 34, 0.4);
+  color: var(--color-text);
+  min-height: 9.5rem;
+  overflow: hidden;
+}
+
+.architecture-node::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 20%, rgba(78, 163, 255, 0.18), transparent 65%);
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.architecture-node--accent {
+  border-color: rgba(45, 212, 191, 0.38);
+  background: linear-gradient(165deg, rgba(12, 40, 52, 0.92), rgba(14, 28, 58, 0.85));
+}
+
+.architecture-node--highlight {
+  background: linear-gradient(165deg, rgba(31, 80, 148, 0.85), rgba(18, 34, 68, 0.92));
+  border-color: rgba(78, 163, 255, 0.48);
+}
+
+.architecture-node--soft {
+  background: linear-gradient(165deg, rgba(16, 46, 60, 0.85), rgba(15, 32, 66, 0.88));
+  border-color: rgba(78, 163, 255, 0.28);
+}
+
+.architecture-node--footer {
+  min-width: min(100%, 34rem);
+  text-align: center;
+  background: linear-gradient(165deg, rgba(18, 32, 68, 0.92), rgba(11, 24, 58, 0.92));
+  border-color: rgba(78, 163, 255, 0.42);
+}
+
+.architecture-node__title {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  margin-bottom: var(--space-2);
+}
+
+.architecture-node__body {
+  margin: 0;
+  color: var(--color-text-soft);
+}
+
+.architecture-node[data-connector='right']::after,
+.architecture-node[data-connector='left']::after,
+.architecture-node[data-connector='vertical']::after,
+.architecture-node[data-connector='down']::after {
+  content: '';
+  position: absolute;
+  background: linear-gradient(90deg, rgba(78, 163, 255, 0.55), rgba(45, 212, 191, 0.45));
+  pointer-events: none;
+}
+
+.architecture-node[data-connector='right']::after {
+  top: 50%;
+  right: -3.2rem;
+  width: 3.2rem;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.architecture-node[data-connector='left']::after {
+  top: 50%;
+  left: -3.2rem;
+  width: 3.2rem;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.architecture-node[data-connector='vertical']::after {
+  left: 50%;
+  bottom: -3rem;
+  width: 2px;
+  height: 3rem;
+  transform: translateX(-50%);
+}
+
+.architecture-node[data-connector='down']::after {
+  left: 50%;
+  bottom: -2.6rem;
+  width: 2px;
+  height: 2.6rem;
+  transform: translateX(-50%);
+}
+
+.architecture-diagram__rail--left .architecture-node:first-child::after,
+.architecture-diagram__rail--right .architecture-node:last-child::after {
+  background: linear-gradient(90deg, rgba(78, 163, 255, 0.45), rgba(45, 212, 191, 0.25));
+}
+
+.architecture-diagram__rail--right .architecture-node[data-connector='left']::after {
+  background: linear-gradient(90deg, rgba(45, 212, 191, 0.3), rgba(78, 163, 255, 0.5));
+}
+
+@media (max-width: 1100px) {
+  .architecture-diagram {
+    padding: clamp(var(--space-5), 6vw, var(--space-7));
+  }
+
+  .architecture-diagram__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .architecture-diagram__rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .architecture-diagram__rail .architecture-node {
+    flex: 1 1 14rem;
+  }
+
+  .architecture-diagram__split {
+    grid-template-columns: 1fr;
+  }
+
+  .architecture-node[data-connector='right']::after,
+  .architecture-node[data-connector='left']::after,
+  .architecture-node[data-connector='vertical']::after,
+  .architecture-node[data-connector='down']::after {
+    display: none;
+  }
+
+  .architecture-node--footer {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .architecture-diagram__title {
+    font-size: clamp(1.8rem, 6vw, 2.4rem);
+  }
+
+  .architecture-node {
+    min-height: auto;
+  }
+}
+
 .footer {
   margin-top: auto;
   background: rgba(6, 15, 36, 0.95);

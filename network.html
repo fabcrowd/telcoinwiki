@@ -132,23 +132,94 @@
       </section>
 
       <section id="network-architecture" class="anchor-offset">
-        <h2>Architecture highlights</h2>
-        <div class="card-grid card-grid--cols-3" role="list">
-          <article class="card" role="listitem">
-            <h3 class="card__title">EVM smart contracts</h3>
-            <p>Developers can deploy Solidity contracts and integrate with tooling familiar to the broader Ethereum ecosystem.</p>
-            <p><a href="https://www.telcoinassociation.org/network" target="_blank" rel="noopener">Association technical overview →</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <h3 class="card__title">Validator criteria</h3>
-            <p>Mobile network operators that meet Association-defined security and compliance standards can operate validators.</p>
-            <p><a href="https://www.telcoinassociation.org/network" target="_blank" rel="noopener">Validator requirements →</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <h3 class="card__title">Settlement performance</h3>
-            <p>Transactions finalize in seconds, enabling instant settlement for Digital Cash, remittances, and TELx liquidity flows.</p>
-            <p><a href="https://www.telcoinnetwork.org" target="_blank" rel="noopener">Network landing →</a></p>
-          </article>
+        <h2 class="sr-only">Architecture highlights</h2>
+        <div class="architecture-diagram" role="group" aria-label="Telcoin Network Architecture diagram showing how users, stakers, developers, liquidity miners, validators, and treasury flows connect across the Telcoin ecosystem">
+          <div class="architecture-diagram__header">
+            <span class="architecture-diagram__badge">Telcoin Association</span>
+            <p class="architecture-diagram__title" role="heading" aria-level="3">Telcoin Network Architecture</p>
+            <p class="architecture-diagram__summary">How ecosystem participants, liquidity programs, and governance combine across the Telcoin Network.</p>
+          </div>
+          <div class="architecture-diagram__grid">
+            <div class="architecture-diagram__rail architecture-diagram__rail--left" aria-label="Community roles">
+              <div class="architecture-node architecture-node--accent" data-connector="right">
+                <h3 class="architecture-node__title">Users</h3>
+                <p class="architecture-node__body">Transact with Digital Cash, send remittances, and pay TEL gas fees across the network.</p>
+              </div>
+              <div class="architecture-node" data-connector="right">
+                <h3 class="architecture-node__title">Stakers</h3>
+                <p class="architecture-node__body">Stake TEL, provide network security assurances, and share in fee flows from compliant services.</p>
+              </div>
+            </div>
+            <div class="architecture-diagram__core" aria-label="Network systems">
+              <div class="architecture-node architecture-node--highlight" data-connector="vertical">
+                <h3 class="architecture-node__title">Telcoin Application Network</h3>
+                <p class="architecture-node__body">Exchange, settle TELx activity, and route TEL-backed incentives for compliant services.</p>
+              </div>
+              <div class="architecture-diagram__split">
+                <div class="architecture-node architecture-node--soft" data-connector="down">
+                  <h3 class="architecture-node__title">TELx</h3>
+                  <p class="architecture-node__body">Provide liquidity, earn TEL rewards, and access instant settlement between compliant pools.</p>
+                </div>
+                <div class="architecture-node architecture-node--soft" data-connector="down">
+                  <h3 class="architecture-node__title">TEL Treasury</h3>
+                  <p class="architecture-node__body">Issue TEL for incentives, fund staking programs, and recycle a portion of network gas fees.</p>
+                </div>
+              </div>
+              <div class="architecture-node" data-connector="vertical">
+                <h3 class="architecture-node__title">Telcoin Network</h3>
+                <p class="architecture-node__body">Carrier-secured validators confirm transactions, enforce compliance, and anchor TEL gas economics.</p>
+              </div>
+              <div class="architecture-diagram__split">
+                <div class="architecture-node" data-connector="down">
+                  <h3 class="architecture-node__title">Telcoin Platform</h3>
+                  <p class="architecture-node__body">Wallet, remittance rails, and Digital Cash services deliver user experiences on top of the network.</p>
+                </div>
+                <div class="architecture-node" data-connector="down">
+                  <h3 class="architecture-node__title">Validators</h3>
+                  <p class="architecture-node__body">GSMA-member operators stake TEL, run infrastructure, and maintain uptime for compliant deployments.</p>
+                </div>
+              </div>
+            </div>
+            <div class="architecture-diagram__rail architecture-diagram__rail--right" aria-label="Builder roles">
+              <div class="architecture-node architecture-node--accent" data-connector="left">
+                <h3 class="architecture-node__title">Developers</h3>
+                <p class="architecture-node__body">Deploy EVM smart contracts, integrate tooling, and pay TEL gas and exchange fees.</p>
+              </div>
+              <div class="architecture-node" data-connector="left">
+                <h3 class="architecture-node__title">Liquidity Miners</h3>
+                <p class="architecture-node__body">Stake TEL, seed compliant pools, and earn a share of TELx exchange incentives.</p>
+              </div>
+              <div class="architecture-node" data-connector="left">
+                <h3 class="architecture-node__title">Users</h3>
+                <p class="architecture-node__body">Access Digital Cash balances, spend in the Telcoin Wallet, and settle remittances instantly.</p>
+              </div>
+            </div>
+          </div>
+          <div class="architecture-diagram__footer">
+            <div class="architecture-node architecture-node--footer">
+              <h3 class="architecture-node__title">Governance System</h3>
+              <p class="architecture-node__body">Telcoin Association policy frameworks and council oversight align incentives across network participants.</p>
+            </div>
+          </div>
+        </div>
+        <div class="sr-only">
+          <div role="list">
+            <article role="listitem">
+              <h3>EVM smart contracts</h3>
+              <p>Developers can deploy Solidity contracts and integrate with tooling familiar to the broader Ethereum ecosystem.</p>
+              <p><a href="https://www.telcoinassociation.org/network" target="_blank" rel="noopener">Association technical overview →</a></p>
+            </article>
+            <article role="listitem">
+              <h3>Validator criteria</h3>
+              <p>Mobile network operators that meet Association-defined security and compliance standards can operate validators.</p>
+              <p><a href="https://www.telcoinassociation.org/network" target="_blank" rel="noopener">Validator requirements →</a></p>
+            </article>
+            <article role="listitem">
+              <h3>Settlement performance</h3>
+              <p>Transactions finalize in seconds, enabling instant settlement for Digital Cash, remittances, and TELx liquidity flows.</p>
+              <p><a href="https://www.telcoinnetwork.org" target="_blank" rel="noopener">Network landing →</a></p>
+            </article>
+          </div>
         </div>
       </section>
 
