@@ -21,9 +21,21 @@
   <meta name="twitter:description" content="Track simulated TELx rewards, LPT stakes, and deprecated pool notices in a TELx-inspired portfolio dashboard.">
   <meta name="twitter:image" content="https://telcoinwiki.com/assets/Telcoinwiki.png">
   <meta name="twitter:site" content="@telcoin">
-  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
   <link rel="preload" href="/dist/styles.css" as="style">
   <link rel="stylesheet" href="/dist/styles.css">
+  <link id="app-favicon" rel="icon" href="https://telcoin.org/favicon.ico" />
+  <script>
+    (function () {
+      var link = document.getElementById('app-favicon');
+      if (!link) return;
+      var img = new Image();
+      img.onerror = function () {
+        link.href = 'https://telcoin.network/favicon.ico';
+      };
+      img.src = link.href + '?v=1';
+    })();
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -45,13 +57,13 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header" data-header>
     <div class="site-header__inner">
-      <a class="site-logo" href="/index.html" aria-label="Telcoin Wiki home">
+      <a class="site-logo" data-home-link href="/index.html" aria-label="Telcoin Wiki home">
         <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" fetchpriority="high">
         <span>Telcoin Wiki</span>
       </a>
       <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-expanded="false" aria-controls="site-sidebar">Menu</button>
       <nav class="top-nav" aria-label="Primary">
-        <ul class="top-nav__list" data-nav>
+        <ul class="top-nav__list tc-tabbar" data-nav>
           <li><a class="top-nav__link" href="/start-here.html">Start Here</a></li>
           <li><a class="top-nav__link" href="/faq/">FAQ</a></li>
           <li><a class="top-nav__link" href="/wallet.html">Wallet</a></li>
@@ -65,17 +77,20 @@
           <li><a class="top-nav__link" href="/links.html">Links</a></li>
         </ul>
       </nav>
-      <div class="header-search" role="search">
-        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
-        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
-        <div class="search-panel" data-search-results hidden aria-label="Search suggestions"></div>
+      <div class="site-header__actions">
+        <div class="last-updated" data-last-updated></div>
+        <div class="header-search" role="search">
+          <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+          <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
+          <div class="search-panel tc-card" data-search-results hidden aria-label="Search suggestions"></div>
+        </div>
       </div>
     </div>
   </header>
   <div class="sidebar-overlay" data-sidebar-overlay></div>
   <div class="site-shell">
     <aside id="site-sidebar" class="sidebar" data-sidebar>
-      <div class="sidebar__inner">
+      <div class="sidebar__inner tc-card">
         <p class="sidebar__heading">Knowledge base</p>
         <nav class="sidebar__nav" aria-label="Knowledge base">
           <ul class="sidebar__list" data-sidebar-list>
@@ -122,10 +137,10 @@
         </nav>
       </div>
     </aside>
-    <main id="main-content" class="site-main" tabindex="-1">
+    <main id="main-content" class="site-main tc-card" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
-      <section id="portfolio-overview" class="page-intro anchor-offset">
+      <section id="portfolio-overview" class="page-intro anchor-offset tc-card">
         <p class="page-intro__eyebrow">TELx Portfolio</p>
         <h1 class="page-intro__title">Your TELx positions</h1>
         <p class="page-intro__lede">A design-time view of TEL claimable rewards and liquidity provider tokens. Use it to imagine how TELx wallets surface positions with glass panels, friendly chips, and clear callouts.</p>
@@ -156,7 +171,7 @@
                 <p class="entry-list__label">TEL / USDC</p>
                 <p class="entry-list__value">1,248 TEL</p>
               </div>
-              <span class="chip chip-active">Active</span>
+              <span class="tc-chip is-active">Active</span>
             </div>
             <p class="entry-list__meta">Next unlock: 03:12 UTC • Reward stream via TEL issuance</p>
           </li>
@@ -166,7 +181,7 @@
                 <p class="entry-list__label">TEL / WETH</p>
                 <p class="entry-list__value">482 TEL</p>
               </div>
-              <span class="chip chip-active">Active</span>
+              <span class="tc-chip is-active">Active</span>
             </div>
             <p class="entry-list__meta">Fees accrued in last 24h: $212</p>
           </li>
@@ -176,7 +191,7 @@
                 <p class="entry-list__label">TEL / eUSD</p>
                 <p class="entry-list__value">176 TEL</p>
               </div>
-              <span class="chip chip-deprecated">Deprecated</span>
+              <span class="tc-chip is-deprecated">Deprecated</span>
             </div>
             <p class="entry-list__meta">Claim before 15 Sep • incentives ending soon</p>
           </li>
@@ -196,7 +211,7 @@
                 <p class="entry-list__label">TEL / USDC</p>
                 <p class="entry-list__value">12.8 LPT</p>
               </div>
-              <span class="chip chip-active">Active</span>
+              <span class="tc-chip is-active">Active</span>
             </div>
             <p class="entry-list__meta">Share of pool: 0.82% • Staked since 12 Jul 2025</p>
           </li>
@@ -206,7 +221,7 @@
                 <p class="entry-list__label">TEL / MATIC</p>
                 <p class="entry-list__value">6.4 LPT</p>
               </div>
-              <span class="chip chip-active">Active</span>
+              <span class="tc-chip is-active">Active</span>
             </div>
             <p class="entry-list__meta">Rewards streaming: 98 TEL / day</p>
           </li>
@@ -216,7 +231,7 @@
                 <p class="entry-list__label">TEL / eCAD</p>
                 <p class="entry-list__value">3.1 LPT</p>
               </div>
-              <span class="chip chip-archived">Archived</span>
+              <span class="tc-chip is-archived">Archived</span>
             </div>
             <p class="entry-list__meta">Consider migrating to TEL / USDC for active incentives</p>
           </li>

@@ -21,9 +21,21 @@
   <meta name="twitter:description" content="Explore how the Telcoin Association, Telcoin Network, TEL token, and TELx liquidity layer work together with links to official resources.">
   <meta name="twitter:image" content="https://telcoinwiki.com/assets/Telcoinwiki.png">
   <meta name="twitter:site" content="@telcoin">
-  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
   <link rel="preload" href="/dist/styles.css" as="style">
   <link rel="stylesheet" href="/dist/styles.css">
+  <link id="app-favicon" rel="icon" href="https://telcoin.org/favicon.ico" />
+  <script>
+    (function () {
+      var link = document.getElementById('app-favicon');
+      if (!link) return;
+      var img = new Image();
+      img.onerror = function () {
+        link.href = 'https://telcoin.network/favicon.ico';
+      };
+      img.src = link.href + '?v=1';
+    })();
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -45,13 +57,13 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header" data-header>
     <div class="site-header__inner">
-      <a class="site-logo" href="/index.html" aria-label="Telcoin Wiki home">
+      <a class="site-logo" data-home-link href="/index.html" aria-label="Telcoin Wiki home">
         <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" fetchpriority="high">
         <span>Telcoin Wiki</span>
       </a>
       <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-expanded="false" aria-controls="site-sidebar">Menu</button>
       <nav class="top-nav" aria-label="Primary">
-        <ul class="top-nav__list" data-nav>
+        <ul class="top-nav__list tc-tabbar" data-nav>
           <li><a class="top-nav__link" href="/start-here.html">Start Here</a></li>
           <li><a class="top-nav__link" href="/faq/">FAQ</a></li>
           <li><a class="top-nav__link" href="/wallet.html">Wallet</a></li>
@@ -65,17 +77,20 @@
           <li><a class="top-nav__link" href="/links.html">Links</a></li>
         </ul>
       </nav>
-      <div class="header-search" role="search">
-        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
-        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
-        <div class="search-panel" data-search-results hidden aria-label="Search suggestions"></div>
+      <div class="site-header__actions">
+        <div class="last-updated" data-last-updated></div>
+        <div class="header-search" role="search">
+          <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+          <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
+          <div class="search-panel tc-card" data-search-results hidden aria-label="Search suggestions"></div>
+        </div>
       </div>
     </div>
   </header>
   <div class="sidebar-overlay" data-sidebar-overlay></div>
   <div class="site-shell">
     <aside id="site-sidebar" class="sidebar" data-sidebar>
-      <div class="sidebar__inner">
+      <div class="sidebar__inner tc-card">
         <p class="sidebar__heading">Knowledge base</p>
         <nav class="sidebar__nav" aria-label="Knowledge base">
           <ul class="sidebar__list" data-sidebar-list>
@@ -121,10 +136,10 @@
         </nav>
       </div>
     </aside>
-    <main id="main-content" class="site-main" tabindex="-1">
+    <main id="main-content" class="site-main tc-card" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
-      <section id="deep-dive-overview" class="page-intro anchor-offset">
+      <section id="deep-dive-overview" class="page-intro anchor-offset tc-card">
         <p class="page-intro__eyebrow">Deep Dive</p>
         <h1 class="page-intro__title">How Telcoin’s pieces fit together</h1>
         <p class="page-intro__lede">Use this primer to understand the relationship between the Telcoin Association, Telcoin Network, TEL token, and TELx liquidity layer. Each card links to the official resource for in-depth exploration.</p>

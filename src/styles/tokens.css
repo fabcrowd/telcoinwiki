@@ -1,0 +1,85 @@
+:root {
+  /* Telcoin palette */
+  --tc-primary: #4066DE;
+  --tc-primary-50: #E4ECF7;
+  --tc-primary-300: #7F86D2;
+  --tc-primary-500: #4066DE;
+  --tc-primary-700: #2C2C7A;
+  --tc-accent: #45BCF1;
+
+  --tc-ink: rgba(255, 255, 255, 0.92);
+  --tc-ink-muted: rgba(255, 255, 255, 0.8);
+  --tc-ink-subtle: rgba(255, 255, 255, 0.65);
+
+  --tc-bg: #0f1a3a;
+  --tc-surface: rgba(255, 255, 255, 0.05);
+  --tc-surface-2: rgba(255, 255, 255, 0.08);
+  --tc-border: rgba(255, 255, 255, 0.1);
+  --tc-border-strong: rgba(255, 255, 255, 0.18);
+
+  --tc-radius: 1rem;
+  --tc-radius-lg: 1.25rem;
+  --tc-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.tc-card {
+  border: 1px solid var(--tc-border);
+  background: var(--tc-surface);
+  border-radius: var(--tc-radius-lg);
+  box-shadow: var(--tc-shadow);
+  backdrop-filter: blur(24px);
+  color: var(--tc-ink);
+}
+
+.tc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--tc-radius);
+  border: 1px solid var(--tc-border);
+  background: var(--tc-surface);
+  color: var(--tc-ink);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.tc-chip.is-active {
+  background: rgba(69, 188, 241, 0.18);
+  border-color: rgba(69, 188, 241, 0.4);
+  color: var(--tc-accent);
+}
+
+.tc-chip.is-archived {
+  background: rgba(64, 102, 222, 0.2);
+  border-color: rgba(64, 102, 222, 0.45);
+  color: var(--tc-ink-muted);
+}
+
+.tc-chip.is-deprecated {
+  background: rgba(250, 204, 21, 0.2);
+  border-color: rgba(250, 204, 21, 0.45);
+  color: #facc15;
+}
+
+.tc-tabbar {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--tc-radius-lg);
+  background: var(--tc-surface);
+}
+
+.tc-tabbar button[aria-pressed="true"] {
+  background: var(--tc-surface-2);
+  color: var(--tc-ink);
+  border-radius: 0.75rem;
+}
+
+.tc-link {
+  color: var(--tc-accent);
+}
+
+.tc-link:hover {
+  text-decoration: underline;
+}

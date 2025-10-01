@@ -845,15 +845,15 @@
 
     function createStatusChip(status) {
         const span = document.createElement('span');
-        span.classList.add('chip');
+        span.classList.add('tc-chip');
         const label = status && status.trim ? status.trim() : 'Unknown';
         const normalized = label.toLowerCase();
         if (normalized.indexOf('active') !== -1 || normalized.indexOf('live') !== -1 || normalized.indexOf('enabled') !== -1) {
-            span.classList.add('chip-active');
+            span.classList.add('chip-active','is-active');
         } else if (normalized.indexOf('deprecated') !== -1 || normalized.indexOf('sunset') !== -1 || normalized.indexOf('inactive') !== -1 || normalized.indexOf('ending') !== -1) {
-            span.classList.add('chip-deprecated');
+            span.classList.add('chip-deprecated','is-deprecated');
         } else if (normalized.indexOf('archived') !== -1 || normalized.indexOf('ended') !== -1 || normalized.indexOf('retired') !== -1) {
-            span.classList.add('chip-archived');
+            span.classList.add('chip-archived','is-archived');
         }
         span.title = label;
         span.textContent = label;
