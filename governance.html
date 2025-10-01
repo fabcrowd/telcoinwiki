@@ -57,62 +57,57 @@
 <body data-page="governance">
   <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
-    <div class="site-header__inner container">
-      <a class="site-logo" data-home-link href="/index.html" aria-label="Telcoin Wiki home">
-        <img src="/logo.svg" alt="" width="28" height="28">
-        <span>Telcoin Wiki</span>
-      </a>
+      <div class="site-header__inner container">
+        <a class="site-logo" href="/index.html" aria-label="Telcoin Wiki home">
+          <img src="/logo.svg" alt="" width="56" height="56"><span>Telcoin Wiki</span>
+        </a>
 
-      <!-- Desktop pill nav -->
-      <nav class="top-nav" aria-label="Primary">
-        <ul class="pill-nav" data-nav>
-          <li><a href="/start-here.html">Start Here</a></li>
-          <li><a href="/faq/">FAQ</a></li>
-          <li><a href="/wallet.html">Wallet</a></li>
-          <li><a href="/digital-cash.html">Digital Cash</a></li>
-          <li><a href="/remittances.html">Remittances</a></li>
-          <li><a href="/tel-token.html">TEL Token</a></li>
-          <li><a href="/network.html">Telcoin Network</a></li>
-          <li><a href="/telx.html">TELx</a></li>
-          <li><a href="/governance.html">Governance &amp; Association</a></li>
-          <li><a href="/builders.html">Builders</a></li>
-          <li><a href="/links.html">Links</a></li>
-        </ul>
-      </nav>
+        <!-- Desktop nav -->
+        <nav class="top-nav" aria-label="Primary">
+          <ul class="pill-nav">
+            <li><a href="/start-here.html">Start Here</a></li>
+            <li><a href="/faq/">FAQ</a></li>
+            <li><a href="/wallet.html">Wallet</a></li>
+            <li><a href="/digital-cash.html">Digital Cash</a></li>
+            <li><a href="/remittances.html">Remittances</a></li>
+            <li><a href="/tel-token.html">TEL Token</a></li>
+            <li><a href="/network.html">Telcoin Network</a></li>
+            <li><a href="/telx.html">TELx</a></li>
+            <li><a href="/governance.html">Governance &amp; Association</a></li>
+            <li><a href="/builders.html">Builders</a></li>
+            <li><a href="/links.html">Links</a></li>
+          </ul>
+        </nav>
 
-      <!-- Mobile menu button -->
-      <button type="button" class="menu-btn" data-sidebar-toggle aria-expanded="false" aria-controls="mobile-drawer">Menu</button>
+        <!-- Mobile toggle -->
+        <button type="button" class="menu-btn" data-sidebar-toggle aria-expanded="false" aria-controls="mobile-drawer">Menu</button>
 
-      <div class="site-header__actions">
-        <div class="last-updated" data-last-updated></div>
+        <!-- Search (no secondary pill below it) -->
+        <div class="header-search" role="search">
+          <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+          <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off">
+        </div>
       </div>
 
-      <div class="header-search" role="search">
-        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
-        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
-        <div class="search-panel tc-card" data-search-results hidden aria-label="Search suggestions"></div>
+      <!-- Mobile drawer -->
+      <div id="mobile-drawer" class="drawer container" hidden>
+        <nav aria-label="Mobile">
+          <ul>
+            <li><a href="/start-here.html">Start Here</a></li>
+            <li><a href="/faq/">FAQ</a></li>
+            <li><a href="/wallet.html">Wallet</a></li>
+            <li><a href="/digital-cash.html">Digital Cash</a></li>
+            <li><a href="/remittances.html">Remittances</a></li>
+            <li><a href="/tel-token.html">TEL Token</a></li>
+            <li><a href="/network.html">Telcoin Network</a></li>
+            <li><a href="/telx.html">TELx</a></li>
+            <li><a href="/governance.html">Governance &amp; Association</a></li>
+            <li><a href="/builders.html">Builders</a></li>
+            <li><a href="/links.html">Links</a></li>
+          </ul>
+        </nav>
       </div>
-    </div>
-
-    <!-- Mobile drawer -->
-    <div id="mobile-drawer" class="drawer container" hidden>
-      <nav aria-label="Mobile">
-        <ul>
-          <li><a href="/start-here.html">Start Here</a></li>
-          <li><a href="/faq/">FAQ</a></li>
-          <li><a href="/wallet.html">Wallet</a></li>
-          <li><a href="/digital-cash.html">Digital Cash</a></li>
-          <li><a href="/remittances.html">Remittances</a></li>
-          <li><a href="/tel-token.html">TEL Token</a></li>
-          <li><a href="/network.html">Telcoin Network</a></li>
-          <li><a href="/telx.html">TELx</a></li>
-          <li><a href="/governance.html">Governance &amp; Association</a></li>
-          <li><a href="/builders.html">Builders</a></li>
-          <li><a href="/links.html">Links</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+    </header>
   <div class="sidebar-overlay" data-sidebar-overlay></div>
   <div class="site-shell">
     <aside id="site-sidebar" class="sidebar" data-sidebar>
