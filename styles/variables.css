@@ -7,7 +7,7 @@
   --color-bg: var(--tc-bg);
   --color-surface: var(--tc-surface);
   --color-surface-alt: var(--tc-surface-2);
-  --color-surface-soft: rgba(255, 255, 255, 0.12);
+  --color-surface-soft: var(--tc-surface);
   --color-border: var(--tc-border-strong);
   --color-border-subtle: var(--tc-border);
   --color-text: var(--tc-ink);
@@ -15,14 +15,14 @@
   --color-text-soft: var(--tc-ink-subtle);
   --color-text-inverse: #050f2d;
 
-  --color-primary: var(--tc-primary);
+  --color-primary: var(--tc-primary-500);
   --color-primary-strong: var(--tc-primary-700);
   --color-primary-soft: rgba(64, 102, 222, 0.22);
   --color-secondary: var(--tc-accent);
   --color-secondary-soft: rgba(69, 188, 241, 0.18);
   --color-highlight: var(--tc-primary-300);
   --color-warning: #facc15;
-  --color-warning-soft: rgba(250, 204, 21, 0.16);
+  --color-warning-soft: rgba(250, 204, 21, 0.18);
   --color-info-soft: rgba(69, 188, 241, 0.18);
 
   --space-0: 0rem;
@@ -37,16 +37,16 @@
   --space-9: 4rem;
 
   --radius-xs: 0.5rem;
-  --radius-sm: var(--tc-radius);
-  --radius-md: var(--tc-radius-lg);
-  --radius-lg: 1.75rem;
-  --radius-xl: 2.25rem;
-  --radius-pill: 999px;
+  --radius-sm: var(--radius-card);
+  --radius-md: var(--radius-card);
+  --radius-lg: var(--radius-big);
+  --radius-xl: var(--radius-big);
+  --radius-pill: var(--radius-pill);
 
-  --shadow-xs: 0 4px 12px rgba(5, 8, 20, 0.35);
-  --shadow-sm: var(--tc-shadow);
-  --shadow-md: 0 14px 40px rgba(5, 8, 20, 0.38);
-  --shadow-lg: 0 30px 70px rgba(5, 8, 20, 0.45);
+  --shadow-xs: var(--shadow-glass);
+  --shadow-sm: var(--shadow-glass);
+  --shadow-md: var(--shadow-glass);
+  --shadow-lg: var(--shadow-glass);
 
   --max-width-content: 72rem;
   --max-width-wide: 90rem;
