@@ -21,9 +21,21 @@
   <meta name="twitter:description" content="Learn what the Telcoin Wallet can do, how verification works, and where to find official support for remittances, Digital Cash, and TEL swaps.">
   <meta name="twitter:image" content="https://telcoinwiki.com/assets/Telcoinwiki.png">
   <meta name="twitter:site" content="@telcoin">
-  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/src/styles/tokens.css">
   <link rel="preload" href="/dist/styles.css" as="style">
   <link rel="stylesheet" href="/dist/styles.css">
+  <link id="app-favicon" rel="icon" href="https://telcoin.org/favicon.ico" />
+  <script>
+    (function () {
+      var link = document.getElementById('app-favicon');
+      if (!link) return;
+      var img = new Image();
+      img.onerror = function () {
+        link.href = 'https://telcoin.network/favicon.ico';
+      };
+      img.src = link.href + '?v=1';
+    })();
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -46,7 +58,7 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header" data-header>
     <div class="site-header__inner">
-      <a class="site-logo" href="/index.html" aria-label="Telcoin Wiki home">
+      <a class="site-logo" data-home-link href="/index.html" aria-label="Telcoin Wiki home">
         <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" fetchpriority="high">
         <span>Telcoin Wiki</span>
       </a>
@@ -66,10 +78,13 @@
           <li><a class="top-nav__link" href="/links.html">Links</a></li>
         </ul>
       </nav>
-      <div class="header-search" role="search">
-        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
-        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
-        <div class="search-panel" data-search-results hidden aria-label="Search suggestions"></div>
+      <div class="site-header__actions">
+        <div class="last-updated" data-last-updated></div>
+        <div class="header-search" role="search">
+          <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+          <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
+          <div class="search-panel" data-search-results hidden aria-label="Search suggestions"></div>
+        </div>
       </div>
     </div>
   </header>

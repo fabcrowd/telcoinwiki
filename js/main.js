@@ -63,8 +63,57 @@
     initSearch();
     initInlineFaqCards();
     initGettingStartedSection();
+    renderLastUpdated();
+    setupHomeLinks();
     applyStatusText(document);
   });
+
+  function formatLastUpdated(date) {
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+      return '';
+    }
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const day = date.getDate();
+    const suffix = day % 10 === 1 && day % 100 !== 11
+      ? 'st'
+      : day % 10 === 2 && day % 100 !== 12
+        ? 'nd'
+        : day % 10 === 3 && day % 100 !== 13
+          ? 'rd'
+          : 'th';
+    return `${months[date.getMonth()]} ${day}${suffix}, ${date.getFullYear()}`;
+  }
+
+  function renderLastUpdated() {
+    const target = document.querySelector('[data-last-updated]');
+    if (!target) {
+      return;
+    }
+    const modified = new Date(document.lastModified || Date.now());
+    const formatted = formatLastUpdated(modified);
+    if (!formatted) {
+      return;
+    }
+    target.textContent = `Last Updated ${formatted}`;
+  }
+
+  function setupHomeLinks() {
+    const links = document.querySelectorAll('[data-home-link]');
+    if (!links.length) {
+      return;
+    }
+    links.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+          return;
+        }
+        event.preventDefault();
+        const base = window.location.pathname + window.location.search;
+        history.replaceState(null, '', base);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  }
 
   function getStatusData() {
     const data = window.__STATUS__;
