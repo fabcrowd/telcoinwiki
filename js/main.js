@@ -63,7 +63,6 @@
     initSearch();
     initInlineFaqCards();
     initGettingStartedSection();
-    renderLastUpdated();
     setupHomeLinks();
     applyStatusText(document);
 
@@ -72,35 +71,6 @@
       panel.setAttribute('hidden', '');
     }
   });
-
-  function formatLastUpdated(date) {
-    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
-      return '';
-    }
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const day = date.getDate();
-    const suffix = day % 10 === 1 && day % 100 !== 11
-      ? 'st'
-      : day % 10 === 2 && day % 100 !== 12
-        ? 'nd'
-        : day % 10 === 3 && day % 100 !== 13
-          ? 'rd'
-          : 'th';
-    return `${months[date.getMonth()]} ${day}${suffix}, ${date.getFullYear()}`;
-  }
-
-  function renderLastUpdated() {
-    const target = document.querySelector('[data-last-updated]');
-    if (!target) {
-      return;
-    }
-    const modified = new Date(document.lastModified || Date.now());
-    const formatted = formatLastUpdated(modified);
-    if (!formatted) {
-      return;
-    }
-    target.textContent = `Last Updated ${formatted}`;
-  }
 
   function setupHomeLinks() {
     const links = document.querySelectorAll('[data-home-link]');
@@ -554,7 +524,8 @@
   }
 
   function initSearch() {
-    const inputs = Array.from(document.querySelectorAll('[data-site-search]'));
+    const input = document.getElementById('site-search');
+    const inputs = input ? [input] : [];
     if (!inputs.length) {
       return;
     }
