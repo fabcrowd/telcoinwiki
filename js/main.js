@@ -66,6 +66,11 @@
     renderLastUpdated();
     setupHomeLinks();
     applyStatusText(document);
+
+    const panel = document.querySelector('[data-search-results]');
+    if (panel) {
+      panel.setAttribute('hidden', '');
+    }
   });
 
   function formatLastUpdated(date) {
@@ -215,7 +220,7 @@
     items.forEach((item) => {
       const li = document.createElement('li');
       const link = document.createElement('a');
-      link.className = 'top-nav__link';
+      link.className = 'top-nav__link nav-btn';
       link.href = item.href;
       link.textContent = item.label;
       if (item.id === activeId) {
