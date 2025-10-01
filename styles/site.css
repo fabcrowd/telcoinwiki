@@ -522,6 +522,14 @@ pre {
   gap: 1.5rem;
 }
 
+.site-main h2,
+.site-main h3 {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
 .breadcrumbs {
   font-size: 0.85rem;
   color: var(--color-text-soft);
@@ -1590,36 +1598,21 @@ tr:last-child td {
   }
 
   .sidebar {
-    position: fixed;
-    inset: calc(var(--header-height) + var(--space-2)) var(--space-3) var(--space-3) var(--space-3);
-    transform: translateY(1rem);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform var(--transition-base), opacity var(--transition-base);
-    z-index: 150;
-  }
-
-  .sidebar.is-open {
-    transform: translateY(0);
+    position: static;
+    inset: auto;
+    transform: none;
     opacity: 1;
     pointer-events: auto;
+    width: 100%;
   }
 
   .sidebar__inner {
     position: relative;
-    max-height: calc(100vh - var(--header-height) - 2 * var(--space-4));
+    max-height: none;
   }
 
   .sidebar-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(3, 7, 18, 0.65);
-    z-index: 140;
-    display: none;
-  }
-
-  .sidebar-overlay.is-active {
-    display: block;
+    display: none !important;
   }
 }
 

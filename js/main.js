@@ -178,7 +178,9 @@
     const breadcrumbsContainer = document.querySelector('[data-breadcrumbs]');
     const sidebar = document.querySelector('[data-sidebar]');
     const overlay = document.querySelector('[data-sidebar-overlay]');
-    const toggleButtons = Array.from(document.querySelectorAll('[data-sidebar-toggle]'));
+    const toggleButtons = Array.from(document.querySelectorAll('[data-sidebar-toggle]')).filter((button) => {
+      return sidebar && button.getAttribute('aria-controls') === sidebar.id;
+    });
 
     if (navList) {
       renderNav(navList, NAV_ITEMS, currentNavId);
@@ -861,4 +863,28 @@
     const input = value == null ? '' : String(value);
     return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
+})();
+
+// --- Mobile drawer toggle & active nav highlight ---
+(function () {
+  var btn = document.querySelector('[data-sidebar-toggle]');
+  var drawer = document.getElementById('mobile-drawer');
+  if (btn && drawer) {
+    function setOpen(open) {
+      btn.setAttribute('aria-expanded', String(open));
+      drawer.hidden = !open;
+      drawer.classList.toggle('is-open', open);
+    }
+    btn.addEventListener('click', function () {
+      setOpen(btn.getAttribute('aria-expanded') !== 'true');
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+  // Mark current page in pill nav for a11y/visual
+  var here = location.pathname.replace(/\/$/, '') || '/index.html';
+  document.querySelectorAll('.pill-nav a').forEach(function (a) {
+    if (a.getAttribute('href') === here) a.setAttribute('aria-current', 'page');
+  });
 })();

@@ -22,9 +22,9 @@
   <meta name="twitter:image" content="https://telcoinwiki.com/assets/Telcoinwiki.png">
   <meta name="twitter:site" content="@telcoin">
   <link rel="stylesheet" href="/src/styles/tokens.css">
-  <link rel="stylesheet" href="/styles/brand.css">
   <link rel="preload" href="/dist/styles.css" as="style">
   <link rel="stylesheet" href="/dist/styles.css">
+  <link rel="stylesheet" href="/styles/brand.css">
   <link id="app-favicon" rel="icon" href="https://telcoin.org/favicon.ico" />
   <script>
     (function () {
@@ -56,42 +56,67 @@
 </head>
 <body data-page="links">
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <header class="site-header" data-header>
-    <div class="site-header__inner">
+    <header class="site-header">
+    <div class="site-header__inner container">
       <a class="site-logo" data-home-link href="/index.html" aria-label="Telcoin Wiki home">
-        <img src="/logo.svg" alt="Telcoin Wiki" width="40" height="40" fetchpriority="high">
+        <img src="/logo.svg" alt="" width="28" height="28">
         <span>Telcoin Wiki</span>
       </a>
-      <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-expanded="false" aria-controls="site-sidebar">Menu</button>
+
+      <!-- Desktop pill nav -->
       <nav class="top-nav" aria-label="Primary">
-        <ul class="top-nav__list" data-nav>
-          <li><a class="top-nav__link nav-btn" href="/start-here.html">Start Here</a></li>
-          <li><a class="top-nav__link nav-btn" href="/faq/">FAQ</a></li>
-          <li><a class="top-nav__link nav-btn" href="/wallet.html">Wallet</a></li>
-          <li><a class="top-nav__link nav-btn" href="/digital-cash.html">Digital Cash</a></li>
-          <li><a class="top-nav__link nav-btn" href="/remittances.html">Remittances</a></li>
-          <li><a class="top-nav__link nav-btn" href="/tel-token.html">TEL Token</a></li>
-          <li><a class="top-nav__link nav-btn" href="/network.html">Telcoin Network</a></li>
-          <li><a class="top-nav__link nav-btn" href="/telx.html">TELx</a></li>
-          <li><a class="top-nav__link nav-btn" href="/governance.html">Governance & Association</a></li>
-          <li><a class="top-nav__link nav-btn" href="/builders.html">Builders</a></li>
-          <li><a class="top-nav__link nav-btn is-active" href="/links.html" aria-current="page">Links</a></li>
+        <ul class="pill-nav" data-nav>
+          <li><a href="/start-here.html">Start Here</a></li>
+          <li><a href="/faq/">FAQ</a></li>
+          <li><a href="/wallet.html">Wallet</a></li>
+          <li><a href="/digital-cash.html">Digital Cash</a></li>
+          <li><a href="/remittances.html">Remittances</a></li>
+          <li><a href="/tel-token.html">TEL Token</a></li>
+          <li><a href="/network.html">Telcoin Network</a></li>
+          <li><a href="/telx.html">TELx</a></li>
+          <li><a href="/governance.html">Governance &amp; Association</a></li>
+          <li><a href="/builders.html">Builders</a></li>
+          <li><a href="/links.html">Links</a></li>
         </ul>
       </nav>
+
+      <!-- Mobile menu button -->
+      <button type="button" class="menu-btn" data-sidebar-toggle aria-expanded="false" aria-controls="mobile-drawer">Menu</button>
+
       <div class="site-header__actions">
         <div class="last-updated" data-last-updated></div>
-        <div class="header-search" role="search">
-          <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
-          <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
-          <div class="search-panel" data-search-results hidden aria-label="Search suggestions"></div>
-        </div>
       </div>
+
+      <div class="header-search" role="search">
+        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off" data-site-search>
+        <div class="search-panel tc-card" data-search-results hidden aria-label="Search suggestions"></div>
+      </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="mobile-drawer" class="drawer container" hidden>
+      <nav aria-label="Mobile">
+        <ul>
+          <li><a href="/start-here.html">Start Here</a></li>
+          <li><a href="/faq/">FAQ</a></li>
+          <li><a href="/wallet.html">Wallet</a></li>
+          <li><a href="/digital-cash.html">Digital Cash</a></li>
+          <li><a href="/remittances.html">Remittances</a></li>
+          <li><a href="/tel-token.html">TEL Token</a></li>
+          <li><a href="/network.html">Telcoin Network</a></li>
+          <li><a href="/telx.html">TELx</a></li>
+          <li><a href="/governance.html">Governance &amp; Association</a></li>
+          <li><a href="/builders.html">Builders</a></li>
+          <li><a href="/links.html">Links</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
   <div class="sidebar-overlay" data-sidebar-overlay></div>
   <div class="site-shell">
     <aside id="site-sidebar" class="sidebar" data-sidebar>
-      <div class="sidebar__inner">
+      <div class="sidebar__inner tc-card">
         <p class="sidebar__heading">Knowledge base</p>
         <nav class="sidebar__nav" aria-label="Knowledge base">
           <ul class="sidebar__list" data-sidebar-list>
@@ -138,10 +163,10 @@
         </nav>
       </div>
     </aside>
-    <main id="main-content" class="site-main" tabindex="-1">
+    <main id="main-content" class="site-main tc-card" tabindex="-1">
       <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
 
-      <section id="links-overview" class="page-intro anchor-offset">
+      <section id="links-overview" class="page-intro anchor-offset tc-card">
         <p class="page-intro__eyebrow">Official links</p>
         <h1 class="page-intro__title">Verified Telcoin destinations</h1>
         <p class="page-intro__lede">Bookmark these official Telcoin channels for product information, governance updates, status notifications, legal notices, and security alerts.</p>
