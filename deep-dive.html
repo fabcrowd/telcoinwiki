@@ -63,47 +63,7 @@
       </a>
 
       <nav class="top-nav" aria-label="Primary">
-        <ul class="pill-nav">
-          <li class="nav-item" data-nav-item data-open="false">
-            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-start-here">
-              <span>Start Here</span>
-              <span class="nav-caret" aria-hidden="true">▾</span>
-            </button>
-            <div class="nav-menu" id="nav-start-here">
-              <a href="/#home-hero" data-scroll>Welcome overview</a>
-              <a href="/#learning-pathways" data-scroll>Learning pathways</a>
-              <a href="/start-here.html">Quickstart guide</a>
-              <a href="/wallet.html">Wallet setup</a>
-              <a href="/digital-cash.html">Digital Cash basics</a>
-            </div>
-          </li>
-          <li class="nav-item" data-nav-item data-open="false">
-            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-faq">
-              <span>FAQ</span>
-              <span class="nav-caret" aria-hidden="true">▾</span>
-            </button>
-            <div class="nav-menu" id="nav-faq">
-              <a href="/#faq" data-scroll>FAQ highlights</a>
-              <a href="/faq/">Full FAQ library</a>
-              <a href="https://status.telco.in" target="_blank" rel="noopener">Status updates</a>
-              <a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community support</a>
-            </div>
-          </li>
-          <li class="nav-item" data-nav-item data-open="false">
-            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-deep-dive">
-              <span>Deep-Dive</span>
-              <span class="nav-caret" aria-hidden="true">▾</span>
-            </button>
-            <div class="nav-menu" id="nav-deep-dive">
-              <a href="/deep-dive.html">Deep-dive overview</a>
-              <a href="/network.html">Telcoin Network</a>
-              <a href="/tel-token.html">TEL token utility</a>
-              <a href="/telx.html">TELx liquidity</a>
-              <a href="/governance.html">Governance &amp; association</a>
-              <a href="/builders.html">Builder resources</a>
-            </div>
-          </li>
-        </ul>
+        <ul class="pill-nav" data-nav></ul>
       </nav>
 
       <button type="button" class="menu-btn" data-sidebar-toggle aria-expanded="false" aria-controls="mobile-drawer">Menu</button>
@@ -116,53 +76,7 @@
 
     <div id="mobile-drawer" class="drawer container" hidden>
       <nav aria-label="Mobile">
-        <ul>
-          <li>
-            <div class="nav-item" data-nav-item data-open="false">
-              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-start-here-mobile">
-                <span>Start Here</span>
-                <span class="nav-caret" aria-hidden="true">▾</span>
-              </button>
-              <div class="nav-menu" id="nav-start-here-mobile">
-                <a href="/#home-hero" data-scroll>Welcome overview</a>
-                <a href="/#learning-pathways" data-scroll>Learning pathways</a>
-                <a href="/start-here.html">Quickstart guide</a>
-                <a href="/wallet.html">Wallet setup</a>
-                <a href="/digital-cash.html">Digital Cash basics</a>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="nav-item" data-nav-item data-open="false">
-              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-faq-mobile">
-                <span>FAQ</span>
-                <span class="nav-caret" aria-hidden="true">▾</span>
-              </button>
-              <div class="nav-menu" id="nav-faq-mobile">
-                <a href="/#faq" data-scroll>FAQ highlights</a>
-                <a href="/faq/">Full FAQ library</a>
-                <a href="https://status.telco.in" target="_blank" rel="noopener">Status updates</a>
-                <a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community support</a>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="nav-item" data-nav-item data-open="false">
-              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-deep-dive-mobile">
-                <span>Deep-Dive</span>
-                <span class="nav-caret" aria-hidden="true">▾</span>
-              </button>
-              <div class="nav-menu" id="nav-deep-dive-mobile">
-                <a href="/deep-dive.html">Deep-dive overview</a>
-                <a href="/network.html">Telcoin Network</a>
-                <a href="/tel-token.html">TEL token utility</a>
-                <a href="/telx.html">TELx liquidity</a>
-                <a href="/governance.html">Governance &amp; association</a>
-                <a href="/builders.html">Builder resources</a>
-              </div>
-            </div>
-          </li>
-        </ul>
+        <ul data-nav></ul>
       </nav>
     </div>
   </header>
@@ -218,63 +132,116 @@
       </div>
     </aside>
     <main id="main-content" class="site-main tc-card" tabindex="-1">
-      <nav class="breadcrumbs" aria-label="Breadcrumb" data-breadcrumbs></nav>
-
-      <section id="deep-dive-overview" class="page-intro anchor-offset tc-card">
-        <p class="page-intro__eyebrow">Deep Dive</p>
-        <h1 class="page-intro__title">How Telcoin’s pieces fit together</h1>
-        <p class="page-intro__lede">Use this primer to understand the relationship between the Telcoin Association, Telcoin Network, TEL token, and TELx liquidity layer. Each card links to the official resource for in-depth exploration.</p>
+      <!-- BEGIN: Deep-Dive Pathways -->
+      <section class="page-intro tc-card">
+        <p class="page-intro__eyebrow">Deep-Dive</p>
+        <h1 class="page-intro__title">Learn Telcoin by Pathway</h1>
+        <p class="page-intro__lede">
+          Explore the Telcoin ecosystem by topic. Each section expands into concise answers and background that tie into the app,
+          the network, and the bank.
+        </p>
+        <nav class="toc-chips" aria-label="Deep-Dive sections">
+          <a class="toc-chip" href="#deep-network">Telcoin Network</a>
+          <a class="toc-chip" href="#deep-token">$TEL Token</a>
+          <a class="toc-chip" href="#deep-telx">TELx Liquidity Engine</a>
+          <a class="toc-chip" href="#deep-governance">Association &amp; Governance</a>
+          <a class="toc-chip" href="#deep-holdings">Telcoin Holdings</a>
+        </nav>
       </section>
 
-      <section id="deep-dive-cards" class="anchor-offset">
-        <h2>Systems at a glance</h2>
-        <div class="card-grid card-grid--cols-2" role="list">
-          <article class="card" role="listitem">
-            <p class="card__meta">Association</p>
-            <h3 class="card__title">Governance anchor</h3>
-            <p>The Telcoin Association is the Swiss Verein that oversees validator onboarding, issuance policies, and community councils.</p>
-            <p><a href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Read the Association overview →</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <p class="card__meta">Network</p>
-            <h3 class="card__title">Carrier-backed Layer 1</h3>
-            <p>EVM-compatible blockchain validated by GSMA-member MNOs, powering remittances, Digital Cash, and TELx execution.</p>
-            <p><a href="https://www.telcoinassociation.org/network" target="_blank" rel="noopener">Explore the network →</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <p class="card__meta">TEL</p>
-            <h3 class="card__title">Incentive &amp; utility token</h3>
-            <p>TEL fuels transactions, staking programs, and governance participation, aligning validators and liquidity providers.</p>
-            <p><a href="https://www.telcoinassociation.org/tel" target="_blank" rel="noopener">Review TEL documentation →</a></p>
-          </article>
-          <article class="card" role="listitem">
-            <p class="card__meta">TELx</p>
-            <h3 class="card__title">Liquidity coordination</h3>
-            <p>TELx connects TEL, Digital Cash, and user incentives to power swaps, remittances, and DeFi integrations.</p>
-            <p><a href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">Dive into TELx →</a></p>
-          </article>
+      <section id="deep-network" class="dd-section">
+        <h2>Telcoin Network</h2>
+        <div class="dd-accordion">
+          <details><summary>What is the Telcoin Network and why is it important?</summary>
+            <div class="dd-body">EVM-compatible L1 using Narwhal (DAG mempool) + Bullshark (BFT) for fast, secure ordering; enables low-cost stablecoin transfers and invites telecom validators.</div>
+          </details>
+          <details><summary>When will the Telcoin Network launch?</summary>
+            <div class="dd-body">Core services are live; fuller rollout tracks MNO integrations and regulatory steps.</div>
+          </details>
+          <details><summary>Which MNOs are partnering?</summary>
+            <div class="dd-body">GSMA member MNOs across regions; names are announced when live. Historic: GCash (PH), Telkom (ZA).</div>
+          </details>
+          <details><summary>How many MNOs will join?</summary>
+            <div class="dd-body">Dozens to potentially hundreds over time, reaching billions of mobile users.</div>
+          </details>
+          <details><summary>Impact of MNO partnerships?</summary>
+            <div class="dd-body">Immediate distribution, trust, and compliance leverage; phone-number money transfers at scale.</div>
+          </details>
         </div>
       </section>
 
-      <section id="deep-dive-links" class="anchor-offset">
-        <h2>Suggested reading order</h2>
-        <ol>
-          <li>Start with the <a href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Association overview</a> to understand governance goals.</li>
-          <li>Follow with the <a href="https://www.telcoinassociation.org/network" target="_blank" rel="noopener">Network architecture</a> to learn how validators operate.</li>
-          <li>Read the <a href="https://www.telcoinassociation.org/tel" target="_blank" rel="noopener">TEL token policy</a> for issuance details and incentives.</li>
-          <li>Finish with <a href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">TELx documentation</a> to see how liquidity ties it all together.</li>
-        </ol>
+      <section id="deep-token" class="dd-section">
+        <h2>$TEL Token</h2>
+        <div class="dd-accordion">
+          <details><summary>What is $TEL used for?</summary>
+            <div class="dd-body">$TEL is gas/utility, collateral in TELx modules, staking/liquidity, and future governance; used for P2P, swaps, payments.</div>
+          </details>
+          <details><summary>How to buy Telcoin ($TEL)?</summary>
+            <div class="dd-body">Listed on CEXs (KuCoin, Gate.io) and DEXs (Uniswap). Confirm network (Polygon vs ERC-20).</div>
+          </details>
+          <details><summary>How to swap TEL between networks?</summary>
+            <div class="dd-body">Use the app bridge or trusted Telcoin-listed bridges—never send directly cross-chain.</div>
+          </details>
+          <details><summary>What can I do with my $TEL?</summary>
+            <div class="dd-body">Stake in TELx, provide liquidity, pay gas, payments; governance participation is planned.</div>
+          </details>
+          <details><summary>Price/volume/liquidity &amp; predictions?</summary>
+            <div class="dd-body">Metrics vary with cycles/listings/usage; no price forecasts.</div>
+          </details>
+        </div>
       </section>
 
-      <div class="source-box">
-        <p class="source-box__title">From the source</p>
-        <ul class="source-box__links">
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Telcoin Association</a></li>
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org/network" target="_blank" rel="noopener">Telcoin Network docs</a></li>
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org/tel" target="_blank" rel="noopener">TEL token policy</a></li>
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">TELx overview</a></li>
-        </ul>
-      </div>
+      <section id="deep-telx" class="dd-section">
+        <h2>TELx Liquidity Engine</h2>
+        <div class="dd-accordion">
+          <details><summary>Main use cases (incl. TELx)?</summary>
+            <div class="dd-body">Remittances, mobile payments, DeFi services, and stablecoin infra; TELx coordinates on-chain liquidity &amp; incentives.</div>
+          </details>
+          <details><summary>What makes Telcoin unique?</summary>
+            <div class="dd-body">Telecom distribution, DADI bank charter, performant L1, and mobile-first UX.</div>
+          </details>
+          <details><summary>Recent highlights</summary>
+            <div class="dd-body">DADI charter approval, network deployment, eUSD launch, growing MNO onboarding.</div>
+          </details>
+        </div>
+      </section>
+
+      <section id="deep-governance" class="dd-section">
+        <h2>Association &amp; Governance</h2>
+        <div class="dd-accordion">
+          <details><summary>Laws/legislation Telcoin contributed to?</summary>
+            <div class="dd-body">Helped shape Nebraska’s NFIA, enabling the DADI framework for compliant digital-asset banking.</div>
+          </details>
+          <details><summary>Compliance &amp; expansion (MiCA, data)?</summary>
+            <div class="dd-body">MiCA status TBD; focus on US/Asia first. Adheres to AML/KYC and lawful requests per jurisdiction.</div>
+          </details>
+          <details><summary>Key partnerships</summary>
+            <div class="dd-body">Beyond MNOs: GSMA and ecosystem integrations (e.g., The Game Company); more fintech/infra partners developing.</div>
+          </details>
+        </div>
+      </section>
+
+      <section id="deep-holdings" class="dd-section">
+        <h2>Telcoin Holdings</h2>
+        <div class="dd-accordion">
+          <details><summary>When will the Telcoin Bank launch?</summary>
+            <div class="dd-body">Regulatory approval in place; launch timing depends on systems, partner onboarding, and disclosures.</div>
+          </details>
+          <details><summary>What is the Telcoin Bank / offerings?</summary>
+            <div class="dd-body">Regulated, blockchain-native bank under DADI; issuer of eUSD; programmable custody/payment rails; compliant on-chain services.</div>
+          </details>
+          <details><summary>What is eUSD?</summary>
+            <div class="dd-body">Fully reserved, USD-backed stablecoin (reserves at FDIC-insured banks) functioning as digital cash.</div>
+          </details>
+          <details><summary>Revenue &amp; timing</summary>
+            <div class="dd-body">eUSD spread, transaction &amp; network fees, custody, integrations, and TELx-driven liquidity; ramps with adoption.</div>
+          </details>
+          <details><summary>Do I need an account in Nebraska?</summary>
+            <div class="dd-body">No—digital-first access where permitted via the Telcoin app.</div>
+          </details>
+        </div>
+      </section>
+      <!-- END: Deep-Dive Pathways -->
     </main>
   </div>
   <footer class="footer">
