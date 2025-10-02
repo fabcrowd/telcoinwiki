@@ -510,58 +510,118 @@
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="site-header">
-      <div class="site-header__inner container">
-        <a class="site-brand" href="/">
-          <img class="site-logo" src="/logo.svg" alt="Telcoin Wiki logo" loading="eager" decoding="async" />
-        </a>
+  <header class="site-header">
+    <div class="site-header__inner container">
+      <a class="site-brand" href="/">
+        <img class="site-logo" src="/logo.svg" alt="Telcoin Wiki logo" loading="eager" decoding="async" />
+      </a>
 
-        <!-- Desktop nav -->
-        <nav class="top-nav" aria-label="Primary">
-          <ul class="pill-nav">
-            <li><a href="/start-here.html">Start Here</a></li>
-            <li><a href="/faq/">FAQ</a></li>
-            <li><a href="/wallet.html">Wallet</a></li>
-            <li><a href="/digital-cash.html">Digital Cash</a></li>
-            <li><a href="/remittances.html">Remittances</a></li>
-            <li><a href="/tel-token.html">TEL Token</a></li>
-            <li><a href="/network.html">Telcoin Network</a></li>
-            <li><a href="/telx.html">TELx</a></li>
-            <li><a href="/governance.html">Governance &amp; Association</a></li>
-            <li><a href="/builders.html">Builders</a></li>
-            <li><a href="/links.html">Links</a></li>
-          </ul>
-        </nav>
+      <nav class="top-nav" aria-label="Primary">
+        <ul class="pill-nav">
+          <li class="nav-item" data-nav-item data-open="false">
+            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-start-here">
+              <span>Start Here</span>
+              <span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-menu" id="nav-start-here">
+              <a href="/#home-hero" data-scroll>Welcome overview</a>
+              <a href="/#learning-pathways" data-scroll>Learning pathways</a>
+              <a href="/start-here.html">Quickstart guide</a>
+              <a href="/wallet.html">Wallet setup</a>
+              <a href="/digital-cash.html">Digital Cash basics</a>
+            </div>
+          </li>
+          <li class="nav-item" data-nav-item data-open="false">
+            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-faq">
+              <span>FAQ</span>
+              <span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-menu" id="nav-faq">
+              <a href="/#faq" data-scroll>FAQ highlights</a>
+              <a href="/faq/">Full FAQ library</a>
+              <a href="https://status.telco.in" target="_blank" rel="noopener">Status updates</a>
+              <a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community support</a>
+            </div>
+          </li>
+          <li class="nav-item" data-nav-item data-open="false">
+            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-deep-dive">
+              <span>Deep-Dive</span>
+              <span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-menu" id="nav-deep-dive">
+              <a href="/deep-dive.html">Deep-dive overview</a>
+              <a href="/network.html">Telcoin Network</a>
+              <a href="/tel-token.html">TEL token utility</a>
+              <a href="/telx.html">TELx liquidity</a>
+              <a href="/governance.html">Governance &amp; association</a>
+              <a href="/builders.html">Builder resources</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
 
-        <!-- Mobile toggle -->
-        <button type="button" class="menu-btn" data-sidebar-toggle aria-expanded="false" aria-controls="mobile-drawer">Menu</button>
+      <button type="button" class="menu-btn" data-sidebar-toggle aria-expanded="false" aria-controls="mobile-drawer">Menu</button>
 
-        <!-- Search (no secondary pill below it) -->
-        <div class="header-search" role="search">
-          <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
-          <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off">
-        </div>
+      <div class="header-search" role="search">
+        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off">
       </div>
+    </div>
 
-      <!-- Mobile drawer -->
-      <div id="mobile-drawer" class="drawer container" hidden>
-        <nav aria-label="Mobile">
-          <ul>
-            <li><a href="/start-here.html">Start Here</a></li>
-            <li><a href="/faq/">FAQ</a></li>
-            <li><a href="/wallet.html">Wallet</a></li>
-            <li><a href="/digital-cash.html">Digital Cash</a></li>
-            <li><a href="/remittances.html">Remittances</a></li>
-            <li><a href="/tel-token.html">TEL Token</a></li>
-            <li><a href="/network.html">Telcoin Network</a></li>
-            <li><a href="/telx.html">TELx</a></li>
-            <li><a href="/governance.html">Governance &amp; Association</a></li>
-            <li><a href="/builders.html">Builders</a></li>
-            <li><a href="/links.html">Links</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <div id="mobile-drawer" class="drawer container" hidden>
+      <nav aria-label="Mobile">
+        <ul>
+          <li>
+            <div class="nav-item" data-nav-item data-open="false">
+              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-start-here-mobile">
+                <span>Start Here</span>
+                <span class="nav-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="nav-menu" id="nav-start-here-mobile">
+                <a href="/#home-hero" data-scroll>Welcome overview</a>
+                <a href="/#learning-pathways" data-scroll>Learning pathways</a>
+                <a href="/start-here.html">Quickstart guide</a>
+                <a href="/wallet.html">Wallet setup</a>
+                <a href="/digital-cash.html">Digital Cash basics</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="nav-item" data-nav-item data-open="false">
+              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-faq-mobile">
+                <span>FAQ</span>
+                <span class="nav-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="nav-menu" id="nav-faq-mobile">
+                <a href="/#faq" data-scroll>FAQ highlights</a>
+                <a href="/faq/">Full FAQ library</a>
+                <a href="https://status.telco.in" target="_blank" rel="noopener">Status updates</a>
+                <a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community support</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="nav-item" data-nav-item data-open="false">
+              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-deep-dive-mobile">
+                <span>Deep-Dive</span>
+                <span class="nav-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="nav-menu" id="nav-deep-dive-mobile">
+                <a href="/deep-dive.html">Deep-dive overview</a>
+                <a href="/network.html">Telcoin Network</a>
+                <a href="/tel-token.html">TEL token utility</a>
+                <a href="/telx.html">TELx liquidity</a>
+                <a href="/governance.html">Governance &amp; association</a>
+                <a href="/builders.html">Builder resources</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
   <div class="sidebar-overlay" data-sidebar-overlay></div>
   <div class="site-shell">
     <aside id="site-sidebar" class="sidebar" data-sidebar>
@@ -619,143 +679,72 @@
         </div>
       </section>
 
-      <section id="essential-services" class="anchor-offset">
-        <h2>Core Telcoin services</h2>
-        <p>Jump straight to the pillars most newcomers ask about. Each card points to an official product page so you can review supported regions, fees, and roadmap notes from the source.</p>
-        <div class="card-grid card-grid--cols-3" role="list">
-          <a class="card card--link" role="listitem" href="https://telco.in/wallet" target="_blank" rel="noopener">
-            <p class="card__meta">Wallet</p>
-            <h3 class="card__title">Telcoin Wallet essentials</h3>
-            <p>Download the app, verify your identity, and unlock swaps, remittances, and digital cash balances on mobile.</p>
-            <span class="card__cta">Open telco.in/wallet →</span>
-          </a>
-          <a class="card card--link" role="listitem" href="https://telco.in/digital-cash" target="_blank" rel="noopener">
-            <p class="card__meta">Digital Cash</p>
-            <h3 class="card__title">Multi-currency stablecoins</h3>
-            <p>Review the supported fiat-backed assets (eUSD, eCAD, ePHP and more) that settle instantly on the Telcoin Network.</p>
-            <span class="card__cta">Explore Digital Cash →</span>
-          </a>
-          <a class="card card--link" role="listitem" href="https://telco.in/remittances" target="_blank" rel="noopener">
-            <p class="card__meta">Remittances</p>
-            <h3 class="card__title">Active corridors &amp; fees</h3>
-            <p>See the <span data-status-key="remittanceCorridors" data-status-format="plus">20+</span> supported send and receive markets, payout partners, and pricing straight from the official corridors page.</p>
-            <span class="card__cta">View corridors →</span>
-          </a>
+      <section id="learning-pathways" class="lp anchor-offset">
+        <div class="lp-head">
+          <h2>Learning pathways</h2>
+          <p class="lp-lead">Five curated tracks connect you to the official docs and community explainers that answer the most common Telcoin questions.</p>
+        </div>
+        <div class="lp-grid" role="list">
+          <article class="lp-card" role="listitem">
+            <span class="lp-eyebrow">Orientation</span>
+            <h3 class="lp-title">Understand the ecosystem</h3>
+            <p class="lp-body">See how the Wallet, Telcoin Network, and Association work together before you dive into product specifics.</p>
+            <p class="lp-cta"><a href="/start-here.html">Start the quickstart →</a></p>
+          </article>
+          <article class="lp-card" role="listitem">
+            <span class="lp-eyebrow">Wallet basics</span>
+            <h3 class="lp-title">Set up and secure your app</h3>
+            <p class="lp-body">Walk through verification, recovery phrases, and security best practices to keep your account protected.</p>
+            <p class="lp-cta"><a href="/wallet.html">Open the wallet playbook →</a></p>
+          </article>
+          <article class="lp-card" role="listitem">
+            <span class="lp-eyebrow">Digital Cash</span>
+            <h3 class="lp-title">Learn about stable-value assets</h3>
+            <p class="lp-body">Understand supported e-money tokens, how minting works, and where to monitor reserve disclosures.</p>
+            <p class="lp-cta"><a href="/digital-cash.html">Explore Digital Cash →</a></p>
+          </article>
+          <article class="lp-card" role="listitem">
+            <span class="lp-eyebrow">Remittances</span>
+            <h3 class="lp-title">Move money across borders</h3>
+            <p class="lp-body">Track active corridors, payout partners, and pricing straight from official Telcoin Wallet updates.</p>
+            <p class="lp-cta"><a href="/remittances.html">Check remittance corridors →</a></p>
+          </article>
+          <article class="lp-card" role="listitem">
+            <span class="lp-eyebrow">Deep dive</span>
+            <h3 class="lp-title">Go beyond the basics</h3>
+            <p class="lp-body">Connect with TEL token utility, TELx liquidity programs, and governance resources when you’re ready for advanced topics.</p>
+            <p class="lp-cta"><a href="/deep-dive.html">Review deep-dive guides →</a></p>
+          </article>
         </div>
       </section>
 
-      <section id="getting-started" class="anchor-offset">
-        <div class="getting-started" data-getting-started>
-          <button class="getting-started__toggle" type="button" data-getting-started-toggle aria-expanded="false" aria-controls="getting-started-panel">
-            <span class="getting-started__toggle-text">Getting started questions</span>
-            <span class="getting-started__toggle-icon" aria-hidden="true"></span>
-          </button>
-          <div class="getting-started__panel" id="getting-started-panel" data-getting-started-panel>
-            <p class="getting-started__intro">New to Telcoin? Start with the questions real users ask most and follow the linked answers for deeper dives.</p>
-            <div class="card-grid card-grid--cols-3 getting-started__grid" role="list">
-              <article class="card getting-started-card" role="listitem" data-getting-started-card>
-                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-1">
-                  <span class="card__title" role="heading" aria-level="3">What is Telcoin in one paragraph?</span>
-                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
-                </button>
-                <div class="getting-started-card__content" id="getting-started-card-1">
-                  <p>Understand how the Telcoin Wallet, Network, and Association fit together before you install the app.</p>
-                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-overview">Learn more</a>
-                </div>
-              </article>
-              <article class="card getting-started-card" role="listitem" data-getting-started-card>
-                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-2">
-                  <span class="card__title" role="heading" aria-level="3">How do I set up the Telcoin Wallet?</span>
-                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
-                </button>
-                <div class="getting-started-card__content" id="getting-started-card-2">
-                  <p>Walk through verification, recovery, and security controls before adding funds.</p>
-                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-links">Learn more</a>
-                </div>
-              </article>
-              <article class="card getting-started-card" role="listitem" data-getting-started-card>
-                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-3">
-                  <span class="card__title" role="heading" aria-level="3">Where can I send remittances?</span>
-                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
-                </button>
-                <div class="getting-started-card__content" id="getting-started-card-3">
-                  <p>Confirm supported payout partners and corridor availability from inside the Wallet and official updates.</p>
-                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-cards">Learn more</a>
-                </div>
-              </article>
-              <article class="card getting-started-card" role="listitem" data-getting-started-card>
-                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-4">
-                  <span class="card__title" role="heading" aria-level="3">What is Digital Cash?</span>
-                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
-                </button>
-                <div class="getting-started-card__content" id="getting-started-card-4">
-                  <p>See which fiat-backed tokens are live and how they power payouts and swaps.</p>
-                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-cards">Learn more</a>
-                </div>
-              </article>
-              <article class="card getting-started-card" role="listitem" data-getting-started-card>
-                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-5">
-                  <span class="card__title" role="heading" aria-level="3">How does TEL work?</span>
-                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
-                </button>
-                <div class="getting-started-card__content" id="getting-started-card-5">
-                  <p>Learn how TEL fuels transactions, staking incentives, and TELx liquidity programs.</p>
-                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-cards">Learn more</a>
-                </div>
-              </article>
-              <article class="card getting-started-card" role="listitem" data-getting-started-card>
-                <button class="getting-started-card__summary" type="button" data-getting-started-card-toggle aria-expanded="false" aria-controls="getting-started-card-6">
-                  <span class="card__title" role="heading" aria-level="3">Who governs Telcoin?</span>
-                  <span class="getting-started-card__chevron" aria-hidden="true"></span>
-                </button>
-                <div class="getting-started-card__content" id="getting-started-card-6">
-                  <p>Meet the Telcoin Association and understand how proposals move from idea to implementation.</p>
-                  <a class="getting-started-card__cta" href="/deep-dive.html#deep-dive-overview">Learn more</a>
-                </div>
-              </article>
+      <section id="faq" class="faq anchor-offset">
+        <h2>FAQ highlights</h2>
+        <p class="lp-lead">Quick answers for the questions we hear most often. Browse a category or jump to the full knowledge base for more.</p>
+        <div class="faq-group">
+          <details>
+            <summary>Wallet &amp; onboarding</summary>
+            <div class="answer">
+              <p>Ready to install? Learn device requirements, account recovery tips, and how identity verification works in the <a href="/wallet.html">Telcoin Wallet setup guide →</a></p>
+              <p>Newcomers can follow the <a href="/start-here.html">Start Here checklist →</a> to confirm regional availability and security steps.</p>
             </div>
-          </div>
+          </details>
+          <details>
+            <summary>Digital Cash &amp; remittances</summary>
+            <div class="answer">
+              <p>Understand how eUSD, eCAD, and other Telcoin Digital Cash assets are collateralized and redeemed in the <a href="/digital-cash.html">Digital Cash explainer →</a></p>
+              <p>For sending money abroad, review supported corridors, fees, and payout partners in the <a href="/remittances.html">Remittance guide →</a></p>
+            </div>
+          </details>
+          <details>
+            <summary>TEL, TELx &amp; governance</summary>
+            <div class="answer">
+              <p>Dig into how TEL powers gas, staking, and incentives in the <a href="/tel-token.html">TEL token overview →</a></p>
+              <p>See how liquidity pools and proposals evolve across the ecosystem inside <a href="/telx.html">TELx resources →</a> and the <a href="/governance.html">governance brief →</a></p>
+            </div>
+          </details>
         </div>
       </section>
-
-      <section id="deep-dive" class="container">
-        <header class="section-head">
-          <h2>Deep-dive pathways</h2>
-          <p>These guides connect Telcoin’s official documentation with community explainers for advanced topics.</p>
-        </header>
-
-        <div class="guide-grid">
-          <article class="guide-card tc-card">
-            <span class="eyebrow">Telcoin Network</span>
-            <h3>Validator &amp; infrastructure primer</h3>
-            <p>How mobile network operators secure the chain and what the Association expects from validators.</p>
-            <p><a class="chip-cta" href="/network.html#primer">Read the network guide →</a></p>
-          </article>
-
-          <article class="guide-card tc-card">
-            <span class="eyebrow">TEL Token</span>
-            <h3>Utility &amp; issuance</h3>
-            <p>Trace TEL’s gas role, staking mechanics, and the incentive programs that align wallets and liquidity providers.</p>
-            <p><a class="chip-cta" href="/tel-token.html#insights">Review TEL insights →</a></p>
-          </article>
-
-          <article class="guide-card tc-card">
-            <span class="eyebrow">TELx</span>
-            <h3>Liquidity playbook</h3>
-            <p>See how TELx pools route rewards, how governance stages work, and where to monitor pool health.</p>
-            <p><a class="chip-cta" href="/telx.html#overview">Explore TELx →</a></p>
-          </article>
-        </div>
-      </section>
-
-      <div class="source-box">
-        <p class="source-box__title">From the source</p>
-        <ul class="source-box__links">
-          <li><a class="source-box__link" href="https://telco.in/" target="_blank" rel="noopener">Telcoin product hub</a></li>
-          <li><a class="source-box__link" href="https://www.telcoinassociation.org" target="_blank" rel="noopener">Telcoin Association</a></li>
-          <li><a class="source-box__link" href="https://www.telcoinnetwork.org" target="_blank" rel="noopener">Telcoin Network</a></li>
-        </ul>
-      </div>
     </main>
   </div>
   <footer class="footer">
