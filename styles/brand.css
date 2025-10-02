@@ -12,8 +12,8 @@
   --gap-5: 1.5rem;
   --gap-6: 2rem;
   --header-pad-y: clamp(10px, 1.2vw, 18px);
-  --logo-min: 48px;
-  --logo-max: 96px;
+  --logo-min: 36px;
+  --logo-max: 64px;
 }
 
 html,
@@ -75,7 +75,7 @@ body {
 .site-brand .site-logo,
 img.site-logo {
   display: block;
-  height: clamp(var(--logo-min), 8vw, var(--logo-max));
+  height: clamp(var(--logo-min), 7.5vw, var(--logo-max));
   width: auto;
   max-height: none !important;
   padding: 0;

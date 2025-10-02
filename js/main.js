@@ -3,17 +3,30 @@
   'use strict';
 
   const NAV_ITEMS = [
-    { id: 'start-here', label: 'Start Here', href: '/start-here.html' },
-    { id: 'faq', label: 'FAQ', href: '/faq/' },
-    { id: 'wallet', label: 'Wallet', href: '/wallet.html' },
-    { id: 'digital-cash', label: 'Digital Cash', href: '/digital-cash.html' },
-    { id: 'remittances', label: 'Remittances', href: '/remittances.html' },
-    { id: 'tel-token', label: 'TEL Token', href: '/tel-token.html' },
-    { id: 'network', label: 'Telcoin Network', href: '/network.html' },
-    { id: 'telx', label: 'TELx', href: '/telx.html' },
-    { id: 'governance', label: 'Governance & Association', href: '/governance.html' },
-    { id: 'builders', label: 'Builders', href: '/builders.html' },
-    { id: 'links', label: 'Links', href: '/links.html' }
+    { id: 'start-here', label: 'Start Here', href: '/start-here.html', menu: null },
+    {
+      id: 'faq',
+      label: 'FAQ',
+      href: '/#faq',
+      menu: [
+        { label: 'Basics',            href: '/#faq-basics' },
+        { label: 'Network & MNOs',    href: '/#faq-network' },
+        { label: 'Bank & eUSD',       href: '/#faq-bank' },
+        { label: 'Using TEL & App',   href: '/#faq-app' }
+      ]
+    },
+    {
+      id: 'deep-dive',
+      label: 'Deep-Dive',
+      href: '/deep-dive.html',
+      menu: [
+        { label: 'Telcoin Network',           href: '/deep-dive.html#deep-network' },
+        { label: '$TEL Token',                href: '/deep-dive.html#deep-token' },
+        { label: 'TELx Liquidity Engine',     href: '/deep-dive.html#deep-telx' },
+        { label: 'Association & Governance',  href: '/deep-dive.html#deep-governance' },
+        { label: 'Telcoin Holdings',          href: '/deep-dive.html#deep-holdings' }
+      ]
+    }
   ];
 
   const PAGE_META = {
@@ -29,7 +42,7 @@
     governance: { label: 'Governance & Association', url: '/governance.html', parent: 'home', navId: 'governance' },
     builders: { label: 'Builders', url: '/builders.html', parent: 'home', navId: 'builders' },
     links: { label: 'Official Links', url: '/links.html', parent: 'home', navId: 'links' },
-    'deep-dive': { label: 'Deep Dive', url: '/deep-dive.html', parent: 'telx', navId: 'telx' },
+    'deep-dive': { label: 'Deep Dive', url: '/deep-dive.html', parent: 'home', navId: 'deep-dive' },
     pools: { label: 'TELx Pools Dashboard', url: '/pools.html', parent: 'builders', navId: 'builders' },
     portfolio: { label: 'TELx Portfolio Explorer', url: '/portfolio.html', parent: 'builders', navId: 'builders' },
     about: { label: 'About this project', url: '/about.html', parent: 'home', navId: null },
@@ -143,7 +156,7 @@
     const currentMeta = PAGE_META[currentPageId] || PAGE_META.home;
     const currentNavId = currentMeta.navId || currentPageId;
 
-    const navList = document.querySelector('[data-nav]');
+    const navLists = document.querySelectorAll('[data-nav]');
     const sidebarList = document.querySelector('[data-sidebar-list]');
     const breadcrumbsContainer = document.querySelector('[data-breadcrumbs]');
     const sidebar = document.querySelector('[data-sidebar]');
@@ -152,9 +165,7 @@
       return sidebar && button.getAttribute('aria-controls') === sidebar.id;
     });
 
-    if (navList) {
-      renderNav(navList, NAV_ITEMS, currentNavId);
-    }
+    if (navLists.length) navLists.forEach((list) => renderNav(list, NAV_ITEMS, currentNavId));
     if (sidebarList) {
       const headings = collectHeadings();
       renderSidebar(sidebarList, NAV_ITEMS, currentNavId, headings);
@@ -169,39 +180,69 @@
   }
 
   function renderNav(container, items, activeId) {
-    const existing = Array.from(container.querySelectorAll('a'));
-    if (existing.length) {
-      existing.forEach((link) => {
-        const href = link.getAttribute('href');
-        const item = items.find((candidate) => candidate.href === href);
-        if (!item) {
-          return;
-        }
-        if (item.id === activeId) {
-          link.classList.add('is-active');
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.classList.remove('is-active');
-          link.removeAttribute('aria-current');
-        }
-      });
-      return;
-    }
-
     container.innerHTML = '';
+    const frag = document.createDocumentFragment();
+
     items.forEach((item) => {
       const li = document.createElement('li');
-      const link = document.createElement('a');
-      link.className = 'top-nav__link nav-btn';
-      link.href = item.href;
-      link.textContent = item.label;
-      if (item.id === activeId) {
-        link.classList.add('is-active');
-        link.setAttribute('aria-current', 'page');
+      li.className = 'nav-item';
+
+      if (!item.menu || !item.menu.length) {
+        const a = document.createElement('a');
+        a.className = 'top-nav__link';
+        a.href = item.href;
+        a.textContent = item.label;
+        if (item.id === activeId) { a.classList.add('is-active'); a.setAttribute('aria-current','page'); }
+        li.appendChild(a);
+        frag.appendChild(li);
+        return;
       }
-      li.appendChild(link);
-      container.appendChild(li);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'nav-button';
+      btn.setAttribute('aria-haspopup','true');
+      btn.setAttribute('aria-expanded','false');
+      btn.innerHTML = `${item.label} <span class="nav-caret">▾</span>`;
+      if (item.id === activeId) btn.classList.add('is-active');
+
+      const panel = document.createElement('div');
+      panel.className = 'nav-menu';
+      panel.setAttribute('role','menu');
+
+      item.menu.forEach((entry) => {
+        const link = document.createElement('a');
+        link.href = entry.href;
+        link.textContent = entry.label;
+        link.setAttribute('role','menuitem');
+        link.addEventListener('click', () => closeAllMenus());
+        panel.appendChild(link);
+      });
+
+      btn.addEventListener('click', () => {
+        const open = li.getAttribute('data-open') === 'true';
+        closeAllMenus();
+        if (!open) { li.setAttribute('data-open','true'); btn.setAttribute('aria-expanded','true'); }
+      });
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { li.removeAttribute('data-open'); btn.setAttribute('aria-expanded','false'); btn.focus(); }
+      });
+
+      li.appendChild(btn);
+      li.appendChild(panel);
+      frag.appendChild(li);
     });
+
+    function closeAllMenus() {
+      container.querySelectorAll('.nav-item[data-open="true"]').forEach((node) => {
+        node.removeAttribute('data-open');
+        const b = node.querySelector('.nav-button');
+        if (b) b.setAttribute('aria-expanded','false');
+      });
+    }
+
+    document.addEventListener('click', (e) => { if (!container.contains(e.target)) closeAllMenus(); });
+    container.appendChild(frag);
   }
 
   function renderSidebar(container, items, activeId, headings) {
@@ -859,3 +900,10 @@
     if (a.getAttribute('href') === here) a.setAttribute('aria-current', 'page');
   });
 })();
+
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('a[href^="#"]'); if (!t) return;
+  const id = t.getAttribute('href'); if (!id || id === '#') return;
+  const el = document.querySelector(id); if (!el) return;
+  e.preventDefault(); el.scrollIntoView({ behavior:'smooth', block:'start' }); history.pushState(null,'',id);
+});
