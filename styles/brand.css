@@ -305,3 +305,58 @@ img.site-logo { height: clamp(28px, 6.5vw, 52px); }
   font-size: 1rem;
   line-height: 1.7;
 }
+:root{
+  --link: #7cc8ff;
+  --link-hover: #b3e1ff;
+  --focus-ring: 0 0 0 3px rgba(124,200,255,.35);
+  --sticky-offset: 84px; /* header height for scroll-margin */
+}
+
+/* === Base content container === */
+.content, main .container, .md-content { max-width: 1120px; margin-inline:auto; }
+
+/* === Prose defaults (covers all Markdown-y pages) === */
+.prose :where(h1,h2,h3,h4){ line-height:1.2; }
+.prose :where(h2){ margin-top:clamp(24px,4vw,40px); }
+.prose :where(p,ul,ol){ color: rgba(255,255,255,.92); }
+.prose :where(code,kbd,pre){ background: rgba(255,255,255,.06); border-radius:8px; padding:.15em .35em; }
+
+/* === Link system === */
+a{ color:var(--link); text-underline-offset: 3px; text-decoration-thickness:.08em; }
+a:hover{ color:var(--link-hover); text-decoration: underline; }
+a:focus-visible{ outline: none; box-shadow: var(--focus-ring); border-radius: 6px; }
+a:visited{ color:var(--link); } /* kill purple */
+
+/* Button-like links */
+.link-btn{ display:inline-block; padding:.55rem .85rem; border-radius:999px;
+  border:1px solid rgba(255,255,255,.22); text-decoration:none; }
+.link-btn:hover{ border-color:rgba(255,255,255,.45); }
+
+/* External link affordance (added by JS via .is-external) */
+a.is-external::after{
+  content:"↗"; font-size:.85em; margin-left:.35em; opacity:.85;
+}
+
+/* Anchored headings don’t hide under sticky header */
+:where(h2,h3,h4)[id]{ scroll-margin-top: var(--sticky-offset); }
+
+/* === Left rail / Knowledge base === */
+aside nav ul, .left-rail nav ul, .knowledge-base ul{
+  list-style:none; padding-left:0; margin: .25rem 0 0;
+}
+aside nav li, .left-rail nav li, .knowledge-base li{ margin:.35rem 0; }
+aside nav a, .left-rail nav a, .knowledge-base a{
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:.25rem .35rem; border-radius:8px; color:rgba(255,255,255,.9); text-decoration:none;
+}
+aside nav a:hover, .left-rail nav a:hover, .knowledge-base a:hover{
+  background: rgba(255,255,255,.06); color:#fff; text-decoration:none;
+}
+aside nav a:focus-visible, .left-rail nav a:focus-visible, .knowledge-base a:focus-visible{
+  box-shadow: var(--focus-ring);
+}
+
+/* === Auto-hero wrapper for subpages (matches Home hero styling) === */
+.page-intro.auto-hero{ margin-top: clamp(12px,3vw,20px); }
+.page-intro.auto-hero .page-intro__title{ margin-bottom:.35rem; }
+.page-intro.auto-hero .page-intro__lede{ opacity:.9; }
