@@ -84,10 +84,21 @@ img.site-logo {
 
 /* Nav pills (desktop) */
 .top-nav { order: 2; flex: 1 1 auto; min-width: 320px; }
-.pill-nav { display: flex; flex-wrap: wrap; gap: .5rem; padding: .25rem; background: var(--tc-surface); border: 1px solid var(--tc-border); border-radius: 1rem; box-shadow: var(--tc-shadow); }
-.pill-nav a { display: inline-flex; align-items: center; height: 40px; padding: 0 .9rem; border-radius: .75rem; color: var(--tc-ink); font-weight: 600; border: 1px solid transparent; }
-.pill-nav a:hover, .pill-nav a:focus-visible { background: var(--tc-surface-2); text-decoration: none; }
-.pill-nav a[aria-current="page"] { background: var(--tc-surface-2); border-color: var(--tc-border); }
+.pill-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.pill-nav > li {
+  list-style: none;
+}
 
 /* Menu button for mobile */
 .menu-btn { order: 3; display: none; align-items: center; justify-content: center; height: 40px; padding: 0 1rem; border-radius: 999px; background: var(--tc-surface); border: 1px solid var(--tc-border); color: var(--tc-ink); font-weight: 600; }
@@ -158,6 +169,78 @@ img.site-logo {
   box-shadow: none;
   border: 0;
   border-radius: 0;
+}
+
+/* ===== Learning Pathways + FAQ (Home) ===== */
+.lp { margin-block: clamp(24px, 4vw, 48px); }
+.lp h2 { font-size: clamp(1.25rem, 1.8vw, 1.75rem); margin-bottom: .75rem; }
+.lp-lead { opacity:.85; margin-bottom: 1rem; }
+.lp-grid { display:grid; gap: clamp(16px, 2.5vw, 24px); grid-template-columns: 1fr; }
+@media (min-width:768px){ .lp-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
+.lp-card{ display:flex; flex-direction:column; min-height: 180px; border-radius:16px; padding:clamp(14px,2.2vw,18px);
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); box-shadow: 0 4px 18px rgba(0,0,0,.25); }
+.lp-eyebrow{ font-size:.85rem; letter-spacing:.03em; opacity:.85; display:block; margin-bottom:.25rem; }
+.lp-title{ font-size: clamp(1.05rem,1.6vw,1.25rem); margin:.25rem 0 .5rem; }
+.lp-body{ opacity:.9; }
+.lp-cta{ margin-top:auto; }
+.lp-cta a{ display:inline-block; padding:.55rem .85rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); text-decoration:none; }
+.lp-cta a:hover{ border-color: rgba(255,255,255,.45); }
+.lp-card a{ text-decoration:none; }
+.lp-eyebrow, .lp-title{ pointer-events:none; }
+
+.faq{ margin-block: clamp(16px, 3.5vw, 48px); }
+.faq h2{ font-size: clamp(1.25rem, 1.8vw, 1.75rem); margin-bottom:.75rem; }
+.faq-group{ margin-top: clamp(12px,2vw,20px); }
+.faq details{ border-radius:14px; padding:.75rem 1rem; margin:.5rem 0; background: rgba(255,255,255,.04); }
+.faq summary{ cursor:pointer; list-style:none; font-weight:600; }
+.faq summary::-webkit-details-marker{ display:none; }
+.faq details[open]{ background: rgba(255,255,255,.06); }
+.faq .answer{ margin-top:.5rem; opacity:.92; }
+
+/* ===== Header cleanup / dropdowns ===== */
+.site-brand .site-logo,
+img.site-logo { height: clamp(28px, 6.5vw, 52px); }
+
+.nav-item { position: relative; }
+.nav-button {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: transparent; border: 1px solid var(--color-border-subtle);
+  color: var(--color-text); cursor: pointer; font-weight: 600;
+  transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+}
+.nav-caret { display:inline-block; transform: translateY(1px); opacity:.8; }
+.nav-menu {
+  position: absolute; top: calc(100% + .4rem); left: 0; min-width: 16rem; display: none;
+  background: var(--color-surface); border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-sm); border-radius: var(--radius-md); padding: .4rem; z-index: 60;
+}
+.nav-item[data-open="true"] .nav-menu { display: grid; gap: .25rem; }
+.nav-menu a {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .6rem .75rem; border-radius: .55rem; height: auto;
+  color: var(--color-text-muted); text-decoration: none;
+}
+.nav-menu a:hover, .nav-menu a:focus-visible {
+  background: var(--color-surface-alt); color: var(--color-text);
+}
+.nav-item[data-open="true"] .nav-button,
+.nav-button:hover,
+.nav-button:focus-visible {
+  background: var(--color-surface-alt);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+.pill-nav .nav-menu a {
+  box-shadow: none; border: 1px solid var(--color-border-subtle);
+  border-radius: .55rem; padding: .6rem .75rem; height: auto;
+}
+@media (max-width: 1024px) {
+  .nav-menu { position: static; display: grid; box-shadow: none; margin-top: .35rem; }
+  .nav-button { width: 100%; justify-content: space-between; }
+  .nav-item { width: 100%; }
+  .nav-item + .nav-item { margin-top: .25rem; }
 }
 
 /* Deep-dive pathways ---------------------------------------------------- */

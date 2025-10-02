@@ -57,58 +57,118 @@
 </head>
 <body data-page="pools">
   <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="site-header">
-      <div class="site-header__inner container">
-        <a class="site-brand" href="/">
-          <img class="site-logo" src="/logo.svg" alt="Telcoin Wiki logo" loading="eager" decoding="async" />
-        </a>
+  <header class="site-header">
+    <div class="site-header__inner container">
+      <a class="site-brand" href="/">
+        <img class="site-logo" src="/logo.svg" alt="Telcoin Wiki logo" loading="eager" decoding="async" />
+      </a>
 
-        <!-- Desktop nav -->
-        <nav class="top-nav" aria-label="Primary">
-          <ul class="pill-nav">
-            <li><a href="/start-here.html">Start Here</a></li>
-            <li><a href="/faq/">FAQ</a></li>
-            <li><a href="/wallet.html">Wallet</a></li>
-            <li><a href="/digital-cash.html">Digital Cash</a></li>
-            <li><a href="/remittances.html">Remittances</a></li>
-            <li><a href="/tel-token.html">TEL Token</a></li>
-            <li><a href="/network.html">Telcoin Network</a></li>
-            <li><a href="/telx.html">TELx</a></li>
-            <li><a href="/governance.html">Governance &amp; Association</a></li>
-            <li><a href="/builders.html">Builders</a></li>
-            <li><a href="/links.html">Links</a></li>
-          </ul>
-        </nav>
+      <nav class="top-nav" aria-label="Primary">
+        <ul class="pill-nav">
+          <li class="nav-item" data-nav-item data-open="false">
+            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-start-here">
+              <span>Start Here</span>
+              <span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-menu" id="nav-start-here">
+              <a href="/#home-hero" data-scroll>Welcome overview</a>
+              <a href="/#learning-pathways" data-scroll>Learning pathways</a>
+              <a href="/start-here.html">Quickstart guide</a>
+              <a href="/wallet.html">Wallet setup</a>
+              <a href="/digital-cash.html">Digital Cash basics</a>
+            </div>
+          </li>
+          <li class="nav-item" data-nav-item data-open="false">
+            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-faq">
+              <span>FAQ</span>
+              <span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-menu" id="nav-faq">
+              <a href="/#faq" data-scroll>FAQ highlights</a>
+              <a href="/faq/">Full FAQ library</a>
+              <a href="https://status.telco.in" target="_blank" rel="noopener">Status updates</a>
+              <a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community support</a>
+            </div>
+          </li>
+          <li class="nav-item" data-nav-item data-open="false">
+            <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-deep-dive">
+              <span>Deep-Dive</span>
+              <span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-menu" id="nav-deep-dive">
+              <a href="/deep-dive.html">Deep-dive overview</a>
+              <a href="/network.html">Telcoin Network</a>
+              <a href="/tel-token.html">TEL token utility</a>
+              <a href="/telx.html">TELx liquidity</a>
+              <a href="/governance.html">Governance &amp; association</a>
+              <a href="/builders.html">Builder resources</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
 
-        <!-- Mobile toggle -->
-        <button type="button" class="menu-btn" data-sidebar-toggle aria-expanded="false" aria-controls="mobile-drawer">Menu</button>
+      <button type="button" class="menu-btn" data-sidebar-toggle aria-expanded="false" aria-controls="mobile-drawer">Menu</button>
 
-        <!-- Search (no secondary pill below it) -->
-        <div class="header-search" role="search">
-          <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
-          <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off">
-        </div>
+      <div class="header-search" role="search">
+        <label class="sr-only" for="site-search">Search Telcoin Wiki</label>
+        <input id="site-search" class="search-input" type="search" name="q" placeholder="Search Telcoin Wiki" autocomplete="off">
       </div>
+    </div>
 
-      <!-- Mobile drawer -->
-      <div id="mobile-drawer" class="drawer container" hidden>
-        <nav aria-label="Mobile">
-          <ul>
-            <li><a href="/start-here.html">Start Here</a></li>
-            <li><a href="/faq/">FAQ</a></li>
-            <li><a href="/wallet.html">Wallet</a></li>
-            <li><a href="/digital-cash.html">Digital Cash</a></li>
-            <li><a href="/remittances.html">Remittances</a></li>
-            <li><a href="/tel-token.html">TEL Token</a></li>
-            <li><a href="/network.html">Telcoin Network</a></li>
-            <li><a href="/telx.html">TELx</a></li>
-            <li><a href="/governance.html">Governance &amp; Association</a></li>
-            <li><a href="/builders.html">Builders</a></li>
-            <li><a href="/links.html">Links</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <div id="mobile-drawer" class="drawer container" hidden>
+      <nav aria-label="Mobile">
+        <ul>
+          <li>
+            <div class="nav-item" data-nav-item data-open="false">
+              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-start-here-mobile">
+                <span>Start Here</span>
+                <span class="nav-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="nav-menu" id="nav-start-here-mobile">
+                <a href="/#home-hero" data-scroll>Welcome overview</a>
+                <a href="/#learning-pathways" data-scroll>Learning pathways</a>
+                <a href="/start-here.html">Quickstart guide</a>
+                <a href="/wallet.html">Wallet setup</a>
+                <a href="/digital-cash.html">Digital Cash basics</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="nav-item" data-nav-item data-open="false">
+              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-faq-mobile">
+                <span>FAQ</span>
+                <span class="nav-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="nav-menu" id="nav-faq-mobile">
+                <a href="/#faq" data-scroll>FAQ highlights</a>
+                <a href="/faq/">Full FAQ library</a>
+                <a href="https://status.telco.in" target="_blank" rel="noopener">Status updates</a>
+                <a href="https://discord.gg/qzMUw57UJa" target="_blank" rel="noopener">Community support</a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="nav-item" data-nav-item data-open="false">
+              <button class="nav-button" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-deep-dive-mobile">
+                <span>Deep-Dive</span>
+                <span class="nav-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="nav-menu" id="nav-deep-dive-mobile">
+                <a href="/deep-dive.html">Deep-dive overview</a>
+                <a href="/network.html">Telcoin Network</a>
+                <a href="/tel-token.html">TEL token utility</a>
+                <a href="/telx.html">TELx liquidity</a>
+                <a href="/governance.html">Governance &amp; association</a>
+                <a href="/builders.html">Builder resources</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
   <div class="sidebar-overlay" data-sidebar-overlay></div>
   <div class="site-shell">
     <aside id="site-sidebar" class="sidebar" data-sidebar>
