@@ -1,4 +1,15 @@
-<!doctype html>
+import { mkdirSync, writeFileSync, existsSync } from "node:fs";
+import { join } from "node:path";
+
+const URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
+const KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || "";
+
+const outDir = "supabase-test";
+const outFile = join(outDir, "index.html");
+if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
+
+const keyPreview = KEY ? `${KEY.slice(0, 12)}…${KEY.slice(-8)}` : "(empty)";
+const html = `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Supabase connection test</title>
@@ -11,15 +22,15 @@ pre{white-space:pre-wrap}
 </head><body>
 <h1>Supabase connection test</h1>
 <div class="card">
-  <span class="pill">URL: missing</span>
-  <span class="pill">ANON KEY: missing</span>
-  <p style="color:#9fb3cf">Key preview: <code>(empty)</code></p>
+  <span class="pill">URL: ${URL ? "present" : "missing"}</span>
+  <span class="pill">ANON KEY: ${KEY ? "present" : "missing"}</span>
+  <p style="color:#9fb3cf">Key preview: <code>${keyPreview}</code></p>
   <p id="status">Checking…</p>
   <pre id="details"></pre>
 </div>
 <script>
-const URL = "";
-const KEY = "";
+const URL = ${JSON.stringify(URL)};
+const KEY = ${JSON.stringify(KEY)};
 const statusEl = document.getElementById('status');
 const detailsEl = document.getElementById('details');
 
@@ -42,10 +53,12 @@ async function probe(path, headers){
 
   statusEl.textContent = 'auth/v1/health: ' + auth.status + ' | rest/v1/: ' + rest.status;
   detailsEl.textContent = 
-    'auth/v1/health:\n' + auth.text + '\n\n' +
-    'rest/v1/:\n' + rest.text + '\n\n' +
-    'Sent headers:\n' + JSON.stringify({ apikey: KEY ? '(present)' : '(missing)', Authorization: KEY ? 'Bearer (present)' : '(missing)' }, null, 2) + '\n' +
-    'URL used: ' + URL + '\nKey preview: (empty)';
+    'auth/v1/health:\\n' + auth.text + '\\n\\n' +
+    'rest/v1/:\\n' + rest.text + '\\n\\n' +
+    'Sent headers:\\n' + JSON.stringify({ apikey: KEY ? '(present)' : '(missing)', Authorization: KEY ? 'Bearer (present)' : '(missing)' }, null, 2) + '\\n' +
+    'URL used: ' + URL + '\\nKey preview: ${keyPreview}';
 })();
 </script>
-</body></html>
+</body></html>\n`;
+writeFileSync(outFile, html);
+console.log("[supabase-test] wrote", outFile, "URL present:", !!URL, "ANON present:", !!KEY);
