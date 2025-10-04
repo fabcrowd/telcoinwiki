@@ -1,41 +1,35 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Supabase connection test</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; color: #e6f0ff; background: #0f2341; }
-    .card { background:#11264a; border:1px solid #274874; border-radius:12px; padding:20px; max-width:720px; }
-    code { background:#0b1a33; padding:2px 6px; border-radius:6px; }
-  </style>
-</head>
-<body>
-  <h1>Supabase connection test</h1>
-  <div class="card">
-    <p id="status">Checking…</p>
-    <pre id="details" style="white-space:pre-wrap"></pre>
-  </div>
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-  <script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-    const SUPABASE_URL = 'https://sklhiwupeisypbnzlnfr.supabase.co';
-    const SUPABASE_ANON_KEY = 'PUT_YOUR_ANON_KEY_HERE';
+  const SUPABASE_URL = 'https://sklhiwupeisypbnzlnfr.supabase.co';
+  const SUPABASE_ANON_KEY = 'PASTE-YOUR-ANON-KEY-HERE'; // no quotes around it in Netlify env, no spaces
 
-    const statusEl = document.getElementById('status');
-    const detailsEl = document.getElementById('details');
+  const statusEl = document.getElementById('status');
+  const detailsEl = document.getElementById('details');
 
-    try {
-      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      const res = await fetch(SUPABASE_URL + '/rest/v1/', {
-        headers: { apikey: SUPABASE_ANON_KEY }
-      });
-      statusEl.textContent = res.ok ? 'Connected to Supabase ✅' : `HTTP ${res.status}`;
-      detailsEl.textContent = res.ok ? 'Connection successful.' : await res.text();
-    } catch (e) {
-      statusEl.textContent = 'Error connecting';
-      detailsEl.textContent = e?.message || String(e);
+  try {
+    // optional: also verify the SDK can be created
+    createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 1) hit REST root with BOTH headers
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+    });
+
+    const text = await res.text();
+    if (!res.ok) {
+      statusEl.textContent = `HTTP ${res.status}`;
+      detailsEl.textContent = text;
+      return;
     }
-  </script>
-</body>
-</html>
+
+    statusEl.textContent = 'Connected to Supabase ✅';
+    detailsEl.textContent = text || '(ok)';
+  } catch (e) {
+    statusEl.textContent = 'Error connecting';
+    detailsEl.textContent = e?.message || String(e);
+  }
+</script>
