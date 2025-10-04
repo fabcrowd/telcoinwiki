@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Supabase connection test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; color: #e6f0ff; background: #0f2341; }
+    .card { background:#11264a; border:1px solid #274874; border-radius:12px; padding:20px; max-width:720px; }
+    code { background:#0b1a33; padding:2px 6px; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <h1>Supabase connection test</h1>
+  <div class="card">
+    <p id="status">Checking…</p>
+    <pre id="details" style="white-space:pre-wrap"></pre>
+  </div>
+
+  <!-- We’ll use ESM import directly from a CDN for this one page -->
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    // For a quick test page in a static site, hardcode PUBLIC values.
+    // (These two are safe to expose; remove later if you prefer.)
+    const SUPABASE_URL = 'https://YOUR-REF.supabase.co';
+    const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY';
+
+    const statusEl = document.getElementById('status');
+    const detailsEl = document.getElementById('details');
+
+    try {
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // Ping REST root (no auth needed) to prove URL/key work
+      const res = await fetch(SUPABASE_URL + '/rest/v1/', {
+        headers: { apikey: SUPABASE_ANON_KEY }
+      });
+
+      if (!res.ok) {
+        statusEl.textContent = `HTTP ${res.status} — check URL/key`;
+      } else {
+        statusEl.textContent = 'Connected to Supabase ✅';
+      }
+
+      // Optional: try a simple table read (will 401/403 if RLS blocks)
+      // const { data, error } = await supabase.from('profiles').select('*').limit(1);
+      // detailsEl.textContent = error ? 'RLS blocked (expected if not signed in)' : JSON.stringify(data, null, 2);
+    } catch (e) {
+      statusEl.textContent = 'Error connecting';
+      detailsEl.textContent = e?.message || String(e);
+    }
+  </script>
+</body>
+</html>
