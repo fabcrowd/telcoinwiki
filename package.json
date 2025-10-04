@@ -14,8 +14,11 @@
     "build:css": "csso styles/index.css --output dist/styles.css",
     "build:js": "mkdir -p dist && node scripts/build-status-data.js && node node_modules/terser/bin/terser js/main.js -o dist/main.js --compress --mangle && node node_modules/terser/bin/terser js/faq.js -o dist/faq.js --compress --mangle && node node_modules/terser/bin/terser js/pools-data.js -o dist/pools.js --compress --mangle",
     "build:img": "node scripts/optimize-images.js",
-    "build": "npm run build:css && npm run build:js && npm run build:img"
+    "prebuild": "node tools/make-supabase-test.mjs",
+    "build": "npm run build:css && npm run build:js && npm run build:img",
+    "verify:supabase": "node tools/verify-supabase.mjs"
   },
+  "type": "module",
   "devDependencies": {
     "@jridgewell/source-map": "^0.3.3",
     "acorn": "^8.11.3",
