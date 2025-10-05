@@ -1,4 +1,6 @@
 import elasticlunr, { type Index as ElasticIndex } from 'elasticlunr'
+
+globalThis.lunr ??= elasticlunr
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { SearchConfig } from '../config/types'
 import type { FaqEntry } from '../lib/queries'
@@ -37,6 +39,13 @@ export interface SearchResultGroup {
   id: SearchDocumentType
   label: string
   items: SearchResultItem[]
+}
+
+declare global {
+  // elasticlunr expects to access a global `lunr` alias when running in strict mode environments
+  interface GlobalThis {
+    lunr?: typeof elasticlunr
+  }
 }
 
 interface SearchIndexState {
