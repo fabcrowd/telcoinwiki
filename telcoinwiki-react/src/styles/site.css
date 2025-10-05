@@ -435,8 +435,6 @@ pre {
 .sidebar__inner {
   position: sticky;
   top: calc(var(--header-height) + 1rem);
-  max-height: calc(100vh - var(--header-height) - 3rem);
-  overflow-y: auto;
   padding: 1.5rem;
   border-radius: var(--radius-card);
   backdrop-filter: blur(24px);
