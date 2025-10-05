@@ -9,7 +9,7 @@ export const PAGE_META: PageMetaMap = {
     navId: 'start-here',
     sidebar: true,
   },
-  faq: { label: 'FAQ', url: '/faq/', parent: 'home', navId: 'faq', sidebar: true },
+  faq: { label: 'FAQ', url: '/faq', parent: 'home', navId: 'faq', sidebar: true },
   wallet: {
     label: 'Telcoin Wallet',
     url: '/wallet',
