@@ -23,7 +23,7 @@ export function SourceBox({ title = 'Official resources', links, className }: So
               className="source-box__link"
               href={href}
               target={external ? '_blank' : undefined}
-              rel={external ? 'noopener' : undefined}
+              rel={external ? 'noopener noreferrer' : undefined}
             >
               {label}
             </a>
