@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+
 export default function Page() {
   const [result, setResult] = useState('Loading…');
 
@@ -12,9 +15,14 @@ export default function Page() {
       return;
     }
 
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+      setResult('Missing Supabase env vars (VITE_ or NEXT_PUBLIC_)');
+      return;
+    }
+
     // quick ping to REST root (no auth required) just to prove URL/key work
-    fetch(process.env.NEXT_PUBLIC_SUPABASE_URL + '/rest/v1/', {
-      headers: { apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string }
+    fetch(SUPABASE_URL + '/rest/v1/', {
+      headers: { apikey: SUPABASE_ANON_KEY as string }
     })
       .then(r => setResult(r.ok ? 'Connected to Supabase ✅' : `HTTP ${r.status}`))
       .catch(e => setResult('Error: ' + e.message));
