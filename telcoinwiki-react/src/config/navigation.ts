@@ -5,13 +5,8 @@ export const NAV_ITEMS: NavItems = [
   {
     id: 'faq',
     label: 'FAQ',
-    href: '/#faq',
-    menu: [
-      { label: 'Basics', href: '/#faq-basics' },
-      { label: 'Network & MNOs', href: '/#faq-network' },
-      { label: 'Bank & eUSD', href: '/#faq-bank' },
-      { label: 'Using TEL & App', href: '/#faq-app' },
-    ],
+    href: '/faq',
+    menu: null,
   },
   {
     id: 'deep-dive',
