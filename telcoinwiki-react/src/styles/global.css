@@ -1,0 +1,19 @@
+/* telcoinwiki-react/src/styles/global.css
+   Aggregates legacy Telcoin Wiki global styles for the Vite app.
+*/
+@import './tokens.css';
+@import './variables.css';
+@import './critical.css';
+@import './site.css';
+@import './brand.css';
+
+/* Vite root reset: ensure the SPA mount point behaves like the static site */
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
