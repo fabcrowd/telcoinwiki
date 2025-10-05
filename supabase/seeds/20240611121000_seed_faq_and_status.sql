@@ -79,7 +79,7 @@ on conflict (faq_id, url) do update set
 
 insert into public.status_metrics (key, label, value, unit, update_strategy, notes)
 values
-    ('remittanceCorridors', 'Remittance corridors', 20, 'countries', 'manual', 'Seeded from status.json on static site')
+    ('remittanceCorridors', 'Remittance corridors', 20, 'countries', 'manual', 'Seeded from telcoinwiki-react/public/status.json')
 on conflict (key) do update set
     label = excluded.label,
     value = excluded.value,

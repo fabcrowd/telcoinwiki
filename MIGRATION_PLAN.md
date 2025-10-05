@@ -23,7 +23,7 @@ This document outlines the recommended steps for migrating the existing static s
 - Refactor repeated content blocks (FAQ items, card grids) into components fed by structured data.
 
 ## 5. Design Supabase Schema and Seed Data
-- Translate JSON sources (e.g., `data/faq.json`, search index data) into Supabase tables (`faq`, `faq_tags`, `sources`) or views.
+- Translate JSON sources (e.g., `telcoinwiki-react/public/data/faq.json`, search index data) into Supabase tables (`faq`, `faq_tags`, `sources`) or views.
 - Store dynamic status metrics currently injected via `window.__STATUS__` in dedicated tables or Postgres functions.
 - Use Supabase migrations or SQL snippets to seed initial data matching the existing JSON files before deprecating them.
 

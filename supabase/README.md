@@ -21,7 +21,7 @@ The seed script is safe to rerun; it performs UPSERT operations so repeated exec
 
 ## Status metrics lifecycle
 
-The `status_metrics` table mirrors keys from `status.json` (for example, `remittanceCorridors`). Each row records:
+The `status_metrics` table mirrors keys from `telcoinwiki-react/public/status.json` (for example, `remittanceCorridors`). Each row records:
 
 - `value` – stored as a numeric type so both integers and decimals are supported.
 - `unit` – optional human-readable unit (e.g., `countries`).
