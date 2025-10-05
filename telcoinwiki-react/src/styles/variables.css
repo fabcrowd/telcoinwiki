@@ -13,17 +13,17 @@
   --color-text: var(--tc-ink);
   --color-text-muted: var(--tc-ink-muted);
   --color-text-soft: var(--tc-ink-subtle);
-  --color-text-inverse: #050f2d;
+  --color-text-inverse: #050B1F;
 
   --color-primary: var(--tc-primary-500);
   --color-primary-strong: var(--tc-primary-700);
-  --color-primary-soft: rgba(64, 102, 222, 0.22);
+  --color-primary-soft: var(--tc-primary-soft);
   --color-secondary: var(--tc-accent);
-  --color-secondary-soft: rgba(69, 188, 241, 0.18);
+  --color-secondary-soft: var(--tc-accent-soft);
   --color-highlight: var(--tc-primary-300);
   --color-warning: #facc15;
   --color-warning-soft: rgba(250, 204, 21, 0.18);
-  --color-info-soft: rgba(69, 188, 241, 0.18);
+  --color-info-soft: var(--tc-accent-soft);
 
   --space-0: 0rem;
   --space-1: 0.25rem;
