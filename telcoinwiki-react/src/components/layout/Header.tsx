@@ -65,13 +65,15 @@ export function Header({
     setMobileNavOpen(false);
   }
 
+  const logoSrc = '/logo.svg';
+
   return (
     <header className="site-header">
       <div className="site-header__inner container">
         <Link className="site-brand" to="/">
           <img
             className="site-logo"
-            src="/logo.svg"
+            src={logoSrc}
             alt="Telcoin Wiki logo"
             loading="eager"
             decoding="async"
