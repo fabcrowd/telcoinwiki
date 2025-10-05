@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import type { NavItem } from '../../config/types';
 
@@ -9,7 +9,7 @@ interface HeaderProps {
   isSearchOpen?: boolean;
 }
 
-export function Header({
+export const Header = memo(function Header({
   navItems,
   activeNavId,
   onSearchOpen,
@@ -49,21 +49,22 @@ export function Header({
 
   const mobileItems = useMemo(() => navItems, [navItems]);
 
-  function toggleMenu(itemId: string) {
+  const toggleMenu = useCallback((itemId: string) => {
     setOpenMenuId((current) => (current === itemId ? null : itemId));
-  }
+  }, []);
 
-  function closeMenus() {
+  const closeMenus = useCallback(() => {
     setOpenMenuId(null);
-  }
+  }, []);
 
-  function toggleMobileNav() {
+  const toggleMobileNav = useCallback(() => {
     setMobileNavOpen((current) => !current);
-  }
+  }, []);
 
-  function handleMobileLinkClick() {
+  const handleMobileLinkClick = useCallback(() => {
     setMobileNavOpen(false);
-  }
+    setOpenMenuId(null);
+  }, []);
 
   return (
     <header className="site-header">
@@ -175,4 +176,4 @@ export function Header({
       </div>
     </header>
   );
-}
+});

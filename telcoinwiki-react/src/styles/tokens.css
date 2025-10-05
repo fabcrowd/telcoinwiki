@@ -1,21 +1,48 @@
 :root {
-  /* Telcoin palette */
-  --tc-primary: #4066DE;
-  --tc-primary-50: #E4ECF7;
-  --tc-primary-300: #7F86D2;
-  --tc-primary-500: #4066DE;
-  --tc-primary-700: #2C2C7A;
-  --tc-accent: #45BCF1;
+  /* Telcoin palette — sampled from telcoin.network */
+  --tc-blue-sky: #37AEFF;
+  --tc-blue-core: #0093F5;
+  --tc-blue-royal: #391FFF;
+  --tc-blue-violet: #5533FF;
 
-  --tc-ink: rgba(255, 255, 255, 0.92);
-  --tc-ink-muted: rgba(255, 255, 255, 0.8);
-  --tc-ink-subtle: rgba(255, 255, 255, 0.65);
+  --tc-neutral-50: #F8F8FB;
+  --tc-neutral-100: #F2F2F5;
+  --tc-neutral-200: #DBDDE6;
+  --tc-neutral-300: #D3D3D3;
+  --tc-neutral-500: #636B92;
+  --tc-neutral-600: #535979;
+  --tc-white: #FFFFFF;
 
-  --tc-bg: #0f1a3a;
-  --tc-surface: rgba(255, 255, 255, 0.05);
-  --tc-surface-2: rgba(255, 255, 255, 0.08);
-  --tc-border: rgba(255, 255, 255, 0.1);
-  --tc-border-strong: rgba(255, 255, 255, 0.18);
+  --tc-primary-50: var(--tc-neutral-100);
+  --tc-primary-300: var(--tc-blue-sky);
+  --tc-primary-500: var(--tc-blue-core);
+  --tc-primary-700: var(--tc-blue-royal);
+  --tc-primary: var(--tc-primary-500);
+  --tc-accent: var(--tc-blue-sky);
+  --tc-accent-strong: var(--tc-blue-royal);
+
+  --tc-ink: rgba(248, 248, 251, 0.95);
+  --tc-ink-muted: rgba(248, 248, 251, 0.78);
+  --tc-ink-subtle: rgba(248, 248, 251, 0.62);
+
+  --tc-bg: #050B1F;
+  --tc-bg-gradient-top: #04345F;
+  --tc-surface: rgba(248, 248, 251, 0.06);
+  --tc-surface-2: rgba(248, 248, 251, 0.1);
+  --tc-border: rgba(219, 221, 230, 0.24);
+  --tc-border-strong: rgba(219, 221, 230, 0.42);
+
+  --tc-primary-soft: rgba(0, 147, 245, 0.22);
+  --tc-accent-soft: rgba(55, 174, 255, 0.18);
+  --tc-accent-veil: rgba(55, 174, 255, 0.12);
+  --tc-accent-outline: rgba(55, 174, 255, 0.45);
+  --tc-royal-soft: rgba(57, 31, 255, 0.32);
+  --tc-royal-outline: rgba(57, 31, 255, 0.4);
+
+  --tc-hero-radial: radial-gradient(1200px 800px at 10% -10%, rgba(55, 174, 255, 0.16), transparent 70%);
+  --tc-hero-linear: linear-gradient(180deg, var(--tc-bg-gradient-top) 0%, var(--tc-bg) 60%);
+  --tc-ocean-gradient: linear-gradient(256deg, rgba(55, 174, 255, 0.6), rgba(85, 51, 255, 0.6)),
+    linear-gradient(245deg, rgba(51, 172, 255, 0.3) 43.29%, var(--tc-blue-violet) 78%);
 
   --tc-radius: 1rem;
   --tc-radius-lg: 1.25rem;

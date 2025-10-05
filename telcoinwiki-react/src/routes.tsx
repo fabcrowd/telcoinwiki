@@ -1,22 +1,134 @@
-import type { ComponentType } from 'react'
+import { lazy, type ComponentType } from 'react'
 import type { SidebarHeading } from './config/types'
 import { PAGE_META } from './config/pageMeta'
-import { HomePage } from './pages/HomePage'
-import { StartHerePage } from './pages/StartHerePage'
-import { WalletPage } from './pages/WalletPage'
-import { DeepDivePage } from './pages/DeepDivePage'
-import { FaqPage } from './pages/FaqPage'
-import { DigitalCashPage } from './pages/DigitalCashPage'
-import { RemittancesPage } from './pages/RemittancesPage'
-import { TelTokenPage } from './pages/TelTokenPage'
-import { NetworkPage } from './pages/NetworkPage'
-import { TelxPage } from './pages/TelxPage'
-import { GovernancePage } from './pages/GovernancePage'
-import { BuildersPage } from './pages/BuildersPage'
-import { LinksPage } from './pages/LinksPage'
-import { PoolsPage } from './pages/PoolsPage'
-import { PortfolioPage } from './pages/PortfolioPage'
-import { AboutPage } from './pages/AboutPage'
+
+const HomePage = lazy(async () => {
+  const module = await import('./pages/HomePage')
+  if (!module.HomePage) {
+    throw new Error('HomePage module failed to load')
+  }
+  return { default: module.HomePage }
+})
+
+const StartHerePage = lazy(async () => {
+  const module = await import('./pages/StartHerePage')
+  if (!module.StartHerePage) {
+    throw new Error('StartHerePage module failed to load')
+  }
+  return { default: module.StartHerePage }
+})
+
+const WalletPage = lazy(async () => {
+  const module = await import('./pages/WalletPage')
+  if (!module.WalletPage) {
+    throw new Error('WalletPage module failed to load')
+  }
+  return { default: module.WalletPage }
+})
+
+const DeepDivePage = lazy(async () => {
+  const module = await import('./pages/DeepDivePage')
+  if (!module.DeepDivePage) {
+    throw new Error('DeepDivePage module failed to load')
+  }
+  return { default: module.DeepDivePage }
+})
+
+const FaqPage = lazy(async () => {
+  const module = await import('./pages/FaqPage')
+  if (!module.FaqPage) {
+    throw new Error('FaqPage module failed to load')
+  }
+  return { default: module.FaqPage }
+})
+
+const DigitalCashPage = lazy(async () => {
+  const module = await import('./pages/DigitalCashPage')
+  if (!module.DigitalCashPage) {
+    throw new Error('DigitalCashPage module failed to load')
+  }
+  return { default: module.DigitalCashPage }
+})
+
+const RemittancesPage = lazy(async () => {
+  const module = await import('./pages/RemittancesPage')
+  if (!module.RemittancesPage) {
+    throw new Error('RemittancesPage module failed to load')
+  }
+  return { default: module.RemittancesPage }
+})
+
+const TelTokenPage = lazy(async () => {
+  const module = await import('./pages/TelTokenPage')
+  if (!module.TelTokenPage) {
+    throw new Error('TelTokenPage module failed to load')
+  }
+  return { default: module.TelTokenPage }
+})
+
+const NetworkPage = lazy(async () => {
+  const module = await import('./pages/NetworkPage')
+  if (!module.NetworkPage) {
+    throw new Error('NetworkPage module failed to load')
+  }
+  return { default: module.NetworkPage }
+})
+
+const TelxPage = lazy(async () => {
+  const module = await import('./pages/TelxPage')
+  if (!module.TelxPage) {
+    throw new Error('TelxPage module failed to load')
+  }
+  return { default: module.TelxPage }
+})
+
+const GovernancePage = lazy(async () => {
+  const module = await import('./pages/GovernancePage')
+  if (!module.GovernancePage) {
+    throw new Error('GovernancePage module failed to load')
+  }
+  return { default: module.GovernancePage }
+})
+
+const BuildersPage = lazy(async () => {
+  const module = await import('./pages/BuildersPage')
+  if (!module.BuildersPage) {
+    throw new Error('BuildersPage module failed to load')
+  }
+  return { default: module.BuildersPage }
+})
+
+const LinksPage = lazy(async () => {
+  const module = await import('./pages/LinksPage')
+  if (!module.LinksPage) {
+    throw new Error('LinksPage module failed to load')
+  }
+  return { default: module.LinksPage }
+})
+
+const PoolsPage = lazy(async () => {
+  const module = await import('./pages/PoolsPage')
+  if (!module.PoolsPage) {
+    throw new Error('PoolsPage module failed to load')
+  }
+  return { default: module.PoolsPage }
+})
+
+const PortfolioPage = lazy(async () => {
+  const module = await import('./pages/PortfolioPage')
+  if (!module.PortfolioPage) {
+    throw new Error('PortfolioPage module failed to load')
+  }
+  return { default: module.PortfolioPage }
+})
+
+const AboutPage = lazy(async () => {
+  const module = await import('./pages/AboutPage')
+  if (!module.AboutPage) {
+    throw new Error('AboutPage module failed to load')
+  }
+  return { default: module.AboutPage }
+})
 
 export type PageId = keyof typeof PAGE_META
 

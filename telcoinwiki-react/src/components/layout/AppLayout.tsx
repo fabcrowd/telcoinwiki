@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import type {
   NavItem,
   PageMetaMap,
@@ -37,10 +37,10 @@ export function AppLayout({
   const breadcrumbs = useBreadcrumbTrail(pageId, pageMeta)
   const [isSearchOpen, setSearchOpen] = useState(false)
 
-  const openSearch = () => setSearchOpen(true)
-  const handleCloseSearch = () => setSearchOpen(false)
+  const openSearch = useCallback(() => setSearchOpen(true), [])
+  const handleCloseSearch = useCallback(() => setSearchOpen(false), [])
 
-  const currentMeta = pageMeta[pageId] ?? pageMeta.home
+  const currentMeta = useMemo(() => pageMeta[pageId] ?? pageMeta.home, [pageId, pageMeta])
 
   return (
     <>

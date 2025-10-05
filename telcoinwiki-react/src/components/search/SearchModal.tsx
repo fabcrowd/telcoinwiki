@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, memo, useEffect, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { Link } from 'react-router-dom'
 import type { SearchConfig } from '../../config/types'
@@ -10,7 +10,7 @@ interface SearchModalProps {
   searchConfig: SearchConfig
 }
 
-export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps) {
+export const SearchModal = memo(function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const panelRef = useRef<HTMLDivElement | null>(null)
   const resultRefs = useRef<HTMLAnchorElement[]>([])
@@ -191,4 +191,4 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
       </div>
     </div>
   )
-}
+})

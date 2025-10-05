@@ -13,17 +13,17 @@
   --color-text: var(--tc-ink);
   --color-text-muted: var(--tc-ink-muted);
   --color-text-soft: var(--tc-ink-subtle);
-  --color-text-inverse: #050f2d;
+  --color-text-inverse: #050B1F;
 
   --color-primary: var(--tc-primary-500);
   --color-primary-strong: var(--tc-primary-700);
-  --color-primary-soft: rgba(64, 102, 222, 0.22);
+  --color-primary-soft: var(--tc-primary-soft);
   --color-secondary: var(--tc-accent);
-  --color-secondary-soft: rgba(69, 188, 241, 0.18);
+  --color-secondary-soft: var(--tc-accent-soft);
   --color-highlight: var(--tc-primary-300);
   --color-warning: #facc15;
   --color-warning-soft: rgba(250, 204, 21, 0.18);
-  --color-info-soft: rgba(69, 188, 241, 0.18);
+  --color-info-soft: var(--tc-accent-soft);
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -65,8 +65,8 @@ body {
   line-height: var(--line-height-base);
   color: var(--tc-ink);
   background:
-    radial-gradient(1200px 800px at 10% -10%, rgba(69, 188, 241, 0.14), transparent 70%),
-    linear-gradient(180deg, #10255e 0%, var(--tc-bg) 60%);
+    var(--tc-hero-radial),
+    var(--tc-hero-linear);
   min-height: 100vh;
 }
 
