@@ -1,63 +1,68 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import type { NavItem } from '../../config/types'
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import type { NavItem } from '../../config/types';
 
 interface HeaderProps {
-  navItems: NavItem[]
-  activeNavId?: string | null
-  onSearchOpen: () => void
-  isSearchOpen?: boolean
+  navItems: NavItem[];
+  activeNavId?: string | null;
+  onSearchOpen: () => void;
+  isSearchOpen?: boolean;
 }
 
-export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = false }: HeaderProps) {
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
-  const [mobileNavOpen, setMobileNavOpen] = useState(false)
-  const navListRef = useRef<HTMLUListElement>(null)
+export function Header({
+  navItems,
+  activeNavId,
+  onSearchOpen,
+  isSearchOpen = false,
+}: HeaderProps) {
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const navListRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     function handleDocumentClick(event: MouseEvent) {
-      if (!openMenuId) return
-      if (!(event.target instanceof Node)) return
+      if (!openMenuId) return;
+      if (!(event.target instanceof Node)) return;
       if (navListRef.current && !navListRef.current.contains(event.target)) {
-        setOpenMenuId(null)
+        setOpenMenuId(null);
       }
     }
 
-    document.addEventListener('click', handleDocumentClick)
-    return () => document.removeEventListener('click', handleDocumentClick)
-  }, [openMenuId])
+    document.addEventListener('click', handleDocumentClick);
+    return () => document.removeEventListener('click', handleDocumentClick);
+  }, [openMenuId]);
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        setOpenMenuId(null)
+        setOpenMenuId(null);
       }
     }
 
     if (openMenuId) {
-      document.addEventListener('keydown', handleKeydown)
-      return () => document.removeEventListener('keydown', handleKeydown)
+      document.addEventListener('keydown', handleKeydown);
+      return () => document.removeEventListener('keydown', handleKeydown);
     }
 
-    return undefined
-  }, [openMenuId])
+    return undefined;
+  }, [openMenuId]);
 
-  const mobileItems = useMemo(() => navItems, [navItems])
+  const mobileItems = useMemo(() => navItems, [navItems]);
 
   function toggleMenu(itemId: string) {
-    setOpenMenuId((current) => (current === itemId ? null : itemId))
+    setOpenMenuId((current) => (current === itemId ? null : itemId));
   }
 
   function closeMenus() {
-    setOpenMenuId(null)
+    setOpenMenuId(null);
   }
 
   function toggleMobileNav() {
-    setMobileNavOpen((current) => !current)
+    setMobileNavOpen((current) => !current);
   }
 
   function handleMobileLinkClick() {
-    setMobileNavOpen(false)
+    setMobileNavOpen(false);
   }
 
   return (
@@ -76,21 +81,22 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
         <nav className="top-nav" aria-label="Primary">
           <ul className="pill-nav top-nav__list" ref={navListRef}>
             {navItems.map((item) => {
-              const isActive = item.id === activeNavId
-              const isOpen = openMenuId === item.id
+              const isMenuActive = item.id === activeNavId;
+              const isOpen = openMenuId === item.id;
               if (!item.menu || item.menu.length === 0) {
                 return (
                   <li key={item.id} className="nav-item">
-                    <Link
-                      className={`top-nav__link${isActive ? ' is-active' : ''}`}
+                    <NavLink
+                      className={({ isActive }) =>
+                        `top-nav__link${isActive ? ' is-active' : ''}`
+                      }
                       to={item.href}
-                      aria-current={isActive ? 'page' : undefined}
                       onClick={closeMenus}
                     >
                       {item.label}
-                    </Link>
+                    </NavLink>
                   </li>
-                )
+                );
               }
 
               return (
@@ -101,7 +107,7 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
                 >
                   <button
                     type="button"
-                    className={`nav-button${isActive ? ' is-active' : ''}`}
+                    className={`nav-button${isMenuActive ? ' is-active' : ''}`}
                     aria-haspopup="true"
                     aria-expanded={isOpen}
                     onClick={() => toggleMenu(item.id)}
@@ -121,7 +127,7 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
                     ))}
                   </div>
                 </li>
-              )
+              );
             })}
           </ul>
         </nav>
@@ -159,14 +165,14 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
           <ul>
             {mobileItems.map((item) => (
               <li key={`mobile-${item.id}`} className="nav-item">
-                <Link to={item.href} onClick={handleMobileLinkClick}>
+                <NavLink to={item.href} onClick={handleMobileLinkClick}>
                   {item.label}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
         </nav>
       </div>
     </header>
-  )
+  );
 }

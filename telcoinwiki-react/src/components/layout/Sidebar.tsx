@@ -1,20 +1,25 @@
-import { Link } from 'react-router-dom'
-import type { SidebarHeading } from '../../config/types'
+import { NavLink } from 'react-router-dom';
+import type { SidebarHeading } from '../../config/types';
 
 interface SidebarItemProps {
-  id: string
-  label: string
-  href: string
+  id: string;
+  label: string;
+  href: string;
 }
 
 interface SidebarProps {
-  items: SidebarItemProps[]
-  activeId?: string | null
-  headings?: SidebarHeading[]
-  isOpen?: boolean
+  items: SidebarItemProps[];
+  activeId?: string | null;
+  headings?: SidebarHeading[];
+  isOpen?: boolean;
 }
 
-export function Sidebar({ items, activeId, headings = [], isOpen = false }: SidebarProps) {
+export function Sidebar({
+  items,
+  activeId,
+  headings = [],
+  isOpen = false,
+}: SidebarProps) {
   return (
     <aside
       id="site-sidebar"
@@ -26,22 +31,29 @@ export function Sidebar({ items, activeId, headings = [], isOpen = false }: Side
         <nav className="sidebar__nav" aria-label="Knowledge base">
           <ul className="sidebar__list" data-sidebar-list>
             {items.map((item) => {
-              const isActive = item.id === activeId
+              const isActive = item.id === activeId;
               return (
                 <li key={item.id} className="sidebar__item">
-                  <Link
+                  <NavLink
                     id={`sidebar-link-${item.id}`}
-                    className={`sidebar__link${isActive ? ' is-active' : ''}`}
+                    className={({ isActive: navIsActive }) =>
+                      `sidebar__link${navIsActive ? ' is-active' : ''}`
+                    }
                     to={item.href}
-                    aria-current={isActive ? 'page' : undefined}
                   >
                     {item.label}
-                  </Link>
+                  </NavLink>
                   {isActive && headings.length > 0 ? (
-                    <ul className="sidebar__sublist" aria-labelledby={`sidebar-link-${item.id}`}>
+                    <ul
+                      className="sidebar__sublist"
+                      aria-labelledby={`sidebar-link-${item.id}`}
+                    >
                       {headings.map((heading) => (
                         <li key={heading.id} className="sidebar__subitem">
-                          <a className="sidebar__sublink" href={`#${heading.id}`}>
+                          <a
+                            className="sidebar__sublink"
+                            href={`#${heading.id}`}
+                          >
                             {heading.text}
                           </a>
                         </li>
@@ -49,11 +61,11 @@ export function Sidebar({ items, activeId, headings = [], isOpen = false }: Side
                     </ul>
                   ) : null}
                 </li>
-              )
+              );
             })}
           </ul>
         </nav>
       </div>
     </aside>
-  )
+  );
 }
