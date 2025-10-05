@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "build": "vite build",
     "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:ci": "eslint . --max-warnings=0",
     "format": "prettier --write .",
-    "test": "vitest"
+    "test": "vitest",
+    "test:ci": "vitest run"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",

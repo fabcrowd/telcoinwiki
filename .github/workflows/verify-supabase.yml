@@ -14,6 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '22' }
       - run: node -v
+      - run: npm ci
+      - run: npm --prefix telcoinwiki-react ci
+      - run: npm run build
       - run: npm run verify:supabase
