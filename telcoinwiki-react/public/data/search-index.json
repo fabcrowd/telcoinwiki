@@ -3,13 +3,12 @@
     "id": "home",
     "title": "Telcoin Wiki — Community Q&A for the Telcoin Ecosystem",
     "summary": "Landing hub introducing the community wiki with quick links to the Telcoin Wallet, Digital Cash, Remittances, and deep-dive guides.",
-    "url": "/index.html",
+    "url": "/",
     "tags": ["Getting Started"],
     "headings": [
       { "id": "home-hero", "title": "Understand the Telcoin platform in minutes" },
-      { "id": "essential-services", "title": "Core Telcoin services" },
-      { "id": "getting-started", "title": "Getting started questions" },
-      { "id": "deep-dive", "title": "Deep-dive pathways" }
+      { "id": "learning-pathways", "title": "Learning pathways" },
+      { "id": "faq", "title": "FAQs" }
     ],
     "highlights": [
       "Hero overview with community disclaimer",
@@ -21,7 +20,7 @@
     "id": "start-here",
     "title": "Start Here — Telcoin Wiki Onboarding Hub",
     "summary": "Onboarding checklist featuring the top Telcoin questions with FAQ references, official telco.in resources, and support reminders.",
-    "url": "/start-here.html",
+    "url": "/start-here",
     "tags": ["Getting Started"],
     "headings": [
       { "id": "start-intro", "title": "Your Telcoin onboarding checklist" },
@@ -38,11 +37,10 @@
     "id": "faq",
     "title": "Telcoin FAQ — Filterable Questions & Official Links",
     "summary": "Filterable FAQ with tag pills, search input, and accordion answers that cite Telcoin Association and telco.in sources.",
-    "url": "/faq/",
+    "url": "/faq",
     "tags": ["FAQ", "Reference"],
     "headings": [
       { "id": "faq-hero", "title": "Filterable Telcoin FAQ" },
-      { "id": "faq-controls", "title": "FAQ filters" },
       { "id": "faq-list", "title": "FAQ results" }
     ],
     "highlights": [
@@ -55,7 +53,7 @@
     "id": "wallet",
     "title": "Telcoin Wallet — Mobile-first Access",
     "summary": "Explains what the Telcoin Wallet enables, from remittances and Digital Cash to TELx swaps, along with safety checklists and official references.",
-    "url": "/wallet.html",
+    "url": "/wallet",
     "tags": ["Wallet", "Getting Started"],
     "headings": [
       { "id": "wallet-overview", "title": "Mobile-first access to Telcoin services" },
@@ -73,7 +71,7 @@
     "id": "digital-cash",
     "title": "Digital Cash — Instant-settlement Fiat",
     "summary": "Covers the Digital Cash lineup, how Telcoin uses eUSD, eCAD, and ePHP across remittances and TELx, and where to review compliance notices.",
-    "url": "/digital-cash.html",
+    "url": "/digital-cash",
     "tags": ["Digital Cash", "Wallet"],
     "headings": [
       { "id": "digital-cash-overview", "title": "Instant-settlement fiat on the Telcoin Network" },
@@ -91,7 +89,7 @@
     "id": "remittances",
     "title": "Remittances — Send Money with Telcoin",
     "summary": "Shows Telcoin remittance coverage, step-by-step sending guidance, and safety checks pointing to newsroom, status, and social updates.",
-    "url": "/remittances.html",
+    "url": "/remittances",
     "tags": ["Remittances", "Wallet"],
     "headings": [
       { "id": "remittance-overview", "title": "Send money with Telcoin" },
@@ -109,7 +107,7 @@
     "id": "tel-token",
     "title": "TEL Token — Utility, Rewards, and Risk",
     "summary": "Details TEL’s role as network gas, staking incentive, and governance asset, plus reward programs and risk awareness references.",
-    "url": "/tel-token.html",
+    "url": "/tel-token",
     "tags": ["TEL Token", "Network"],
     "headings": [
       { "id": "tel-overview", "title": "Fuel for Telcoin services and governance" },
@@ -127,7 +125,7 @@
     "id": "network",
     "title": "Telcoin Network — Carrier-secured EVM",
     "summary": "Outlines Telcoin Network architecture, Association-led governance, and security expectations for validators and users.",
-    "url": "/network.html",
+    "url": "/network",
     "tags": ["Network", "Governance"],
     "headings": [
       { "id": "network-overview", "title": "Carrier-secured, EVM compatible" },
@@ -145,7 +143,7 @@
     "id": "telx",
     "title": "TELx — Telcoin’s Liquidity Engine",
     "summary": "Breaks down TELx pillars, why the liquidity engine matters, and provides builder links to the pools dashboard and portfolio explorer.",
-    "url": "/telx.html",
+    "url": "/telx",
     "tags": ["DeFi/TELx", "TEL Token"],
     "headings": [
       { "id": "telx-overview", "title": "The decentralized liquidity engine of the Telcoin Platform" },
@@ -163,7 +161,7 @@
     "id": "governance",
     "title": "Governance & Association — Who Stewards Telcoin?",
     "summary": "Summarizes the Telcoin Association structure, proposal flow, and compliance transparency sources for legal and security updates.",
-    "url": "/governance.html",
+    "url": "/governance",
     "tags": ["Governance", "Compliance & Security"],
     "headings": [
       { "id": "governance-overview", "title": "Who stewards Telcoin?" },
@@ -181,7 +179,7 @@
     "id": "builders",
     "title": "Builders — Resources for Telcoin Contributors",
     "summary": "Curates community dashboards, newcomer context, and contribution guidance for people experimenting with TELx data and tooling.",
-    "url": "/builders.html",
+    "url": "/builders",
     "tags": ["Builders", "DeFi/TELx"],
     "headings": [
       { "id": "builders-overview", "title": "Resources for Telcoin contributors" },
@@ -199,12 +197,14 @@
     "id": "deep-dive",
     "title": "Deep Dive — How Telcoin’s Pieces Fit Together",
     "summary": "Primer connecting the Telcoin Association, Network, TEL token, and TELx liquidity layer with recommended official reading order.",
-    "url": "/deep-dive.html",
+    "url": "/deep-dive",
     "tags": ["Deep Dive", "Getting Started"],
     "headings": [
-      { "id": "deep-dive-overview", "title": "How Telcoin’s pieces fit together" },
-      { "id": "deep-dive-cards", "title": "Systems at a glance" },
-      { "id": "deep-dive-links", "title": "Suggested reading order" }
+      { "id": "deep-network", "title": "Telcoin Network" },
+      { "id": "deep-token", "title": "$TEL Token" },
+      { "id": "deep-telx", "title": "TELx Liquidity Engine" },
+      { "id": "deep-governance", "title": "Association & Governance" },
+      { "id": "deep-holdings", "title": "Telcoin Holdings" }
     ],
     "highlights": [
       "Cards summarizing Association, Network, TEL, and TELx roles",
@@ -216,7 +216,7 @@
     "id": "links",
     "title": "Official Links — Verified Telcoin Destinations",
     "summary": "Curated list of official Telcoin product pages, governance docs, legal resources, newsroom updates, and social channels.",
-    "url": "/links.html",
+    "url": "/links",
     "tags": ["Links", "Reference"],
     "headings": [
       { "id": "links-overview", "title": "Verified Telcoin destinations" },
@@ -234,7 +234,7 @@
     "id": "about",
     "title": "About — Why This Wiki Exists",
     "summary": "Explains the community-run mission, unofficial disclaimer, contribution steps, and roadmap ideas grounded in official Telcoin sources.",
-    "url": "/about.html",
+    "url": "/about",
     "tags": ["About", "Builders"],
     "headings": [
       { "id": "about-mission", "title": "Why this wiki exists" },
@@ -252,7 +252,7 @@
     "id": "pools",
     "title": "TELx Pools Dashboard — Telcoin Liquidity Overview",
     "summary": "TELx pools dashboard with a newcomer context box, live metrics sourced from telx.network, and links back to official TELx documentation.",
-    "url": "/pools.html",
+    "url": "/pools",
     "tags": ["DeFi/TELx", "Builders"],
     "headings": [
       { "id": "pools-overview", "title": "Pools overview" },
@@ -269,7 +269,7 @@
     "id": "portfolio",
     "title": "TELx Portfolio — Claimable Rewards & LPT Stakes",
     "summary": "Illustrative TELx portfolio view that shows claimable rewards, LPT stakes, and context on verifying information with official dashboards.",
-    "url": "/portfolio.html",
+    "url": "/portfolio",
     "tags": ["DeFi/TELx", "Builders"],
     "headings": [
       { "id": "portfolio-overview", "title": "Your TELx positions" },
