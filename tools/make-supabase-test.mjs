@@ -4,7 +4,7 @@ import { join } from "node:path";
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
 const KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || "";
 
-const outDir = "supabase-test";
+const outDir = process.argv[2] || process.env.SUPABASE_TEST_OUT_DIR || "supabase-test";
 const outFile = join(outDir, "index.html");
 if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
 
