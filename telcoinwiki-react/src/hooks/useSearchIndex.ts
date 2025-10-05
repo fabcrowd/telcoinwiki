@@ -1,11 +1,9 @@
-import elasticlunr, { type Index as ElasticIndex } from 'elasticlunr'
-
-globalThis.lunr ??= elasticlunr
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { SearchConfig } from '../config/types'
 import type { FaqEntry } from '../lib/queries'
 import { supabaseQueries } from '../lib/queries'
 import { mapArtifactFaqEntries, type ArtifactFaqEntry } from '../utils/faq'
+import { loadElasticlunr } from '../vendor/loadElasticlunr'
 
 interface SearchPageEntry {
   id: string
@@ -41,12 +39,9 @@ export interface SearchResultGroup {
   items: SearchResultItem[]
 }
 
-declare global {
-  // elasticlunr expects to access a global `lunr` alias when running in strict mode environments
-  interface GlobalThis {
-    lunr?: typeof elasticlunr
-  }
-}
+type ElasticModule = Awaited<ReturnType<typeof loadElasticlunr>>
+type ElasticIndex = ElasticModule['Index']
+type ElasticBuilder = ElasticModule['default']
 
 interface SearchIndexState {
   index: ElasticIndex<IndexedDocument> | null
@@ -193,7 +188,10 @@ const buildDocuments = (pages: SearchPageEntry[], faqs: FaqEntry[]): Map<string,
 
 type IndexedDocument = SearchDocument & { tagsText: string }
 
-const buildIndex = (documents: Map<string, SearchDocument>): ElasticIndex<IndexedDocument> => {
+const buildIndex = (
+  documents: Map<string, SearchDocument>,
+  elasticlunr: ElasticBuilder,
+): ElasticIndex<IndexedDocument> => {
   const index = elasticlunr<IndexedDocument>()
   index.setRef('ref')
   index.addField('title')
@@ -243,7 +241,8 @@ export const useSearchIndex = (searchConfig: SearchConfig): UseSearchIndexResult
       }
 
       const documents = buildDocuments(pageData, faqResult.faqs)
-      const index = buildIndex(documents)
+      const { default: elasticlunr } = await loadElasticlunr()
+      const index = buildIndex(documents, elasticlunr)
 
       setState({ index, documents, isLoading: false, error: null, isFallback: faqResult.fallback })
     } catch (error) {
