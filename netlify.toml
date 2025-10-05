@@ -1,6 +1,6 @@
 [build]
-  publish = "."
-  command = "npm ci --no-audit --no-fund && npm run prebuild && rm -rf node_modules"
+  publish = "telcoinwiki-react/dist"
+  command = "npm ci --no-audit --no-fund && npm --prefix telcoinwiki-react ci --no-audit --no-fund && export VITE_SUPABASE_URL=\"${VITE_SUPABASE_URL:-$NEXT_PUBLIC_SUPABASE_URL}\" && export VITE_SUPABASE_ANON_KEY=\"${VITE_SUPABASE_ANON_KEY:-$NEXT_PUBLIC_SUPABASE_ANON_KEY}\" && npm run prebuild && npm run build && rm -rf node_modules telcoinwiki-react/node_modules"
 
 [build.environment]
   NODE_VERSION = "22.20.0"
