@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { NavItem } from '../../config/types'
 
 interface HeaderProps {
@@ -62,7 +63,7 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
   return (
     <header className="site-header">
       <div className="site-header__inner container">
-        <a className="site-brand" href="/">
+        <Link className="site-brand" to="/">
           <img
             className="site-logo"
             src="/logo.svg"
@@ -70,7 +71,7 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
             loading="eager"
             decoding="async"
           />
-        </a>
+        </Link>
 
         <nav className="top-nav" aria-label="Primary">
           <ul className="pill-nav top-nav__list" ref={navListRef}>
@@ -80,14 +81,14 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
               if (!item.menu || item.menu.length === 0) {
                 return (
                   <li key={item.id} className="nav-item">
-                    <a
+                    <Link
                       className={`top-nav__link${isActive ? ' is-active' : ''}`}
-                      href={item.href}
+                      to={item.href}
                       aria-current={isActive ? 'page' : undefined}
                       onClick={closeMenus}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   </li>
                 )
               }
@@ -109,14 +110,14 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
                   </button>
                   <div className="nav-menu" role="menu">
                     {item.menu.map((entry) => (
-                      <a
+                      <Link
                         key={entry.href}
-                        href={entry.href}
+                        to={entry.href}
                         role="menuitem"
                         onClick={closeMenus}
                       >
                         {entry.label}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </li>
@@ -158,9 +159,9 @@ export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = fal
           <ul>
             {mobileItems.map((item) => (
               <li key={`mobile-${item.id}`} className="nav-item">
-                <a href={item.href} onClick={handleMobileLinkClick}>
+                <Link to={item.href} onClick={handleMobileLinkClick}>
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

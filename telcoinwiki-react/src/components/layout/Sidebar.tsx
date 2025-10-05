@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { SidebarHeading } from '../../config/types'
 
 interface SidebarItemProps {
@@ -28,14 +29,14 @@ export function Sidebar({ items, activeId, headings = [], isOpen = false }: Side
               const isActive = item.id === activeId
               return (
                 <li key={item.id} className="sidebar__item">
-                  <a
+                  <Link
                     id={`sidebar-link-${item.id}`}
                     className={`sidebar__link${isActive ? ' is-active' : ''}`}
-                    href={item.href}
+                    to={item.href}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                   {isActive && headings.length > 0 ? (
                     <ul className="sidebar__sublist" aria-labelledby={`sidebar-link-${item.id}`}>
                       {headings.map((heading) => (

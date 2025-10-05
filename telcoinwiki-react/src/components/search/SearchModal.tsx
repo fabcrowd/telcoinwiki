@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
+import { Link } from 'react-router-dom'
 import type { SearchConfig } from '../../config/types'
 import { useSearchIndex } from '../../hooks/useSearchIndex'
 
@@ -162,9 +163,9 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
                     runningIndex += 1
                     const currentIndex = runningIndex
                     return (
-                      <a
+                      <Link
                         key={`${group.id}-${item.doc.ref}-${itemIndex}`}
-                        href={item.doc.url}
+                        to={item.doc.url}
                         className="search-modal__result"
                         ref={(element) => {
                           if (element) {
@@ -179,7 +180,7 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
                           className="search-modal__result-snippet"
                           dangerouslySetInnerHTML={{ __html: item.snippet }}
                         />
-                      </a>
+                      </Link>
                     )
                   })}
                 </Fragment>
