@@ -1,4 +1,5 @@
 import { SourceBox } from '../components/content/SourceBox'
+import { StatusValue } from '../components/content/StatusValue'
 
 export function WalletPage() {
   return (
@@ -19,13 +20,11 @@ export function WalletPage() {
             <h3 className="card__title">Send and receive money</h3>
             <p>
               Access{' '}
-              <span data-status-key="remittanceCorridors" data-status-format="plus">
-                20+
-              </span>{' '}
+              <StatusValue metricKey="remittanceCorridors" format="plus" />{' '}
               corridors with mobile money, bank, and cash-out partners while seeing transparent fees before every transfer.
             </p>
             <p>
-              <a href="https://telco.in/remittances" target="_blank" rel="noopener">
+              <a href="https://telco.in/remittances" target="_blank" rel="noopener noreferrer">
                 Review corridor coverage →
               </a>
             </p>
@@ -37,7 +36,7 @@ export function WalletPage() {
               Network.
             </p>
             <p>
-              <a href="https://telco.in/digital-cash" target="_blank" rel="noopener">
+              <a href="https://telco.in/digital-cash" target="_blank" rel="noopener noreferrer">
                 Learn about Digital Cash →
               </a>
             </p>
@@ -49,7 +48,7 @@ export function WalletPage() {
               Wallet.
             </p>
             <p>
-              <a href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener">
+              <a href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener noreferrer">
                 Explore TELx mechanics →
               </a>
             </p>
@@ -60,7 +59,7 @@ export function WalletPage() {
               Identity verification, device binding, and SOC-aligned controls keep the experience within regulated guidelines.
             </p>
             <p>
-              <a href="https://telco.in/newsroom/security" target="_blank" rel="noopener">
+              <a href="https://telco.in/newsroom/security" target="_blank" rel="noopener noreferrer">
                 Security &amp; compliance updates →
               </a>
             </p>
@@ -79,7 +78,7 @@ export function WalletPage() {
         <ul>
           <li>
             Use the official download links provided at{' '}
-            <a href="https://telco.in/wallet" target="_blank" rel="noopener">
+            <a href="https://telco.in/wallet" target="_blank" rel="noopener noreferrer">
               telco.in/wallet
             </a>
             .
@@ -87,7 +86,7 @@ export function WalletPage() {
           <li>Verify send destinations and fees in-app; corridor availability can change.</li>
           <li>
             Monitor{' '}
-            <a href="https://status.telco.in" target="_blank" rel="noopener">
+            <a href="https://status.telco.in" target="_blank" rel="noopener noreferrer">
               status.telco.in
             </a>{' '}
             for maintenance windows and service updates.
@@ -102,7 +101,7 @@ export function WalletPage() {
             <h3 className="card__title">Wallet overview</h3>
             <p>Official product page with feature breakdowns, supported countries, and download links.</p>
             <p>
-              <a href="https://telco.in/wallet" target="_blank" rel="noopener">
+              <a href="https://telco.in/wallet" target="_blank" rel="noopener noreferrer">
                 telco.in/wallet →
               </a>
             </p>
@@ -111,7 +110,7 @@ export function WalletPage() {
             <h3 className="card__title">Digital Cash list</h3>
             <p>Check currency availability, reserve audits, and how each asset integrates with remittances and TEL swaps.</p>
             <p>
-              <a href="https://telco.in/digital-cash" target="_blank" rel="noopener">
+              <a href="https://telco.in/digital-cash" target="_blank" rel="noopener noreferrer">
                 Digital Cash overview →
               </a>
             </p>
@@ -120,7 +119,7 @@ export function WalletPage() {
             <h3 className="card__title">Support &amp; security</h3>
             <p>Keep up with SOC reports, security advisories, and contact options managed by Telcoin Holdings.</p>
             <p>
-              <a href="https://telco.in/newsroom/security" target="_blank" rel="noopener">
+              <a href="https://telco.in/newsroom/security" target="_blank" rel="noopener noreferrer">
                 Security newsroom →
               </a>
             </p>

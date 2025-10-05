@@ -1,17 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { NavItem, SearchConfig } from '../../config/types'
+import type { NavItem } from '../../config/types'
 
 interface HeaderProps {
   navItems: NavItem[]
   activeNavId?: string | null
-  searchConfig: SearchConfig
+  onSearchOpen: () => void
+  isSearchOpen?: boolean
 }
 
-export function Header({ navItems, activeNavId, searchConfig }: HeaderProps) {
+export function Header({ navItems, activeNavId, onSearchOpen, isSearchOpen = false }: HeaderProps) {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const navListRef = useRef<HTMLUListElement>(null)
-  const { dataUrl, faqUrl, maxResultsPerGroup } = searchConfig
 
   useEffect(() => {
     function handleDocumentClick(event: MouseEvent) {
@@ -136,24 +136,16 @@ export function Header({ navItems, activeNavId, searchConfig }: HeaderProps) {
           Menu
         </button>
 
-        <div
-          className="header-search"
-          role="search"
-          data-search-index-url={dataUrl}
-          data-search-faq-url={faqUrl}
-          data-search-max-results={String(maxResultsPerGroup)}
-        >
-          <label className="sr-only" htmlFor="site-search">
-            Search Telcoin Wiki
-          </label>
-          <input
-            id="site-search"
-            className="search-input"
-            type="search"
-            name="q"
-            placeholder="Search Telcoin Wiki"
-            autoComplete="off"
-          />
+        <div className="header-search">
+          <button
+            type="button"
+            className="search-trigger"
+            onClick={onSearchOpen}
+            aria-haspopup="dialog"
+            aria-expanded={isSearchOpen}
+          >
+            Search
+          </button>
         </div>
       </div>
 

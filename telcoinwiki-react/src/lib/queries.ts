@@ -1,7 +1,20 @@
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { useQuery, type UseQueryOptions, type UseQueryResult } from '@tanstack/react-query'
-import { supabaseClient } from './supabaseClient'
+import { tryGetSupabaseClient } from './supabaseClient'
 
 type BaseQueryOptions<TData> = Omit<UseQueryOptions<TData, Error, TData>, 'queryKey' | 'queryFn'>
+
+type RawFaqTag = {
+  tag: {
+    slug: string
+    label: string
+  } | null
+}
+
+type RawFaqSource = {
+  label: string
+  url: string
+}
 
 type RawFaqRow = {
   id: string
@@ -10,6 +23,8 @@ type RawFaqRow = {
   display_order: number
   created_at: string | null
   updated_at: string | null
+  tags?: RawFaqTag[] | null
+  sources?: RawFaqSource[] | null
 }
 
 type RawStatusMetricRow = {
@@ -22,12 +37,24 @@ type RawStatusMetricRow = {
   updated_at: string | null
 }
 
+export type FaqTag = {
+  slug: string
+  label: string
+}
+
+export type FaqSource = {
+  label: string
+  url: string
+}
+
 export type FaqEntry = {
   id: string
   question: string
   answerHtml: string
   displayOrder: number
   updatedAt: string | null
+  tags: FaqTag[]
+  sources: FaqSource[]
 }
 
 export type StatusMetric = {
@@ -40,18 +67,46 @@ export type StatusMetric = {
   updatedAt: string | null
 }
 
+const faqSelect = `
+  id,
+  question,
+  answer_html,
+  display_order,
+  created_at,
+  updated_at,
+  tags:faq_tags(
+    tag:faq_tag_labels(
+      slug,
+      label
+    )
+  ),
+  sources:faq_sources(
+    label,
+    url
+  )
+`
+  .replace(/\s+/g, ' ')
+  .trim()
+
 const mapFaqRow = (row: RawFaqRow): FaqEntry => ({
   id: row.id,
   question: row.question,
   answerHtml: row.answer_html,
   displayOrder: row.display_order,
   updatedAt: row.updated_at ?? row.created_at,
+  tags: (row.tags ?? [])
+    .map((item) => {
+      const tag = item?.tag
+      return tag ? { slug: tag.slug, label: tag.label } : null
+    })
+    .filter((tag): tag is FaqTag => Boolean(tag)),
+  sources: (row.sources ?? []).map((source) => ({ label: source.label, url: source.url })),
 })
 
 const mapStatusMetricRow = (row: RawStatusMetricRow): StatusMetric => ({
   key: row.key,
   label: row.label,
-  value: row.value,
+  value: Number(row.value),
   unit: row.unit,
   notes: row.notes,
   updateStrategy: row.update_strategy,
@@ -64,26 +119,37 @@ export const queryKeys = {
   statusMetrics: ['status', 'metrics'] as const,
 }
 
+const requireClient = (): SupabaseClient => {
+  const client = tryGetSupabaseClient()
+  if (!client) {
+    throw new Error('Supabase client is not available')
+  }
+  return client
+}
+
 const fetchFaqList = async (): Promise<FaqEntry[]> => {
-  const { data, error } = await supabaseClient
+  const client = requireClient()
+  const { data, error } = await client
     .from('faq')
-    .select('id, question, answer_html, display_order, created_at, updated_at')
+    .select(faqSelect)
     .order('display_order', { ascending: true })
 
   if (error) {
     throw new Error(`Failed to load FAQs: ${error.message}`)
   }
 
-  return (data ?? []).map(mapFaqRow)
+  const rows = Array.isArray(data) ? (data as unknown as RawFaqRow[]) : []
+  return rows.map(mapFaqRow)
 }
 
 const fetchFaqSearch = async (term: string): Promise<FaqEntry[]> => {
   const query = term.trim()
   if (!query) return []
 
-  const { data, error } = await supabaseClient
+  const client = requireClient()
+  const { data, error } = await client
     .from('faq')
-    .select('id, question, answer_html, display_order, created_at, updated_at')
+    .select(faqSelect)
     .textSearch('search_vector', query, { type: 'websearch' })
     .order('display_order', { ascending: true })
     .limit(20)
@@ -92,11 +158,13 @@ const fetchFaqSearch = async (term: string): Promise<FaqEntry[]> => {
     throw new Error(`Failed to search FAQs: ${error.message}`)
   }
 
-  return (data ?? []).map(mapFaqRow)
+  const rows = Array.isArray(data) ? (data as unknown as RawFaqRow[]) : []
+  return rows.map(mapFaqRow)
 }
 
 const fetchStatusMetrics = async (): Promise<StatusMetric[]> => {
-  const { data, error } = await supabaseClient
+  const client = requireClient()
+  const { data, error } = await client
     .from('status_metrics')
     .select('key, label, value, unit, notes, update_strategy, updated_at')
     .order('label', { ascending: true })

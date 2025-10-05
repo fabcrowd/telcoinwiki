@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { FaqCard } from '../components/content/FaqCard'
 import { SourceBox } from '../components/content/SourceBox'
+import { StatusValue } from '../components/content/StatusValue'
 
 const quickStartCards = [
   {
@@ -75,9 +76,7 @@ const quickStartCards = [
     body: (
       <p>
         Telcoin currently supports remittance corridors across{' '}
-        <span data-status-key="remittanceCorridors" data-status-format="plus">
-          20+
-        </span>{' '}
+        <StatusValue metricKey="remittanceCorridors" format="plus" />{' '}
         countries, focusing on fast and low-cost mobile money payouts. Live corridor availability and fees are listed inside the
         Telcoin Wallet and on the official remittance corridors page.
       </p>
@@ -280,11 +279,11 @@ export function StartHerePage() {
         <div className="notice notice--info">
           <p>
             If something looks off in the Telcoin Wallet, contact support from inside the app. For status updates, check{' '}
-            <a href="https://status.telco.in" target="_blank" rel="noopener">
+            <a href="https://status.telco.in" target="_blank" rel="noopener noreferrer">
               status.telco.in
             </a>{' '}
             and the{' '}
-            <a href="https://telco.in/newsroom/security" target="_blank" rel="noopener">
+            <a href="https://telco.in/newsroom/security" target="_blank" rel="noopener noreferrer">
               security newsroom feed
             </a>
             .
