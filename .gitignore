@@ -1,0 +1,29 @@
+# Dependency directories
+node_modules/
+telcoinwiki-react/node_modules/
+
+# Build outputs
+build/
+dist/
+telcoinwiki-react/dist/
+.vite/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Supabase local state
+.supabase/
