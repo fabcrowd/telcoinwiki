@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { BreadcrumbNode } from '../../config/types'
 
 interface BreadcrumbsProps {
@@ -16,7 +17,7 @@ export function Breadcrumbs({ trail }: BreadcrumbsProps) {
             {isLast ? (
               <span aria-current="page">{node.label}</span>
             ) : (
-              <a href={node.url}>{node.label}</a>
+              <Link to={node.url}>{node.label}</Link>
             )}
           </span>
         )
