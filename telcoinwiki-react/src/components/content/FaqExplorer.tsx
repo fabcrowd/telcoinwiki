@@ -92,6 +92,7 @@ export function FaqExplorer({ faqDataUrl }: FaqExplorerProps) {
                 key={tag.slug}
                 type="button"
                 className={`faq-tag${isActive ? ' is-active' : ''}`}
+                aria-pressed={isActive}
                 onClick={() => toggleTag(tag.slug)}
               >
                 {tag.label}
