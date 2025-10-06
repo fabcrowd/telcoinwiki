@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
+import { ColorMorphCard } from '../components/cinematic/ColorMorphCard'
+import { StageBackdrop } from '../components/cinematic/StageBackdrop'
 import { ScrollSplit } from '../components/cinematic/ScrollSplit'
 import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
@@ -88,14 +89,10 @@ export function HomePage() {
         ref={hero.sectionRef}
         variant="hero"
         aria-labelledby="home-hero-heading"
-        className="relative isolate bg-hero-linear animate-gradient [background-size:180%_180%]"
+        className="stage-theme relative isolate bg-hero-linear animate-gradient [background-size:180%_180%]"
         overlay={
           <>
-            <ColorShiftBackground
-              style={hero.backgroundStyle}
-              from="rgba(18,101,255,0.35)"
-              to="rgba(142,82,255,0.25)"
-            />
+            <StageBackdrop progress={hero.stageProgress} />
             <HeroOverlay
               className="bg-gradient-to-br from-telcoin-surface/0 via-telcoin-surface/20 to-telcoin-surface/0"
               style={hero.overlayStyle}
@@ -127,10 +124,11 @@ export function HomePage() {
       </PageIntro>
 
       <StickyModule
+        className="stage-theme"
         ref={pillars.sectionRef}
         id="home-pillars"
         aria-labelledby="home-pillars-heading"
-        background={<ColorShiftBackground style={pillars.backgroundStyle} from="rgba(22,18,54,0.35)" to="rgba(67,34,122,0.25)" />}
+        background={<StageBackdrop progress={pillars.stageProgress} />}
         sticky={
           <div className="flex flex-col gap-4" data-pillars-intro>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Product pillars</p>
@@ -146,10 +144,12 @@ export function HomePage() {
         content={
           <div className="grid gap-6" role="list">
             {productPillars.map((pillar) => (
-              <article
+              <ColorMorphCard
+                as="article"
                 key={pillar.id}
                 role="listitem"
-                className="flex flex-col gap-4 rounded-2xl border border-telcoin-border bg-telcoin-surface/80 p-6 shadow-lg backdrop-blur"
+                progress={pillars.stageProgress}
+                className="flex flex-col gap-4 p-6 shadow-lg"
                 data-pillars-card
                 style={pillars.cardStyle}
               >
@@ -164,17 +164,18 @@ export function HomePage() {
                     <span aria-hidden>→</span>
                   </Link>
                 </p>
-              </article>
+              </ColorMorphCard>
             ))}
           </div>
         }
       />
 
       <StickyModule
+        className="stage-theme"
         ref={community.sectionRef}
         id="home-community"
         aria-labelledby="home-community-heading"
-        background={<ColorShiftBackground style={community.backgroundStyle} from="rgba(8, 38, 77, 0.35)" to="rgba(67, 157, 255, 0.25)" />}
+        background={<StageBackdrop progress={community.stageProgress} />}
         containerClassName="lg:gap-12"
         sticky={
           <ScrollSplit
@@ -219,9 +220,9 @@ export function HomePage() {
         ref={cta.sectionRef}
         id="home-cta"
         aria-labelledby="home-cta-heading"
-        className="relative isolate overflow-hidden"
+        className="stage-theme relative isolate overflow-hidden"
       >
-        <ColorShiftBackground style={cta.backgroundStyle} from="rgba(28,20,56,0.5)" to="rgba(105,67,255,0.25)" />
+        <StageBackdrop progress={cta.stageProgress} />
         <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
           <div className="max-w-3xl space-y-4">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle" data-cta-copy style={cta.copyStyle}>
@@ -241,9 +242,15 @@ export function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="rounded-2xl border border-telcoin-border/80 bg-telcoin-surface/90 p-6 shadow-lg backdrop-blur" data-cta-reveal style={cta.panelStyle}>
+          <ColorMorphCard
+            as="div"
+            progress={cta.stageProgress}
+            className="p-6 shadow-lg"
+            data-cta-reveal
+            style={cta.panelStyle}
+          >
             <DeepDiveFaqSections />
-          </div>
+          </ColorMorphCard>
         </div>
       </section>
     </>

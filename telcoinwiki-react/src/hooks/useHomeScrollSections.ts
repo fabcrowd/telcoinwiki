@@ -3,12 +3,75 @@ import type { CSSProperties, RefObject } from 'react'
 
 import { useScrollTimeline } from './useScrollTimeline'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
+import { useStageTimeline } from './useStageTimeline'
+
+const heroStageStops = {
+  from: {
+    hue: 220,
+    accentHue: 268,
+    overlayOpacity: 0.32,
+    spotOpacity: 0.22,
+    cardOverlayOpacity: 0.34,
+    cardBorderOpacity: 0.42,
+    cardShadowOpacity: 0.28,
+  },
+  to: {
+    hue: 214,
+    accentHue: 284,
+    overlayOpacity: 0.55,
+    spotOpacity: 0.42,
+    cardOverlayOpacity: 0.45,
+    cardBorderOpacity: 0.52,
+    cardShadowOpacity: 0.34,
+  },
+} as const
+
+const pillarsStageStops = {
+  from: {
+    ...heroStageStops.to,
+  },
+  to: {
+    hue: 252,
+    accentHue: 302,
+    overlayOpacity: 0.5,
+    spotOpacity: 0.38,
+    cardOverlayOpacity: 0.42,
+    cardBorderOpacity: 0.5,
+    cardShadowOpacity: 0.33,
+  },
+} as const
+
+const communityStageStops = {
+  from: {
+    ...pillarsStageStops.to,
+  },
+  to: {
+    hue: 208,
+    accentHue: 222,
+    overlayOpacity: 0.48,
+    spotOpacity: 0.36,
+    cardOverlayOpacity: 0.4,
+    cardBorderOpacity: 0.48,
+    cardShadowOpacity: 0.32,
+  },
+} as const
+
+const ctaStageStops = {
+  from: {
+    ...communityStageStops.to,
+  },
+  to: {
+    hue: 260,
+    accentHue: 292,
+    overlayOpacity: 0.52,
+    spotOpacity: 0.42,
+    cardOverlayOpacity: 0.46,
+    cardBorderOpacity: 0.54,
+    cardShadowOpacity: 0.36,
+  },
+} as const
 
 type TimelineCreator = Parameters<typeof useScrollTimeline>[0]['create']
-
-function createRevealStyle(prefersReducedMotion: boolean, initial: string): CSSProperties | undefined {
-  return prefersReducedMotion ? { '--color-shift-clip': '0%' } : { '--color-shift-clip': initial }
-}
 
 function createFadeInStyle(prefersReducedMotion: boolean): CSSProperties | undefined {
   return prefersReducedMotion ? { opacity: 1, transform: 'none' } : undefined
@@ -22,24 +85,24 @@ interface BaseSectionState {
 interface HeroSectionState extends BaseSectionState {
   overlayStyle: CSSProperties | undefined
   copyStyle: CSSProperties | undefined
-  backgroundStyle: CSSProperties | undefined
+  stageProgress: number
 }
 
 interface PillarSectionState extends BaseSectionState {
-  backgroundStyle: CSSProperties | undefined
   cardStyle: CSSProperties | undefined
+  stageProgress: number
 }
 
 interface CommunitySectionState extends BaseSectionState {
-  backgroundStyle: CSSProperties | undefined
   itemStyle: CSSProperties | undefined
   asideStyle: CSSProperties | undefined
+  stageProgress: number
 }
 
 interface CtaSectionState extends BaseSectionState {
-  backgroundStyle: CSSProperties | undefined
   copyStyle: CSSProperties | undefined
   panelStyle: CSSProperties | undefined
+  stageProgress: number
 }
 
 function useCinematicSection(
@@ -59,6 +122,15 @@ export function useHomeHeroScroll(): HeroSectionState {
   const sectionRef = useRef<HTMLElement | null>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
 
+  const stageProgressRaw = useStageTimeline({
+    target: sectionRef,
+    from: heroStageStops.from,
+    to: heroStageStops.to,
+    scrollTrigger: { start: 'top top', end: 'bottom 35%' },
+    prefersReducedMotion,
+  })
+  const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
+
   const overlayStyle = useMemo(() => {
     if (prefersReducedMotion) {
       return { clipPath: 'inset(0% 0 0 0)', '--cinematic-reveal': '0%' } as CSSProperties
@@ -71,10 +143,6 @@ export function useHomeHeroScroll(): HeroSectionState {
   }, [prefersReducedMotion])
 
   const copyStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
-  const backgroundStyle = useMemo(
-    () => (prefersReducedMotion ? { '--color-shift-clip': '0%' } : { '--color-shift-clip': '45%' }),
-    [prefersReducedMotion],
-  )
 
   useCinematicSection(prefersReducedMotion, sectionRef, (timeline) => {
     timeline.fromTo(
@@ -91,22 +159,23 @@ export function useHomeHeroScroll(): HeroSectionState {
       0,
     )
 
-    timeline.fromTo(
-      '[data-color-shift]',
-      { '--color-shift-clip': '45%' },
-      { '--color-shift-clip': '0%', duration: 1.1, ease: 'power2.out' },
-      0,
-    )
   })
 
-  return { sectionRef, prefersReducedMotion, overlayStyle, copyStyle, backgroundStyle }
+  return { sectionRef, prefersReducedMotion, overlayStyle, copyStyle, stageProgress }
 }
 
 export function useHomeProductPillarsScroll(): PillarSectionState {
   const sectionRef = useRef<HTMLElement | null>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  const backgroundStyle = useMemo(() => createRevealStyle(prefersReducedMotion, '55%'), [prefersReducedMotion])
+  const stageProgressRaw = useStageTimeline({
+    target: sectionRef,
+    from: pillarsStageStops.from,
+    to: pillarsStageStops.to,
+    scrollTrigger: { start: 'top 75%', end: 'bottom 35%' },
+    prefersReducedMotion,
+  })
+  const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
   const cardStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
 
   useCinematicSection(
@@ -118,25 +187,25 @@ export function useHomeProductPillarsScroll(): PillarSectionState {
         { autoAlpha: 0, y: 40 },
         { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.15, ease: 'power2.out' },
       )
-
-      timeline.fromTo(
-        '[data-color-shift]',
-        { '--color-shift-clip': '55%' },
-        { '--color-shift-clip': '0%', duration: 1, ease: 'power2.out' },
-        0,
-      )
     },
     { start: 'top 75%', end: 'bottom 25%' },
   )
 
-  return { sectionRef, prefersReducedMotion, backgroundStyle, cardStyle }
+  return { sectionRef, prefersReducedMotion, cardStyle, stageProgress }
 }
 
 export function useHomeCommunityProofScroll(): CommunitySectionState {
   const sectionRef = useRef<HTMLElement | null>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  const backgroundStyle = useMemo(() => createRevealStyle(prefersReducedMotion, '65%'), [prefersReducedMotion])
+  const stageProgressRaw = useStageTimeline({
+    target: sectionRef,
+    from: communityStageStops.from,
+    to: communityStageStops.to,
+    scrollTrigger: { start: 'top 78%', end: 'bottom 35%' },
+    prefersReducedMotion,
+  })
+  const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
   const itemStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
   const asideStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
 
@@ -157,25 +226,25 @@ export function useHomeCommunityProofScroll(): CommunitySectionState {
         { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power2.out' },
         0.15,
       )
-
-      timeline.fromTo(
-        '[data-color-shift]',
-        { '--color-shift-clip': '65%' },
-        { '--color-shift-clip': '0%', duration: 1.05, ease: 'power2.out' },
-        0,
-      )
     },
     { start: 'top 80%', end: 'bottom 25%' },
   )
 
-  return { sectionRef, prefersReducedMotion, backgroundStyle, itemStyle, asideStyle }
+  return { sectionRef, prefersReducedMotion, itemStyle, asideStyle, stageProgress }
 }
 
 export function useHomeCtaScroll(): CtaSectionState {
   const sectionRef = useRef<HTMLElement | null>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  const backgroundStyle = useMemo(() => createRevealStyle(prefersReducedMotion, '58%'), [prefersReducedMotion])
+  const stageProgressRaw = useStageTimeline({
+    target: sectionRef,
+    from: ctaStageStops.from,
+    to: ctaStageStops.to,
+    scrollTrigger: { start: 'top 82%', end: 'bottom 32%' },
+    prefersReducedMotion,
+  })
+  const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
   const copyStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
   const panelStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
 
@@ -195,16 +264,9 @@ export function useHomeCtaScroll(): CtaSectionState {
         { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power2.out' },
         0.2,
       )
-
-      timeline.fromTo(
-        '[data-color-shift]',
-        { '--color-shift-clip': '58%' },
-        { '--color-shift-clip': '0%', duration: 1, ease: 'power2.out' },
-        0,
-      )
     },
     { start: 'top 80%', end: 'bottom 20%' },
   )
 
-  return { sectionRef, prefersReducedMotion, backgroundStyle, copyStyle, panelStyle }
+  return { sectionRef, prefersReducedMotion, copyStyle, panelStyle, stageProgress }
 }
