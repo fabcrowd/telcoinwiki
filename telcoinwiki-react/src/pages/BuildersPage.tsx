@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { CardGrid } from '../components/content/CardGrid'
 import { ContextBox } from '../components/content/ContextBox'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -9,6 +10,9 @@ export function BuildersPage() {
     <>
       <PageIntro
         id="builders-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="Builders"
         title="Resources for Telcoin contributors"
         lede="Whether you monitor TELx pools, experiment with dashboards, or contribute research, this page surfaces the core tools and official touchpoints for building with Telcoin."

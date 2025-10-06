@@ -1,4 +1,5 @@
 import { CardGrid } from '../components/content/CardGrid'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -7,6 +8,9 @@ export function NetworkPage() {
     <>
       <PageIntro
         id="network-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="Telcoin Network"
         title="Carrier-secured, EVM compatible"
         lede="The Telcoin Network is an EVM chain whose validators are GSMA-member mobile network operators. It connects remittances, Digital Cash, TEL staking, and TELx liquidity under a compliance-first governance model."

@@ -8,7 +8,7 @@ function formatCurrency(value: number, currency: string) {
       currency: currency.toUpperCase(),
       maximumFractionDigits: value < 1 ? 4 : 2,
     }).format(value)
-  } catch (error) {
+  } catch {
     return `$${value.toFixed(value < 1 ? 4 : 2)}`
   }
 }

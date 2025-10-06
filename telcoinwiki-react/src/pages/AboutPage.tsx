@@ -1,3 +1,4 @@
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -6,6 +7,9 @@ export function AboutPage() {
     <>
       <PageIntro
         id="about-mission"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="About"
         title="Why this wiki exists"
         lede="Telcoin Wiki is a community project that collects concise answers and official links so newcomers can find trustworthy information without wading through social media threads."

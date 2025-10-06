@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { FaqCard } from '../components/content/FaqCard'
+import { HeroOverlay } from '../components/content/HeroOverlay'
+import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 import { StatusValue } from '../components/content/StatusValue'
 
@@ -247,22 +249,22 @@ const quickStartCards = [
 export function StartHerePage() {
   return (
     <>
-      <section id="start-intro" className="page-intro anchor-offset tc-card">
-        <p className="page-intro__eyebrow">Start here</p>
-        <h1 className="page-intro__title">Your Telcoin onboarding checklist</h1>
-        <p className="page-intro__lede">
-          Use these quick answers to ground yourself in the Telcoin Wallet, Digital Cash, remittance coverage, TEL utility, and
-          the governance structure that keeps everything compliant.
-        </p>
+      <PageIntro
+        id="start-intro"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
+        eyebrow="Start here"
+        title="Your Telcoin onboarding checklist"
+        lede="Use these quick answers to ground yourself in the Telcoin Wallet, Digital Cash, remittance coverage, TEL utility, and the governance structure that keeps everything compliant."
+      >
         <div className="notice" role="note">
           <p className="notice__title">How to use this page</p>
           <p>
-            Each card links to the community FAQ for context and to the official Telcoin or Association resource for authoritative
-            guidance. Bookmark the sections you rely on most—the cards will stay updated as the ecosystem evolves.
+            Each card links to the community FAQ for context and to the official Telcoin or Association resource for authoritative guidance. Bookmark the sections you rely on most—the cards will stay updated as the ecosystem evolves.
           </p>
         </div>
-      </section>
-
+      </PageIntro>
       <section id="quick-actions" className="anchor-offset">
         <h2>Essential first steps</h2>
         <div className="card-grid card-grid--cols-2" role="list">

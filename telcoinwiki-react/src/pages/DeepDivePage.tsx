@@ -1,13 +1,18 @@
+import { HeroOverlay } from '../components/content/HeroOverlay'
+import { PageIntro } from '../components/content/PageIntro'
+
 export function DeepDivePage() {
   return (
     <>
-      <section className="page-intro tc-card">
-        <p className="page-intro__eyebrow">Deep-Dive</p>
-        <h1 className="page-intro__title">Learn Telcoin by Pathway</h1>
-        <p className="page-intro__lede">
-          Explore the Telcoin ecosystem by topic. Each section expands into concise answers and background that tie into the
-          app, the network, and the bank.
-        </p>
+      <PageIntro
+        id="deep-dive-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
+        eyebrow="Deep-Dive"
+        title="Learn Telcoin by Pathway"
+        lede="Explore the Telcoin ecosystem by topic. Each section expands into concise answers and background that tie into the app, the network, and the bank."
+      >
         <nav className="toc-chips" aria-label="Deep-Dive sections">
           <a className="toc-chip" href="#deep-network">
             Telcoin Network
@@ -25,7 +30,7 @@ export function DeepDivePage() {
             Telcoin Holdings
           </a>
         </nav>
-      </section>
+      </PageIntro>
 
       <section id="deep-network" className="dd-section">
         <h2>Telcoin Network</h2>

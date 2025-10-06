@@ -1,4 +1,5 @@
 import { CardGrid } from '../components/content/CardGrid'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -7,6 +8,9 @@ export function GovernancePage() {
     <>
       <PageIntro
         id="governance-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="Governance & Association"
         title="Who stewards Telcoin?"
         lede="The Telcoin Association, a Swiss Verein, leads Telcoin Network governance, validator onboarding, and issuance policies for TEL and Digital Cash. Community councils partner with the Association to review and advance proposals."

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { FaqExplorer } from '../components/content/FaqExplorer'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
 import { HeroTicker } from '../components/home/HeroTicker'
@@ -14,11 +15,9 @@ export function HomePage() {
         variant="hero"
         className="bg-hero-linear animate-gradient [background-size:180%_180%]"
         overlay={
-          <>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,var(--tc-blue-sky)_0%,transparent_65%)] opacity-80" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(85,51,255,0.3)_0%,transparent_70%)] mix-blend-screen" />
+          <HeroOverlay>
             <HeroFloatingChips />
-          </>
+          </HeroOverlay>
         }
         eyebrow={<HeroTypingLoop />}
         title="Understand the Telcoin platform in minutes"
