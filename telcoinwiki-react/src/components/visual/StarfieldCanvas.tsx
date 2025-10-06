@@ -2,13 +2,35 @@ import { useEffect, useRef } from 'react'
 import './StarfieldCanvas.css'
 
 const STAR_COUNT = 500
-const ROTATION_SPEED = 0.0005
+const ROTATION_SPEED_MOBILE = 0.0005
+const ROTATION_SPEED_DESKTOP = ROTATION_SPEED_MOBILE * 0.5
+const DESKTOP_BREAKPOINT = 1024
+const SHOOTING_STAR_MIN_DELAY = 45 // ~0.75 second at 60fps
+const SHOOTING_STAR_MAX_DELAY = 120 // ~2 seconds at 60fps
+const SHOOTING_STAR_MIN_SPEED = 8
+const SHOOTING_STAR_MAX_SPEED = 18
+const SHOOTING_STAR_MIN_LENGTH = 40
+const SHOOTING_STAR_MAX_LENGTH = 80
+const SHOOTING_STAR_MIN_LIFE = 30
+const SHOOTING_STAR_MAX_LIFE = 50
+const FADE_IN_INCREMENT = 0.02
 
 interface Star {
   r: number
   theta: number
   size: number
   baseAlpha: number
+}
+
+interface ShootingStar {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  length: number
+  direction: number
+  life: number
+  initialLife: number
 }
 
 export function StarfieldCanvas() {
@@ -36,13 +58,18 @@ export function StarfieldCanvas() {
     let viewportHeight = window.innerHeight
     let devicePixelRatio = window.devicePixelRatio || 1
     let stars: Star[] = []
+    let shootingStars: ShootingStar[] = []
     let angle = 0
+    let rotationSpeed = ROTATION_SPEED_MOBILE
+    let maxRadius = 0
+    let framesUntilNextShootingStar = 0
+    let fadeInProgress = 0
 
     const motionMediaQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)')
     let prefersReducedMotion = motionMediaQuery?.matches ?? false
 
     const generateStars = () => {
-      const maxRadius = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight) / 2
+      maxRadius = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight) / 2
       stars = Array.from({ length: STAR_COUNT }, () => {
         const radius = Math.sqrt(Math.random()) * maxRadius
         return {
@@ -54,9 +81,79 @@ export function StarfieldCanvas() {
       })
     }
 
+    const determineRotationSpeed = () => {
+      rotationSpeed = viewportWidth >= DESKTOP_BREAKPOINT ? ROTATION_SPEED_DESKTOP : ROTATION_SPEED_MOBILE
+    }
+
+    const spawnShootingStar = () => {
+      const spawnRadius = Math.sqrt(Math.random()) * maxRadius * 0.8
+      const theta = Math.random() * Math.PI * 2
+      const direction = Math.random() * Math.PI * 2
+      const speed = SHOOTING_STAR_MIN_SPEED + Math.random() * (SHOOTING_STAR_MAX_SPEED - SHOOTING_STAR_MIN_SPEED)
+      const length = SHOOTING_STAR_MIN_LENGTH + Math.random() * (SHOOTING_STAR_MAX_LENGTH - SHOOTING_STAR_MIN_LENGTH)
+      const life = SHOOTING_STAR_MIN_LIFE + Math.random() * (SHOOTING_STAR_MAX_LIFE - SHOOTING_STAR_MIN_LIFE)
+
+      shootingStars.push({
+        x: spawnRadius * Math.cos(theta),
+        y: spawnRadius * Math.sin(theta),
+        vx: Math.cos(direction) * speed,
+        vy: Math.sin(direction) * speed,
+        length,
+        direction,
+        life,
+        initialLife: life,
+      })
+    }
+
+    const updateShootingStars = () => {
+      if (prefersReducedMotion) {
+        shootingStars = []
+        framesUntilNextShootingStar = 0
+        return
+      }
+
+      framesUntilNextShootingStar -= 1
+
+      if (framesUntilNextShootingStar <= 0) {
+        spawnShootingStar()
+        framesUntilNextShootingStar =
+          SHOOTING_STAR_MIN_DELAY + Math.random() * (SHOOTING_STAR_MAX_DELAY - SHOOTING_STAR_MIN_DELAY)
+      }
+
+      shootingStars = shootingStars
+        .map((star) => ({
+          ...star,
+          x: star.x + star.vx,
+          y: star.y + star.vy,
+          life: star.life - 1,
+        }))
+        .filter((star) => star.life > 0)
+    }
+
+    const drawShootingStars = () => {
+      for (const star of shootingStars) {
+        const tailX = star.x - star.length * Math.cos(star.direction)
+        const tailY = star.y - star.length * Math.sin(star.direction)
+        const gradient = context.createLinearGradient(tailX, tailY, star.x, star.y)
+
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0)')
+        gradient.addColorStop(0.6, `rgba(255, 255, 255, ${(star.life / star.initialLife) * 0.6})`)
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 1)')
+
+        context.beginPath()
+        context.moveTo(tailX, tailY)
+        context.lineTo(star.x, star.y)
+        context.strokeStyle = gradient
+        context.lineWidth = 1.8
+        context.lineCap = 'round'
+        context.stroke()
+      }
+    }
+
     const renderFrame = () => {
       context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0)
       context.clearRect(0, 0, viewportWidth, viewportHeight)
+      context.globalAlpha = prefersReducedMotion ? 1 : fadeInProgress
       context.save()
       context.translate(viewportWidth / 2, viewportHeight / 2)
 
@@ -77,18 +174,29 @@ export function StarfieldCanvas() {
         context.fill()
       }
 
+      drawShootingStars()
+
       context.restore()
+      context.globalAlpha = 1
     }
 
     const animate = () => {
+      updateShootingStars()
+      if (fadeInProgress < 1) {
+        fadeInProgress = Math.min(1, fadeInProgress + FADE_IN_INCREMENT)
+      }
       renderFrame()
-      angle = (angle + ROTATION_SPEED) % (Math.PI * 2)
+      angle = (angle + rotationSpeed) % (Math.PI * 2)
       animationId = window.requestAnimationFrame(animate)
     }
 
     const startAnimation = () => {
       if (prefersReducedMotion || animationId !== null) {
         return
+      }
+      if (fadeInProgress === 0) {
+        // Kick off the fade-in on initial load or when re-enabled
+        fadeInProgress = Math.min(fadeInProgress + FADE_IN_INCREMENT, 1)
       }
       animationId = window.requestAnimationFrame(animate)
     }
@@ -110,7 +218,10 @@ export function StarfieldCanvas() {
       canvas.style.width = `${viewportWidth}px`
       canvas.style.height = `${viewportHeight}px`
 
+      determineRotationSpeed()
       generateStars()
+      shootingStars = []
+      framesUntilNextShootingStar = 0
       renderFrame()
     }
 
@@ -120,8 +231,12 @@ export function StarfieldCanvas() {
       if (prefersReducedMotion) {
         stopAnimation()
         angle = 0
+        shootingStars = []
+        fadeInProgress = 1
         renderFrame()
       } else {
+        framesUntilNextShootingStar = 0
+        fadeInProgress = 0
         startAnimation()
       }
     }
@@ -129,8 +244,10 @@ export function StarfieldCanvas() {
     resizeCanvas()
 
     if (prefersReducedMotion) {
+      fadeInProgress = 1
       renderFrame()
     } else {
+      fadeInProgress = 0
       startAnimation()
     }
 
