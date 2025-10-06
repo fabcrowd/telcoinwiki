@@ -1,4 +1,3 @@
-import { useLayoutEffect, useState } from 'react'
 import type {
   NavItem,
   PageMetaMap,
@@ -9,12 +8,11 @@ import type { ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useLayoutState } from '../../hooks/useLayoutState'
 import { useBreadcrumbTrail } from '../../hooks/useBreadcrumbTrail'
-import { SearchModal } from '../search/SearchModal'
 import { StarfieldCanvas } from '../visual/StarfieldCanvas'
 import { Breadcrumbs } from './Breadcrumbs'
-import { Header } from './Header'
 import { Sidebar } from './Sidebar'
-import { Footer } from './Footer'
+import { Header } from './Header'
+import { useLayoutChrome, useHashScroll, MAIN_CONTENT_ID } from './layoutShared'
 
 interface AppLayoutProps {
   pageId: string
@@ -38,47 +36,26 @@ export function AppLayout({
     pageMeta,
   })
   const breadcrumbs = useBreadcrumbTrail(pageId, pageMeta)
-  const [isSearchOpen, setSearchOpen] = useState(false)
   const { hash, pathname } = useLocation()
-
-  const openSearch = () => setSearchOpen(true)
-  const handleCloseSearch = () => setSearchOpen(false)
 
   const currentMeta = pageMeta[pageId] ?? pageMeta.home
 
-  useLayoutEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
+  const { headerProps, footer, searchModal } = useLayoutChrome({
+    navItems,
+    searchConfig,
+    activeNavId,
+  })
 
-    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
-    const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth'
-    if (hash) {
-      const targetId = hash.slice(1)
-      const target = targetId ? document.getElementById(targetId) : null
-
-      if (target) {
-        target.scrollIntoView({ behavior, block: 'start' })
-        return
-      }
-    }
-
-    window.scrollTo({ top: 0, behavior })
-  }, [hash, pathname])
+  useHashScroll(hash, pathname)
 
   return (
     <>
       <StarfieldCanvas />
       <div className="app-layer">
-        <a className="skip-link" href="#main-content">
+        <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           Skip to content
         </a>
-        <Header
-          navItems={navItems}
-          activeNavId={activeNavId}
-          onSearchOpen={openSearch}
-          isSearchOpen={isSearchOpen}
-        />
+        <Header {...headerProps} />
         <div
           className={`sidebar-overlay${isSidebarOpen ? ' is-active' : ''}`}
           data-sidebar-overlay
@@ -91,13 +68,13 @@ export function AppLayout({
             headings={headings}
             isOpen={isSidebarOpen}
           />
-          <main id="main-content" className="site-main tc-card" tabIndex={-1}>
+          <main id={MAIN_CONTENT_ID} className="site-main tc-card" tabIndex={-1}>
             {(pageId !== 'home' || breadcrumbs.length > 1) && <Breadcrumbs trail={breadcrumbs} />}
             {children}
           </main>
         </div>
-        <Footer />
-        <SearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} searchConfig={searchConfig} />
+        {footer}
+        {searchModal}
       </div>
     </>
   )
