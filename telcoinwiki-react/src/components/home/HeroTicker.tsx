@@ -36,13 +36,13 @@ export function HeroTicker() {
   }, [highlightedMetrics, metrics])
 
   return (
-    <div className="flex w-full flex-wrap items-center gap-4 rounded-full border border-telcoin-border bg-telcoin-surface px-4 py-2 text-sm text-telcoin-ink">
+    <div className="flex w-full flex-wrap items-start gap-4 rounded-full border border-telcoin-border bg-telcoin-surface px-4 py-2 text-sm text-telcoin-ink sm:items-center">
       <span className="relative inline-flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-telcoin-accent blur-[2px]" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-telcoin-accent" />
       </span>
       <span className="font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Live</span>
-      <div className="flex min-h-[1.5rem] flex-1 items-center gap-6 overflow-hidden">
+      <div className="flex min-h-[1.5rem] w-full flex-1 flex-col gap-3 overflow-visible sm:flex-row sm:items-center sm:gap-6 sm:overflow-hidden">
         {isLoading ? <span className="text-telcoin-ink-muted">Syncing Telcoin metrics…</span> : null}
         {error ? <span className="text-red-300">{error.message}</span> : null}
         {!isLoading && !error ? (
@@ -55,7 +55,7 @@ export function HeroTicker() {
                 animate="animate"
                 exit="exit"
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="inline-flex items-center gap-2 whitespace-nowrap text-sm text-telcoin-ink"
+                className="flex w-full items-center justify-between gap-2 text-sm text-telcoin-ink sm:inline-flex sm:w-auto sm:justify-start sm:whitespace-nowrap"
               >
                 <span className="font-semibold text-telcoin-ink">
                   {metric.label}
