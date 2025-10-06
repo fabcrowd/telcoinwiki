@@ -188,15 +188,38 @@ img.site-logo {
 .lp-grid { display:grid; gap: clamp(16px, 2.5vw, 24px); grid-template-columns: 1fr; }
 @media (min-width:768px){ .lp-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
 .lp-card{ display:flex; flex-direction:column; min-height: 180px; border-radius:16px; padding:clamp(14px,2.2vw,18px);
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); box-shadow: 0 4px 18px rgba(0,0,0,.25); }
+  position:relative; background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(55,174,255,.08) 45%, rgba(255,255,255,.02));
+  background-size: 180% 180%; background-position: 0% 60%; box-shadow: 0 4px 18px rgba(0,0,0,.25);
+  transition: transform 220ms ease, box-shadow 220ms ease, background-position 400ms ease, outline-color 220ms ease,
+    border-color 220ms ease; }
+.lp-card:hover,
+.lp-card:focus-within{ transform: translateY(-6px) scale(1.01); background-position: 100% 40%;
+  box-shadow: 0 16px 32px rgba(0,0,0,.35); }
+.lp-card:focus-within{ outline: 2px solid var(--tc-accent-outline); outline-offset: 3px; }
 .lp-eyebrow{ font-size:.85rem; letter-spacing:.03em; opacity:.85; display:block; margin-bottom:.25rem; }
 .lp-title{ font-size: clamp(1.05rem,1.6vw,1.25rem); margin:.25rem 0 .5rem; }
 .lp-body{ opacity:.9; }
 .lp-cta{ margin-top:auto; }
-.lp-cta a{ display:inline-block; padding:.55rem .85rem; border-radius:999px; border:1px solid rgba(255,255,255,.25); text-decoration:none; }
-.lp-cta a:hover{ border-color: rgba(255,255,255,.45); }
+.lp-cta a{ display:inline-block; padding:.55rem .85rem; border-radius:999px; border:1px solid rgba(255,255,255,.25);
+  text-decoration:none; color: var(--tc-ink); background: rgba(55,174,255,.12); transition: color 220ms ease,
+  background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease; }
+.lp-cta a:hover,
+.lp-cta a:focus-visible{ background: rgba(55,174,255,.22); border-color: var(--tc-accent-outline); color: var(--tc-ink);
+  box-shadow: 0 0 0 4px rgba(55,174,255,.18); }
+.lp-cta a:focus-visible{ outline: 3px solid var(--tc-accent-outline); outline-offset: 2px; }
 .lp-card a{ text-decoration:none; }
 .lp-eyebrow, .lp-title{ pointer-events:none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-card,
+  .lp-cta a { transition: none; }
+
+  .lp-card:hover,
+  .lp-card:focus-within { transform: none; background-position: 0% 60%; box-shadow: 0 4px 18px rgba(0,0,0,.25); }
+
+  .lp-cta a:hover,
+  .lp-cta a:focus-visible { box-shadow: 0 0 0 4px rgba(55,174,255,.18); }
+}
 
 .faq{ margin-block: clamp(16px, 3.5vw, 48px); }
 .faq h2{ font-size: clamp(1.25rem, 1.8vw, 1.75rem); margin-bottom:.75rem; }
