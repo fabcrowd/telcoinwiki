@@ -251,19 +251,14 @@ pre {
 }
 
 .site-header__actions {
-  margin-left: auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 1rem;
+  flex: 1 1 100%;
 }
 
 @media (max-width: 1024px) {
-  .site-header__actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
   .header-search {
     width: min(100%, 20rem);
   }
@@ -278,9 +273,10 @@ pre {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  flex: 0 1 auto;
+  justify-content: flex-start;
+  flex: 1 1 clamp(14rem, 36vw, 20rem);
   width: clamp(14rem, 36vw, 20rem);
+  margin-right: auto;
 }
 
 .tc-tabbar {
