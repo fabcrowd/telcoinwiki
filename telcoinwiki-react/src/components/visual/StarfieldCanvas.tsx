@@ -4,8 +4,8 @@ import './StarfieldCanvas.css'
 const STAR_COUNT = 500
 const BASE_ROTATION_SPEED = 0.0005
 const DESKTOP_ROTATION_MULTIPLIER = 0.5
-const SHOOTING_STAR_MIN_DELAY = 30 // ~0.5 seconds at 60fps
-const SHOOTING_STAR_MAX_DELAY = 120 // ~2 seconds at 60fps
+const SHOOTING_STAR_MIN_DELAY = 60 // ~1 second at 60fps
+const SHOOTING_STAR_MAX_DELAY = 240 // ~4 seconds at 60fps
 const SHOOTING_STAR_MIN_SPEED = 6
 const SHOOTING_STAR_MAX_SPEED = 18
 const SHOOTING_STAR_MIN_LENGTH = 40
@@ -34,6 +34,7 @@ interface ShootingStar {
 export function StarfieldCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const hasActivatedVisibility = useRef(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -82,6 +83,9 @@ export function StarfieldCanvas() {
       })
     }
 
+    const getNextShootingStarDelay = () =>
+      SHOOTING_STAR_MIN_DELAY + Math.random() * (SHOOTING_STAR_MAX_DELAY - SHOOTING_STAR_MIN_DELAY)
+
     const spawnShootingStar = () => {
       const spawnRadius = Math.sqrt(Math.random()) * maxRadius * 0.8
       const theta = Math.random() * Math.PI * 2
@@ -113,8 +117,7 @@ export function StarfieldCanvas() {
 
       if (framesUntilNextShootingStar <= 0) {
         spawnShootingStar()
-        framesUntilNextShootingStar =
-          SHOOTING_STAR_MIN_DELAY + Math.random() * (SHOOTING_STAR_MAX_DELAY - SHOOTING_STAR_MIN_DELAY)
+        framesUntilNextShootingStar = getNextShootingStarDelay()
       }
 
       shootingStars = shootingStars
@@ -134,17 +137,17 @@ export function StarfieldCanvas() {
         const gradient = context.createLinearGradient(tailX, tailY, star.x, star.y)
 
         gradient.addColorStop(0, 'rgba(255, 255, 255, 0)')
-        gradient.addColorStop(1, `rgba(255, 255, 255, ${star.life / star.initialLife})`)
+        gradient.addColorStop(1, `rgba(255, 255, 255, ${(star.life / star.initialLife) * 0.4})`)
 
         context.save()
         context.beginPath()
         context.moveTo(tailX, tailY)
         context.lineTo(star.x, star.y)
         context.strokeStyle = gradient
-        context.lineWidth = 2
+        context.lineWidth = 1
         context.lineCap = 'round'
-        context.shadowBlur = 12
-        context.shadowColor = 'rgba(255, 255, 255, 0.8)'
+        context.shadowBlur = 4
+        context.shadowColor = 'rgba(255, 255, 255, 0.4)'
         context.stroke()
         context.restore()
       }
@@ -212,7 +215,7 @@ export function StarfieldCanvas() {
 
       generateStars()
       shootingStars = []
-      framesUntilNextShootingStar = 0
+      framesUntilNextShootingStar = getNextShootingStarDelay()
       renderFrame()
     }
 
@@ -225,7 +228,7 @@ export function StarfieldCanvas() {
         shootingStars = []
         renderFrame()
       } else {
-        framesUntilNextShootingStar = 0
+        framesUntilNextShootingStar = getNextShootingStarDelay()
         startAnimation()
       }
     }
@@ -287,10 +290,24 @@ export function StarfieldCanvas() {
       return
     }
 
-    const frame = window.requestAnimationFrame(() => setIsVisible(true))
+    const activateVisibility = () => {
+      if (hasActivatedVisibility.current) {
+        return
+      }
+
+      hasActivatedVisibility.current = true
+      setIsVisible(true)
+      window.removeEventListener('scroll', activateVisibility)
+    }
+
+    if (window.scrollY > 0) {
+      activateVisibility()
+    } else {
+      window.addEventListener('scroll', activateVisibility, { passive: true })
+    }
 
     return () => {
-      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', activateVisibility)
     }
   }, [])
 
