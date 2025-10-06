@@ -1,16 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './StarfieldCanvas.css'
 
 const STAR_COUNT = 500
-const ROTATION_SPEED = 0.0005
-const SHOOTING_STAR_MIN_DELAY = 60 // ~1 second at 60fps
-const SHOOTING_STAR_MAX_DELAY = 180 // ~3 seconds at 60fps
-const SHOOTING_STAR_MIN_SPEED = 5
-const SHOOTING_STAR_MAX_SPEED = 15
-const SHOOTING_STAR_MIN_LENGTH = 20
-const SHOOTING_STAR_MAX_LENGTH = 50
-const SHOOTING_STAR_MIN_LIFE = 20
-const SHOOTING_STAR_MAX_LIFE = 40
+const BASE_ROTATION_SPEED = 0.0005
+const DESKTOP_ROTATION_MULTIPLIER = 0.5
+const SHOOTING_STAR_MIN_DELAY = 30 // ~0.5 seconds at 60fps
+const SHOOTING_STAR_MAX_DELAY = 120 // ~2 seconds at 60fps
+const SHOOTING_STAR_MIN_SPEED = 6
+const SHOOTING_STAR_MAX_SPEED = 18
+const SHOOTING_STAR_MIN_LENGTH = 40
+const SHOOTING_STAR_MAX_LENGTH = 80
+const SHOOTING_STAR_MIN_LIFE = 30
+const SHOOTING_STAR_MAX_LIFE = 60
 
 interface Star {
   r: number
@@ -32,6 +33,7 @@ interface ShootingStar {
 
 export function StarfieldCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -59,9 +61,13 @@ export function StarfieldCanvas() {
     let angle = 0
     let maxRadius = 0
     let framesUntilNextShootingStar = 0
+    let rotationMultiplier = 1
 
     const motionMediaQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)')
     let prefersReducedMotion = motionMediaQuery?.matches ?? false
+
+    const desktopMediaQuery = window.matchMedia?.('(min-width: 1024px)')
+    rotationMultiplier = desktopMediaQuery?.matches ? DESKTOP_ROTATION_MULTIPLIER : 1
 
     const generateStars = () => {
       maxRadius = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight) / 2
@@ -130,12 +136,17 @@ export function StarfieldCanvas() {
         gradient.addColorStop(0, 'rgba(255, 255, 255, 0)')
         gradient.addColorStop(1, `rgba(255, 255, 255, ${star.life / star.initialLife})`)
 
+        context.save()
         context.beginPath()
         context.moveTo(tailX, tailY)
         context.lineTo(star.x, star.y)
         context.strokeStyle = gradient
-        context.lineWidth = 1
+        context.lineWidth = 2
+        context.lineCap = 'round'
+        context.shadowBlur = 12
+        context.shadowColor = 'rgba(255, 255, 255, 0.8)'
         context.stroke()
+        context.restore()
       }
     }
 
@@ -170,7 +181,7 @@ export function StarfieldCanvas() {
     const animate = () => {
       updateShootingStars()
       renderFrame()
-      angle = (angle + ROTATION_SPEED) % (Math.PI * 2)
+      angle = (angle + BASE_ROTATION_SPEED * rotationMultiplier) % (Math.PI * 2)
       animationId = window.requestAnimationFrame(animate)
     }
 
@@ -192,6 +203,7 @@ export function StarfieldCanvas() {
       viewportWidth = window.innerWidth
       viewportHeight = window.innerHeight
       devicePixelRatio = window.devicePixelRatio || 1
+      rotationMultiplier = desktopMediaQuery?.matches ? DESKTOP_ROTATION_MULTIPLIER : 1
 
       canvas.width = viewportWidth * devicePixelRatio
       canvas.height = viewportHeight * devicePixelRatio
@@ -218,6 +230,10 @@ export function StarfieldCanvas() {
       }
     }
 
+    const handleDesktopChange = (event: MediaQueryListEvent) => {
+      rotationMultiplier = event.matches ? DESKTOP_ROTATION_MULTIPLIER : 1
+    }
+
     resizeCanvas()
 
     if (prefersReducedMotion) {
@@ -236,6 +252,14 @@ export function StarfieldCanvas() {
       }
     }
 
+    if (desktopMediaQuery) {
+      if (typeof desktopMediaQuery.addEventListener === 'function') {
+        desktopMediaQuery.addEventListener('change', handleDesktopChange)
+      } else if (typeof desktopMediaQuery.addListener === 'function') {
+        desktopMediaQuery.addListener(handleDesktopChange)
+      }
+    }
+
     return () => {
       stopAnimation()
       window.removeEventListener('resize', resizeCanvas)
@@ -247,8 +271,34 @@ export function StarfieldCanvas() {
           motionMediaQuery.removeListener(handleMotionChange)
         }
       }
+
+      if (desktopMediaQuery) {
+        if (typeof desktopMediaQuery.removeEventListener === 'function') {
+          desktopMediaQuery.removeEventListener('change', handleDesktopChange)
+        } else if (typeof desktopMediaQuery.removeListener === 'function') {
+          desktopMediaQuery.removeListener(handleDesktopChange)
+        }
+      }
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="starfield-canvas" aria-hidden="true" />
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const frame = window.requestAnimationFrame(() => setIsVisible(true))
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={`starfield-canvas${isVisible ? ' starfield-canvas--visible' : ''}`}
+      aria-hidden="true"
+    />
+  )
 }
