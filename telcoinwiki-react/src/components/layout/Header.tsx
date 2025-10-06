@@ -134,13 +134,13 @@ export function Header({
                     data-open={isOpen ? 'true' : undefined}
                   >
                     <div
-                      className={`nav-trigger${
+                      className={`nav-button${
                         isMenuActive ? ' is-active' : ''
                       }${isOpen ? ' is-open' : ''}`}
                     >
                       <NavLink
                         className={({ isActive }) =>
-                          `nav-trigger__link${
+                          `nav-button__link${
                             isActive || isMenuActive ? ' is-active' : ''
                           }`
                         }
@@ -151,7 +151,7 @@ export function Header({
                       </NavLink>
                       <button
                         type="button"
-                        className="nav-trigger__toggle"
+                        className="nav-button__toggle"
                         aria-haspopup="menu"
                         aria-expanded={isOpen}
                         aria-controls={menuId}
