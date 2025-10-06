@@ -1,4 +1,5 @@
 import { CardGrid } from '../components/content/CardGrid'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -7,6 +8,9 @@ export function TelTokenPage() {
     <>
       <PageIntro
         id="tel-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="TEL Token"
         title="Fuel for Telcoin services and governance"
         lede="TEL is the native asset of the Telcoin Network. It pays for transactions, aligns validators and liquidity providers, and anchors governance programs stewarded by the Telcoin Association."

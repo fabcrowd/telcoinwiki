@@ -1,4 +1,5 @@
 import { FaqExplorer } from '../components/content/FaqExplorer'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 import { SEARCH_CONFIG } from '../config/search'
@@ -8,6 +9,9 @@ export function FaqPage() {
     <>
       <PageIntro
         id="faq-hero"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="FAQ"
         title="Filterable Telcoin FAQ"
         lede="Search by keyword or filter by topic to find trusted answers. Every entry links back to Telcoin Association or Telcoin product resources for verification."

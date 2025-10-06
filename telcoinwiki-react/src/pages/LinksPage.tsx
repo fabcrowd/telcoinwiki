@@ -1,4 +1,5 @@
 import { CardGrid } from '../components/content/CardGrid'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -7,6 +8,9 @@ export function LinksPage() {
     <>
       <PageIntro
         id="links-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="Official links"
         title="Verified Telcoin destinations"
         lede="Bookmark these official Telcoin channels for product information, governance updates, status notifications, legal notices, and security alerts."

@@ -1,5 +1,6 @@
 import { PageIntro } from '../components/content/PageIntro'
 import { ContextBox } from '../components/content/ContextBox'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { TelxPoolsTable } from '../components/content/TelxPoolsTable'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -8,6 +9,9 @@ export function PoolsPage() {
     <>
       <PageIntro
         id="pools-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="TELx Pools"
         title="Pools overview"
         lede="Monitor the health of Telcoin’s on-chain liquidity. Status chips reflect governance-defined lifecycle stages; metrics refresh alongside community updates."

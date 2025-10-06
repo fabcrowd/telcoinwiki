@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { CardGrid } from '../components/content/CardGrid'
 import { ContextBox } from '../components/content/ContextBox'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -9,6 +10,9 @@ export function TelxPage() {
     <>
       <PageIntro
         id="telx-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="TELx"
         title="The decentralized liquidity engine of the Telcoin Platform"
         lede="TELx orchestrates user-owned liquidity across Telcoin’s regulated DeFi stack. Designers, liquidity miners, and everyday users co-create a compliant, mobile-first financial network."

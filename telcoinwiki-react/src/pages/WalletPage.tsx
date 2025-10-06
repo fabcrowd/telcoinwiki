@@ -1,3 +1,5 @@
+import { HeroOverlay } from '../components/content/HeroOverlay'
+import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 import { StatusValue } from '../components/content/StatusValue'
 import { WalletOverviewPanels } from '../components/wallet/WalletOverviewPanels'
@@ -5,14 +7,15 @@ import { WalletOverviewPanels } from '../components/wallet/WalletOverviewPanels'
 export function WalletPage() {
   return (
     <>
-      <section id="wallet-overview" className="page-intro anchor-offset tc-card">
-        <p className="page-intro__eyebrow">Telcoin Wallet</p>
-        <h1 className="page-intro__title">Mobile-first access to Telcoin services</h1>
-        <p className="page-intro__lede">
-          The Telcoin Wallet is the official gateway for remittances, Digital Cash, TEL swaps, and staking. Verification keeps
-          the experience compliant while letting you manage funds directly from your device.
-        </p>
-      </section>
+      <PageIntro
+        id="wallet-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
+        eyebrow="Telcoin Wallet"
+        title="Mobile-first access to Telcoin services"
+        lede="The Telcoin Wallet is the official gateway for remittances, Digital Cash, TEL swaps, and staking. Verification keeps the experience compliant while letting you manage funds directly from your device."
+      />
 
       <section id="wallet-capabilities" className="anchor-offset">
         <h2>What the Wallet enables</h2>

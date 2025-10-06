@@ -1,5 +1,6 @@
 import { PageIntro } from '../components/content/PageIntro'
 import { ContextBox } from '../components/content/ContextBox'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { SourceBox } from '../components/content/SourceBox'
 
 export function PortfolioPage() {
@@ -7,6 +8,9 @@ export function PortfolioPage() {
     <>
       <PageIntro
         id="portfolio-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="TELx Portfolio"
         title="Your TELx positions"
         lede="A design-time view of TEL claimable rewards and liquidity provider tokens. Use it to imagine how TELx wallets surface positions with glass panels, friendly chips, and clear callouts."

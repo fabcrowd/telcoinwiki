@@ -1,4 +1,5 @@
 import { CardGrid } from '../components/content/CardGrid'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 
@@ -7,6 +8,9 @@ export function DigitalCashPage() {
     <>
       <PageIntro
         id="digital-cash-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="Digital Cash"
         title="Instant-settlement fiat on the Telcoin Network"
         lede="Digital Cash brings fiat-backed currencies like eUSD, eCAD, and ePHP directly into the Telcoin Wallet. Each asset is designed to settle in seconds on the Telcoin Network while preserving the compliance expectations of its underlying fiat."

@@ -1,4 +1,5 @@
 import { CardGrid } from '../components/content/CardGrid'
+import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 import { StatusValue } from '../components/content/StatusValue'
@@ -8,6 +9,9 @@ export function RemittancesPage() {
     <>
       <PageIntro
         id="remittance-overview"
+        variant="hero"
+        className="bg-hero-linear animate-gradient [background-size:180%_180%]"
+        overlay={<HeroOverlay />}
         eyebrow="Remittances"
         title="Send money with Telcoin"
         lede={

@@ -7,7 +7,7 @@ function formatUsd(value: number | null) {
   }
   try {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
-  } catch (error) {
+  } catch {
     return `$${value.toFixed(0)}`
   }
 }
