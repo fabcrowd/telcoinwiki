@@ -37,8 +37,7 @@ export function AppLayout({
   })
   const breadcrumbs = useBreadcrumbTrail(pageId, pageMeta)
   const [isSearchOpen, setSearchOpen] = useState(false)
-  const location = useLocation()
-  const hash = location.hash
+  const { hash, pathname } = useLocation()
 
   const openSearch = () => setSearchOpen(true)
   const handleCloseSearch = () => setSearchOpen(false)
@@ -71,7 +70,7 @@ export function AppLayout({
     } else {
       window.scrollTo({ top: 0, behavior })
     }
-  }, [hash])
+  }, [hash, pathname])
 
   return (
     <>

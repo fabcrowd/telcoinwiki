@@ -3,7 +3,7 @@ import { useQuery, type UseQueryResult } from '@tanstack/react-query'
 import type { StatusMetric } from '../lib/queries'
 import { supabaseQueries } from '../lib/queries'
 
-interface StatusMetricsResult {
+export interface StatusMetricsResult {
   metrics: StatusMetric[]
   source: 'supabase' | 'fallback'
 }
@@ -18,7 +18,7 @@ const fetchJson = async <T>(url: string): Promise<T> => {
   return (await response.json()) as T
 }
 
-const fallbackToStatusJson = async (): Promise<StatusMetricsResult> => {
+export const fallbackToStatusJson = async (): Promise<StatusMetricsResult> => {
   const data = await fetchJson<StatusJson>('/status.json')
   const metrics: StatusMetric[] = Object.entries(data).map(([key, value]) => ({
     key,
@@ -33,7 +33,7 @@ const fallbackToStatusJson = async (): Promise<StatusMetricsResult> => {
   return { metrics, source: 'fallback' }
 }
 
-const fetchStatusMetricsWithFallback = async (): Promise<StatusMetricsResult> => {
+export const fetchStatusMetricsWithFallback = async (): Promise<StatusMetricsResult> => {
   try {
     const metrics = await supabaseQueries.fetchStatusMetrics()
     return { metrics, source: 'supabase' }

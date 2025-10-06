@@ -27,7 +27,7 @@ const tickerVariants = {
 }
 
 export function HeroTicker() {
-  const { highlightedMetrics, isLoading, error, metrics } = useStatusMetricsRealtime()
+  const { highlightedMetrics, isLoading, error, metrics, isFallback } = useStatusMetricsRealtime()
 
   const visibleMetrics = useMemo(() => {
     if (highlightedMetrics.length > 0) return highlightedMetrics
@@ -44,8 +44,15 @@ export function HeroTicker() {
       <span className="font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Live</span>
       <div className="flex min-h-[1.5rem] w-full flex-1 flex-col gap-3 overflow-visible sm:flex-row sm:items-center sm:gap-6 sm:overflow-hidden">
         {isLoading ? <span className="text-telcoin-ink-muted">Syncing Telcoin metrics…</span> : null}
-        {error ? <span className="text-red-300">{error.message}</span> : null}
-        {!isLoading && !error ? (
+        {!isLoading && isFallback ? (
+          <span className="text-telcoin-ink-muted">
+            Realtime updates unavailable; showing cached metrics.
+          </span>
+        ) : null}
+        {!isLoading && error && visibleMetrics.length === 0 ? (
+          <span className="text-red-300">Unable to load Telcoin metrics right now.</span>
+        ) : null}
+        {!isLoading && visibleMetrics.length > 0 ? (
           <AnimatePresence initial={false}>
             {visibleMetrics.map((metric) => (
               <motion.span
