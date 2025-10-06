@@ -3,12 +3,31 @@ import './StarfieldCanvas.css'
 
 const STAR_COUNT = 500
 const ROTATION_SPEED = 0.0005
+const SHOOTING_STAR_MIN_DELAY = 60 // ~1 second at 60fps
+const SHOOTING_STAR_MAX_DELAY = 180 // ~3 seconds at 60fps
+const SHOOTING_STAR_MIN_SPEED = 5
+const SHOOTING_STAR_MAX_SPEED = 15
+const SHOOTING_STAR_MIN_LENGTH = 20
+const SHOOTING_STAR_MAX_LENGTH = 50
+const SHOOTING_STAR_MIN_LIFE = 20
+const SHOOTING_STAR_MAX_LIFE = 40
 
 interface Star {
   r: number
   theta: number
   size: number
   baseAlpha: number
+}
+
+interface ShootingStar {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  length: number
+  direction: number
+  life: number
+  initialLife: number
 }
 
 export function StarfieldCanvas() {
@@ -36,13 +55,16 @@ export function StarfieldCanvas() {
     let viewportHeight = window.innerHeight
     let devicePixelRatio = window.devicePixelRatio || 1
     let stars: Star[] = []
+    let shootingStars: ShootingStar[] = []
     let angle = 0
+    let maxRadius = 0
+    let framesUntilNextShootingStar = 0
 
     const motionMediaQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)')
     let prefersReducedMotion = motionMediaQuery?.matches ?? false
 
     const generateStars = () => {
-      const maxRadius = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight) / 2
+      maxRadius = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight) / 2
       stars = Array.from({ length: STAR_COUNT }, () => {
         const radius = Math.sqrt(Math.random()) * maxRadius
         return {
@@ -52,6 +74,69 @@ export function StarfieldCanvas() {
           baseAlpha: Math.random() * 0.5 + 0.4,
         }
       })
+    }
+
+    const spawnShootingStar = () => {
+      const spawnRadius = Math.sqrt(Math.random()) * maxRadius * 0.8
+      const theta = Math.random() * Math.PI * 2
+      const direction = Math.random() * Math.PI * 2
+      const speed = SHOOTING_STAR_MIN_SPEED + Math.random() * (SHOOTING_STAR_MAX_SPEED - SHOOTING_STAR_MIN_SPEED)
+      const length = SHOOTING_STAR_MIN_LENGTH + Math.random() * (SHOOTING_STAR_MAX_LENGTH - SHOOTING_STAR_MIN_LENGTH)
+      const life = SHOOTING_STAR_MIN_LIFE + Math.random() * (SHOOTING_STAR_MAX_LIFE - SHOOTING_STAR_MIN_LIFE)
+
+      shootingStars.push({
+        x: spawnRadius * Math.cos(theta),
+        y: spawnRadius * Math.sin(theta),
+        vx: Math.cos(direction) * speed,
+        vy: Math.sin(direction) * speed,
+        length,
+        direction,
+        life,
+        initialLife: life,
+      })
+    }
+
+    const updateShootingStars = () => {
+      if (prefersReducedMotion) {
+        shootingStars = []
+        framesUntilNextShootingStar = 0
+        return
+      }
+
+      framesUntilNextShootingStar -= 1
+
+      if (framesUntilNextShootingStar <= 0) {
+        spawnShootingStar()
+        framesUntilNextShootingStar =
+          SHOOTING_STAR_MIN_DELAY + Math.random() * (SHOOTING_STAR_MAX_DELAY - SHOOTING_STAR_MIN_DELAY)
+      }
+
+      shootingStars = shootingStars
+        .map((star) => ({
+          ...star,
+          x: star.x + star.vx,
+          y: star.y + star.vy,
+          life: star.life - 1,
+        }))
+        .filter((star) => star.life > 0)
+    }
+
+    const drawShootingStars = () => {
+      for (const star of shootingStars) {
+        const tailX = star.x - star.length * Math.cos(star.direction)
+        const tailY = star.y - star.length * Math.sin(star.direction)
+        const gradient = context.createLinearGradient(tailX, tailY, star.x, star.y)
+
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0)')
+        gradient.addColorStop(1, `rgba(255, 255, 255, ${star.life / star.initialLife})`)
+
+        context.beginPath()
+        context.moveTo(tailX, tailY)
+        context.lineTo(star.x, star.y)
+        context.strokeStyle = gradient
+        context.lineWidth = 1
+        context.stroke()
+      }
     }
 
     const renderFrame = () => {
@@ -77,10 +162,13 @@ export function StarfieldCanvas() {
         context.fill()
       }
 
+      drawShootingStars()
+
       context.restore()
     }
 
     const animate = () => {
+      updateShootingStars()
       renderFrame()
       angle = (angle + ROTATION_SPEED) % (Math.PI * 2)
       animationId = window.requestAnimationFrame(animate)
@@ -111,6 +199,8 @@ export function StarfieldCanvas() {
       canvas.style.height = `${viewportHeight}px`
 
       generateStars()
+      shootingStars = []
+      framesUntilNextShootingStar = 0
       renderFrame()
     }
 
@@ -120,8 +210,10 @@ export function StarfieldCanvas() {
       if (prefersReducedMotion) {
         stopAnimation()
         angle = 0
+        shootingStars = []
         renderFrame()
       } else {
+        framesUntilNextShootingStar = 0
         startAnimation()
       }
     }
