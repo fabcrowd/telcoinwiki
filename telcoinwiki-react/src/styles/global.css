@@ -7,6 +7,54 @@
 @import './site.css';
 @import './brand.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  .tc-card {
+    @apply rounded-brand-lg border border-telcoin-border bg-telcoin-surface shadow-glass backdrop-blur-card;
+  }
+
+  .tc-card-glass {
+    @apply rounded-brand-lg border border-white/10 bg-white/5 shadow-glass backdrop-blur-card;
+  }
+
+  .glass-header {
+    @apply border-b border-white/10 bg-telcoin-surface backdrop-blur-card;
+  }
+
+  .glass-hero {
+    @apply relative overflow-hidden rounded-brand-lg border border-telcoin-border bg-telcoin-surface shadow-glass backdrop-blur-card;
+  }
+
+  .glass-gradient-overlay {
+    @apply absolute inset-0 bg-[radial-gradient(circle_at_top,var(--tc-blue-sky)_0%,transparent_60%)] opacity-80;
+  }
+
+  .tc-chip {
+    @apply inline-flex items-center gap-2 rounded-brand border border-telcoin-border bg-telcoin-surface px-3 py-2 text-sm font-semibold text-telcoin-ink;
+  }
+
+  .tc-tabbar {
+    @apply inline-flex gap-1 rounded-brand-lg bg-telcoin-surface p-1 backdrop-blur-card;
+  }
+
+  .tc-tabbar button[aria-pressed='true'] {
+    @apply rounded-xl bg-telcoin-surface-2 text-telcoin-ink;
+  }
+
+  .tc-link {
+    @apply text-telcoin-accent transition hover:underline;
+  }
+}
+
 /* Vite root reset: ensure the SPA mount point behaves like the static site */
 html,
 body,
