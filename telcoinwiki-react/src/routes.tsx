@@ -25,6 +25,7 @@ export interface AppRoute {
   pageId: PageId
   Component: ComponentType
   headings?: SidebarHeading[]
+  layout?: 'app' | 'cinematic'
 }
 
 export const APP_ROUTES: AppRoute[] = [
@@ -32,6 +33,7 @@ export const APP_ROUTES: AppRoute[] = [
     path: '/',
     pageId: 'home',
     Component: HomePage,
+    layout: 'cinematic',
     headings: [
       { id: 'home-hero', text: 'Welcome' },
       { id: 'learning-pathways', text: 'Learning pathways' },
