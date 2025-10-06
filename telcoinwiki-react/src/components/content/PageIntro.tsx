@@ -1,37 +1,47 @@
-import type { ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { forwardRef } from 'react'
+
 import { cn } from '../../utils/cn'
 
 type PageIntroVariant = 'card' | 'hero'
 
-interface PageIntroProps {
+interface PageIntroProps extends Omit<ComponentPropsWithoutRef<'section'>, 'children'> {
   id: string
   eyebrow: ReactNode
   title: ReactNode
   lede: ReactNode
   children?: ReactNode
   variant?: PageIntroVariant
-  className?: string
   contentClassName?: string
   overlay?: ReactNode
   topRight?: ReactNode
 }
 
-export function PageIntro({
-  id,
-  eyebrow,
-  title,
-  lede,
-  children,
-  variant = 'card',
-  className,
-  contentClassName,
-  overlay,
-  topRight,
-}: PageIntroProps) {
+export const PageIntro = forwardRef<HTMLElement, PageIntroProps>(function PageIntro(
+  {
+    id,
+    eyebrow,
+    title,
+    lede,
+    children,
+    variant = 'card',
+    className,
+    contentClassName,
+    overlay,
+    topRight,
+    ...rest
+  },
+  ref,
+) {
   const variantClassName = variant === 'hero' ? 'glass-hero' : 'tc-card'
 
   return (
-    <section id={id} className={cn('page-intro anchor-offset relative overflow-hidden', variantClassName, className)}>
+    <section
+      id={id}
+      ref={ref}
+      className={cn('page-intro anchor-offset relative overflow-hidden', variantClassName, className)}
+      {...rest}
+    >
       {overlay ? <div className="pointer-events-none absolute inset-0" aria-hidden>{overlay}</div> : null}
       <div className={cn('relative z-10 flex flex-col gap-6', variant === 'hero' ? 'p-8 sm:p-10 lg:p-12' : 'p-6 sm:p-8', contentClassName)}>
         <div className={cn('flex flex-col gap-4', variant === 'hero' ? 'max-w-3xl' : undefined)}>
@@ -72,4 +82,4 @@ export function PageIntro({
       ) : null}
     </section>
   )
-}
+})

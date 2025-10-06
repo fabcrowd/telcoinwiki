@@ -1,0 +1,61 @@
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { forwardRef, useMemo } from 'react'
+
+import { cn } from '../../utils/cn'
+
+interface StickyModuleProps extends ComponentPropsWithoutRef<'section'> {
+  sticky: ReactNode
+  content: ReactNode
+  top?: string | number
+  containerClassName?: string
+  stickyClassName?: string
+  contentClassName?: string
+  background?: ReactNode
+}
+
+export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function StickyModule(
+  {
+    sticky,
+    content,
+    top = '20vh',
+    containerClassName,
+    stickyClassName,
+    contentClassName,
+    className,
+    background,
+    ...rest
+  },
+  ref,
+) {
+  const resolvedTop = useMemo(() => (typeof top === 'number' ? `${top}px` : top), [top])
+
+  return (
+    <section
+      ref={ref}
+      className={cn('relative isolate', className)}
+      data-sticky-module=""
+      {...rest}
+    >
+      {background}
+      <div
+        className={cn(
+          'mx-auto flex max-w-6xl flex-col gap-12 px-6 py-24 sm:px-8 lg:gap-16 lg:px-12',
+          containerClassName,
+        )}
+      >
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
+          <div
+            className={cn('lg:sticky lg:self-start', stickyClassName)}
+            style={{ top: resolvedTop }}
+            data-sticky-module-lead=""
+          >
+            {sticky}
+          </div>
+          <div className={cn('flex flex-col gap-10', contentClassName)} data-sticky-module-content="">
+            {content}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+})
