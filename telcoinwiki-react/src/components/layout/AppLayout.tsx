@@ -7,12 +7,13 @@ import type {
 } from '../../config/types'
 import type { ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Breadcrumbs } from './Breadcrumbs'
-import { Header } from './Header'
-import { Sidebar } from './Sidebar'
 import { useLayoutState } from '../../hooks/useLayoutState'
 import { useBreadcrumbTrail } from '../../hooks/useBreadcrumbTrail'
 import { SearchModal } from '../search/SearchModal'
+import { StarfieldCanvas } from '../visual/StarfieldCanvas'
+import { Breadcrumbs } from './Breadcrumbs'
+import { Header } from './Header'
+import { Sidebar } from './Sidebar'
 
 interface AppLayoutProps {
   pageId: string
@@ -74,33 +75,36 @@ export function AppLayout({
 
   return (
     <>
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
-      <Header
-        navItems={navItems}
-        activeNavId={activeNavId}
-        onSearchOpen={openSearch}
-        isSearchOpen={isSearchOpen}
-      />
-      <div
-        className={`sidebar-overlay${isSidebarOpen ? ' is-active' : ''}`}
-        data-sidebar-overlay
-        onClick={closeSidebar}
-      />
-      <div className="site-shell">
-        <Sidebar
-          items={sidebarItems}
-          activeId={currentMeta?.navId ?? pageId}
-          headings={headings}
-          isOpen={isSidebarOpen}
+      <StarfieldCanvas />
+      <div className="app-layer">
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
+        <Header
+          navItems={navItems}
+          activeNavId={activeNavId}
+          onSearchOpen={openSearch}
+          isSearchOpen={isSearchOpen}
         />
-        <main id="main-content" className="site-main tc-card" tabIndex={-1}>
-          {(pageId !== 'home' || breadcrumbs.length > 1) && <Breadcrumbs trail={breadcrumbs} />}
-          {children}
-        </main>
+        <div
+          className={`sidebar-overlay${isSidebarOpen ? ' is-active' : ''}`}
+          data-sidebar-overlay
+          onClick={closeSidebar}
+        />
+        <div className="site-shell">
+          <Sidebar
+            items={sidebarItems}
+            activeId={currentMeta?.navId ?? pageId}
+            headings={headings}
+            isOpen={isSidebarOpen}
+          />
+          <main id="main-content" className="site-main tc-card" tabIndex={-1}>
+            {(pageId !== 'home' || breadcrumbs.length > 1) && <Breadcrumbs trail={breadcrumbs} />}
+            {children}
+          </main>
+        </div>
+        <SearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} searchConfig={searchConfig} />
       </div>
-      <SearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} searchConfig={searchConfig} />
     </>
   )
 }
