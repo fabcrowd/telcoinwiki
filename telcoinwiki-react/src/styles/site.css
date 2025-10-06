@@ -417,8 +417,7 @@ pre {
   position: relative;
   display: flex;
   gap: 2rem;
-  width: min(100%, var(--container));
-  max-width: var(--container);
+  inline-size: min(100%, var(--container));
   margin: 0 auto;
   padding-top: clamp(2rem, 4vw, 3rem);
   padding-inline: clamp(1rem, 5vw, 3rem);

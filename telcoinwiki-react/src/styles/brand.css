@@ -4,7 +4,7 @@
 :root {
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --container: clamp(16rem, 92vw, 1200px);
+  --container: var(--max-width-wide);
   --gap-1: 0.25rem;
   --gap-2: 0.5rem;
   --gap-3: 0.75rem;
@@ -38,9 +38,9 @@ body {
 }
 
 .container {
-  max-width: var(--container);
+  inline-size: min(100%, var(--container));
   margin-inline: auto;
-  padding-inline: var(--gap-4);
+  padding-inline: clamp(var(--gap-4), 5vw, var(--gap-6));
 }
 
 /* --- Header ------------------------------------------------------------ */
