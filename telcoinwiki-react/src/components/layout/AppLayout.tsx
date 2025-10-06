@@ -76,35 +76,33 @@ export function AppLayout({
   return (
     <>
       <StarfieldCanvas />
-      <div className="app-layer">
-        <a className="skip-link" href="#main-content">
-          Skip to content
-        </a>
-        <Header
-          navItems={navItems}
-          activeNavId={activeNavId}
-          onSearchOpen={openSearch}
-          isSearchOpen={isSearchOpen}
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+      <Header
+        navItems={navItems}
+        activeNavId={activeNavId}
+        onSearchOpen={openSearch}
+        isSearchOpen={isSearchOpen}
+      />
+      <div
+        className={`sidebar-overlay${isSidebarOpen ? ' is-active' : ''}`}
+        data-sidebar-overlay
+        onClick={closeSidebar}
+      />
+      <div className="site-shell">
+        <Sidebar
+          items={sidebarItems}
+          activeId={currentMeta?.navId ?? pageId}
+          headings={headings}
+          isOpen={isSidebarOpen}
         />
-        <div
-          className={`sidebar-overlay${isSidebarOpen ? ' is-active' : ''}`}
-          data-sidebar-overlay
-          onClick={closeSidebar}
-        />
-        <div className="site-shell">
-          <Sidebar
-            items={sidebarItems}
-            activeId={currentMeta?.navId ?? pageId}
-            headings={headings}
-            isOpen={isSidebarOpen}
-          />
-          <main id="main-content" className="site-main tc-card" tabIndex={-1}>
-            {(pageId !== 'home' || breadcrumbs.length > 1) && <Breadcrumbs trail={breadcrumbs} />}
-            {children}
-          </main>
-        </div>
-        <SearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} searchConfig={searchConfig} />
+        <main id="main-content" className="site-main tc-card" tabIndex={-1}>
+          {(pageId !== 'home' || breadcrumbs.length > 1) && <Breadcrumbs trail={breadcrumbs} />}
+          {children}
+        </main>
       </div>
+      <SearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} searchConfig={searchConfig} />
     </>
   )
 }

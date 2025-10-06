@@ -70,11 +70,6 @@ body {
   min-height: 100vh;
 }
 
-.app-layer {
-  position: relative;
-  z-index: 1;
-}
-
 main {
   display: block;
 }
