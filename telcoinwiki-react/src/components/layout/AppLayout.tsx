@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import type {
   NavItem,
   PageMetaMap,
@@ -46,32 +46,24 @@ export function AppLayout({
 
   const currentMeta = pageMeta[pageId] ?? pageMeta.home
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === 'undefined') {
       return
     }
 
     const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth'
-    if (!hash) {
-      window.scrollTo({ top: 0, behavior })
-      return
+    if (hash) {
+      const targetId = hash.slice(1)
+      const target = targetId ? document.getElementById(targetId) : null
+
+      if (target) {
+        target.scrollIntoView({ behavior, block: 'start' })
+        return
+      }
     }
 
-    const targetId = hash.slice(1)
-
-    if (!targetId) {
-      window.scrollTo({ top: 0, behavior })
-      return
-    }
-
-    const target = document.getElementById(targetId)
-
-    if (target) {
-      target.scrollIntoView({ behavior, block: 'start' })
-    } else {
-      window.scrollTo({ top: 0, behavior })
-    }
+    window.scrollTo({ top: 0, behavior })
   }, [hash, pathname])
 
   return (
