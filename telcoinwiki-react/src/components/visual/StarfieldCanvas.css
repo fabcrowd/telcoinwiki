@@ -8,7 +8,7 @@
   z-index: 0;
   background: transparent;
   opacity: 0;
-  transition: opacity 2s ease;
+  transition: opacity 10s linear;
 }
 
 .starfield-canvas--visible {
