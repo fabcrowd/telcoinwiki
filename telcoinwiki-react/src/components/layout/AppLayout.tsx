@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type {
   NavItem,
   PageMetaMap,
@@ -6,6 +6,7 @@ import type {
   SidebarHeading,
 } from '../../config/types'
 import type { ReactNode } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Breadcrumbs } from './Breadcrumbs'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
@@ -36,11 +37,41 @@ export function AppLayout({
   })
   const breadcrumbs = useBreadcrumbTrail(pageId, pageMeta)
   const [isSearchOpen, setSearchOpen] = useState(false)
+  const location = useLocation()
+  const hash = location.hash
 
   const openSearch = () => setSearchOpen(true)
   const handleCloseSearch = () => setSearchOpen(false)
 
   const currentMeta = pageMeta[pageId] ?? pageMeta.home
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth'
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior })
+      return
+    }
+
+    const targetId = hash.slice(1)
+
+    if (!targetId) {
+      window.scrollTo({ top: 0, behavior })
+      return
+    }
+
+    const target = document.getElementById(targetId)
+
+    if (target) {
+      target.scrollIntoView({ behavior, block: 'start' })
+    } else {
+      window.scrollTo({ top: 0, behavior })
+    }
+  }, [hash])
 
   return (
     <>
