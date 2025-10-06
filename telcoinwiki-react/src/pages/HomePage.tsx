@@ -51,7 +51,7 @@ export function HomePage() {
               See how the Wallet, Telcoin Network, and Association work together before you dive into product specifics.
             </p>
             <p className="lp-cta">
-              <Link to="/start-here">Start the quickstart →</Link>
+              <Link to="/start-here">Start the quickstart</Link>
             </p>
           </article>
           <article className="lp-card" role="listitem">
@@ -61,7 +61,7 @@ export function HomePage() {
               Walk through verification, recovery phrases, and security best practices to keep your account protected.
             </p>
             <p className="lp-cta">
-              <Link to="/wallet">Open the wallet playbook →</Link>
+              <Link to="/wallet">Open the wallet playbook</Link>
             </p>
           </article>
           <article className="lp-card" role="listitem">
@@ -71,7 +71,7 @@ export function HomePage() {
               Understand supported e-money tokens, how minting works, and where to monitor reserve disclosures.
             </p>
             <p className="lp-cta">
-              <Link to="/digital-cash">Explore Digital Cash →</Link>
+              <Link to="/digital-cash">Explore Digital Cash</Link>
             </p>
           </article>
           <article className="lp-card" role="listitem">
@@ -81,7 +81,7 @@ export function HomePage() {
               Track active corridors, payout partners, and pricing straight from official Telcoin Wallet updates.
             </p>
             <p className="lp-cta">
-              <Link to="/remittances">Check remittance corridors →</Link>
+              <Link to="/remittances">Check remittance corridors</Link>
             </p>
           </article>
           <article className="lp-card" role="listitem">
@@ -92,7 +92,7 @@ export function HomePage() {
               topics.
             </p>
             <p className="lp-cta">
-              <Link to="/deep-dive">Review deep-dive guides →</Link>
+              <Link to="/deep-dive">Review deep-dive guides</Link>
             </p>
           </article>
         </div>

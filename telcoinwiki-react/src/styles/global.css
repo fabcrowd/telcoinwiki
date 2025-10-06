@@ -14,6 +14,26 @@
 @layer base {
   :root {
     color-scheme: dark;
+    --tc-pill-gradient: linear-gradient(138deg, rgba(55, 174, 255, 0.32), rgba(85, 51, 255, 0.2));
+    --tc-pill-surface: rgba(8, 22, 54, 0.72);
+    --tc-pill-border: rgba(124, 200, 255, 0.26);
+    --tc-pill-border-strong: rgba(124, 200, 255, 0.5);
+    --tc-pill-color: rgba(245, 247, 255, 0.96);
+    --tc-pill-color-muted: rgba(245, 247, 255, 0.76);
+    --tc-pill-font-size: 0.85rem;
+    --tc-pill-font-weight: 600;
+    --tc-pill-letter-spacing: 0.02em;
+    --tc-pill-line-height: 1.2;
+    --tc-pill-gap: 0.45rem;
+    --tc-pill-padding-y: 0.45rem;
+    --tc-pill-padding-x: 0.95rem;
+    --tc-pill-min-height: 2.25rem;
+    --tc-pill-min-width: 2.75rem;
+    --tc-pill-transition: background-position 0.75s ease, border-color 0.3s ease, box-shadow 0.3s ease,
+      color 0.25s ease;
+    --tc-pill-shadow-base: inset 0 0 0 1px rgba(124, 200, 255, 0.14), 0 10px 24px rgba(5, 13, 31, 0.32);
+    --tc-pill-shadow-hover: inset 0 0 0 1px rgba(124, 200, 255, 0.26), 0 14px 30px rgba(5, 13, 31, 0.45);
+    --tc-pill-shadow-focus: 0 0 0 4px rgba(55, 174, 255, 0.24);
   }
 }
 
@@ -38,8 +58,47 @@
     @apply absolute inset-0 bg-[radial-gradient(circle_at_top,var(--tc-blue-sky)_0%,transparent_60%)] opacity-80;
   }
 
-  .tc-chip {
-    @apply inline-flex items-center gap-2 rounded-brand border border-telcoin-border bg-telcoin-surface px-3 py-2 text-sm font-semibold text-telcoin-ink;
+  :where(.tc-pill, .tc-chip, .status-chip, .tag-pill, .faq-tag, .toc-chip, .lp-cta a) {
+    --tc-pill-local-gradient: var(--tc-pill-gradient);
+    --tc-pill-local-surface: var(--tc-pill-surface);
+    --tc-pill-local-border: var(--tc-pill-border);
+    --tc-pill-local-border-strong: var(--tc-pill-border-strong);
+    --tc-pill-local-color: var(--tc-pill-color);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tc-pill-gap);
+    padding: var(--tc-pill-padding-y) var(--tc-pill-padding-x);
+    min-height: var(--tc-pill-min-height);
+    min-width: var(--tc-pill-min-width);
+    border-radius: 9999px;
+    border: 1px solid var(--tc-pill-local-border);
+    background-color: var(--tc-pill-local-surface);
+    background-image: var(--tc-pill-local-gradient);
+    background-size: 220% 220%;
+    background-position: 0% 50%;
+    color: var(--tc-pill-local-color);
+    font-size: var(--tc-pill-font-size);
+    font-weight: var(--tc-pill-font-weight);
+    letter-spacing: var(--tc-pill-letter-spacing);
+    line-height: var(--tc-pill-line-height);
+    text-decoration: none;
+    text-transform: none;
+    box-shadow: var(--tc-pill-shadow-base);
+    transition: var(--tc-pill-transition);
+    outline: none;
+  }
+
+  :where(.tc-pill, .tc-chip, .status-chip, .tag-pill, .faq-tag, .toc-chip, .lp-cta a):hover,
+  :where(.tc-pill, .tc-chip, .status-chip, .tag-pill, .faq-tag, .toc-chip, .lp-cta a):focus-visible {
+    background-position: 100% 50%;
+    border-color: var(--tc-pill-local-border-strong);
+    color: var(--tc-pill-color);
+    box-shadow: var(--tc-pill-shadow-hover);
+    text-decoration: none;
+  }
+
+  :where(.tc-pill, .tc-chip, .status-chip, .tag-pill, .faq-tag, .toc-chip, .lp-cta a):focus-visible {
+    box-shadow: var(--tc-pill-shadow-hover), var(--tc-pill-shadow-focus);
   }
 
   .tc-tabbar {
@@ -52,6 +111,13 @@
 
   .tc-link {
     @apply text-telcoin-accent transition hover:underline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.tc-pill, .tc-chip, .status-chip, .tag-pill, .faq-tag, .toc-chip, .lp-cta a) {
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+    background-position: 50% 50% !important;
   }
 }
 

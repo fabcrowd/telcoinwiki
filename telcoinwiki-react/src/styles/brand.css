@@ -452,13 +452,18 @@ img.site-logo {
 .lp-title{ font-size: clamp(1.05rem,1.6vw,1.25rem); margin:.25rem 0 .5rem; }
 .lp-body{ opacity:.9; }
 .lp-cta{ margin-top:auto; }
-.lp-cta a{ display:inline-block; padding:.55rem .85rem; border-radius:999px; border:1px solid rgba(255,255,255,.25);
-  text-decoration:none; color: var(--tc-ink); background: rgba(55,174,255,.12); transition: color 220ms ease,
-  background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease; }
-.lp-cta a:hover,
-.lp-cta a:focus-visible{ background: rgba(55,174,255,.22); border-color: var(--tc-accent-outline); color: var(--tc-ink);
-  box-shadow: 0 0 0 4px rgba(55,174,255,.18); }
-.lp-cta a:focus-visible{ outline: 3px solid var(--tc-accent-outline); outline-offset: 2px; }
+.lp-cta a{
+  --tc-pill-local-gradient: linear-gradient(140deg, rgba(55, 174, 255, 0.38), rgba(85, 51, 255, 0.24));
+  --tc-pill-local-surface: rgba(6, 24, 58, 0.78);
+  --tc-pill-local-border: rgba(124, 200, 255, 0.32);
+  --tc-pill-local-border-strong: rgba(124, 200, 255, 0.46);
+  --tc-pill-font-size: 0.9rem;
+  --tc-pill-padding-y: 0.5rem;
+  --tc-pill-padding-x: 1.1rem;
+  --tc-pill-min-width: 0;
+  --tc-pill-shadow-base: inset 0 0 0 1px rgba(124, 200, 255, 0.2), 0 12px 24px rgba(5, 13, 31, 0.4);
+  --tc-pill-shadow-hover: inset 0 0 0 1px rgba(124, 200, 255, 0.34), 0 18px 32px rgba(5, 13, 31, 0.55);
+}
 .lp-card a{ text-decoration:none; }
 .lp-eyebrow, .lp-title{ pointer-events:none; }
 
@@ -470,7 +475,7 @@ img.site-logo {
   .lp-card:focus-within { transform: none; background-position: 0% 60%; box-shadow: 0 4px 18px rgba(0,0,0,.25); }
 
   .lp-cta a:hover,
-  .lp-cta a:focus-visible { box-shadow: 0 0 0 4px rgba(55,174,255,.18); }
+  .lp-cta a:focus-visible { box-shadow: var(--tc-pill-shadow-hover); }
 }
 
 .faq{ margin-block: clamp(16px, 3.5vw, 48px); }
