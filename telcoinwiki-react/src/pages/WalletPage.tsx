@@ -1,5 +1,6 @@
 import { SourceBox } from '../components/content/SourceBox'
 import { StatusValue } from '../components/content/StatusValue'
+import { WalletOverviewPanels } from '../components/wallet/WalletOverviewPanels'
 
 export function WalletPage() {
   return (
@@ -67,31 +68,14 @@ export function WalletPage() {
         </div>
       </section>
 
-      <section id="wallet-safety" className="anchor-offset">
-        <h2>Safety checklist</h2>
-        <div className="notice notice--info">
-          <p>
-            Complete KYC and enable biometric or passcode locks before funding your account. Store recovery details securely and
-            contact support through the in-app channel if something looks suspicious.
-          </p>
-        </div>
-        <ul>
-          <li>
-            Use the official download links provided at{' '}
-            <a href="https://telco.in/wallet" target="_blank" rel="noopener noreferrer">
-              telco.in/wallet
-            </a>
-            .
-          </li>
-          <li>Verify send destinations and fees in-app; corridor availability can change.</li>
-          <li>
-            Monitor{' '}
-            <a href="https://status.telco.in" target="_blank" rel="noopener noreferrer">
-              status.telco.in
-            </a>{' '}
-            for maintenance windows and service updates.
-          </li>
-        </ul>
+      <section id="wallet-insights" className="anchor-offset">
+        <h2>Overview</h2>
+        <p>
+          Stay on top of TEL market performance, TELx liquidity, and live service health without leaving the Wallet overview.
+          Data refreshes automatically and falls back to contextual guidance if third-party services are temporarily
+          unreachable.
+        </p>
+        <WalletOverviewPanels />
       </section>
 
       <section id="wallet-resources" className="anchor-offset">

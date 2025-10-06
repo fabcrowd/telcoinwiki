@@ -1462,6 +1462,159 @@ tr:last-child td {
     box-shadow var(--transition-base);
 }
 
+.wallet-overview-panels {
+  margin-top: var(--space-4);
+}
+
+.wallet-overview-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 100%;
+}
+
+.wallet-overview-panel__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.wallet-overview-panel__headline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.wallet-overview-panel__value {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.wallet-overview-panel__delta {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.wallet-overview-panel__delta.is-positive {
+  color: #4ade80;
+}
+
+.wallet-overview-panel__delta.is-negative {
+  color: #f87171;
+}
+
+.wallet-overview-panel__chart {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(55, 174, 255, 0.06);
+  border: 1px solid rgba(55, 174, 255, 0.18);
+}
+
+.wallet-overview-panel__chart svg {
+  width: 100%;
+  height: 100%;
+}
+
+.wallet-overview-panel__metrics {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+}
+
+.wallet-overview-panel__metrics dt {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tc-ink-subtle);
+}
+
+.wallet-overview-panel__metrics dd {
+  margin: var(--space-1) 0 0;
+  font-size: 0.95rem;
+  color: var(--tc-ink);
+}
+
+.wallet-overview-panel__status,
+.wallet-overview-panel__status-summary {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--tc-ink-muted);
+}
+
+.wallet-overview-panel__footnote {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--tc-ink-subtle);
+}
+
+.wallet-overview-status-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.wallet-overview-status-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.wallet-overview-status-list__label {
+  color: var(--tc-ink);
+}
+
+.status-chip--operational {
+  background: rgba(34, 197, 94, 0.18);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #dcfce7;
+}
+
+.status-chip--degraded {
+  background: rgba(250, 204, 21, 0.18);
+  border-color: rgba(250, 204, 21, 0.4);
+  color: #fef9c3;
+}
+
+.status-chip--partial {
+  background: rgba(249, 115, 22, 0.18);
+  border-color: rgba(249, 115, 22, 0.38);
+  color: #ffedd5;
+}
+
+.status-chip--major {
+  background: rgba(248, 113, 113, 0.18);
+  border-color: rgba(248, 113, 113, 0.45);
+  color: #fee2e2;
+}
+
+.status-chip--incident {
+  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #dbeafe;
+}
+
+.status-chip--maintenance {
+  background: rgba(168, 85, 247, 0.18);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #ede9fe;
+}
+
+.status-chip--unknown {
+  background: rgba(148, 163, 184, 0.22);
+  border-color: rgba(148, 163, 184, 0.4);
+  color: #e2e8f0;
+}
+
 .tc-chip.is-active {
   background: rgba(55, 174, 255, 0.18);
   border-color: rgba(55, 174, 255, 0.4);
