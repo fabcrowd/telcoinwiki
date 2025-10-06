@@ -16,6 +16,7 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
   const resultRefs = useRef<HTMLAnchorElement[]>([])
   const { search, isLoading, error, isFallback, reload } = useSearchIndex(searchConfig)
   const [query, setQuery] = useState('')
+  const trimmedQuery = query.trim()
 
   useEffect(() => {
     if (isOpen) {
@@ -46,7 +47,7 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
     }
   }, [isOpen, onClose])
 
-  const results = useMemo(() => (query ? search(query) : []), [query, search])
+  const results = useMemo(() => (trimmedQuery ? search(trimmedQuery) : []), [trimmedQuery, search])
   const totalResults = useMemo(
     () => results.reduce((count, group) => count + group.items.length, 0),
     [results],
@@ -94,7 +95,7 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
     }
   }
 
-  const showEmptyState = query.length > 0 && !totalResults && !isLoading && !error
+  const showEmptyState = trimmedQuery.length > 0 && !totalResults && !isLoading && !error
 
   let runningIndex = -1
 

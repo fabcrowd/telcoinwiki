@@ -10,9 +10,22 @@ interface FaqExplorerProps {
 
 const stripHtml = (value: string): string => value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
 
+const createDomParser = (): DOMParser | null => {
+  if (typeof DOMParser === 'undefined') {
+    return null
+  }
+  return new DOMParser()
+}
+
 const renderAnswerHtml = (html: string, keyPrefix: string): ReactNode => {
   if (!html) return null
-  const parser = new DOMParser()
+
+  const parser = createDomParser()
+
+  if (!parser || typeof Node === 'undefined') {
+    return <span key={keyPrefix}>{stripHtml(html)}</span>
+  }
+
   const doc = parser.parseFromString(html, 'text/html')
   const nodes = Array.from(doc.body.childNodes)
 
