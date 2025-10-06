@@ -41,7 +41,9 @@ export function Sidebar({
                     }
                     to={item.href}
                   >
-                    {item.label}
+                    <span className="sidebar__linkInner">
+                      <span className="sidebar__linkLabel">{item.label}</span>
+                    </span>
                   </NavLink>
                   {isActive && headings.length > 0 ? (
                     <ul

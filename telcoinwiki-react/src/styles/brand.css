@@ -326,6 +326,58 @@ img.site-logo {
 .sidebar__inner.tc-card {
   border-radius: 1rem;
   padding: var(--gap-4);
+  background:
+    linear-gradient(135deg, rgba(124, 200, 255, 0.18), rgba(124, 200, 255, 0.06))
+      rgba(8, 15, 38, 0.75);
+  border: 1px solid rgba(124, 200, 255, 0.28);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 18px 48px rgba(5, 11, 31, 0.35);
+}
+
+.sidebar__inner.tc-card::before {
+  opacity: 0.75;
+}
+
+.sidebar__link {
+  background-color: rgba(6, 12, 32, 0.35);
+}
+
+.sidebar__link::before {
+  background:
+    linear-gradient(145deg, rgba(124, 200, 255, 0.28), rgba(128, 82, 227, 0.16));
+  box-shadow:
+    0 0 0 1px rgba(124, 200, 255, 0.28),
+    0 18px 38px rgba(6, 12, 32, 0.3);
+}
+
+.sidebar__link.is-active::before {
+  background:
+    linear-gradient(145deg, rgba(124, 200, 255, 0.35), rgba(128, 82, 227, 0.24));
+}
+
+.sidebar__linkLabel {
+  color: rgba(240, 245, 255, 0.9);
+}
+
+.sidebar__link:hover .sidebar__linkLabel,
+.sidebar__link:focus-visible .sidebar__linkLabel,
+.sidebar__link.is-active .sidebar__linkLabel {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .sidebar__inner.tc-card {
+    padding: clamp(var(--gap-3), 4vw, var(--gap-4));
+  }
+
+  .sidebar__inner.tc-card::before {
+    opacity: 0.55;
+  }
+
+  .sidebar__link::before {
+    box-shadow: 0 8px 18px rgba(5, 11, 31, 0.25);
+  }
 }
 
 /* Remove accidental “pill” backgrounds on headings on mobile */
