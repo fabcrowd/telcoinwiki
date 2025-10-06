@@ -28,6 +28,20 @@ npm run dev
 ```
 The app boots on http://localhost:5173 by default. Environment variables prefixed with `VITE_` are read from `.env` or `.env.local` inside `telcoinwiki-react/`.
 
+### Troubleshooting merge conflicts
+
+GitHub's web conflict editor cannot open `telcoinwiki-react/package-lock.json` because the file is ~272 KB across 7,961 lines. Resolve conflicts locally instead of attempting to edit in the browser.
+
+```bash
+git fetch origin
+git checkout <branch>
+git merge origin/main
+npm --prefix telcoinwiki-react install
+git add telcoinwiki-react/package-lock.json
+git commit
+git push
+```
+
 ## Supabase migrations & seeds
 
 The SQL lives under [`supabase/`](../supabase/). You can apply it with either the Supabase CLI or direct `psql` commands.
