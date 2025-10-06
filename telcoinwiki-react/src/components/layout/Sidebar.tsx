@@ -25,48 +25,52 @@ export function Sidebar({
       id="site-sidebar"
       className={`sidebar${isOpen ? ' is-open' : ''}`}
       data-sidebar
+      role="complementary"
+      aria-label="Knowledge base navigation"
     >
       <div className="sidebar__inner tc-card">
-        <p className="sidebar__heading">Knowledge base</p>
-        <nav className="sidebar__nav" aria-label="Knowledge base">
-          <ul className="sidebar__list" data-sidebar-list>
-            {items.map((item) => {
-              const isActive = item.id === activeId;
-              return (
-                <li key={item.id} className="sidebar__item">
-                  <NavLink
-                    id={`sidebar-link-${item.id}`}
-                    className={({ isActive: navIsActive }) =>
-                      `sidebar__link${navIsActive ? ' is-active' : ''}`
-                    }
-                    to={item.href}
-                  >
-                    <span className="sidebar__linkInner">
-                      <span className="sidebar__linkLabel">{item.label}</span>
-                    </span>
-                  </NavLink>
-                  {isActive && headings.length > 0 ? (
-                    <ul
-                      className="sidebar__sublist"
-                      aria-labelledby={`sidebar-link-${item.id}`}
+        <div className="sidebar__scroll">
+          <p className="sidebar__heading">Knowledge base</p>
+          <nav className="sidebar__nav" aria-label="Knowledge base">
+            <ul className="sidebar__list" data-sidebar-list>
+              {items.map((item) => {
+                const isActive = item.id === activeId;
+                return (
+                  <li key={item.id} className="sidebar__item">
+                    <NavLink
+                      id={`sidebar-link-${item.id}`}
+                      className={({ isActive: navIsActive }) =>
+                        `sidebar__link${navIsActive ? ' is-active' : ''}`
+                      }
+                      to={item.href}
                     >
-                      {headings.map((heading) => (
-                        <li key={heading.id} className="sidebar__subitem">
-                          <a
-                            className="sidebar__sublink"
-                            href={`#${heading.id}`}
-                          >
-                            {heading.text}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+                      <span className="sidebar__linkInner">
+                        <span className="sidebar__linkLabel">{item.label}</span>
+                      </span>
+                    </NavLink>
+                    {isActive && headings.length > 0 ? (
+                      <ul
+                        className="sidebar__sublist"
+                        aria-labelledby={`sidebar-link-${item.id}`}
+                      >
+                        {headings.map((heading) => (
+                          <li key={heading.id} className="sidebar__subitem">
+                            <a
+                              className="sidebar__sublink"
+                              href={`#${heading.id}`}
+                            >
+                              {heading.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
       </div>
     </aside>
   );

@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom'
-import { FaqExplorer } from '../components/content/FaqExplorer'
 import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
 import { HeroTicker } from '../components/home/HeroTicker'
 import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
-import { SEARCH_CONFIG } from '../config/search'
+import { DeepDiveFaqSections } from '../components/deepDive/DeepDiveFaqSections'
 
 export function HomePage() {
   return (
@@ -96,7 +95,7 @@ export function HomePage() {
 
       <section id="faq" className="faq anchor-offset" aria-labelledby="faq-heading">
         <h2 id="faq-heading">FAQs</h2>
-        <FaqExplorer faqDataUrl={SEARCH_CONFIG.faqUrl} />
+        <DeepDiveFaqSections />
       </section>
     </>
   )
