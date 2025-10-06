@@ -26,7 +26,7 @@ function toNumber(value: unknown): number | null {
     return value
   }
   if (typeof value === 'string') {
-    const cleaned = value.replace(/[$,%\s]/g, '')
+    const cleaned = value.replace(/[$,%\s,]/g, '')
     const parsed = Number.parseFloat(cleaned)
     return Number.isFinite(parsed) ? parsed : null
   }
