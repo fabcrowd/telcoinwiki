@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
-import { mapStatusMetricRow, supabaseQueries, type StatusMetric } from '../lib/queries'
+import { mapStatusMetricRow, type StatusMetric } from '../lib/queries'
 import { tryGetSupabaseClient } from '../lib/supabaseClient'
+import { fetchStatusMetricsWithFallback, type StatusMetricsResult } from './useStatusMetrics'
 
 interface StatusMetricState {
   metrics: StatusMetric[]
   isLoading: boolean
   error: Error | null
+  source: StatusMetricsResult['source']
 }
 
 const mergeMetric = (metrics: StatusMetric[], updated: StatusMetric) => {
@@ -20,6 +22,7 @@ export const useStatusMetricsRealtime = () => {
     metrics: [],
     isLoading: true,
     error: null,
+    source: 'supabase',
   })
 
   useEffect(() => {
@@ -29,12 +32,17 @@ export const useStatusMetricsRealtime = () => {
       setState((current) => ({ ...current, isLoading: true, error: null }))
 
       try {
-        const data = await supabaseQueries.fetchStatusMetrics()
+        const result = await fetchStatusMetricsWithFallback()
         if (!isActive) return
-        setState({ metrics: data, isLoading: false, error: null })
+        setState({
+          metrics: result.metrics,
+          isLoading: false,
+          error: null,
+          source: result.source,
+        })
       } catch (error) {
         if (!isActive) return
-        setState({ metrics: [], isLoading: false, error: error as Error })
+        setState({ metrics: [], isLoading: false, error: error as Error, source: 'supabase' })
       }
     }
 
@@ -70,6 +78,7 @@ export const useStatusMetricsRealtime = () => {
           setState((current) => ({
             ...current,
             metrics: mergeMetric(current.metrics, next),
+            source: 'supabase',
           }))
         },
       )
@@ -88,5 +97,6 @@ export const useStatusMetricsRealtime = () => {
     ...state,
     hasMetrics,
     highlightedMetrics,
+    isFallback: state.source === 'fallback',
   }
 }
