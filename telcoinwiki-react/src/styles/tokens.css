@@ -44,6 +44,14 @@
   --tc-ocean-gradient: linear-gradient(256deg, rgba(55, 174, 255, 0.6), rgba(85, 51, 255, 0.6)),
     linear-gradient(245deg, rgba(51, 172, 255, 0.3) 43.29%, var(--tc-blue-violet) 78%);
 
+  --tc-stage-hue: 220;
+  --tc-stage-accent-hue: 268;
+  --tc-stage-overlay-opacity: 0.38;
+  --tc-stage-spot-opacity: 0.28;
+  --tc-stage-card-overlay-opacity: 0.32;
+  --tc-stage-card-border-opacity: 0.38;
+  --tc-stage-card-shadow-opacity: 0.26;
+
   --tc-radius: 1rem;
   --tc-radius-lg: 1.25rem;
   --tc-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
