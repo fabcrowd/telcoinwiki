@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import type { NavItem } from '../../config/types';
 
@@ -15,55 +15,56 @@ export function Header({
   onSearchOpen,
   isSearchOpen = false,
 }: HeaderProps) {
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const navListRef = useRef<HTMLUListElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleDocumentClick(event: MouseEvent) {
-      if (!openMenuId) return;
+      if (!isDropdownOpen) return;
       if (!(event.target instanceof Node)) return;
-      if (navListRef.current && !navListRef.current.contains(event.target)) {
-        setOpenMenuId(null);
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
       }
     }
 
     document.addEventListener('click', handleDocumentClick);
     return () => document.removeEventListener('click', handleDocumentClick);
-  }, [openMenuId]);
+  }, [isDropdownOpen]);
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        setOpenMenuId(null);
+        setIsDropdownOpen(false);
       }
     }
 
-    if (openMenuId) {
+    if (isDropdownOpen) {
       document.addEventListener('keydown', handleKeydown);
       return () => document.removeEventListener('keydown', handleKeydown);
     }
 
     return undefined;
-  }, [openMenuId]);
-
-  const mobileItems = useMemo(() => navItems, [navItems]);
-
-  function toggleMenu(itemId: string) {
-    setOpenMenuId((current) => (current === itemId ? null : itemId));
-  }
-
-  function closeMenus() {
-    setOpenMenuId(null);
-  }
+  }, [isDropdownOpen]);
 
   function toggleMobileNav() {
     setMobileNavOpen((current) => !current);
+    setIsDropdownOpen(false);
   }
 
   function handleMobileLinkClick() {
     setMobileNavOpen(false);
   }
+
+  function toggleDropdown() {
+    setIsDropdownOpen((current) => !current);
+  }
+
+  function closeDropdown() {
+    setIsDropdownOpen(false);
+  }
+
+  const dropdownId = 'header-nav-dropdown';
 
   const logoSrc = '/logo.svg';
 
@@ -92,6 +93,66 @@ export function Header({
             Menu
           </button>
 
+          <div className="desktop-nav" ref={dropdownRef}>
+            <button
+              type="button"
+              className={`nav-dropdown__trigger${isDropdownOpen ? ' is-open' : ''}`}
+              aria-haspopup="true"
+              aria-expanded={isDropdownOpen}
+              aria-controls={dropdownId}
+              onClick={toggleDropdown}
+            >
+              Resources
+              <span aria-hidden="true" className="nav-dropdown__caret">
+                ▾
+              </span>
+            </button>
+            <div
+              id={dropdownId}
+              className={`nav-dropdown${isDropdownOpen ? ' is-open' : ''}`}
+              role="menu"
+            >
+              <nav aria-label="Primary navigation">
+                <ul className="nav-dropdown__list">
+                  {navItems.map((item) => {
+                    const itemIsActive = item.id === activeNavId;
+                    return (
+                      <li
+                        key={item.id}
+                        className={`nav-dropdown__item${itemIsActive ? ' is-active' : ''}`}
+                      >
+                        <NavLink
+                          to={item.href}
+                          className={({ isActive }) =>
+                            `nav-dropdown__link${isActive ? ' is-current' : ''}`
+                          }
+                          onClick={closeDropdown}
+                        >
+                          {item.label}
+                        </NavLink>
+                        {item.menu && item.menu.length > 0 ? (
+                          <ul className="nav-dropdown__submenu">
+                            {item.menu.map((entry) => (
+                              <li key={entry.href} className="nav-dropdown__submenuItem">
+                                <Link
+                                  to={entry.href}
+                                  className="nav-dropdown__submenuLink"
+                                  onClick={closeDropdown}
+                                >
+                                  {entry.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+            </div>
+          </div>
+
           <div className="header-search">
             <button
               type="button"
@@ -100,63 +161,22 @@ export function Header({
               aria-haspopup="dialog"
               aria-expanded={isSearchOpen}
             >
-              Search
+              <span className="visually-hidden">Open search</span>
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm0-2C6.582 2 3 5.582 3 10s3.582 8 8 8a7.95 7.95 0 0 0 4.9-1.635l4.368 4.367a1 1 0 0 0 1.414-1.414l-4.367-4.368A7.95 7.95 0 0 0 19 10c0-4.418-3.582-8-8-8z"
+                  fill="currentColor"
+                />
+              </svg>
             </button>
           </div>
-
-          <nav className="top-nav" aria-label="Primary">
-            <ul className="pill-nav top-nav__list" ref={navListRef}>
-              {navItems.map((item) => {
-                const isMenuActive = item.id === activeNavId;
-                const isOpen = openMenuId === item.id;
-                if (!item.menu || item.menu.length === 0) {
-                  return (
-                    <li key={item.id} className="nav-item">
-                      <NavLink
-                        className={({ isActive }) =>
-                          `top-nav__link${isActive ? ' is-active' : ''}`
-                        }
-                        to={item.href}
-                        onClick={closeMenus}
-                      >
-                        {item.label}
-                      </NavLink>
-                    </li>
-                  );
-                }
-
-                return (
-                  <li
-                    key={item.id}
-                    className="nav-item"
-                    data-open={isOpen ? 'true' : undefined}
-                  >
-                    <button
-                      type="button"
-                      className={`nav-button${isMenuActive ? ' is-active' : ''}`}
-                      aria-haspopup="true"
-                      aria-expanded={isOpen}
-                      onClick={() => toggleMenu(item.id)}
-                    >
-                      {item.label} <span className="nav-caret">▾</span>
-                    </button>
-                    <div className="nav-menu" role="menu">
-                      {item.menu.map((entry) => (
-                        <Link
-                          key={entry.href}
-                          to={entry.href}
-                          role="menuitem"
-                          onClick={closeMenus}
-                        >
-                          {entry.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
         </div>
       </div>
 
@@ -167,7 +187,7 @@ export function Header({
       >
         <nav aria-label="Mobile">
           <ul>
-            {mobileItems.map((item) => (
+            {navItems.map((item) => (
               <li key={`mobile-${item.id}`} className="nav-item">
                 <NavLink to={item.href} onClick={handleMobileLinkClick}>
                   {item.label}
