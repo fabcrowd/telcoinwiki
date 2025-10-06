@@ -14,6 +14,7 @@ import { StarfieldCanvas } from '../visual/StarfieldCanvas'
 import { Breadcrumbs } from './Breadcrumbs'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
+import { Footer } from './Footer'
 
 interface AppLayoutProps {
   pageId: string
@@ -103,6 +104,7 @@ export function AppLayout({
             {children}
           </main>
         </div>
+        <Footer />
         <SearchModal isOpen={isSearchOpen} onClose={handleCloseSearch} searchConfig={searchConfig} />
       </div>
     </>
