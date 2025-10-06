@@ -125,22 +125,52 @@ export function Header({
                   );
                 }
 
+                const menuId = `nav-menu-${item.id}`;
+                const toggleId = `nav-toggle-${item.id}`;
+
                 return (
                   <li
                     key={item.id}
                     className="nav-item"
                     data-open={isOpen ? 'true' : undefined}
                   >
-                    <button
-                      type="button"
-                      className={`nav-button${isMenuActive ? ' is-active' : ''}`}
-                      aria-haspopup="true"
-                      aria-expanded={isOpen}
-                      onClick={() => toggleMenu(item.id)}
+                    <div
+                      className={`nav-button${
+                        isMenuActive ? ' is-active' : ''
+                      }${isOpen ? ' is-open' : ''}`}
                     >
-                      {item.label} <span className="nav-caret">▾</span>
-                    </button>
-                    <div className="nav-menu" role="menu">
+                      <NavLink
+                        className={({ isActive }) =>
+                          `top-nav__link nav-button__link${
+                            isActive || isMenuActive ? ' is-active' : ''
+                          }`
+                        }
+                        to={item.href}
+                        onClick={closeMenus}
+                      >
+                        {item.label}
+                      </NavLink>
+                      <button
+                        type="button"
+                        className="nav-button__toggle"
+                        aria-haspopup="menu"
+                        aria-expanded={isOpen}
+                        aria-controls={menuId}
+                        id={toggleId}
+                        aria-label={`Toggle ${item.label} menu`}
+                        onClick={() => toggleMenu(item.id)}
+                      >
+                        <span className="nav-caret" aria-hidden="true">
+                          ▾
+                        </span>
+                      </button>
+                    </div>
+                    <div
+                      id={menuId}
+                      className="nav-menu"
+                      role="menu"
+                      aria-labelledby={toggleId}
+                    >
                       {item.menu.map((entry) => (
                         <Link
                           key={entry.href}
