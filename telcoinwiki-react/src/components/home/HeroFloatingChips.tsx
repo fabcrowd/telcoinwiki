@@ -3,31 +3,22 @@ import { useEffect, useState } from 'react'
 
 const chips = [
   {
-    id: 'wallet-security',
-    label: 'Wallet security',
-    accent: 'from-telcoin-accent-soft to-transparent',
-    border: 'border-telcoin-accent-outline',
-    top: '5%',
-    left: '8%',
-    multiplier: 0.6,
-  },
-  {
     id: 'liquidity',
     label: 'TELx liquidity',
     accent: 'from-telcoin-royalTone-soft to-transparent',
     border: 'border-telcoin-royalTone-outline',
-    top: '30%',
-    left: '75%',
-    multiplier: -0.4,
+    top: '22%',
+    left: '68%',
+    multiplier: -0.5,
   },
   {
     id: 'remittance',
     label: 'Remittance corridors',
     accent: 'from-telcoin-accent-soft via-transparent to-transparent',
     border: 'border-telcoin-border',
-    top: '65%',
-    left: '15%',
-    multiplier: 0.8,
+    top: '64%',
+    left: '18%',
+    multiplier: 0.7,
   },
 ]
 
@@ -41,8 +32,8 @@ export function HeroFloatingChips() {
 
   useEffect(() => {
     const handlePointerMove = (event: PointerEvent) => {
-      const x = (event.clientX / window.innerWidth - 0.5) * 16
-      const y = (event.clientY / window.innerHeight - 0.5) * 16
+      const x = (event.clientX / window.innerWidth - 0.5) * 12
+      const y = (event.clientY / window.innerHeight - 0.5) * 12
       setOffset({ x, y })
     }
 

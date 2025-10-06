@@ -24,14 +24,11 @@ export function HomePage() {
         title="Understand the Telcoin platform in minutes"
         lede="This unofficial wiki curates verified answers, onboarding checklists, and direct links to Telcoin Association and Telcoin company resources so newcomers can get started with confidence."
       >
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 lg:gap-6">
           <HeroTicker />
-          <div className="notice notice--info" role="note">
-            <p className="notice__title">Unofficial helper</p>
-            <p>
-              Always confirm details inside the Telcoin Wallet or through official Association releases. The community keeps this wiki current, but the authoritative word lives at telco.in and telcoinassociation.org.
-            </p>
-          </div>
+          <p className="text-sm text-telcoin-ink/70">
+            Community-maintained reference. Confirm details inside the Telcoin Wallet or official Association releases.
+          </p>
         </div>
       </PageIntro>
 
