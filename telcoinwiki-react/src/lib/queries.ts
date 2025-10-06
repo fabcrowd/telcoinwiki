@@ -103,7 +103,7 @@ const mapFaqRow = (row: RawFaqRow): FaqEntry => ({
   sources: (row.sources ?? []).map((source) => ({ label: source.label, url: source.url })),
 })
 
-const mapStatusMetricRow = (row: RawStatusMetricRow): StatusMetric => ({
+export const mapStatusMetricRow = (row: RawStatusMetricRow): StatusMetric => ({
   key: row.key,
   label: row.label,
   value: Number(row.value),
@@ -209,4 +209,5 @@ export const supabaseQueries = {
   fetchFaqList,
   fetchFaqSearch,
   fetchStatusMetrics,
+  mapStatusMetricRow,
 }
