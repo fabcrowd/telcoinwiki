@@ -97,7 +97,7 @@ export function AppLayout({
           isOpen={isSidebarOpen}
         />
         <main id="main-content" className="site-main tc-card" tabIndex={-1}>
-          <Breadcrumbs trail={breadcrumbs} />
+          {(pageId !== 'home' || breadcrumbs.length > 1) && <Breadcrumbs trail={breadcrumbs} />}
           {children}
         </main>
       </div>
