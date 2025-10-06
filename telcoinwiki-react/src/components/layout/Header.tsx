@@ -80,81 +80,83 @@ export function Header({
           />
         </Link>
 
-        <nav className="top-nav" aria-label="Primary">
-          <ul className="pill-nav top-nav__list" ref={navListRef}>
-            {navItems.map((item) => {
-              const isMenuActive = item.id === activeNavId;
-              const isOpen = openMenuId === item.id;
-              if (!item.menu || item.menu.length === 0) {
-                return (
-                  <li key={item.id} className="nav-item">
-                    <NavLink
-                      className={({ isActive }) =>
-                        `top-nav__link${isActive ? ' is-active' : ''}`
-                      }
-                      to={item.href}
-                      onClick={closeMenus}
-                    >
-                      {item.label}
-                    </NavLink>
-                  </li>
-                );
-              }
-
-              return (
-                <li
-                  key={item.id}
-                  className="nav-item"
-                  data-open={isOpen ? 'true' : undefined}
-                >
-                  <button
-                    type="button"
-                    className={`nav-button${isMenuActive ? ' is-active' : ''}`}
-                    aria-haspopup="true"
-                    aria-expanded={isOpen}
-                    onClick={() => toggleMenu(item.id)}
-                  >
-                    {item.label} <span className="nav-caret">▾</span>
-                  </button>
-                  <div className="nav-menu" role="menu">
-                    {item.menu.map((entry) => (
-                      <Link
-                        key={entry.href}
-                        to={entry.href}
-                        role="menuitem"
-                        onClick={closeMenus}
-                      >
-                        {entry.label}
-                      </Link>
-                    ))}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        <button
-          type="button"
-          className="menu-btn"
-          data-sidebar-toggle
-          aria-expanded={mobileNavOpen}
-          aria-controls="mobile-drawer"
-          onClick={toggleMobileNav}
-        >
-          Menu
-        </button>
-
-        <div className="header-search">
+        <div className="site-header__actions">
           <button
             type="button"
-            className="search-trigger"
-            onClick={onSearchOpen}
-            aria-haspopup="dialog"
-            aria-expanded={isSearchOpen}
+            className="menu-btn"
+            data-sidebar-toggle
+            aria-expanded={mobileNavOpen}
+            aria-controls="mobile-drawer"
+            onClick={toggleMobileNav}
           >
-            Search
+            Menu
           </button>
+
+          <div className="header-search">
+            <button
+              type="button"
+              className="search-trigger"
+              onClick={onSearchOpen}
+              aria-haspopup="dialog"
+              aria-expanded={isSearchOpen}
+            >
+              Search
+            </button>
+          </div>
+
+          <nav className="top-nav" aria-label="Primary">
+            <ul className="pill-nav top-nav__list" ref={navListRef}>
+              {navItems.map((item) => {
+                const isMenuActive = item.id === activeNavId;
+                const isOpen = openMenuId === item.id;
+                if (!item.menu || item.menu.length === 0) {
+                  return (
+                    <li key={item.id} className="nav-item">
+                      <NavLink
+                        className={({ isActive }) =>
+                          `top-nav__link${isActive ? ' is-active' : ''}`
+                        }
+                        to={item.href}
+                        onClick={closeMenus}
+                      >
+                        {item.label}
+                      </NavLink>
+                    </li>
+                  );
+                }
+
+                return (
+                  <li
+                    key={item.id}
+                    className="nav-item"
+                    data-open={isOpen ? 'true' : undefined}
+                  >
+                    <button
+                      type="button"
+                      className={`nav-button${isMenuActive ? ' is-active' : ''}`}
+                      aria-haspopup="true"
+                      aria-expanded={isOpen}
+                      onClick={() => toggleMenu(item.id)}
+                    >
+                      {item.label} <span className="nav-caret">▾</span>
+                    </button>
+                    <div className="nav-menu" role="menu">
+                      {item.menu.map((entry) => (
+                        <Link
+                          key={entry.href}
+                          to={entry.href}
+                          role="menuitem"
+                          onClick={closeMenus}
+                        >
+                          {entry.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
         </div>
       </div>
 
