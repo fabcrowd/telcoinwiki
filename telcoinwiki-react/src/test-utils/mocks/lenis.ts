@@ -5,13 +5,23 @@ export interface LenisOptions {
 }
 
 export default class Lenis {
-  constructor(_options?: LenisOptions) {}
+  constructor(options?: LenisOptions) {
+    void options
+  }
 
-  raf(_time: number) {}
+  raf(time: number) {
+    void time
+  }
 
-  on(_event: string, _handler: () => void) {}
+  on(event: string, handler: () => void) {
+    void event
+    void handler
+  }
 
-  off(_event: string, _handler: () => void) {}
+  off(event: string, handler: () => void) {
+    void event
+    void handler
+  }
 
   destroy() {}
 }

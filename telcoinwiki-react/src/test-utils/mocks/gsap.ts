@@ -15,12 +15,16 @@ const gsapInstance = {
     fn()
     return { revert: () => {} }
   },
-  timeline: (_options?: unknown) => ({
-    to: () => {},
-    progress: () => 0,
-    scrollTrigger: createScrollTrigger(),
-    kill: () => {},
-  }),
+  timeline: (options?: unknown) => {
+    void options
+
+    return {
+      to: () => {},
+      progress: () => 0,
+      scrollTrigger: createScrollTrigger(),
+      kill: () => {},
+    }
+  },
 }
 
 export const gsap = gsapInstance
