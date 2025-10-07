@@ -89,15 +89,7 @@ function applyStageStop(root: HTMLElement, stop: NormalizedStageStop) {
 }
 
 function useStageStopMemo(stop: StageStop): NormalizedStageStop {
-  return useMemo(() => normalizeStop(stop), [
-    stop.hue,
-    stop.accentHue,
-    stop.overlayOpacity,
-    stop.spotOpacity,
-    stop.cardOverlayOpacity,
-    stop.cardBorderOpacity,
-    stop.cardShadowOpacity,
-  ])
+  return useMemo(() => normalizeStop(stop), [stop])
 }
 
 export function useStageTimeline({
@@ -187,6 +179,20 @@ export function useStageTimeline({
       [fromStop, shouldReduce, toStop],
     ),
   })
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    const root = document.documentElement
+
+    return () => {
+      Object.values(stageVariableMap).forEach((variable) => {
+        root.style.removeProperty(variable)
+      })
+    }
+  }, [])
 
   useEffect(() => {
     if (!shouldReduce || typeof document === 'undefined') {
