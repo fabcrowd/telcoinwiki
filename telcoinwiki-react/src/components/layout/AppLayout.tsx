@@ -4,24 +4,26 @@ import type {
   SearchConfig,
   SidebarHeading,
 } from '../../config/types'
-import type { ReactNode } from 'react'
+import { Suspense, lazy, useEffect, useMemo, useState, type PropsWithChildren } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useLayoutState } from '../../hooks/useLayoutState'
 import { useBreadcrumbTrail } from '../../hooks/useBreadcrumbTrail'
-import { StarfieldCanvas } from '../visual/StarfieldCanvas'
 import { Breadcrumbs } from './Breadcrumbs'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
 import { useLayoutChrome, useHashScroll, MAIN_CONTENT_ID } from './layoutShared'
 
-interface AppLayoutProps {
+const StarfieldCanvas = lazy(() =>
+  import('../visual/StarfieldCanvas').then((module) => ({ default: module.StarfieldCanvas })),
+)
+
+type AppLayoutProps = PropsWithChildren<{
   pageId: string
   navItems: NavItem[]
   pageMeta: PageMetaMap
   searchConfig: SearchConfig
   headings?: SidebarHeading[]
-  children: ReactNode
-}
+}>
 
 export function AppLayout({
   pageId,
@@ -38,7 +40,16 @@ export function AppLayout({
   const breadcrumbs = useBreadcrumbTrail(pageId, pageMeta)
   const { hash, pathname } = useLocation()
 
-  const currentMeta = pageMeta[pageId] ?? pageMeta.home
+  const [shouldRenderStarfield, setShouldRenderStarfield] = useState(() => typeof window !== 'undefined')
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    setShouldRenderStarfield(true)
+  }, [])
+
+  const currentMeta = useMemo(() => pageMeta[pageId] ?? pageMeta.home, [pageId, pageMeta])
 
   const { headerProps, footer, searchModal } = useLayoutChrome({
     navItems,
@@ -50,7 +61,11 @@ export function AppLayout({
 
   return (
     <>
-      <StarfieldCanvas />
+      {shouldRenderStarfield ? (
+        <Suspense fallback={null}>
+          <StarfieldCanvas />
+        </Suspense>
+      ) : null}
       <div className="app-layer">
         <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           Skip to content
