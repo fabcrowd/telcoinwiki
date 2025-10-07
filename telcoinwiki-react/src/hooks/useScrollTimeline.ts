@@ -1,13 +1,12 @@
 import type { MutableRefObject, RefObject } from 'react'
 import { useEffect, useRef } from 'react'
 
-import gsap from 'gsap'
+import type { GSAPContext, GSAPTimeline } from 'gsap'
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-gsap.registerPlugin(ScrollTrigger)
+import { loadGsapWithScrollTrigger } from '../utils/lazyGsap'
 
-type Timeline = gsap.core.Timeline
+type Timeline = GSAPTimeline
 
 type ScrollTimelineTarget = Element | RefObject<Element> | null
 
@@ -57,37 +56,53 @@ export function useScrollTimeline({
   const timelineRef = useRef<Timeline | null>(null)
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined
+    }
+
     const element = resolveTarget(target)
 
     if (!element) {
       return undefined
     }
 
+    let disposed = false
+    let context: GSAPContext | null = null
     let timeline: Timeline | null = null
 
-    const context = gsap.context(() => {
-      timeline = gsap.timeline({
-        defaults: { ease: 'power1.out' },
-        ...timelineVars,
-        scrollTrigger: {
-          trigger: element,
-          ...defaultScrollTrigger,
-          ...scrollTrigger,
-        },
+    loadGsapWithScrollTrigger()
+      .then(({ gsap }) => {
+        if (disposed) {
+          return
+        }
+
+        context = gsap.context(() => {
+          timeline = gsap.timeline({
+            defaults: { ease: 'power1.out' },
+            ...timelineVars,
+            scrollTrigger: {
+              trigger: element,
+              ...defaultScrollTrigger,
+              ...scrollTrigger,
+            },
+          })
+
+          timelineRef.current = timeline
+          create(timeline!, context!)
+        }, element)
+      })
+      .catch((error) => {
+        if (import.meta.env?.DEV) {
+          console.warn('Failed to initialize scroll timeline', error)
+        }
       })
 
-      timelineRef.current = timeline
-      create(timeline, context)
-    }, element)
-
     return () => {
-      context.revert()
+      disposed = true
 
-      if (timeline) {
-        timeline.scrollTrigger?.kill()
-        timeline.kill()
-      }
-
+      context?.revert()
+      timeline?.scrollTrigger?.kill()
+      timeline?.kill()
       timelineRef.current = null
     }
   }, [target, create, timelineVars, scrollTrigger])
