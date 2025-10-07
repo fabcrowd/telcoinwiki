@@ -64,3 +64,5 @@ export function CinematicLayout({
     </>
   )
 }
+
+export default CinematicLayout
