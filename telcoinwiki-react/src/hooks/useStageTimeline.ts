@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 
@@ -52,6 +52,26 @@ const stageVariableMap: Record<keyof NormalizedStageStop, string> = {
   cardOverlayOpacity: '--tc-stage-card-overlay-opacity',
   cardBorderOpacity: '--tc-stage-card-border-opacity',
   cardShadowOpacity: '--tc-stage-card-shadow-opacity',
+}
+
+function readStageStop(root: HTMLElement): NormalizedStageStop {
+  const computed = getComputedStyle(root)
+
+  const readValue = (variable: string, fallback: number) => {
+    const parsed = parseFloat(computed.getPropertyValue(variable))
+
+    return Number.isFinite(parsed) ? parsed : fallback
+  }
+
+  return {
+    hue: readValue(stageVariableMap.hue, defaultStop.hue),
+    accentHue: readValue(stageVariableMap.accentHue, defaultStop.accentHue),
+    overlayOpacity: readValue(stageVariableMap.overlayOpacity, defaultStop.overlayOpacity),
+    spotOpacity: readValue(stageVariableMap.spotOpacity, defaultStop.spotOpacity),
+    cardOverlayOpacity: readValue(stageVariableMap.cardOverlayOpacity, defaultStop.cardOverlayOpacity),
+    cardBorderOpacity: readValue(stageVariableMap.cardBorderOpacity, defaultStop.cardBorderOpacity),
+    cardShadowOpacity: readValue(stageVariableMap.cardShadowOpacity, defaultStop.cardShadowOpacity),
+  }
 }
 
 function normalizeStop(stop: StageStop): NormalizedStageStop {
@@ -132,6 +152,7 @@ export function useStageTimeline({
   const prefersReducedMotionValue = usePrefersReducedMotion()
   const shouldReduce = prefersReducedMotion ?? prefersReducedMotionValue
   const [progress, setProgress] = useState(0)
+  const initialStopRef = useRef<NormalizedStageStop | null>(null)
 
   const fromStop = useStageStopMemo(from)
   const toStop = useStageStopMemo(to)
@@ -147,6 +168,26 @@ export function useStageTimeline({
 
     return base
   }, [scrollTrigger, shouldReduce])
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return undefined
+    }
+
+    const root = document.documentElement
+
+    if (!initialStopRef.current) {
+      initialStopRef.current = readStageStop(root)
+    }
+
+    return () => {
+      const initialStop = initialStopRef.current
+
+      if (initialStop) {
+        applyStageStop(root, initialStop)
+      }
+    }
+  }, [])
 
   useScrollTimeline({
     target,
@@ -188,13 +229,14 @@ export function useStageTimeline({
           const clamped = clamp01(value)
 
           if (clamped <= 0 && !trigger?.isActive) {
-            setProgress(0)
+            applyStageStop(root, fromStop)
+            setProgress((previous) => (previous === 0 ? previous : 0))
             return
           }
 
           const stageStop = interpolateStops(fromStop, toStop, clamped)
           applyStageStop(root, stageStop)
-          setProgress(clamped)
+          setProgress((previous) => (previous === clamped ? previous : clamped))
         }
 
         timeline.to({}, {
