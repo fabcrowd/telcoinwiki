@@ -38,7 +38,7 @@ vi.mock('gsap/ScrollTrigger', () => ({
 }))
 
 vi.mock('gsap', () => ({
-  default: {
+  gsap: {
     registerPlugin: vi.fn(),
     context: vi.fn((callback?: () => void) => {
       if (callback) {

@@ -54,3 +54,21 @@ if (!('IntersectionObserver' in window)) {
   // @ts-expect-error - provide minimal stub for test environment
   window.IntersectionObserver = IntersectionObserverStub
 }
+
+if (!('visibilityState' in document)) {
+  Object.defineProperty(document, 'visibilityState', {
+    configurable: true,
+    enumerable: true,
+    value: 'visible',
+    writable: true,
+  })
+}
+
+if (!('hidden' in document)) {
+  Object.defineProperty(document, 'hidden', {
+    configurable: true,
+    enumerable: true,
+    value: false,
+    writable: true,
+  })
+}

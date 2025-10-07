@@ -14,5 +14,6 @@ describe('HomePage SSR', () => {
 
     expect(markup).toContain('Understand the Telcoin platform in minutes')
     expect(markup).toContain('Choose a pathway tailored to your goal')
+    expect(markup).toContain('Volunteer editors, community ambassadors, and early adopters share verified answers')
   })
 })
