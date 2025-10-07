@@ -11,6 +11,7 @@ interface StickyModuleProps extends ComponentPropsWithoutRef<'section'> {
   stickyClassName?: string
   contentClassName?: string
   background?: ReactNode
+  prefersReducedMotion?: boolean
 }
 
 export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function StickyModule(
@@ -23,6 +24,7 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
     contentClassName,
     className,
     background,
+    prefersReducedMotion = false,
     ...rest
   },
   ref,
@@ -34,6 +36,7 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
       ref={ref}
       className={cn('relative isolate', className)}
       data-sticky-module=""
+      data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       {...rest}
     >
       {background}
@@ -45,7 +48,7 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
       >
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
           <div
-            className={cn('lg:sticky lg:self-start', stickyClassName)}
+            className={cn('lg:self-start', prefersReducedMotion ? 'lg:static' : 'lg:sticky', stickyClassName)}
             style={{ top: resolvedTop }}
             data-sticky-module-lead=""
           >

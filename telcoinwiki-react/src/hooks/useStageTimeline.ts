@@ -89,15 +89,7 @@ function applyStageStop(root: HTMLElement, stop: NormalizedStageStop) {
 }
 
 function useStageStopMemo(stop: StageStop): NormalizedStageStop {
-  return useMemo(() => normalizeStop(stop), [
-    stop.hue,
-    stop.accentHue,
-    stop.overlayOpacity,
-    stop.spotOpacity,
-    stop.cardOverlayOpacity,
-    stop.cardBorderOpacity,
-    stop.cardShadowOpacity,
-  ])
+  return useMemo(() => normalizeStop(stop), [stop])
 }
 
 export function useStageTimeline({

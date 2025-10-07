@@ -9,10 +9,20 @@ interface ScrollSplitProps extends ComponentPropsWithoutRef<'div'> {
   asideTop?: string | number
   asideClassName?: string
   leadClassName?: string
+  prefersReducedMotion?: boolean
 }
 
 export const ScrollSplit = forwardRef<HTMLDivElement, ScrollSplitProps>(function ScrollSplit(
-  { lead, aside, asideTop = '25vh', asideClassName, leadClassName, className, ...rest },
+  {
+    lead,
+    aside,
+    asideTop = '25vh',
+    asideClassName,
+    leadClassName,
+    prefersReducedMotion = false,
+    className,
+    ...rest
+  },
   ref,
 ) {
   const resolvedTop = useMemo(() => (typeof asideTop === 'number' ? `${asideTop}px` : asideTop), [asideTop])
@@ -29,7 +39,7 @@ export const ScrollSplit = forwardRef<HTMLDivElement, ScrollSplitProps>(function
       </div>
       {aside ? (
         <div
-          className={cn('flex flex-col gap-6 lg:sticky', asideClassName)}
+          className={cn('flex flex-col gap-6', prefersReducedMotion ? 'lg:static' : 'lg:sticky', asideClassName)}
           style={{ top: resolvedTop }}
           data-scroll-split-aside=""
         >
