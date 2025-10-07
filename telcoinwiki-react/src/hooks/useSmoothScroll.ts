@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import Lenis, { type LenisOptions } from '@studio-freight/lenis'
-import gsap from 'gsap'
+import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 if (typeof window !== 'undefined') {

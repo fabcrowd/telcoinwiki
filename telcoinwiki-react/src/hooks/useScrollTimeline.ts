@@ -1,7 +1,7 @@
 import type { MutableRefObject, RefObject } from 'react'
 import { useEffect, useRef } from 'react'
 
-import gsap from 'gsap'
+import { gsap } from 'gsap'
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
