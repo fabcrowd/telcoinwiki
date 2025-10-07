@@ -159,6 +159,13 @@ export function useHomeHeroScroll(): HeroSectionState {
       0,
     )
 
+    timeline.fromTo(
+      '[data-hero-background]',
+      { '--color-shift-clip': '65%' },
+      { '--color-shift-clip': '0%', duration: 1.2, ease: 'power2.out' },
+      0,
+    )
+
   })
 
   return { sectionRef, prefersReducedMotion, overlayStyle, copyStyle, stageProgress }
