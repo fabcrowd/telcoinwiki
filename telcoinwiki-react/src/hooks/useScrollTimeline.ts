@@ -5,7 +5,9 @@ import gsap from 'gsap'
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-gsap.registerPlugin(ScrollTrigger)
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 type Timeline = gsap.core.Timeline
 
@@ -57,6 +59,10 @@ export function useScrollTimeline({
   const timelineRef = useRef<Timeline | null>(null)
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined
+    }
+
     const element = resolveTarget(target)
 
     if (!element) {
