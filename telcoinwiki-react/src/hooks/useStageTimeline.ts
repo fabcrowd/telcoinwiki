@@ -181,6 +181,20 @@ export function useStageTimeline({
   })
 
   useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    const root = document.documentElement
+
+    return () => {
+      Object.values(stageVariableMap).forEach((variable) => {
+        root.style.removeProperty(variable)
+      })
+    }
+  }, [])
+
+  useEffect(() => {
     if (!shouldReduce || typeof document === 'undefined') {
       return
     }
