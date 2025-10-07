@@ -1,10 +1,12 @@
+import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
+
 import { ColorMorphCard } from '../components/cinematic/ColorMorphCard'
-import { StageBackdrop } from '../components/cinematic/StageBackdrop'
+import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
 import { ScrollSplit } from '../components/cinematic/ScrollSplit'
+import { StageBackdrop } from '../components/cinematic/StageBackdrop'
 import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
-import { PageIntro } from '../components/content/PageIntro'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
 import { HeroTicker } from '../components/home/HeroTicker'
 import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
@@ -76,6 +78,12 @@ const communityHighlights = [
   },
 ]
 
+function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProperties {
+  return {
+    '--color-shift-clip': prefersReducedMotion ? '0%' : value,
+  } as CSSProperties
+}
+
 export function HomePage() {
   const hero = useHomeHeroScroll()
   const pillars = useHomeProductPillarsScroll()
@@ -84,51 +92,67 @@ export function HomePage() {
 
   return (
     <>
-      <PageIntro
+      <section
         id="home-hero"
         ref={hero.sectionRef}
-        variant="hero"
         aria-labelledby="home-hero-heading"
-        className="stage-theme relative isolate bg-hero-linear animate-gradient [background-size:180%_180%]"
-        overlay={
-          <>
-            <StageBackdrop progress={hero.stageProgress} />
-            <HeroOverlay
-              className="bg-gradient-to-br from-telcoin-surface/0 via-telcoin-surface/20 to-telcoin-surface/0"
-              style={hero.overlayStyle}
-              data-hero-overlay=""
-            >
-              <HeroFloatingChips />
-            </HeroOverlay>
-          </>
-        }
-        eyebrow={<HeroTypingLoop />}
-        title={
-          <span id="home-hero-heading" data-hero-copy style={hero.copyStyle}>
-            Understand the Telcoin platform in minutes
-          </span>
-        }
-        lede={
-          <span data-hero-copy style={hero.copyStyle}>
-            This unofficial wiki curates verified answers, onboarding checklists, and direct links to Telcoin Association and
-            Telcoin company resources so newcomers can get started with confidence.
-          </span>
-        }
+        className="stage-theme relative isolate overflow-hidden bg-hero-linear animate-gradient [background-size:180%_180%]"
       >
-        <div className="flex flex-col gap-4 lg:gap-6" data-hero-copy style={hero.copyStyle}>
-          <HeroTicker />
-          <p className="text-sm text-telcoin-ink/70">
-            Community-maintained reference. Confirm details inside the Telcoin Wallet or official Association releases.
-          </p>
+        <ColorShiftBackground
+          data-hero-background=""
+          prefersReducedMotion={hero.prefersReducedMotion}
+          className="opacity-90"
+          style={colorShiftClip('65%', hero.prefersReducedMotion)}
+        />
+        <StageBackdrop progress={hero.stageProgress} />
+        <HeroOverlay
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-telcoin-surface/0 via-telcoin-surface/20 to-telcoin-surface/0"
+          style={hero.overlayStyle}
+          data-hero-overlay=""
+        >
+          <HeroFloatingChips />
+        </HeroOverlay>
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
+          <div className="flex flex-col gap-6">
+            <div data-hero-copy style={hero.copyStyle}>
+              <HeroTypingLoop />
+            </div>
+            <h1
+              id="home-hero-heading"
+              className="text-3xl font-semibold text-telcoin-ink lg:text-5xl"
+              data-hero-copy
+              style={hero.copyStyle}
+            >
+              Understand the Telcoin platform in minutes
+            </h1>
+            <p className="max-w-3xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
+              This unofficial wiki curates verified answers, onboarding checklists, and direct links to Telcoin Association and
+              Telcoin company resources so newcomers can get started with confidence.
+            </p>
+          </div>
+          <div className="flex flex-col gap-4 lg:gap-6" data-hero-copy style={hero.copyStyle}>
+            <HeroTicker />
+            <p className="text-sm text-telcoin-ink/70">
+              Community-maintained reference. Confirm details inside the Telcoin Wallet or official Association releases.
+            </p>
+          </div>
         </div>
-      </PageIntro>
+      </section>
 
       <StickyModule
         className="stage-theme"
         ref={pillars.sectionRef}
         id="home-pillars"
         aria-labelledby="home-pillars-heading"
-        background={<StageBackdrop progress={pillars.stageProgress} />}
+        background={
+          <>
+            <ColorShiftBackground
+              prefersReducedMotion={pillars.prefersReducedMotion}
+              style={colorShiftClip('18%', pillars.prefersReducedMotion)}
+            />
+            <StageBackdrop progress={pillars.stageProgress} />
+          </>
+        }
         sticky={
           <div className="flex flex-col gap-4" data-pillars-intro>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Product pillars</p>
@@ -136,8 +160,8 @@ export function HomePage() {
               Choose a pathway tailored to your goal
             </h2>
             <p className="max-w-xl text-lg text-telcoin-ink-muted">
-              Five curated tracks map the Telcoin experience—from orientation through deep-dive liquidity strategies—so you
-              can explore at your own pace.
+              Five curated tracks map the Telcoin experience—from orientation through deep-dive liquidity strategies—so you can
+              explore at your own pace.
             </p>
           </div>
         }
@@ -168,6 +192,7 @@ export function HomePage() {
             ))}
           </div>
         }
+        prefersReducedMotion={pillars.prefersReducedMotion}
       />
 
       <StickyModule
@@ -175,8 +200,16 @@ export function HomePage() {
         ref={community.sectionRef}
         id="home-community"
         aria-labelledby="home-community-heading"
-        background={<StageBackdrop progress={community.stageProgress} />}
         containerClassName="lg:gap-12"
+        background={
+          <>
+            <ColorShiftBackground
+              prefersReducedMotion={community.prefersReducedMotion}
+              style={colorShiftClip('22%', community.prefersReducedMotion)}
+            />
+            <StageBackdrop progress={community.stageProgress} />
+          </>
+        }
         sticky={
           <ScrollSplit
             lead={
@@ -197,6 +230,7 @@ export function HomePage() {
                 <HeroTicker />
               </div>
             }
+            prefersReducedMotion={community.prefersReducedMotion}
           />
         }
         content={
@@ -214,6 +248,7 @@ export function HomePage() {
             ))}
           </ul>
         }
+        prefersReducedMotion={community.prefersReducedMotion}
       />
 
       <section
@@ -222,13 +257,22 @@ export function HomePage() {
         aria-labelledby="home-cta-heading"
         className="stage-theme relative isolate overflow-hidden"
       >
+        <ColorShiftBackground
+          prefersReducedMotion={cta.prefersReducedMotion}
+          style={colorShiftClip('28%', cta.prefersReducedMotion)}
+        />
         <StageBackdrop progress={cta.stageProgress} />
         <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
           <div className="max-w-3xl space-y-4">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle" data-cta-copy style={cta.copyStyle}>
               Keep going
             </p>
-            <h2 id="home-cta-heading" className="text-3xl font-semibold text-telcoin-ink lg:text-4xl" data-cta-copy style={cta.copyStyle}>
+            <h2
+              id="home-cta-heading"
+              className="text-3xl font-semibold text-telcoin-ink lg:text-4xl"
+              data-cta-copy
+              style={cta.copyStyle}
+            >
               Stay curious with Telcoin deep dives and FAQs
             </h2>
             <p className="text-lg text-telcoin-ink-muted" data-cta-copy style={cta.copyStyle}>

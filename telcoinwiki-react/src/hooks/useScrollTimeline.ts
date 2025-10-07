@@ -1,10 +1,20 @@
 import type { MutableRefObject, RefObject } from 'react'
 import { useEffect, useRef } from 'react'
 
+ codex/wrap-animation-initialization-in-checks
 import type { GSAPContext, GSAPTimeline } from 'gsap'
+=======
+import { gsap } from 'gsap'
+ main
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 
+ codex/wrap-animation-initialization-in-checks
 import { loadGsapWithScrollTrigger } from '../utils/lazyGsap'
+=======
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
+ main
 
 type Timeline = GSAPTimeline
 

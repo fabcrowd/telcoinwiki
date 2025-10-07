@@ -1,10 +1,20 @@
 import { useEffect, useRef } from 'react'
 
+ codex/wrap-animation-initialization-in-checks
 import type Lenis from '@studio-freight/lenis'
 import type { LenisOptions } from '@studio-freight/lenis'
 
 import { loadGsapWithScrollTrigger } from '../utils/lazyGsap'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
+=======
+import Lenis, { type LenisOptions } from '@studio-freight/lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
+ main
 
 export interface UseSmoothScrollOptions {
   /**
@@ -118,6 +128,7 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
       frameRef.current = window.requestAnimationFrame(onAnimationFrame)
     }
 
+ codex/wrap-animation-initialization-in-checks
     const syncAnimation = () => {
       if (isPaused()) {
         stopAnimation()
@@ -125,6 +136,14 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         startAnimation()
       }
     }
+=======
+    const root = document.documentElement
+    const lenis = new Lenis({
+      smoothWheel: true,
+      smoothTouch: false,
+      ...lenisOptions,
+    })
+ main
 
     const handleVisibilityChange = () => {
       if (typeof document === 'undefined') {
@@ -135,6 +154,7 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
       syncAnimation()
     }
 
+ codex/wrap-animation-initialization-in-checks
     document.addEventListener('visibilitychange', handleVisibilityChange)
     cleanups.push(() => document.removeEventListener('visibilitychange', handleVisibilityChange))
 
@@ -238,6 +258,147 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
 
       lenisInstance?.destroy()
       lenisInstance = null
+=======
+    if (typeof ScrollTrigger.refresh === 'function') {
+      ScrollTrigger.refresh()
+    }
+
+    const nav = window.navigator as Navigator & { deviceMemory?: number }
+    const lowPowerDevice = Boolean(
+      (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency > 0 && nav.hardwareConcurrency <= 4) ||
+        (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4),
+    )
+    const minFrameInterval = lowPowerDevice ? 1000 / 30 : 0
+
+    let lastFrameTime = window.performance?.now?.() ?? 0
+    let documentVisible = typeof document.hidden === 'boolean' ? !document.hidden : true
+    let hasRenderableArea = window.innerWidth > 0 && window.innerHeight > 0
+    let isIntersecting = true
+
+    const shouldRun = () => documentVisible && hasRenderableArea && isIntersecting
+
+    const stopAnimation = () => {
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current)
+        frameRef.current = null
+      }
+    }
+
+    const onAnimationFrame = (time: number) => {
+      if (!shouldRun()) {
+        stopAnimation()
+        return
+      }
+
+      if (minFrameInterval > 0 && time - lastFrameTime < minFrameInterval) {
+        frameRef.current = window.requestAnimationFrame(onAnimationFrame)
+        return
+      }
+
+      lastFrameTime = time
+      lenis.raf(time)
+      frameRef.current = window.requestAnimationFrame(onAnimationFrame)
+    }
+
+    const startAnimation = () => {
+      if (frameRef.current === null && shouldRun()) {
+        lastFrameTime = window.performance?.now?.() ?? 0
+        frameRef.current = window.requestAnimationFrame(onAnimationFrame)
+      }
+    }
+
+    const cleanupCallbacks: Array<() => void> = []
+
+    const handleVisibilityChange = () => {
+      documentVisible = !document.hidden
+      if (documentVisible) {
+        startAnimation()
+      } else {
+        stopAnimation()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    cleanupCallbacks.push(() => document.removeEventListener('visibilitychange', handleVisibilityChange))
+
+    if ('ResizeObserver' in window) {
+      const resizeObserver = new window.ResizeObserver((entries) => {
+        const entry = entries[0]
+        if (!entry) {
+          return
+        }
+
+        const { width, height } = entry.contentRect
+        hasRenderableArea = width > 0 && height > 0
+
+        if (hasRenderableArea) {
+          startAnimation()
+        } else {
+          stopAnimation()
+        }
+      })
+
+      resizeObserver.observe(root)
+      cleanupCallbacks.push(() => resizeObserver.disconnect())
+    } else {
+      const handleResize = () => {
+        hasRenderableArea = window.innerWidth > 0 && window.innerHeight > 0
+        if (hasRenderableArea) {
+          startAnimation()
+        } else {
+          stopAnimation()
+        }
+      }
+
+      window.addEventListener('resize', handleResize)
+      cleanupCallbacks.push(() => window.removeEventListener('resize', handleResize))
+      handleResize()
+    }
+
+    if ('IntersectionObserver' in window) {
+      const intersectionObserver = new window.IntersectionObserver((entries) => {
+        const entry = entries[0]
+        if (!entry) {
+          return
+        }
+
+        isIntersecting = entry.isIntersecting
+
+        if (isIntersecting) {
+          startAnimation()
+        } else {
+          stopAnimation()
+        }
+      })
+
+      intersectionObserver.observe(root)
+      cleanupCallbacks.push(() => intersectionObserver.disconnect())
+    } else {
+      const handleWindowFocus = () => {
+        isIntersecting = true
+        startAnimation()
+      }
+      const handleWindowBlur = () => {
+        isIntersecting = false
+        stopAnimation()
+      }
+
+      window.addEventListener('focus', handleWindowFocus)
+      window.addEventListener('blur', handleWindowBlur)
+      cleanupCallbacks.push(() => {
+        window.removeEventListener('focus', handleWindowFocus)
+        window.removeEventListener('blur', handleWindowBlur)
+      })
+    }
+
+    startAnimation()
+
+    return () => {
+      cleanupCallbacks.forEach((cleanup) => cleanup())
+      lenis.off('scroll', updateScrollTriggers)
+      stopAnimation()
+      lenis.destroy()
+ main
       lenisRef.current = null
     }
   }, [enabled, lenisOptions, prefersReducedMotion])

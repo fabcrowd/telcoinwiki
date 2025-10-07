@@ -144,6 +144,8 @@ pre {
 .stage-theme {
   position: relative;
   isolation: isolate;
+  --stage-hue: var(--tc-stage-hue, 220);
+  --stage-accent-hue: var(--tc-stage-accent-hue, 268);
   --stage-overlay-alpha: var(--tc-stage-overlay-opacity, 0.38);
   --stage-spot-alpha: var(--tc-stage-spot-opacity, 0.28);
   --stage-card-overlay-alpha: var(--tc-stage-card-overlay-opacity, 0.32);
@@ -164,13 +166,17 @@ pre {
   background-image:
     radial-gradient(
       120% 120% at var(--stage-spot-x, 50%) var(--stage-spot-y, 35%),
-      hsla(var(--tc-stage-accent-hue, 268) 92% 62% / var(--stage-spot-alpha, 0.28)),
+      hsla(var(--stage-accent-hue, var(--tc-stage-accent-hue, 268)) 92% 62% / var(--stage-spot-alpha, 0.28)),
       transparent 72%
     ),
     linear-gradient(
       130deg,
-      hsla(var(--tc-stage-hue, 220) 92% 58% / var(--stage-overlay-alpha, 0.38)),
-      hsla(calc(var(--tc-stage-accent-hue, 268) + 14) 88% 54% / calc(var(--stage-overlay-alpha, 0.38) * 0.65))
+      hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 92% 58% / var(--stage-overlay-alpha, 0.38)),
+      hsla(
+        calc(var(--stage-accent-hue, var(--tc-stage-accent-hue, 268)) + 14)
+        88% 54% /
+        calc(var(--stage-overlay-alpha, 0.38) * 0.65)
+      )
     );
   clip-path: inset(var(--stage-backdrop-clip, 0%) 0 0 0 round inherit);
   opacity: var(--stage-backdrop-opacity, 1);
@@ -189,13 +195,16 @@ pre {
   flex-direction: column;
   gap: var(--space-4);
   border-radius: var(--radius-big);
-  border: 1px solid hsla(var(--tc-stage-hue, 220) 78% 68% / var(--stage-card-border-alpha, 0.38));
+  border: 1px solid hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 78% 68% / var(--stage-card-border-alpha, 0.38));
   background-image: linear-gradient(
     135deg,
-    hsla(var(--tc-stage-hue, 220) 90% 60% / var(--stage-card-overlay-alpha, 0.32)),
-    hsla(var(--tc-stage-accent-hue, 268) 86% 60% / calc(var(--stage-card-overlay-alpha, 0.32) * 0.7))
+    hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 90% 60% / var(--stage-card-overlay-alpha, 0.32)),
+    hsla(
+      var(--stage-accent-hue, var(--tc-stage-accent-hue, 268)) 86% 60% /
+        calc(var(--stage-card-overlay-alpha, 0.32) * 0.7)
+    )
   );
-  box-shadow: 0 18px 42px hsla(var(--tc-stage-hue, 220) 62% 38% / var(--stage-card-shadow-alpha, 0.26));
+  box-shadow: 0 18px 42px hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 62% 38% / var(--stage-card-shadow-alpha, 0.26));
   color: var(--tc-ink);
   background-color: rgba(5, 11, 31, 0.45);
   overflow: hidden;
@@ -207,6 +216,17 @@ pre {
     box-shadow 0.6s var(--transition-smooth),
     transform 0.6s var(--transition-smooth),
     opacity 0.6s var(--transition-smooth);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-backdrop,
+  .color-morph-card {
+    transition: none;
+  }
+
+  .stage-backdrop {
+    filter: saturate(110%);
+  }
 }
 
 .site-header {

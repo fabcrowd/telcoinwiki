@@ -109,6 +109,7 @@ function applyStageStop(root: HTMLElement, stop: NormalizedStageStop) {
 }
 
 function useStageStopMemo(stop: StageStop): NormalizedStageStop {
+ codex/wrap-animation-initialization-in-checks
   const {
     hue,
     accentHue,
@@ -140,6 +141,9 @@ function useStageStopMemo(stop: StageStop): NormalizedStageStop {
       cardShadowOpacity,
     ],
   )
+=======
+  return useMemo(() => normalizeStop(stop), [stop])
+ main
 }
 
 export function useStageTimeline({
@@ -251,6 +255,20 @@ export function useStageTimeline({
       [fromStop, shouldReduce, toStop],
     ),
   })
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    const root = document.documentElement
+
+    return () => {
+      Object.values(stageVariableMap).forEach((variable) => {
+        root.style.removeProperty(variable)
+      })
+    }
+  }, [])
 
   useEffect(() => {
     if (!shouldReduce || typeof document === 'undefined') {

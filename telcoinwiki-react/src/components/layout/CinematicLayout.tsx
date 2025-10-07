@@ -1,4 +1,8 @@
+ codex/wrap-animation-initialization-in-checks
 import { Suspense, lazy, useEffect, useMemo, useState, type PropsWithChildren } from 'react'
+=======
+import { Suspense, lazy, useEffect, useState, type ReactNode } from 'react'
+ main
 import { useLocation } from 'react-router-dom'
 import type { NavItem, PageMetaMap, SearchConfig } from '../../config/types'
 import { Header } from './Header'
@@ -8,7 +12,11 @@ const StarfieldCanvas = lazy(() =>
   import('../visual/StarfieldCanvas').then((module) => ({ default: module.StarfieldCanvas })),
 )
 
+codex/wrap-animation-initialization-in-checks
 type CinematicLayoutProps = PropsWithChildren<{
+=======
+interface CinematicLayoutProps {
+ main
   pageId: string
   navItems: NavItem[]
   pageMeta: PageMetaMap
@@ -44,9 +52,20 @@ export function CinematicLayout({
     activeNavId,
   })
 
+  const [showStarfield, setShowStarfield] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setShowStarfield(true)
+    }
+  }, [])
+
   return (
     <>
+ codex/wrap-animation-initialization-in-checks
       {shouldRenderStarfield ? (
+      {showStarfield ? (
+ main
         <Suspense fallback={null}>
           <StarfieldCanvas />
         </Suspense>
@@ -65,3 +84,5 @@ export function CinematicLayout({
     </>
   )
 }
+
+export default CinematicLayout
