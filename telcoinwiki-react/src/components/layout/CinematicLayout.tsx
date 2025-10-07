@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState, type ReactNode } from 'react'
+import { Suspense, lazy, useEffect, useMemo, useState, type PropsWithChildren } from 'react'
 import { useLocation } from 'react-router-dom'
 import type { NavItem, PageMetaMap, SearchConfig } from '../../config/types'
 import { Header } from './Header'
@@ -8,13 +8,12 @@ const StarfieldCanvas = lazy(() =>
   import('../visual/StarfieldCanvas').then((module) => ({ default: module.StarfieldCanvas })),
 )
 
-interface CinematicLayoutProps {
+type CinematicLayoutProps = PropsWithChildren<{
   pageId: string
   navItems: NavItem[]
   pageMeta: PageMetaMap
   searchConfig: SearchConfig
-  children: ReactNode
-}
+}>
 
 export function CinematicLayout({
   pageId,
@@ -36,7 +35,7 @@ export function CinematicLayout({
     setShouldRenderStarfield(true)
   }, [])
 
-  const currentMeta = pageMeta[pageId] ?? pageMeta.home
+  const currentMeta = useMemo(() => pageMeta[pageId] ?? pageMeta.home, [pageId, pageMeta])
   const activeNavId = currentMeta?.navId ?? pageId ?? null
 
   const { headerProps, footer, searchModal } = useLayoutChrome({

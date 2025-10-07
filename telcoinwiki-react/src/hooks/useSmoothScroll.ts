@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 import type Lenis from '@studio-freight/lenis'
 import type { LenisOptions } from '@studio-freight/lenis'
 
 import { loadGsapWithScrollTrigger } from '../utils/lazyGsap'
+import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 
 export interface UseSmoothScrollOptions {
   /**
@@ -21,8 +22,6 @@ export interface SmoothScrollHandle {
   lenis: Lenis | null
   prefersReducedMotion: boolean
 }
-
-const prefersReducedMotionQuery = '(prefers-reduced-motion: reduce)'
 
 type LenisModule = typeof import('@studio-freight/lenis')
 type LenisConstructor = new (options?: LenisOptions) => Lenis
@@ -66,30 +65,7 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
   const { enabled = true, lenis: lenisOptions } = options
   const lenisRef = useRef<Lenis | null>(null)
   const frameRef = useRef<number | null>(null)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
-    if (typeof window === 'undefined') {
-      return false
-    }
-
-    return window.matchMedia(prefersReducedMotionQuery).matches
-  })
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return undefined
-    }
-
-    const mediaQuery = window.matchMedia(prefersReducedMotionQuery)
-    const handleChange = (event: MediaQueryListEvent) => {
-      setPrefersReducedMotion(event.matches)
-    }
-
-    mediaQuery.addEventListener('change', handleChange)
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleChange)
-    }
-  }, [])
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     if (!enabled || prefersReducedMotion || typeof window === 'undefined') {
