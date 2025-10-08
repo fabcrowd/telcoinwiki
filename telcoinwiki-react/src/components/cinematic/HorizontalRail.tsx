@@ -6,6 +6,7 @@ import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { useScrollTimeline } from '../../hooks/useScrollTimeline'
+import { gsap } from 'gsap'
 
 export interface HorizontalRailItem {
   id: string
@@ -56,10 +57,11 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
 
       // Parallax background glides at a slower rate
       if (bgRef.current) {
+        const parallax = Math.max(0, Math.min(parallaxStrength, 1)) * (saveData ? 0.1 : 1)
         tl.fromTo(
           bgRef.current,
           { xPercent: 0 },
-          { xPercent: totalPercent * Math.max(0, Math.min(parallaxStrength, 1)) },
+          { xPercent: totalPercent * parallax },
           0,
         )
       }
@@ -176,7 +178,53 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
   }
 
   return (
-    <section id={id} ref={containerRef} className={cn('horizontal-rail', className)} aria-label="Horizontal storyline">
+    <section
+      id={id}
+      ref={containerRef}
+      className={cn('horizontal-rail', className)}
+      aria-label="Horizontal storyline"
+      role="group"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+        e.preventDefault()
+        // Find current transform by reading progress from the progress bar scaleX
+        const maxIndex = Math.max(0, items.length - 1)
+        // Estimate progress using countRef when available
+        let current = 0
+        if (countRef.current?.textContent) {
+          const m = /(\d+) of (\d+)/.exec(countRef.current.textContent)
+          if (m) {
+            current = Math.max(0, Math.min(maxIndex, parseInt(m[1], 10) - 1))
+          }
+        }
+        const next = Math.max(0, Math.min(maxIndex, current + (e.key === 'ArrowRight' ? 1 : -1)))
+        const target = maxIndex === 0 ? 0 : next / maxIndex
+        // Smoothly tween the pinned timeline's progress via progress bar scaleX
+        if (progressRef.current) {
+          gsap.to(progressRef.current, {
+            scaleX: target,
+            duration: 0.6,
+            ease: 'power3.out',
+            onUpdate: () => {
+              // mirror count/status updates for SR users
+              const humanIdx = Math.round(target * maxIndex) + 1
+              if (countRef.current) countRef.current.textContent = `${humanIdx} of ${items.length}`
+              if (statusRef.current) statusRef.current.textContent = `Slide ${humanIdx} of ${items.length}: ${items[humanIdx - 1]?.title ?? ''}`
+              if (trackRef.current) {
+                const totalPercent = -(items.length - 1) * 100
+                trackRef.current.style.transform = `translateX(${(totalPercent * target).toFixed(2)}%)`
+              }
+              if (bgRef.current) {
+                const parallax = Math.max(0, Math.min(parallaxStrength, 1)) * (saveData ? 0.1 : 1)
+                const totalPercent = -(items.length - 1) * 100
+                bgRef.current.style.transform = `translateX(${(totalPercent * parallax * target).toFixed(2)}%)`
+              }
+            },
+          })
+        }
+      }}
+    >
       {/* Subtle parallax background */}
       <div ref={bgRef} className="horizontal-rail__bg" aria-hidden />
       {/* Framing overlays to emphasize sideways motion */}

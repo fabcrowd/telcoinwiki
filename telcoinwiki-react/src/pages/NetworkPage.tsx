@@ -37,7 +37,7 @@ export function NetworkPage() {
         </p>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <InteractiveTopology />
+          <InteractiveTopology describedById="network-legend" />
 
           <div className="flex flex-col gap-6">
             <article className="rounded-3xl border border-telcoin-ink/10 bg-white/80 p-6 shadow-lg shadow-telcoin-ink/10 backdrop-blur">
