@@ -54,7 +54,7 @@ export function BuildersPage() {
         <h2>Context for newcomers</h2>
         <ContextBox title="Before providing liquidity">
           <p>
-            Review the <Link to="/start-here">Start Here guide</Link>, read the{' '}
+            Review the <Link to="/learn#learn-start">Learn pillar research path</Link>, read the{' '}
             <a href="/faq/#what-is-telx">TELx FAQ answer</a>, and confirm pool status directly at{' '}
             <a href="https://www.telx.network/pools" target="_blank" rel="noopener noreferrer">
               telx.network
