@@ -25,7 +25,8 @@ interface LogoMarqueeProps {
 export function LogoMarquee({ items: propItems, speedSec, reverse, pauseOnHover, className }: LogoMarqueeProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const trackRef = useRef<HTMLDivElement | null>(null)
-  const [paused, setPaused] = useState(false)
+  const [hovering, setHovering] = useState(false)
+  const [userPaused, setUserPaused] = useState(false)
   const [items, setItems] = useState<MarqueeItem[]>(propItems ?? [])
   const [cfg, setCfg] = useState<{ speedSec: number; reverse: boolean; pauseOnHover: boolean }>(
     {
@@ -57,16 +58,27 @@ export function LogoMarquee({ items: propItems, speedSec, reverse, pauseOnHover,
     '--marquee-duration': `${cfg.speedSec}s`,
   } as CSSProperties
 
+  const paused = prefersReducedMotion || userPaused || (cfg.pauseOnHover && hovering)
+
   useEffect(() => {
     if (!trackRef.current) return
-    trackRef.current.style.animationPlayState = paused || prefersReducedMotion ? 'paused' : 'running'
-  }, [paused, prefersReducedMotion])
+    trackRef.current.style.animationPlayState = paused ? 'paused' : 'running'
+  }, [paused])
 
   return (
     <div
       className={cn('logo-marquee', className)}
-      onMouseEnter={() => cfg.pauseOnHover && setPaused(true)}
-      onMouseLeave={() => cfg.pauseOnHover && setPaused(false)}
+      onMouseEnter={() => cfg.pauseOnHover && setHovering(true)}
+      onMouseLeave={() => cfg.pauseOnHover && setHovering(false)}
+      role="region"
+      aria-label="Trusted ecosystem logos"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === ' ') {
+          e.preventDefault()
+          setUserPaused((p) => !p)
+        }
+      }}
     >
       <div
         ref={trackRef}
@@ -107,11 +119,16 @@ export function LogoMarquee({ items: propItems, speedSec, reverse, pauseOnHover,
           <button
             type="button"
             className="inline-flex items-center gap-2 rounded-full border border-telcoin-ink/10 bg-telcoin-surface/70 px-3 py-1 text-xs font-semibold text-telcoin-ink"
-            onClick={() => setPaused((p) => !p)}
-            aria-pressed={paused}
+            onClick={() => setUserPaused((p) => !p)}
+            aria-pressed={userPaused}
           >
-            {paused ? 'Play' : 'Pause'} marquee
+            {userPaused ? 'Play' : 'Pause'} marquee
           </button>
+          {cfg.pauseOnHover ? (
+            <span className="ml-3 text-[11px] text-telcoin-ink-subtle" aria-hidden>
+              Hint: hover to pause • press space to toggle
+            </span>
+          ) : null}
         </div>
       ) : null}
     </div>
