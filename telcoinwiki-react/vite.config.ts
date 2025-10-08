@@ -2,10 +2,13 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react-swc'
+import reactBabel from '@vitejs/plugin-react'
+
+const isVitest = !!process.env.VITEST
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [isVitest ? reactBabel() : react()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
