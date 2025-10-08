@@ -2,27 +2,12 @@ import { motion } from 'framer-motion'
 import { useId, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 
 import { networkTopology } from '../../data/network/topology'
-import type { TopologyEdge, TopologyEdgeType, TopologyNode } from '../../data/network/topology'
+import type { TopologyEdge, TopologyNode } from '../../data/network/topology'
+import { EDGE_COLORS, EDGE_PATTERNS, FLOW_LABELS } from './edgeMeta'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 
-const EDGE_COLORS: Record<TopologyEdgeType, string> = {
-  telFlow: '#2563eb',
-  telxFlow: '#9333ea',
-  tanTouchpoint: '#f97316',
-}
-
-const EDGE_PATTERNS: Record<TopologyEdgeType, string> = {
-  telFlow: '4 3', // dashed
-  telxFlow: '1 3', // dotted
-  tanTouchpoint: '0', // solid
-}
-
-const FLOW_LABELS: Record<TopologyEdgeType, string> = {
-  telFlow: 'TEL issuance & staking flow',
-  telxFlow: 'TELx liquidity flow',
-  tanTouchpoint: 'TAN compliance touchpoint',
-}
+// EDGE_COLORS, EDGE_PATTERNS and FLOW_LABELS now live in edgeMeta.ts
 
 const NODE_TYPE_STYLES: Record<TopologyNode['type'], string> = {
   association: 'from-sky-500/90 to-sky-600/70',

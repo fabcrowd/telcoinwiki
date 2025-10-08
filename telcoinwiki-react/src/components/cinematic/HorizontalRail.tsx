@@ -20,13 +20,15 @@ interface HorizontalRailProps {
   id?: string
   items: HorizontalRailItem[]
   className?: string
+  parallaxStrength?: number // 0..1, default 0.25
 }
 
-export function HorizontalRail({ id, items, className }: HorizontalRailProps) {
+export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }: HorizontalRailProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const trackRef = useRef<HTMLDivElement | null>(null)
   const bgRef = useRef<HTMLDivElement | null>(null)
   const progressRef = useRef<HTMLDivElement | null>(null)
+  const countRef = useRef<HTMLDivElement | null>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
   const isHandheld = useMediaQuery('(max-width: 48rem)')
   const saveData = typeof navigator !== 'undefined' && (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData
@@ -55,7 +57,7 @@ export function HorizontalRail({ id, items, className }: HorizontalRailProps) {
         tl.fromTo(
           bgRef.current,
           { xPercent: 0 },
-          { xPercent: totalPercent * 0.25 },
+          { xPercent: totalPercent * Math.max(0, Math.min(parallaxStrength, 1)) },
           0,
         )
       }
@@ -64,6 +66,15 @@ export function HorizontalRail({ id, items, className }: HorizontalRailProps) {
       if (progressRef.current) {
         gsap.set(progressRef.current, { transformOrigin: 'left center' })
         tl.fromTo(progressRef.current, { scaleX: 0 }, { scaleX: 1 }, 0)
+      }
+
+      // Update N of M indicator in lockstep with progress
+      if (countRef.current) {
+        tl.eventCallback('onUpdate', () => {
+          const p = tl.progress()
+          const idx = Math.round(p * (items.length - 1)) + 1
+          countRef.current!.textContent = `${idx} of ${items.length}`
+        })
       }
 
       return tl
@@ -161,7 +172,10 @@ export function HorizontalRail({ id, items, className }: HorizontalRailProps) {
       <div className="horizontal-rail__frame" aria-hidden>
         <div className="horizontal-rail__vignette horizontal-rail__vignette--left" />
         <div className="horizontal-rail__vignette horizontal-rail__vignette--right" />
-        <div ref={progressRef} className="horizontal-rail__progress" role="progressbar" aria-label="Story progress" />
+        <div className="horizontal-rail__progress-wrap">
+          <div ref={progressRef} className="horizontal-rail__progress" role="progressbar" aria-label="Story progress" />
+          <div ref={countRef} className="horizontal-rail__count" />
+        </div>
       </div>
       <div className="horizontal-rail__viewport">
         {content}

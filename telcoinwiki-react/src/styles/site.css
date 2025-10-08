@@ -404,6 +404,24 @@ pre {
   will-change: transform;
 }
 
+.horizontal-rail__progress-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.horizontal-rail__count {
+  position: absolute;
+  right: clamp(8px, 3vw, 24px);
+  top: 8px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--tc-ink);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+}
+
 html[data-horizontal-stage] .site-header {
   background: rgba(10, 15, 30, 0.65);
   box-shadow: 0 6px 28px rgba(2, 8, 24, 0.55);
