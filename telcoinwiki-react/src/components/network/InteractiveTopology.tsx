@@ -12,6 +12,12 @@ const EDGE_COLORS: Record<TopologyEdgeType, string> = {
   tanTouchpoint: '#f97316',
 }
 
+const EDGE_PATTERNS: Record<TopologyEdgeType, string> = {
+  telFlow: '4 3', // dashed
+  telxFlow: '1 3', // dotted
+  tanTouchpoint: '0', // solid
+}
+
 const FLOW_LABELS: Record<TopologyEdgeType, string> = {
   telFlow: 'TEL issuance & staking flow',
   telxFlow: 'TELx liquidity flow',
@@ -80,6 +86,7 @@ function buildPath(
 
 export function InteractiveTopology() {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const saveData = typeof navigator !== 'undefined' && (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData
   const isTablet = useMediaQuery('(max-width: 1024px)')
   const isMobile = useMediaQuery('(max-width: 640px)')
   const [activeNodeId, setActiveNodeId] = useState<string>(networkTopology.nodes[0]?.id ?? '')
@@ -188,7 +195,7 @@ export function InteractiveTopology() {
                 : isActive
                   ? 2.2
                   : 1.4
-            const motionProps = prefersReducedMotion
+            const motionProps = prefersReducedMotion || saveData
               ? { initial: { pathLength: 1 }, animate: { pathLength: 1 } }
               : {
                   initial: { pathLength: 0 },
@@ -210,7 +217,7 @@ export function InteractiveTopology() {
                 strokeOpacity={isActive ? 0.9 : 0.4}
                 strokeLinecap="round"
                 fill="none"
-                strokeDasharray="1 6"
+                strokeDasharray={EDGE_PATTERNS[edge.type]}
                 {...motionProps}
               >
                 <title>{edge.label}</title>
@@ -268,9 +275,14 @@ export function InteractiveTopology() {
             {activeNode.relatedFlows.map((flow) => (
               <span
                 key={`${activeNode.id}-${flow}`}
-                className="inline-flex items-center gap-1 rounded-full border border-telcoin-ink/10 bg-telcoin-surface/70 px-3 py-1 text-xs font-medium text-telcoin-ink"
+                className="inline-flex items-center gap-2 rounded-full border border-telcoin-ink/10 bg-telcoin-surface/70 px-3 py-1 text-xs font-medium text-telcoin-ink"
+                title={FLOW_LABELS[flow]}
               >
                 <span aria-hidden="true" className="h-2 w-2 rounded-full" style={{ backgroundColor: EDGE_COLORS[flow] }} />
+                <span aria-hidden="true" className="font-mono tracking-[0.2em] text-telcoin-ink/80">
+                  {flow === 'tanTouchpoint' ? '⎯⎯' : flow === 'telFlow' ? '– – –' : '· · ·'}
+                </span>
+                <span className="sr-only">Pattern:</span>
                 {FLOW_LABELS[flow]}
               </span>
             ))}

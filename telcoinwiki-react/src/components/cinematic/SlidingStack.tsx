@@ -51,6 +51,7 @@ export function SlidingStack({
   const progressFloor = prefersReducedMotion ? 1 : isHandheld ? 0.42 : 0.35
   const minHeight = prefersReducedMotion || isCompact ? undefined : 360 + steps * 96
   const staticLayout = prefersReducedMotion || isHandheld
+  const activeIndex = prefersReducedMotion ? 0 : Math.round(normalized)
 
   const containerStyle: CSSProperties = {
     ...(minHeight ? { minHeight: `${minHeight}px` } : {}),
@@ -63,6 +64,9 @@ export function SlidingStack({
       data-sliding-stack=""
       style={containerStyle}
     >
+      <div className="sr-only" aria-live="polite">
+        {`Section card: ${items[Math.min(Math.max(activeIndex, 0), items.length - 1)]?.title ?? ''}`}
+      </div>
       {items.map((item, index) => {
         const relative = prefersReducedMotion ? index : index - normalized
         const translateY = relative * translateUnit
@@ -76,6 +80,8 @@ export function SlidingStack({
           '--stack-translate': `${formatNumber(translateY)}px`,
           '--stack-scale': formatNumber(scale),
           '--stack-opacity': formatNumber(opacityBase),
+          '--stack-content-translate': `${formatNumber((1 - cardProgress) * 12)}px`,
+          '--stack-content-opacity': formatNumber(0.75 + cardProgress * 0.25),
           zIndex: items.length - index,
         } as CSSProperties
 
@@ -93,8 +99,10 @@ export function SlidingStack({
                 {item.eyebrow}
               </span>
             ) : null}
-            <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
-            <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+            <div className="sliding-stack__content">
+              <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
+              <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+            </div>
             {item.href ? (
               isExternalLink(item.href) ? (
                 <a

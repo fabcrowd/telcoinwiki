@@ -17,11 +17,11 @@ Object.defineProperty(window, 'matchMedia', {
 
 // requestAnimationFrame polyfill for tests
 if (!('requestAnimationFrame' in window)) {
-  // @ts-ignore
+  // @ts-expect-error – JSDOM lacks RAF in some environments
   window.requestAnimationFrame = (cb: FrameRequestCallback) => setTimeout(() => cb(performance.now()), 16) as unknown as number
 }
 if (!('cancelAnimationFrame' in window)) {
-  // @ts-ignore
+  // @ts-expect-error – JSDOM lacks RAF in some environments
   window.cancelAnimationFrame = (handle: number) => clearTimeout(handle)
 }
 
@@ -32,6 +32,6 @@ if (!('ResizeObserver' in window)) {
     unobserve() {}
     disconnect() {}
   }
-  // @ts-expect-error minimal polyfill
+  // @ts-expect-error – provide minimal polyfill for tests
   window.ResizeObserver = ResizeObserverStub
 }

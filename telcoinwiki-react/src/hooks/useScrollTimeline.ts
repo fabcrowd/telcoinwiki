@@ -128,7 +128,24 @@ export function useScrollTimeline({
       }
     }
 
-    initialize()
+    // Heuristic: initialize immediately if the element is near the viewport top; otherwise defer to idle to reduce LCP cost
+    const rect = element.getBoundingClientRect()
+    const nearViewport = rect.top < window.innerHeight * 0.33
+
+    const schedule = () => {
+      void initialize()
+    }
+
+    if (nearViewport) {
+      schedule()
+    } else if ('requestIdleCallback' in window) {
+      ;(window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout?: number }) => number }).requestIdleCallback(
+        schedule,
+        { timeout: 400 },
+      )
+    } else {
+      window.setTimeout(schedule, 200)
+    }
 
     return () => {
       isDisposed = true

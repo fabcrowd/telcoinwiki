@@ -3,7 +3,7 @@ import { render, cleanup } from '@testing-library/react'
 import { SlidingStack } from '../SlidingStack'
 
 const setMatchMedia = (overrides: Record<string, boolean>) => {
-  // @ts-ignore
+  // @ts-expect-error – we mock matchMedia in tests
   window.matchMedia = jest.fn().mockImplementation((query: string) => ({
     matches: overrides[query] ?? false,
     media: query,

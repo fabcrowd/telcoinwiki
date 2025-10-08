@@ -54,5 +54,5 @@
   --header-height: 4.25rem;
   --transition-base: 0.25s ease;
   --transition-smooth: cubic-bezier(.22, .61, .36, 1);
+  --transition-overshoot: cubic-bezier(0.16, 1, 0.3, 1);
 }
-
