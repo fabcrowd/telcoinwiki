@@ -26,48 +26,78 @@ const heroStageStops = {
   },
 } as const
 
-const pillarsStageStops = {
+const brokenMoneyStageStops = {
   from: {
     ...heroStageStops.to,
   },
   to: {
-    hue: 252,
-    accentHue: 302,
+    hue: 244,
+    accentHue: 296,
     overlayOpacity: 0.5,
+    spotOpacity: 0.4,
+    cardOverlayOpacity: 0.44,
+    cardBorderOpacity: 0.52,
+    cardShadowOpacity: 0.35,
+  },
+} as const
+
+const telcoinModelStageStops = {
+  from: {
+    ...brokenMoneyStageStops.to,
+  },
+  to: {
+    hue: 266,
+    accentHue: 312,
+    overlayOpacity: 0.54,
+    spotOpacity: 0.42,
+    cardOverlayOpacity: 0.46,
+    cardBorderOpacity: 0.55,
+    cardShadowOpacity: 0.36,
+  },
+} as const
+
+const engineStageStops = {
+  from: {
+    ...telcoinModelStageStops.to,
+  },
+  to: {
+    hue: 214,
+    accentHue: 258,
+    overlayOpacity: 0.49,
     spotOpacity: 0.38,
-    cardOverlayOpacity: 0.42,
+    cardOverlayOpacity: 0.43,
     cardBorderOpacity: 0.5,
     cardShadowOpacity: 0.33,
   },
 } as const
 
-const communityStageStops = {
+const experienceStageStops = {
   from: {
-    ...pillarsStageStops.to,
+    ...engineStageStops.to,
   },
   to: {
-    hue: 208,
-    accentHue: 222,
-    overlayOpacity: 0.48,
-    spotOpacity: 0.36,
-    cardOverlayOpacity: 0.4,
-    cardBorderOpacity: 0.48,
-    cardShadowOpacity: 0.32,
+    hue: 272,
+    accentHue: 318,
+    overlayOpacity: 0.56,
+    spotOpacity: 0.44,
+    cardOverlayOpacity: 0.48,
+    cardBorderOpacity: 0.58,
+    cardShadowOpacity: 0.38,
   },
 } as const
 
-const ctaStageStops = {
+const learnMoreStageStops = {
   from: {
-    ...communityStageStops.to,
+    ...experienceStageStops.to,
   },
   to: {
-    hue: 260,
-    accentHue: 292,
+    hue: 236,
+    accentHue: 286,
     overlayOpacity: 0.52,
-    spotOpacity: 0.42,
-    cardOverlayOpacity: 0.46,
-    cardBorderOpacity: 0.54,
-    cardShadowOpacity: 0.36,
+    spotOpacity: 0.41,
+    cardOverlayOpacity: 0.45,
+    cardBorderOpacity: 0.53,
+    cardShadowOpacity: 0.35,
   },
 } as const
 
@@ -88,20 +118,9 @@ interface HeroSectionState extends BaseSectionState {
   stageProgress: number
 }
 
-interface PillarSectionState extends BaseSectionState {
-  cardStyle: CSSProperties | undefined
-  stageProgress: number
-}
-
-interface CommunitySectionState extends BaseSectionState {
-  itemStyle: CSSProperties | undefined
-  asideStyle: CSSProperties | undefined
-  stageProgress: number
-}
-
-interface CtaSectionState extends BaseSectionState {
-  copyStyle: CSSProperties | undefined
-  panelStyle: CSSProperties | undefined
+interface SlidingSectionState extends BaseSectionState {
+  introStyle: CSSProperties | undefined
+  stackStyle: CSSProperties | undefined
   stageProgress: number
 }
 
@@ -116,6 +135,64 @@ function useCinematicSection(
     create,
     scrollTrigger: options,
   })
+}
+
+interface StackSectionOptions {
+  stageScrollTrigger?: Parameters<typeof useStageTimeline>[0]['scrollTrigger']
+  animationScrollTrigger?: Parameters<typeof useScrollTimeline>[0]['scrollTrigger']
+}
+
+function createStackSectionHook(
+  stageStops: typeof heroStageStops,
+  options?: StackSectionOptions,
+): () => SlidingSectionState {
+  return function useHomeStackSection(): SlidingSectionState {
+    const sectionRef = useRef<HTMLElement | null>(null)
+    const prefersReducedMotion = usePrefersReducedMotion()
+
+    const stageProgressRaw = useStageTimeline({
+      target: sectionRef,
+      from: stageStops.from,
+      to: stageStops.to,
+      scrollTrigger: {
+        start: 'top 76%',
+        end: 'bottom 30%',
+        ...(options?.stageScrollTrigger ?? {}),
+      },
+      prefersReducedMotion,
+    })
+    const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
+
+    const introStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
+    const stackStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
+
+    useCinematicSection(
+      prefersReducedMotion,
+      sectionRef,
+      (timeline) => {
+        timeline.fromTo(
+          '[data-section-intro]',
+          { autoAlpha: 0, y: 36 },
+          { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out' },
+          0,
+        )
+
+        timeline.fromTo(
+          '[data-sliding-stack]',
+          { autoAlpha: 0, y: 52 },
+          { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power2.out' },
+          0.18,
+        )
+      },
+      {
+        start: 'top 80%',
+        end: 'bottom 24%',
+        ...(options?.animationScrollTrigger ?? {}),
+      },
+    )
+
+    return { sectionRef, prefersReducedMotion, stageProgress, introStyle, stackStyle }
+  }
 }
 
 export function useHomeHeroScroll(): HeroSectionState {
@@ -171,109 +248,15 @@ export function useHomeHeroScroll(): HeroSectionState {
   return { sectionRef, prefersReducedMotion, overlayStyle, copyStyle, stageProgress }
 }
 
-export function useHomeProductPillarsScroll(): PillarSectionState {
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const prefersReducedMotion = usePrefersReducedMotion()
+export const useHomeBrokenMoneyScroll = createStackSectionHook(brokenMoneyStageStops)
 
-  const stageProgressRaw = useStageTimeline({
-    target: sectionRef,
-    from: pillarsStageStops.from,
-    to: pillarsStageStops.to,
-    scrollTrigger: { start: 'top 75%', end: 'bottom 35%' },
-    prefersReducedMotion,
-  })
-  const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
-  const cardStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
+export const useHomeTelcoinModelScroll = createStackSectionHook(telcoinModelStageStops)
 
-  useCinematicSection(
-    prefersReducedMotion,
-    sectionRef,
-    (timeline) => {
-      timeline.fromTo(
-        '[data-pillars-card]',
-        { autoAlpha: 0, y: 40 },
-        { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.15, ease: 'power2.out' },
-      )
-    },
-    { start: 'top 75%', end: 'bottom 25%' },
-  )
+export const useHomeEngineScroll = createStackSectionHook(engineStageStops)
 
-  return { sectionRef, prefersReducedMotion, cardStyle, stageProgress }
-}
+export const useHomeExperienceScroll = createStackSectionHook(experienceStageStops)
 
-export function useHomeCommunityProofScroll(): CommunitySectionState {
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const prefersReducedMotion = usePrefersReducedMotion()
-
-  const stageProgressRaw = useStageTimeline({
-    target: sectionRef,
-    from: communityStageStops.from,
-    to: communityStageStops.to,
-    scrollTrigger: { start: 'top 78%', end: 'bottom 35%' },
-    prefersReducedMotion,
-  })
-  const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
-  const itemStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
-  const asideStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
-
-  useCinematicSection(
-    prefersReducedMotion,
-    sectionRef,
-    (timeline) => {
-      timeline.fromTo(
-        '[data-community-proof-item]',
-        { autoAlpha: 0, y: 36 },
-        { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' },
-        0,
-      )
-
-      timeline.fromTo(
-        '[data-scroll-split-aside]',
-        { autoAlpha: 0, y: 24 },
-        { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-        0.15,
-      )
-    },
-    { start: 'top 80%', end: 'bottom 25%' },
-  )
-
-  return { sectionRef, prefersReducedMotion, itemStyle, asideStyle, stageProgress }
-}
-
-export function useHomeCtaScroll(): CtaSectionState {
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const prefersReducedMotion = usePrefersReducedMotion()
-
-  const stageProgressRaw = useStageTimeline({
-    target: sectionRef,
-    from: ctaStageStops.from,
-    to: ctaStageStops.to,
-    scrollTrigger: { start: 'top 82%', end: 'bottom 32%' },
-    prefersReducedMotion,
-  })
-  const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
-  const copyStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
-  const panelStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
-
-  useCinematicSection(
-    prefersReducedMotion,
-    sectionRef,
-    (timeline) => {
-      timeline.fromTo(
-        '[data-cta-copy]',
-        { autoAlpha: 0, y: 32 },
-        { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' },
-      )
-
-      timeline.fromTo(
-        '[data-cta-reveal]',
-        { autoAlpha: 0, y: 36 },
-        { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-        0.2,
-      )
-    },
-    { start: 'top 80%', end: 'bottom 20%' },
-  )
-
-  return { sectionRef, prefersReducedMotion, copyStyle, panelStyle, stageProgress }
-}
+export const useHomeLearnMoreScroll = createStackSectionHook(learnMoreStageStops, {
+  animationScrollTrigger: { start: 'top 78%', end: 'bottom 22%' },
+  stageScrollTrigger: { start: 'top 78%', end: 'bottom 28%' },
+})
