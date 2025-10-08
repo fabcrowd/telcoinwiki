@@ -2,16 +2,13 @@ import type { ComponentType } from 'react'
 import type { SidebarHeading } from './config/types'
 import { PAGE_META } from './config/pageMeta'
 import { HomePage } from './pages/HomePage'
-import { StartHerePage } from './pages/StartHerePage'
-import { WalletPage } from './pages/WalletPage'
+import { ProblemPage } from './pages/ProblemPage'
+import { ModelPage } from './pages/ModelPage'
+import { EnginePage } from './pages/EnginePage'
+import { ExperiencePage } from './pages/ExperiencePage'
+import { LearnPage } from './pages/LearnPage'
 import { DeepDivePage } from './pages/DeepDivePage'
 import { FaqPage } from './pages/FaqPage'
-import { DigitalCashPage } from './pages/DigitalCashPage'
-import { RemittancesPage } from './pages/RemittancesPage'
-import { TelTokenPage } from './pages/TelTokenPage'
-import { NetworkPage } from './pages/NetworkPage'
-import { TelxPage } from './pages/TelxPage'
-import { GovernancePage } from './pages/GovernancePage'
 import { BuildersPage } from './pages/BuildersPage'
 import { LinksPage } from './pages/LinksPage'
 import { PoolsPage } from './pages/PoolsPage'
@@ -41,13 +38,58 @@ export const APP_ROUTES: AppRoute[] = [
     ],
   },
   {
-    path: '/start-here',
-    pageId: 'start-here',
-    Component: StartHerePage,
+    path: '/problem',
+    pageId: 'problem',
+    Component: ProblemPage,
     headings: [
-      { id: 'start-intro', text: 'Overview' },
-      { id: 'quick-actions', text: 'Essential steps' },
-      { id: 'support-links', text: 'Support' },
+      { id: 'problem-hero', text: 'Overview' },
+      { id: 'problem-fees', text: 'Fees & delays' },
+      { id: 'problem-access', text: 'Access gaps' },
+      { id: 'problem-stability', text: 'Stable value' },
+    ],
+  },
+  {
+    path: '/model',
+    pageId: 'model',
+    Component: ModelPage,
+    headings: [
+      { id: 'model-hero', text: 'Overview' },
+      { id: 'model-structure', text: 'Operating structure' },
+      { id: 'model-incentives', text: 'TEL incentives' },
+      { id: 'model-guardrails', text: 'Guardrails & policy' },
+    ],
+  },
+  {
+    path: '/engine',
+    pageId: 'engine',
+    Component: EnginePage,
+    headings: [
+      { id: 'engine-hero', text: 'Overview' },
+      { id: 'engine-network', text: 'Network' },
+      { id: 'engine-ramps', text: 'On / off ramps' },
+      { id: 'engine-liquidity', text: 'Liquidity' },
+    ],
+  },
+  {
+    path: '/experience',
+    pageId: 'experience',
+    Component: ExperiencePage,
+    headings: [
+      { id: 'experience-hero', text: 'Overview' },
+      { id: 'experience-onboarding', text: 'Onboarding' },
+      { id: 'experience-transfers', text: 'Transfers' },
+      { id: 'experience-security', text: 'Safety' },
+    ],
+  },
+  {
+    path: '/learn',
+    pageId: 'learn',
+    Component: LearnPage,
+    headings: [
+      { id: 'learn-hero', text: 'Overview' },
+      { id: 'learn-start', text: 'Research path' },
+      { id: 'learn-faq', text: 'FAQ' },
+      { id: 'learn-deep-dive', text: 'Deep dives' },
     ],
   },
   {
@@ -57,83 +99,6 @@ export const APP_ROUTES: AppRoute[] = [
     headings: [
       { id: 'faq-hero', text: 'Overview' },
       { id: 'faq-list', text: 'Questions' },
-    ],
-  },
-  {
-    path: '/wallet',
-    pageId: 'wallet',
-    Component: WalletPage,
-    headings: [
-      { id: 'wallet-overview', text: 'Overview' },
-      { id: 'wallet-capabilities', text: 'Capabilities' },
-      { id: 'wallet-safety', text: 'Safety checklist' },
-      { id: 'wallet-resources', text: 'Resources' },
-    ],
-  },
-  {
-    path: '/digital-cash',
-    pageId: 'digital-cash',
-    Component: DigitalCashPage,
-    headings: [
-      { id: 'digital-cash-overview', text: 'Overview' },
-      { id: 'digital-cash-lineup', text: 'Currency lineup' },
-      { id: 'digital-cash-use', text: 'Usage' },
-      { id: 'digital-cash-compliance', text: 'Compliance' },
-    ],
-  },
-  {
-    path: '/remittances',
-    pageId: 'remittances',
-    Component: RemittancesPage,
-    headings: [
-      { id: 'remittance-overview', text: 'Overview' },
-      { id: 'remittance-coverage', text: 'Coverage' },
-      { id: 'remittance-steps', text: 'How to send' },
-      { id: 'remittance-safety', text: 'Safety' },
-    ],
-  },
-  {
-    path: '/tel-token',
-    pageId: 'tel-token',
-    Component: TelTokenPage,
-    headings: [
-      { id: 'tel-overview', text: 'Overview' },
-      { id: 'tel-utility', text: 'Utility' },
-      { id: 'tel-rewards', text: 'Rewards' },
-      { id: 'tel-risk', text: 'Risk awareness' },
-    ],
-  },
-  {
-    path: '/network',
-    pageId: 'network',
-    Component: NetworkPage,
-    headings: [
-      { id: 'network-overview', text: 'Overview' },
-      { id: 'network-architecture', text: 'Architecture' },
-      { id: 'network-governance', text: 'Governance' },
-      { id: 'network-security', text: 'Security' },
-    ],
-  },
-  {
-    path: '/telx',
-    pageId: 'telx',
-    Component: TelxPage,
-    headings: [
-      { id: 'telx-overview', text: 'Overview' },
-      { id: 'telx-pillars', text: 'How it works' },
-      { id: 'telx-differentiators', text: 'Why it matters' },
-      { id: 'telx-builder-links', text: 'Builder resources' },
-    ],
-  },
-  {
-    path: '/governance',
-    pageId: 'governance',
-    Component: GovernancePage,
-    headings: [
-      { id: 'governance-overview', text: 'Overview' },
-      { id: 'governance-structure', text: 'Structure' },
-      { id: 'proposal-flow', text: 'Proposal flow' },
-      { id: 'compliance', text: 'Compliance' },
     ],
   },
   {
@@ -163,6 +128,7 @@ export const APP_ROUTES: AppRoute[] = [
     pageId: 'deep-dive',
     Component: DeepDivePage,
     headings: [
+      { id: 'deep-dive-overview', text: 'Overview' },
       { id: 'deep-network', text: 'Network' },
       { id: 'deep-token', text: '$TEL Token' },
       { id: 'deep-telx', text: 'TELx' },
