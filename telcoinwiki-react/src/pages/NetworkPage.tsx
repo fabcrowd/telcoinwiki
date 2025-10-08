@@ -12,9 +12,21 @@ export function NetworkPage() {
         className="bg-hero-linear animate-gradient [background-size:180%_180%]"
         overlay={<HeroOverlay />}
         eyebrow="Telcoin Network"
-        title="Carrier-secured, EVM compatible"
-        lede="The Telcoin Network is an EVM chain whose validators are GSMA-member mobile network operators. It connects remittances, Digital Cash, TEL staking, and TELx liquidity under a compliance-first governance model."
+        title="Carrier-secured DAG with BFT finality"
+        lede="The Telcoin Network (TN) processes transactions through a directed acyclic graph, then finalizes blocks with a BFT committee of GSMA-member validators. TEL pays the gas while TELx and TAN programs feed liquidity and compliance back into the chain."
       />
+
+      <section id="network-consensus" className="anchor-offset">
+        <h2>Consensus snapshot</h2>
+        <div className="prose prose-invert max-w-none">
+          <p>
+            Validators collect transactions in a DAG, allowing high throughput and locality, then commit finalized blocks via a BFT round. Each validator must be a GSMA-member carrier or telecom affiliate, aligning uptime and regulatory expectations with telecom best practices.
+          </p>
+          <p>
+            The network exposes EVM compatibility so existing tooling works out of the box, while Association-managed smart contracts handle TEL burn rates, treasury routing, and Digital Cash settlement.
+          </p>
+        </div>
+      </section>
 
       <section id="network-architecture" className="anchor-offset">
         <h2>The engine topology</h2>
@@ -67,14 +79,32 @@ export function NetworkPage() {
         </div>
       </section>
 
-      <section id="network-governance" className="anchor-offset">
-        <h2>Governance &amp; upgrades</h2>
-        <p>The Telcoin Association manages validator onboarding, approves protocol upgrades, and coordinates TEL issuance policies with community councils. Proposals flow through Association review before activation.</p>
-        <p>
-          <a href="https://www.telcoinassociation.org/governance" target="_blank" rel="noopener noreferrer">
-            Read the governance charter →
-          </a>
-        </p>
+      <section id="network-layers" className="anchor-offset">
+        <h2>Layers that plug into TN</h2>
+        <div className="card-grid" role="list">
+          <article className="card" role="listitem">
+            <h3 className="card__title">TAN: Telcoin Application Network</h3>
+            <p>
+              TAN bridges wallet activity, referrals, and compliance events into Association reporting so TEL rewards match genuine user adoption.
+            </p>
+            <p>
+              <a href="https://docs.telcoin.org/telcoin-network/telcoin-application-network" target="_blank" rel="noopener noreferrer">
+                TAN documentation →
+              </a>
+            </p>
+          </article>
+          <article className="card" role="listitem">
+            <h3 className="card__title">TELx: Liquidity layer</h3>
+            <p>
+              Automated market makers balance TEL with Digital Cash, feeding quotes back to the Wallet and amortizing validator rewards into real liquidity.
+            </p>
+            <p>
+              <a href="https://www.telcoinassociation.org/telx" target="_blank" rel="noopener noreferrer">
+                TELx docs →
+              </a>
+            </p>
+          </article>
+        </div>
       </section>
 
       <section id="network-security" className="anchor-offset">
@@ -102,6 +132,7 @@ export function NetworkPage() {
 
       <SourceBox
         links={[
+          { label: 'Telcoin Network docs', href: 'https://docs.telcoin.org/telcoin-network/overview', external: true },
           { label: 'Telcoin Association — Network', href: 'https://www.telcoinassociation.org/network', external: true },
           { label: 'Telcoin Network landing', href: 'https://www.telcoinnetwork.org', external: true },
           { label: 'Security newsroom', href: 'https://telco.in/newsroom/security', external: true },

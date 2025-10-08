@@ -11,24 +11,24 @@ export function DeepDivePage() {
         className="bg-hero-linear animate-gradient [background-size:180%_180%]"
         overlay={<HeroOverlay />}
         eyebrow="Deep-Dive"
-        title="Learn Telcoin by Pathway"
-        lede="Explore the Telcoin ecosystem by topic. Each section expands into concise answers and background that tie into the app, the network, and the bank."
+        title="Connect the pillars with deeper references"
+        lede="Move beyond the top-level story. Each section answers advanced questions, cites primary Telcoin resources, and links back to the main pillars so you can keep context straight."
       >
         <nav className="toc-chips" aria-label="Deep-Dive sections">
-          <a className="toc-chip" href="#deep-broken-money">
-            Broken Money
+          <a className="toc-chip" href="#deep-governance">
+            Governance
           </a>
-          <a className="toc-chip" href="#deep-telcoin-model">
-            Telcoin Model
+          <a className="toc-chip" href="#deep-network">
+            Network
           </a>
-          <a className="toc-chip" href="#deep-engine">
-            Engine
+          <a className="toc-chip" href="#deep-bank">
+            Bank
           </a>
-          <a className="toc-chip" href="#deep-experience">
-            Experience
+          <a className="toc-chip" href="#deep-tokenomics">
+            Tokenomics
           </a>
-          <a className="toc-chip" href="#deep-learn-more">
-            Learn More
+          <a className="toc-chip" href="#deep-faq">
+            FAQ tiebacks
           </a>
         </nav>
       </PageIntro>

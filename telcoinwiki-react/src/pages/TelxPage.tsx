@@ -90,7 +90,7 @@ export function TelxPage() {
         <h2>Builder resources</h2>
         <ContextBox title="For newcomers">
           <p>
-            Start with the <Link to="/experience#experience-onboarding">onboarding checklist</Link> and review the{' '}
+            Start with the <Link to="/bank#bank-journey">bank onboarding walkthrough</Link> and review the{' '}
             <a href="/faq/#what-is-telx">TELx FAQ entry</a> before providing liquidity.
           </p>
         </ContextBox>

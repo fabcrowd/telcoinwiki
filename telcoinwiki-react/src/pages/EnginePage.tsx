@@ -155,7 +155,7 @@ export function EnginePage() {
                     Review compliance guidelines, wallet safety practices, and remittance demand before supplying liquidity.
                   </p>
                   <p>
-                    <Link to="/experience#experience-security">Wallet safety checklist →</Link>
+                    <Link to="/bank#bank-resources">Wallet safety checklist →</Link>
                   </p>
                 </>
               ),
