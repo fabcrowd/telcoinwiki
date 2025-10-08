@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 
 import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
+import { HeroSequencer } from '../components/cinematic/HeroSequencer'
 import { StageBackdrop } from '../components/cinematic/StageBackdrop'
 import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
@@ -229,6 +230,8 @@ export function HomePage() {
           className="opacity-90"
           style={colorShiftClip('65%', hero.prefersReducedMotion)}
         />
+        {/* Cinematic hero sequencer (uses CSS fallbacks until videos are provided) */}
+        <HeroSequencer className="pointer-events-none absolute inset-0" />
         <StageBackdrop progress={hero.stageProgress} />
         <HeroOverlay
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-telcoin-surface/0 via-telcoin-surface/20 to-telcoin-surface/0"
@@ -319,6 +322,37 @@ export function HomePage() {
           ]}
         />
       </section>
+
+      {/* Trusted by / Ecosystem marquee */}
+      <section id="home-trust" className="anchor-offset">
+        <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+          <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Trusted ecosystem</h2>
+          <p className="mb-4 text-telcoin-ink-muted">Placeholder brands shown; final logos will replace these once assets arrive.</p>
+        </div>
+        <div className="mx-auto max-w-[100vw] overflow-hidden">
+          <div className="px-2 sm:px-4">
+            <LogoRail />
+          </div>
+        </div>
+      </section>
     </>
+  )
+}
+
+import { LogoMarquee } from '../components/cinematic/LogoMarquee'
+
+function LogoRail() {
+  return (
+    <LogoMarquee
+      speedSec={33}
+      items={[
+        { id: 'brand-tn', label: 'Telcoin Network' },
+        { id: 'brand-telx', label: 'TELx' },
+        { id: 'brand-tan', label: 'TAN' },
+        { id: 'brand-ramps', label: 'Licensed Ramps' },
+        { id: 'brand-validators', label: 'GSMA Validators' },
+        { id: 'brand-wallet', label: 'Telcoin Wallet' },
+      ]}
+    />
   )
 }
