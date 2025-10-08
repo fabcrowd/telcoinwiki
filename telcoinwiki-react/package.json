@@ -10,8 +10,8 @@
     "lint": "eslint .",
     "lint:ci": "eslint . --max-warnings=0",
     "format": "prettier --write .",
-    "test": "vitest",
-    "test:ci": "vitest run"
+    "test": "VITEST=1 vitest",
+    "test:ci": "VITEST=1 vitest run"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",
