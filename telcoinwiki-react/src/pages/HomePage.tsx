@@ -1,82 +1,191 @@
 import type { CSSProperties } from 'react'
-import { Link } from 'react-router-dom'
 
-import { ColorMorphCard } from '../components/cinematic/ColorMorphCard'
 import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
-import { ScrollSplit } from '../components/cinematic/ScrollSplit'
 import { StageBackdrop } from '../components/cinematic/StageBackdrop'
 import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
 import { HeroTicker } from '../components/home/HeroTicker'
 import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
-import { DeepDiveFaqSections } from '../components/deepDive/DeepDiveFaqSections'
+import { SlidingStack } from '../components/cinematic/SlidingStack'
+import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
 import {
-  useHomeCtaScroll,
+  useHomeBrokenMoneyScroll,
+  useHomeEngineScroll,
+  useHomeExperienceScroll,
   useHomeHeroScroll,
-  useHomeCommunityProofScroll,
-  useHomeProductPillarsScroll,
+  useHomeLearnMoreScroll,
+  useHomeTelcoinModelScroll,
 } from '../hooks/useHomeScrollSections'
 
-const productPillars = [
+interface HomeNarrativeSection {
+  id: 'broken-money' | 'telcoin-model' | 'engine' | 'experience' | 'learn-more'
+  label: string
+  heading: string
+  description: string
+  backgroundClip: string
+  cards: SlidingStackItem[]
+}
+
+const homeNarrativeSections: HomeNarrativeSection[] = [
   {
-    id: 'orientation',
-    eyebrow: 'Orientation',
-    title: 'Understand the ecosystem',
-    body: 'See how the Wallet, Telcoin Network, and Association work together before you dive into product specifics.',
-    href: '/start-here',
-    cta: 'Start the quickstart',
+    id: 'broken-money',
+    label: 'Broken Money',
+    heading: 'Why traditional money fails cross-border',
+    description:
+      'Learn the pain points Telcoin tackles before diving into wallets, tokens, or liquidity programs.',
+    backgroundClip: '18%',
+    cards: [
+      {
+        id: 'broken-money-fees',
+        eyebrow: 'The pain point',
+        title: 'Fees drain everyday transfers',
+        body: 'Legacy remittance rails route through multiple intermediaries, adding cost and delays. Track live corridor data to see how Telcoin Wallet pricing compares.',
+        href: '/remittances',
+      },
+      {
+        id: 'broken-money-access',
+        eyebrow: 'Access gaps',
+        title: 'Most people rely on mobile money',
+        body: 'Billions of people operate without traditional bank accounts. Telcoin Wallet onboarding meets them where they are with localized identity checks and compliance.',
+        href: '/start-here',
+      },
+      {
+        id: 'broken-money-stability',
+        eyebrow: 'Stable value',
+        title: 'Savings need predictable purchasing power',
+        body: 'Telcoin focuses on fully collateralized e-money tokens so families can hold value without exposure to speculative swings.',
+        href: '/digital-cash',
+      },
+    ],
   },
   {
-    id: 'wallet',
-    eyebrow: 'Wallet basics',
-    title: 'Set up and secure your app',
-    body: 'Walk through verification, recovery phrases, and security best practices to keep your account protected.',
-    href: '/wallet',
-    cta: 'Open the wallet playbook',
+    id: 'telcoin-model',
+    label: 'Telcoin Model',
+    heading: 'How the Telcoin model aligns incentives',
+    description:
+      'Understand how the Association, Telcoin company, and community divide responsibilities before you explore advanced docs.',
+    backgroundClip: '20%',
+    cards: [
+      {
+        id: 'telcoin-model-structure',
+        eyebrow: 'Structure',
+        title: 'Three groups, one mission',
+        body: 'The Telcoin Association stewards the network, the Telcoin company builds wallet experiences, and the community curates knowledge. See how responsibilities connect.',
+        href: '/about',
+      },
+      {
+        id: 'telcoin-model-tel',
+        eyebrow: 'TEL incentives',
+        title: 'TEL aligns operators and liquidity',
+        body: 'TEL rewards validators and liquidity providers who keep the network performant. Learn how issuance, burns, and staking support long-term utility.',
+        href: '/tel-token',
+      },
+      {
+        id: 'telcoin-model-guardrails',
+        eyebrow: 'Guardrails',
+        title: 'Policy keeps growth compliant',
+        body: 'Regulatory licenses, reserves, and TELx program rules ensure Telcoin services launch responsibly in each market.',
+        href: '/governance',
+      },
+    ],
   },
   {
-    id: 'digital-cash',
-    eyebrow: 'Digital Cash',
-    title: 'Learn about stable-value assets',
-    body: 'Understand supported e-money tokens, how minting works, and where to monitor reserve disclosures.',
-    href: '/digital-cash',
-    cta: 'Explore Digital Cash',
+    id: 'engine',
+    label: 'Engine',
+    heading: 'What powers the Telcoin engine',
+    description:
+      'Peek under the hood of the Telcoin Network so you know how value moves once you onboard.',
+    backgroundClip: '22%',
+    cards: [
+      {
+        id: 'engine-network',
+        eyebrow: 'Network',
+        title: 'Validator-operated infrastructure',
+        body: 'Federated validators secure the Telcoin Network with audited performance and transparent uptime metrics.',
+        href: '/network',
+      },
+      {
+        id: 'engine-ramps',
+        eyebrow: 'On / off ramps',
+        title: 'Regulated partners connect local rails',
+        body: 'Mobile money providers, banks, and fintech partners plug into Telcoin so cash-in and cash-out stay compliant.',
+        href: '/remittances',
+      },
+      {
+        id: 'engine-liquidity',
+        eyebrow: 'Liquidity',
+        title: 'TELx balances stable-value liquidity',
+        body: 'Automated market maker pools rebalance liquidity for remittance pairs and digital cash conversions as demand grows.',
+        href: '/pools',
+      },
+    ],
   },
   {
-    id: 'remittances',
-    eyebrow: 'Remittances',
-    title: 'Move money across borders',
-    body: 'Track active corridors, payout partners, and pricing straight from official Telcoin Wallet updates.',
-    href: '/remittances',
-    cta: 'Check remittance corridors',
+    id: 'experience',
+    label: 'Experience',
+    heading: 'What the Telcoin experience feels like',
+    description:
+      'Walk through the Telcoin Wallet step by step so newcomers know what to expect and how to stay safe.',
+    backgroundClip: '24%',
+    cards: [
+      {
+        id: 'experience-onboarding',
+        eyebrow: 'Onboarding',
+        title: 'Verification built for mobile-first users',
+        body: 'KYC, recovery phrases, and device approvals are explained in plain language so anyone can complete setup confidently.',
+        href: '/wallet',
+      },
+      {
+        id: 'experience-send',
+        eyebrow: 'Send & receive',
+        title: 'Transparent global transfers',
+        body: 'Initiate transfers with upfront FX, instant quoting, and clear status updates directly inside the Telcoin Wallet.',
+        href: '/remittances',
+      },
+      {
+        id: 'experience-safety',
+        eyebrow: 'Safety',
+        title: 'Keep your account protected',
+        body: 'Security reminders, notification controls, and recovery best practices help you retain control of your funds.',
+        href: '/wallet',
+      },
+    ],
   },
   {
-    id: 'deep-dive',
-    eyebrow: 'Deep dive',
-    title: 'Go beyond the basics',
-    body: 'Connect with TEL token utility, TELx liquidity programs, and governance resources when you’re ready for advanced topics.',
-    href: '/deep-dive',
-    cta: 'Review deep-dive guides',
+    id: 'learn-more',
+    label: 'Learn More',
+    heading: 'Keep learning with the Telcoin community',
+    description:
+      'Bookmark deeper references once you are comfortable with the basics. Each guide links back to official Telcoin sources.',
+    backgroundClip: '26%',
+    cards: [
+      {
+        id: 'learn-more-start',
+        eyebrow: 'Start here',
+        title: 'Quickstart your Telcoin research',
+        body: 'Use the Start Here checklist to cover vocabulary, regulatory context, and wallet readiness in one sitting.',
+        href: '/start-here',
+      },
+      {
+        id: 'learn-more-faq',
+        eyebrow: 'FAQ',
+        title: 'Answers to recurring questions',
+        body: 'The FAQ aggregates community-sourced answers, all linked to official releases for easy verification.',
+        href: '/faq',
+      },
+      {
+        id: 'learn-more-deep-dive',
+        eyebrow: 'Deep dives',
+        title: 'Advance to governance and liquidity',
+        body: 'When you are ready to go further, the deep dives unpack TELx programs, policy decisions, and roadmap context.',
+        href: '/deep-dive',
+      },
+    ],
   },
 ]
 
-const communityHighlights = [
-  {
-    title: 'Contributions from Telcoin advocates',
-    description:
-      'Volunteer editors, community ambassadors, and early adopters share verified answers so new users can move faster.',
-  },
-  {
-    title: 'Links back to official releases',
-    description:
-      'Every guide points to canonical Telcoin Association statements, Telcoin Wallet updates, and regulatory notices.',
-  },
-  {
-    title: 'Context from real-world usage',
-    description: 'Workflow walkthroughs and checklists come from people actively sending remittances and managing liquidity.',
-  },
-]
+type HomeStackSectionState = ReturnType<typeof useHomeBrokenMoneyScroll>
 
 function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProperties {
   return {
@@ -86,9 +195,24 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
 
 export function HomePage() {
   const hero = useHomeHeroScroll()
-  const pillars = useHomeProductPillarsScroll()
-  const community = useHomeCommunityProofScroll()
-  const cta = useHomeCtaScroll()
+  const brokenMoney = useHomeBrokenMoneyScroll()
+  const telcoinModel = useHomeTelcoinModelScroll()
+  const engine = useHomeEngineScroll()
+  const experience = useHomeExperienceScroll()
+  const learnMore = useHomeLearnMoreScroll()
+
+  const sectionStates: Record<HomeNarrativeSection['id'], HomeStackSectionState> = {
+    'broken-money': brokenMoney,
+    'telcoin-model': telcoinModel,
+    engine,
+    experience,
+    'learn-more': learnMore,
+  }
+
+  const sections = homeNarrativeSections.map((section) => ({
+    ...section,
+    state: sectionStates[section.id],
+  }))
 
   return (
     <>
@@ -139,164 +263,42 @@ export function HomePage() {
         </div>
       </section>
 
-      <StickyModule
-        className="stage-theme"
-        ref={pillars.sectionRef}
-        id="home-pillars"
-        aria-labelledby="home-pillars-heading"
-        background={
-          <>
-            <ColorShiftBackground
-              prefersReducedMotion={pillars.prefersReducedMotion}
-              style={colorShiftClip('18%', pillars.prefersReducedMotion)}
-            />
-            <StageBackdrop progress={pillars.stageProgress} />
-          </>
-        }
-        sticky={
-          <div className="flex flex-col gap-4" data-pillars-intro>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Product pillars</p>
-            <h2 id="home-pillars-heading" className="text-3xl font-semibold text-telcoin-ink lg:text-4xl">
-              Choose a pathway tailored to your goal
-            </h2>
-            <p className="max-w-xl text-lg text-telcoin-ink-muted">
-              Five curated tracks map the Telcoin experience—from orientation through deep-dive liquidity strategies—so you can
-              explore at your own pace.
-            </p>
-          </div>
-        }
-        content={
-          <div className="grid gap-6" role="list">
-            {productPillars.map((pillar) => (
-              <ColorMorphCard
-                as="article"
-                key={pillar.id}
-                role="listitem"
-                progress={pillars.stageProgress}
-                className="flex flex-col gap-4 p-6 shadow-lg"
-                data-pillars-card
-                style={pillars.cardStyle}
-              >
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
-                  {pillar.eyebrow}
-                </span>
-                <h3 className="text-xl font-semibold text-telcoin-ink">{pillar.title}</h3>
-                <p className="text-base text-telcoin-ink-muted">{pillar.body}</p>
-                <p>
-                  <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to={pillar.href}>
-                    {pillar.cta}
-                    <span aria-hidden>→</span>
-                  </Link>
-                </p>
-              </ColorMorphCard>
-            ))}
-          </div>
-        }
-        prefersReducedMotion={pillars.prefersReducedMotion}
-      />
-
-      <StickyModule
-        className="stage-theme"
-        ref={community.sectionRef}
-        id="home-community"
-        aria-labelledby="home-community-heading"
-        containerClassName="lg:gap-12"
-        background={
-          <>
-            <ColorShiftBackground
-              prefersReducedMotion={community.prefersReducedMotion}
-              style={colorShiftClip('22%', community.prefersReducedMotion)}
-            />
-            <StageBackdrop progress={community.stageProgress} />
-          </>
-        }
-        sticky={
-          <ScrollSplit
-            lead={
-              <>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Community proof</p>
-                <h2 id="home-community-heading" className="text-3xl font-semibold text-telcoin-ink lg:text-4xl">
-                  Built alongside the Telcoin community
-                </h2>
-                <p className="text-lg text-telcoin-ink-muted">
-                  Real users publish the checklists and resources they rely on every day, while live network data keeps the
-                  story grounded in what’s shipping now.
-                </p>
-              </>
-            }
-            asideTop="18vh"
-            aside={
-              <div data-scroll-split-aside style={community.asideStyle}>
-                <HeroTicker />
-              </div>
-            }
-            prefersReducedMotion={community.prefersReducedMotion}
-          />
-        }
-        content={
-          <ul className="grid gap-6" role="list">
-            {communityHighlights.map((highlight) => (
-              <li
-                key={highlight.title}
-                className="rounded-2xl border border-telcoin-border/80 bg-telcoin-surface/80 p-6 shadow-md backdrop-blur"
-                data-community-proof-item
-                style={community.itemStyle}
-              >
-                <h3 className="text-lg font-semibold text-telcoin-ink">{highlight.title}</h3>
-                <p className="mt-2 text-base text-telcoin-ink-muted">{highlight.description}</p>
-              </li>
-            ))}
-          </ul>
-        }
-        prefersReducedMotion={community.prefersReducedMotion}
-      />
-
-      <section
-        ref={cta.sectionRef}
-        id="home-cta"
-        aria-labelledby="home-cta-heading"
-        className="stage-theme relative isolate overflow-hidden"
-      >
-        <ColorShiftBackground
-          prefersReducedMotion={cta.prefersReducedMotion}
-          style={colorShiftClip('28%', cta.prefersReducedMotion)}
-        />
-        <StageBackdrop progress={cta.stageProgress} />
-        <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
-          <div className="max-w-3xl space-y-4">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle" data-cta-copy style={cta.copyStyle}>
-              Keep going
-            </p>
-            <h2
-              id="home-cta-heading"
-              className="text-3xl font-semibold text-telcoin-ink lg:text-4xl"
-              data-cta-copy
-              style={cta.copyStyle}
-            >
-              Stay curious with Telcoin deep dives and FAQs
-            </h2>
-            <p className="text-lg text-telcoin-ink-muted" data-cta-copy style={cta.copyStyle}>
-              Bookmark the wiki to check corridor updates, compare Telcoin Wallet releases, or answer the next question your
-              friends ask. The FAQ below surfaces our most-read explainers.
-            </p>
-            <div data-cta-copy style={cta.copyStyle}>
-              <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to="/start-here">
-                See the onboarding guide
-                <span aria-hidden>→</span>
-              </Link>
+      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => (
+        <StickyModule
+          key={id}
+          className="stage-theme"
+          ref={state.sectionRef}
+          id={`home-${id}`}
+          aria-labelledby={`home-${id}-heading`}
+          background={
+            <>
+              <ColorShiftBackground
+                prefersReducedMotion={state.prefersReducedMotion}
+                style={colorShiftClip(backgroundClip, state.prefersReducedMotion)}
+              />
+              <StageBackdrop progress={state.stageProgress} />
+            </>
+          }
+          sticky={
+            <div className="flex flex-col gap-4" data-section-intro style={state.introStyle}>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">{label}</p>
+              <h2 id={`home-${id}-heading`} className="text-3xl font-semibold text-telcoin-ink lg:text-4xl">
+                {heading}
+              </h2>
+              <p className="max-w-xl text-lg text-telcoin-ink-muted">{description}</p>
             </div>
-          </div>
-          <ColorMorphCard
-            as="div"
-            progress={cta.stageProgress}
-            className="p-6 shadow-lg"
-            data-cta-reveal
-            style={cta.panelStyle}
-          >
-            <DeepDiveFaqSections />
-          </ColorMorphCard>
-        </div>
-      </section>
+          }
+          content={
+            <SlidingStack
+              items={cards}
+              progress={state.stageProgress}
+              prefersReducedMotion={state.prefersReducedMotion}
+              style={state.stackStyle}
+            />
+          }
+          prefersReducedMotion={state.prefersReducedMotion}
+        />
+      ))}
     </>
   )
 }
