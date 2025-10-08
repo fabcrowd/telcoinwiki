@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { loadCinematicConfig } from '../../lib/cinematicConfig'
 
 import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
@@ -44,17 +45,24 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [isNear, setIsNear] = useState(false)
   const [isStarted, setIsStarted] = useState(false)
+  const [loadedLayers, setLoadedLayers] = useState<HeroLayer[] | null>(null)
 
   // Default ambient layers (CSS gradient fallbacks); can be replaced by real assets later
-  const layers = useMemo<HeroLayer[]>(
-    () =>
-      propLayers ?? [
-        { id: 'bg', label: 'Ambient background', poster: null, sources: null },
-        { id: 'mid', label: 'Flow field', poster: null, sources: null },
-        { id: 'hud', label: 'HUD accents', poster: null, sources: null },
-      ],
-    [propLayers],
-  )
+  // Load external config if available and map to layers, unless explicit props provided
+  const layers = useMemo<HeroLayer[]>(() => loadedLayers ?? propLayers ?? [], [loadedLayers, propLayers])
+
+  useEffect(() => {
+    if (propLayers) return
+    let mounted = true
+    ;(async () => {
+      const cfg = await loadCinematicConfig()
+      if (!mounted) return
+      setLoadedLayers(cfg.heroLayers as HeroLayer[])
+    })()
+    return () => {
+      mounted = false
+    }
+  }, [propLayers])
 
   // Observe proximity to viewport to avoid hurting LCP
   useEffect(() => {
@@ -78,13 +86,23 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
 
   return (
     <div ref={containerRef} className={cn('hero-sequencer', className)} aria-hidden>
-      {layers.map((layer, index) => {
+      {(layers.length ? layers : [
+        { id: 'bg', label: 'Ambient background', poster: null, sources: null },
+        { id: 'mid', label: 'Flow field', poster: null, sources: null },
+        { id: 'hud', label: 'HUD accents', poster: null, sources: null },
+      ]).map((layer, index) => {
         const hasVideo = !!(layer.sources && layer.sources.length) && !prefersReducedMotion
         const z = 10 + index
         const style = { '--hero-layer-z': z } as CSSProperties
 
+        // Different masks per layer for more cinematic feel
+        const maskClass =
+          layer.id === 'bg' ? 'mask-diagonal'
+          : layer.id === 'mid' ? 'mask-sweep'
+          : 'mask-hud'
+
         return (
-          <div key={layer.id} className={cn('hero-layer', isStarted && 'animate-hero-mask')} style={style}>
+          <div key={layer.id} className={cn('hero-layer', isStarted && 'animate-hero-mask', maskClass)} style={style}>
             {hasVideo ? (
               <video
                 className="hero-video"
@@ -108,4 +126,3 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
     </div>
   )
 }
-

@@ -332,12 +332,26 @@ pre {
   will-change: clip-path, transform, opacity;
   clip-path: inset(var(--hero-clip, 12%) 0 0 0 round inherit);
 }
+.hero-layer.mask-diagonal { --hero-clip: 14%; }
+.hero-layer.mask-sweep { --hero-clip: 10%; }
+.hero-layer.mask-hud { --hero-clip: 12%; }
 .animate-hero-mask .hero-layer {
   animation: heroMask 1.2s var(--transition-overshoot) forwards;
 }
 @keyframes heroMask {
   from { --hero-clip: 12%; opacity: 0.85; }
   to { --hero-clip: 0%; opacity: 1; }
+}
+/* Subtle alternates for layer variety */
+.animate-hero-mask .hero-layer.mask-diagonal { animation-name: heroMaskDiagonal; }
+.animate-hero-mask .hero-layer.mask-sweep { animation-name: heroMaskSweep; }
+@keyframes heroMaskDiagonal {
+  0% { clip-path: polygon(0% 0%, 100% 0%, 100% 18%, 0% 32%); opacity: .85 }
+  100% { clip-path: inset(0% 0 0 0); opacity: 1 }
+}
+@keyframes heroMaskSweep {
+  0% { clip-path: inset(18% 0 0 0); opacity: .85 }
+  100% { clip-path: inset(0% 0 0 0); opacity: 1 }
 }
 .hero-video {
   width: 100%;

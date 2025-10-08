@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
@@ -20,6 +20,8 @@ interface LogoMarqueeProps {
 
 export function LogoMarquee({ items, speedSec = 32, reverse = false, className }: LogoMarqueeProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const trackRef = useRef<HTMLDivElement | null>(null)
+  const [paused, setPaused] = useState(false)
 
   const list = useMemo(() => (items.length < 6 ? [...items, ...items, ...items] : [...items, ...items]), [items])
 
@@ -27,12 +29,27 @@ export function LogoMarquee({ items, speedSec = 32, reverse = false, className }
     '--marquee-duration': `${speedSec}s`,
   } as CSSProperties
 
+  useEffect(() => {
+    if (!trackRef.current) return
+    trackRef.current.style.animationPlayState = paused || prefersReducedMotion ? 'paused' : 'running'
+  }, [paused, prefersReducedMotion])
+
   return (
     <div className={cn('logo-marquee', className)}>
       <div
+        ref={trackRef}
         className={cn('logo-marquee__track', reverse && 'logo-marquee__track--reverse', prefersReducedMotion && 'logo-marquee--static')}
         style={style}
         aria-hidden
+        onMouseMove={(e) => {
+          // move hover glow
+          const target = e.target as HTMLElement
+          if (target && target.classList.contains('logo-tile')) {
+            const rect = target.getBoundingClientRect()
+            const mx = ((e.clientX - rect.left) / rect.width) * 100
+            target.style.setProperty('--mx', `${mx}%`)
+          }
+        }}
       >
         {list.map((item) => (
           <a
@@ -48,6 +65,19 @@ export function LogoMarquee({ items, speedSec = 32, reverse = false, className }
           </a>
         ))}
       </div>
+      <div className="sr-only" aria-live="polite">{paused ? 'Logos paused' : 'Logos animating'}</div>
+      {!prefersReducedMotion ? (
+        <div className="mt-2 flex items-center justify-end">
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-full border border-telcoin-ink/10 bg-telcoin-surface/70 px-3 py-1 text-xs font-semibold text-telcoin-ink"
+            onClick={() => setPaused((p) => !p)}
+            aria-pressed={paused}
+          >
+            {paused ? 'Play' : 'Pause'} marquee
+          </button>
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -70,4 +100,3 @@ function DefaultGlyph({ label }: { label: string }) {
     </span>
   )
 }
-
