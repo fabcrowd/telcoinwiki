@@ -10,8 +10,8 @@
     "lint": "eslint .",
     "lint:ci": "eslint . --max-warnings=0",
     "format": "prettier --write .",
-    "test": "VITEST=1 vitest",
-    "test:ci": "VITEST=1 vitest run"
+    "test": "jest",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",
@@ -28,9 +28,11 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
+    "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
@@ -38,7 +40,6 @@
     "@typescript-eslint/parser": "^8.45.0",
     "@vitejs/plugin-react": "^5.0.4",
     "@vitejs/plugin-react-swc": "^4.1.0",
-    "@vitest/ui": "^2.1.4",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
@@ -46,14 +47,16 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.23",
     "globals": "^16.4.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "jsdom": "^27.0.0",
     "postcss": "^8.4.49",
     "prettier": "^3.6.2",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.45.0",
-    "vite": "^6.0.6",
-    "vitest": "^2.1.4"
+    "vite": "^6.0.6"
   },
   "engines": {
     "node": ">=22 <23"

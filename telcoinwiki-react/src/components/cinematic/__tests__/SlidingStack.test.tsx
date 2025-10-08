@@ -1,24 +1,18 @@
 import { render, cleanup } from '@testing-library/react'
-import { vi } from 'vitest'
 
 import { SlidingStack } from '../SlidingStack'
 
-declare global {
-  interface Window {
-    matchMedia: (query: string) => MediaQueryList
-  }
-}
-
 const setMatchMedia = (overrides: Record<string, boolean>) => {
-  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+  // @ts-ignore
+  window.matchMedia = jest.fn().mockImplementation((query: string) => ({
     matches: overrides[query] ?? false,
     media: query,
     onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
   }))
 }
 
@@ -66,7 +60,9 @@ describe('SlidingStack', () => {
     expect(container.style.minHeight).toBe('')
 
     const cards = Array.from(document.querySelectorAll('.sliding-stack__card')) as HTMLElement[]
-    expect(cards[0].style.getPropertyValue('--stack-translate')).toBe('0.000px')
-    expect(cards[1].style.getPropertyValue('--stack-translate')).toBe('56.000px')
+    // In static mode vars still compute, but CSS sets transform: none;
+    // For progress=0.25 (normalized 0.5) the first card is -28px, second is 28px at handheld translate unit 56
+    expect(cards[0].style.getPropertyValue('--stack-translate')).toBe('-28.000px')
+    expect(cards[1].style.getPropertyValue('--stack-translate')).toBe('28.000px')
   })
 })

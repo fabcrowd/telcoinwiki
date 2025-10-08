@@ -1,24 +1,18 @@
 import { render, screen, cleanup } from '@testing-library/react'
-import { vi } from 'vitest'
 
 import { InteractiveTopology } from '../InteractiveTopology'
 
-declare global {
-  interface Window {
-    matchMedia: (query: string) => MediaQueryList
-  }
-}
-
 const setMatchMedia = (overrides: Record<string, boolean>) => {
-  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+  // @ts-ignore
+  window.matchMedia = jest.fn().mockImplementation((query: string) => ({
     matches: overrides[query] ?? false,
     media: query,
     onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
   }))
 }
 
@@ -35,13 +29,14 @@ describe('InteractiveTopology', () => {
     render(<InteractiveTopology />)
 
     const associationButton = screen.getByRole('button', { name: /Telcoin Association/i }) as HTMLButtonElement
+    const associationWrapper = associationButton.parentElement as HTMLDivElement
 
-    expect(associationButton.style.left).toBe('50%')
-    expect(associationButton.style.top).toBe('32%')
+    expect(associationWrapper.style.left).toBe('50%')
+    expect(associationWrapper.style.top).toBe('32%')
     expect(associationButton.style.width).toBe('15rem')
 
-    const validatorEdgeTitle = screen.getAllByTitle('Validator policy sync')[0]
-    const validatorEdgePath = validatorEdgeTitle.parentElement as SVGPathElement
+    const validatorTitleEl = screen.getAllByText('Validator policy sync', { selector: 'title' })[0]
+    const validatorEdgePath = validatorTitleEl.parentElement as SVGPathElement
     expect(validatorEdgePath.getAttribute('stroke-width')).toBe('2.2')
   })
 
@@ -54,16 +49,18 @@ describe('InteractiveTopology', () => {
     render(<InteractiveTopology />)
 
     const associationButton = screen.getByRole('button', { name: /Telcoin Association/i }) as HTMLButtonElement
-    expect(associationButton.style.left).toBe('50%')
-    expect(associationButton.style.top).toBe('28%')
+    const associationWrapper = associationButton.parentElement as HTMLDivElement
+    expect(associationWrapper.style.left).toBe('50%')
+    expect(associationWrapper.style.top).toBe('28%')
     expect(associationButton.style.width).toBe('min(64vw, 13.5rem)')
 
     const walletButton = screen.getByRole('button', { name: /Telcoin Wallet/i }) as HTMLButtonElement
-    expect(walletButton.style.left).toBe('50%')
-    expect(walletButton.style.top).toBe('86%')
+    const walletWrapper = walletButton.parentElement as HTMLDivElement
+    expect(walletWrapper.style.left).toBe('50%')
+    expect(walletWrapper.style.top).toBe('86%')
 
-    const validatorEdgeTitle = screen.getAllByTitle('Validator policy sync')[0]
-    const validatorEdgePath = validatorEdgeTitle.parentElement as SVGPathElement
+    const validatorTitleEl = screen.getAllByText('Validator policy sync', { selector: 'title' })[0]
+    const validatorEdgePath = validatorTitleEl.parentElement as SVGPathElement
     expect(validatorEdgePath.getAttribute('stroke-width')).toBe('1.8')
   })
 })
