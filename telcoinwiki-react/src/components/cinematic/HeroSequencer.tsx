@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { loadCinematicConfig } from '../../lib/cinematicConfig'
+import { tryGetSupabaseClient } from '../../lib/supabaseClient'
+import { preferCodecs, pickResolutionVariant } from '../../lib/videoSupport'
 
 import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
-type VideoSource = { src: string; type: string }
+type VideoSource = { src: string; type: string } | { supabase: { bucket: string; path: string; expiresIn?: number }; type: string }
 
 export interface HeroLayer {
   id: string
@@ -54,6 +56,42 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
   // Default ambient layers (CSS gradient fallbacks); can be replaced by real assets later
   // Load external config if available and map to layers, unless explicit props provided
   const layers = useMemo<HeroLayer[]>(() => loadedLayers ?? propLayers ?? [], [loadedLayers, propLayers])
+
+  // Resolve Supabase-signed URLs if needed
+  const [resolvedSources, setResolvedSources] = useState<Record<string, { src: string; type: string }[]>>({})
+
+  useEffect(() => {
+    let mounted = true
+    const client = tryGetSupabaseClient()
+    ;(async () => {
+      const out: Record<string, { src: string; type: string }[]> = {}
+      for (const layer of layers) {
+        const list = layer.sources ?? []
+        const resolved: { src: string; type: string }[] = []
+        for (const s of list) {
+          if ('supabase' in s) {
+            if (!client) continue
+            const { bucket, path, expiresIn = 3600 } = s.supabase
+            try {
+              const { data, error } = await client.storage.from(bucket).createSignedUrl(path, expiresIn)
+              if (!error && data?.signedUrl) {
+                resolved.push({ src: data.signedUrl, type: s.type })
+              }
+            } catch {
+              // ignore and continue
+            }
+          } else {
+            resolved.push({ src: s.src, type: s.type })
+          }
+        }
+        if (resolved.length) out[layer.id] = resolved
+      }
+      if (mounted) setResolvedSources(out)
+    })()
+    return () => {
+      mounted = false
+    }
+  }, [layers])
 
   useEffect(() => {
     if (propLayers) return
@@ -112,7 +150,9 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
         const rank: Record<'slow-2g'|'2g'|'3g'|'4g', number> = { 'slow-2g': 0, '2g': 1, '3g': 2, '4g': 3 }
         const meetsConnection = effectiveType ? rank[effectiveType] >= rank[policy.minEffectiveType] : true
         const canLoadVideo = !prefersReducedMotion && (!saveData || policy.allowSaveData) && meetsConnection
-        const hasVideo = !!(layer.sources && layer.sources.length) && canLoadVideo
+        const sourcesForLayer = resolvedSources[layer.id] ?? []
+        const orderedSources = pickResolutionVariant(preferCodecs(sourcesForLayer))
+        const hasVideo = !!(orderedSources.length) && canLoadVideo
         const z = 10 + index
         const style = {
           '--hero-layer-z': z,
@@ -138,8 +178,8 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
                 poster={layer.poster ?? undefined}
                 autoPlay={isStarted}
               >
-                {layer.sources!.map((src) => (
-                  <source key={src.src} src={src.src} type={src.type} />
+                {orderedSources.map((src) => (
+                  <source key={src.src + src.type} src={src.src} type={src.type} />
                 ))}
               </video>
             ) : (

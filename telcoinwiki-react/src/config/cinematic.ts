@@ -1,4 +1,9 @@
-export type VideoSource = { src: string; type: string }
+export type VideoSourceHttp = { src: string; type: string }
+export type VideoSourceSupabase = {
+  supabase: { bucket: string; path: string; expiresIn?: number }
+  type: string
+}
+export type VideoSource = VideoSourceHttp | VideoSourceSupabase
 
 export type EffectiveType = 'slow-2g' | '2g' | '3g' | '4g'
 
