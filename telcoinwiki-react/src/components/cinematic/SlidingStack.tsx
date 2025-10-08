@@ -76,55 +76,60 @@ export function SlidingStack({
           ? 1
           : Math.min(Math.max(1 - Math.max(relative, 0) * progressDampener, progressFloor), 1)
 
+        const morphTranslate = prefersReducedMotion ? 0 : (1 - cardProgress) * 24
+        const morphScale = prefersReducedMotion ? 1 : 0.96 + cardProgress * 0.04
+        const morphOpacity = prefersReducedMotion ? 1 : 0.82 + cardProgress * 0.18
+
+        const finalTranslate = translateY + morphTranslate
+        const finalScale = scale * morphScale
+        const finalOpacity = opacityBase * morphOpacity
+
         const style = {
-          '--stack-translate': `${formatNumber(translateY)}px`,
-          '--stack-scale': formatNumber(scale),
-          '--stack-opacity': formatNumber(opacityBase),
           '--stack-content-translate': `${formatNumber((1 - cardProgress) * 12)}px`,
           '--stack-content-opacity': formatNumber(0.75 + cardProgress * 0.25),
           zIndex: items.length - index,
         } as CSSProperties
 
+        if (!staticLayout) {
+          style.transform = `translateY(${formatNumber(finalTranslate)}px) scale(${formatNumber(finalScale)})`
+          style.opacity = formatNumber(finalOpacity)
+        }
+
         const ctaLabel = item.ctaLabel ?? 'Learn more'
 
-        const content = (
-          <ColorMorphCard
-            key={item.id}
-            progress={cardProgress}
-            className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
-            style={style}
-          >
-            {item.eyebrow ? (
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
-                {item.eyebrow}
-              </span>
-            ) : null}
-            <div className="sliding-stack__content">
-              <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
-              <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
-            </div>
-            {item.href ? (
-              isExternalLink(item.href) ? (
-                <a
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent"
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {ctaLabel}
-                  <span aria-hidden>→</span>
-                </a>
-              ) : (
-                <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to={item.href}>
-                  {ctaLabel}
-                  <span aria-hidden>→</span>
-                </Link>
-              )
-            ) : null}
-          </ColorMorphCard>
+        return (
+          <div key={item.id} className="sliding-stack__card" style={style}>
+            <ColorMorphCard progress={cardProgress} className={cn('p-6 sm:p-8', cardClassName)}>
+              {item.eyebrow ? (
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
+                  {item.eyebrow}
+                </span>
+              ) : null}
+              <div className="sliding-stack__content">
+                <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
+                <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+              </div>
+              {item.href ? (
+                isExternalLink(item.href) ? (
+                  <a
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent"
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {ctaLabel}
+                    <span aria-hidden>→</span>
+                  </a>
+                ) : (
+                  <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to={item.href}>
+                    {ctaLabel}
+                    <span aria-hidden>→</span>
+                  </Link>
+                )
+              ) : null}
+            </ColorMorphCard>
+          </div>
         )
-
-        return content
       })}
     </div>
   )

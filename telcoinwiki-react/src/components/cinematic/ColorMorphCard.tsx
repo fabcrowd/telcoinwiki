@@ -19,16 +19,10 @@ export const ColorMorphCard = forwardRef<HTMLElement, ColorMorphCardProps>(funct
   const overlayAlpha = lerp(0.26, 0.64, clamped)
   const borderAlpha = lerp(0.28, 0.56, clamped)
   const shadowAlpha = lerp(0.18, 0.46, clamped)
-  const translateY = lerp(24, 0, clamped)
-  const scale = lerp(0.96, 1.0, clamped)
-  const opacity = lerp(0.82, 1, clamped)
-
   const styleWithMorph = {
     '--stage-card-overlay-alpha': overlayAlpha.toFixed(3),
     '--stage-card-border-alpha': borderAlpha.toFixed(3),
     '--stage-card-shadow-alpha': shadowAlpha.toFixed(3),
-    transform: `translateY(${translateY.toFixed(2)}px) scale(${scale.toFixed(3)})`,
-    opacity,
     ...style,
   } as CSSProperties
 
