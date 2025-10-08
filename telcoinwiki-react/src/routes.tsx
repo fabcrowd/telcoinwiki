@@ -129,11 +129,11 @@ export const APP_ROUTES: AppRoute[] = [
     Component: DeepDivePage,
     headings: [
       { id: 'deep-dive-overview', text: 'Overview' },
-      { id: 'deep-network', text: 'Network' },
-      { id: 'deep-token', text: '$TEL Token' },
-      { id: 'deep-telx', text: 'TELx' },
-      { id: 'deep-governance', text: 'Governance' },
-      { id: 'deep-holdings', text: 'Holdings' },
+      { id: 'deep-broken-money', text: 'Broken Money' },
+      { id: 'deep-telcoin-model', text: 'Telcoin Model' },
+      { id: 'deep-engine', text: 'Engine' },
+      { id: 'deep-experience', text: 'Experience' },
+      { id: 'deep-learn-more', text: 'Learn More' },
     ],
   },
   {

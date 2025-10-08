@@ -200,16 +200,16 @@
     "url": "/deep-dive",
     "tags": ["Deep Dive", "Getting Started"],
     "headings": [
-      { "id": "deep-network", "title": "Telcoin Network" },
-      { "id": "deep-token", "title": "$TEL Token" },
-      { "id": "deep-telx", "title": "TELx Liquidity Engine" },
-      { "id": "deep-governance", "title": "Association & Governance" },
-      { "id": "deep-holdings", "title": "Telcoin Holdings" }
+      { "id": "deep-broken-money", "title": "Broken Money" },
+      { "id": "deep-telcoin-model", "title": "Telcoin Model" },
+      { "id": "deep-engine", "title": "Engine" },
+      { "id": "deep-experience", "title": "Experience" },
+      { "id": "deep-learn-more", "title": "Learn More" }
     ],
     "highlights": [
-      "Cards summarizing Association, Network, TEL, and TELx roles",
-      "Encourages reading official docs in a structured sequence",
-      "Direct links to core Telcoin Association resources"
+      "Accordion answers organised around Broken Money, Model, Engine, Experience, and Learn More",
+      "Each topic addresses common objections with citations to telcoin.org, docs.telcoin.network, and telx.network",
+      "Section anchors match the navigation chips and Learn pillar routes"
     ]
   },
   {
