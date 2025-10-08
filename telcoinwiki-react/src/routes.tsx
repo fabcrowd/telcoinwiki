@@ -2,13 +2,12 @@ import type { ComponentType } from 'react'
 import type { SidebarHeading } from './config/types'
 import { PAGE_META } from './config/pageMeta'
 import { HomePage } from './pages/HomePage'
-import { ProblemPage } from './pages/ProblemPage'
-import { ModelPage } from './pages/ModelPage'
-import { EnginePage } from './pages/EnginePage'
-import { ExperiencePage } from './pages/ExperiencePage'
-import { LearnPage } from './pages/LearnPage'
-import { DeepDivePage } from './pages/DeepDivePage'
+import { GovernancePage } from './pages/GovernancePage'
+import { NetworkPage } from './pages/NetworkPage'
+import { BankPage } from './pages/BankPage'
+import { TokenomicsPage } from './pages/TokenomicsPage'
 import { FaqPage } from './pages/FaqPage'
+import { DeepDivePage } from './pages/DeepDivePage'
 import { BuildersPage } from './pages/BuildersPage'
 import { LinksPage } from './pages/LinksPage'
 import { PoolsPage } from './pages/PoolsPage'
@@ -33,63 +32,59 @@ export const APP_ROUTES: AppRoute[] = [
     layout: 'cinematic',
     headings: [
       { id: 'home-hero', text: 'Welcome' },
-      { id: 'learning-pathways', text: 'Learning pathways' },
-      { id: 'faq', text: 'FAQs' },
+      { id: 'home-broken-money', text: 'Broken money' },
+      { id: 'home-telcoin-model', text: 'Telcoin model' },
+      { id: 'home-engine', text: 'Engine' },
+      { id: 'home-experience', text: 'Experience' },
+      { id: 'home-learn-more', text: 'Learn more' },
     ],
   },
   {
-    path: '/problem',
-    pageId: 'problem',
-    Component: ProblemPage,
+    path: '/governance',
+    pageId: 'governance',
+    Component: GovernancePage,
     headings: [
-      { id: 'problem-hero', text: 'Overview' },
-      { id: 'problem-fees', text: 'Fees & delays' },
-      { id: 'problem-access', text: 'Access gaps' },
-      { id: 'problem-stability', text: 'Stable value' },
+      { id: 'governance-overview', text: 'Overview' },
+      { id: 'governance-structure', text: 'Structure' },
+      { id: 'governance-lifecycle', text: 'Lifecycle' },
+      { id: 'compliance', text: 'Compliance' },
     ],
   },
   {
-    path: '/model',
-    pageId: 'model',
-    Component: ModelPage,
+    path: '/network',
+    pageId: 'network',
+    Component: NetworkPage,
     headings: [
-      { id: 'model-hero', text: 'Overview' },
-      { id: 'model-structure', text: 'Operating structure' },
-      { id: 'model-incentives', text: 'TEL incentives' },
-      { id: 'model-guardrails', text: 'Guardrails & policy' },
+      { id: 'network-overview', text: 'Overview' },
+      { id: 'network-consensus', text: 'Consensus' },
+      { id: 'network-architecture', text: 'Topology' },
+      { id: 'network-layers', text: 'Layers' },
+      { id: 'network-security', text: 'Security' },
     ],
   },
   {
-    path: '/engine',
-    pageId: 'engine',
-    Component: EnginePage,
+    path: '/bank',
+    pageId: 'bank',
+    Component: BankPage,
     headings: [
-      { id: 'engine-hero', text: 'Overview' },
-      { id: 'engine-network', text: 'Network' },
-      { id: 'engine-ramps', text: 'On / off ramps' },
-      { id: 'engine-liquidity', text: 'Liquidity' },
+      { id: 'bank-overview', text: 'Overview' },
+      { id: 'bank-pillars', text: 'Pillars' },
+      { id: 'bank-metrics', text: 'Metrics' },
+      { id: 'bank-journey', text: 'Journey' },
+      { id: 'bank-resources', text: 'Resources' },
     ],
   },
   {
-    path: '/experience',
-    pageId: 'experience',
-    Component: ExperiencePage,
+    path: '/tokenomics',
+    pageId: 'tokenomics',
+    Component: TokenomicsPage,
     headings: [
-      { id: 'experience-hero', text: 'Overview' },
-      { id: 'experience-onboarding', text: 'Onboarding' },
-      { id: 'experience-transfers', text: 'Transfers' },
-      { id: 'experience-security', text: 'Safety' },
-    ],
-  },
-  {
-    path: '/learn',
-    pageId: 'learn',
-    Component: LearnPage,
-    headings: [
-      { id: 'learn-hero', text: 'Overview' },
-      { id: 'learn-start', text: 'Research path' },
-      { id: 'learn-faq', text: 'FAQ' },
-      { id: 'learn-deep-dive', text: 'Deep dives' },
+      { id: 'tokenomics-overview', text: 'Overview' },
+      { id: 'tokenomics-utility', text: 'Utility' },
+      { id: 'tokenomics-cycle', text: 'Burn & regen' },
+      { id: 'tokenomics-treasury', text: 'Treasury' },
+      { id: 'tokenomics-programs', text: 'Programs' },
+      { id: 'tokenomics-risk', text: 'Risk' },
     ],
   },
   {

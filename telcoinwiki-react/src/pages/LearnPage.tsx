@@ -13,13 +13,13 @@ export function LearnPage() {
         variant="hero"
         className="bg-hero-linear animate-gradient [background-size:180%_180%]"
         overlay={<HeroOverlay />}
-        eyebrow="Pillar five"
-        title="Keep learning with the Telcoin community"
-        lede="Bookmark deeper references once you are comfortable with the basics. Each guide links back to official Telcoin sources."
+        eyebrow="Continued learning"
+        title="Move from story to source material"
+        lede="Follow the new pillar structure—Governance, Network, Bank, Tokenomics, FAQ—and jump straight into official Telcoin references when you are ready to dive deeper."
       >
         <nav className="toc-chips" aria-label="Learn sections">
           <a className="toc-chip" href="#learn-start">
-            Research path
+            Pillar pathway
           </a>
           <a className="toc-chip" href="#learn-faq">
             FAQ
@@ -31,50 +31,57 @@ export function LearnPage() {
       </PageIntro>
 
       <section id="learn-start" className="anchor-offset">
-        <h2>Start your research</h2>
+        <h2>Follow the pillar pathway</h2>
         <p>
-          Work through the core concepts in order: understand the problem, review the model, and practice wallet safety. Use the
-          resources below to build a foundation quickly.
+          The homepage story introduces each pillar at a high level. Use these links when you are ready to read the detailed breakdowns for Governance, Network, Bank, and Tokenomics.
         </p>
         <CardGrid
-          columns={3}
+          columns={4}
           items={[
             {
-              id: 'learn-start-problem',
-              title: 'Review the problem space',
+              id: 'learn-start-governance',
+              title: 'Governance accuracy',
               body: (
                 <>
-                  <p>Begin with the Problem pillar to understand why Telcoin focuses on mobile-first remittances and stable value.</p>
+                  <p>Understand how the Telcoin Association, councils, and treasuries keep upgrades and incentives accountable.</p>
                   <p>
-                    <Link to="/problem">Go to the Problem pillar →</Link>
+                    <Link to="/governance">Go to Governance →</Link>
                   </p>
                 </>
               ),
             },
             {
-              id: 'learn-start-experience',
-              title: 'Practice wallet safety',
+              id: 'learn-start-network',
+              title: 'Network internals',
               body: (
                 <>
+                  <p>Read how DAG + BFT consensus, GSMA validators, TEL burns, and TELx/TAN layers synchronize the engine.</p>
                   <p>
-                    The Experience pillar walks through onboarding, sending, and account security in the Telcoin Wallet.
-                  </p>
-                  <p>
-                    <Link to="/experience">Go to the Experience pillar →</Link>
+                    <Link to="/network">Go to Network →</Link>
                   </p>
                 </>
               ),
             },
             {
-              id: 'learn-start-engine',
-              title: 'Understand the engine',
+              id: 'learn-start-bank',
+              title: 'Bank layer experience',
               body: (
                 <>
+                  <p>See how the Telcoin Wallet, Digital Cash reserves, and licensed ramps produce a fintech-grade flow.</p>
                   <p>
-                    Dive into the Engine pillar to see how the network, ramps, and liquidity work together behind the scenes.
+                    <Link to="/bank">Go to Bank →</Link>
                   </p>
+                </>
+              ),
+            },
+            {
+              id: 'learn-start-tokenomics',
+              title: 'Tokenomics & incentives',
+              body: (
+                <>
+                  <p>Trace TEL burn and regen mechanics, treasury governance, and the incentive programs that power adoption.</p>
                   <p>
-                    <Link to="/engine">Go to the Engine pillar →</Link>
+                    <Link to="/tokenomics">Go to Tokenomics →</Link>
                   </p>
                 </>
               ),

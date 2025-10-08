@@ -12,8 +12,8 @@ export function GovernancePage() {
         className="bg-hero-linear animate-gradient [background-size:180%_180%]"
         overlay={<HeroOverlay />}
         eyebrow="Governance & Association"
-        title="Who stewards Telcoin?"
-        lede="The Telcoin Association, a Swiss Verein, leads Telcoin Network governance, validator onboarding, and issuance policies for TEL and Digital Cash. Community councils partner with the Association to review and advance proposals."
+        title="Accuracy-first oversight for the Telcoin stack"
+        lede="The Telcoin Association, organized as a Swiss Verein, approves validators, publishes TEL issuance schedules, and enforces TAN and TELx guardrails. Community councils ensure proposals meet compliance and user-impact milestones before the Association releases funds or upgrades."
       />
 
       <section id="governance-structure" className="anchor-offset">
@@ -67,6 +67,16 @@ export function GovernancePage() {
         />
       </section>
 
+      <section id="governance-lifecycle" className="anchor-offset">
+        <h2>Proposal lifecycle</h2>
+        <ol>
+          <li>Community members or Telcoin Holdings draft ideas with scope, KPIs, and compliance considerations.</li>
+          <li>Subject-matter councils (network, product, compliance) perform diligence, request attestations, and publish impact notes.</li>
+          <li>The Association votes, documents treasury movements, and coordinates rollout with validators and TAN operators.</li>
+          <li>Post-launch reporting loops back through councils; future TEL releases require evidence that KPIs were met.</li>
+        </ol>
+      </section>
+
       <section id="proposal-flow" className="anchor-offset">
         <h2>Proposal flow</h2>
         <ol>
@@ -103,6 +113,7 @@ export function GovernancePage() {
           { label: 'Telcoin Association', href: 'https://www.telcoinassociation.org', external: true },
           { label: 'Governance framework', href: 'https://www.telcoinassociation.org/governance', external: true },
           { label: 'Legal & compliance', href: 'https://telco.in/legal', external: true },
+          { label: 'TAN documentation', href: 'https://docs.telcoin.org/telcoin-network/telcoin-application-network', external: true },
         ]}
       />
     </>

@@ -15,343 +15,306 @@ type DeepDiveSection = {
 
 const SECTIONS: DeepDiveSection[] = [
   {
-    id: 'deep-broken-money',
-    title: 'Broken Money',
+    id: 'deep-governance',
+    title: 'Governance',
     faqs: [
       {
-        question: 'Why does Telcoin describe legacy rails as “broken money”?',
+        question: 'How does the Association approve validators and upgrades?',
         answer: (
           <>
             <p>
-              Telcoin’s platform documentation lays out how international transfers depend on nested correspondent banks and
-              cash-out agents that add cost, delay, and risk for the people who need remittances the most. The Broken Money pillar
-              starts by highlighting those frictions so readers understand the problems Telcoin is targeting before learning about
-              solutions.
+              Telcoin’s governance framework explains that validator candidates must be GSMA members, pass compliance reviews, and receive a board vote after council diligence. Protocol upgrades and treasury releases follow similar checkpoints before activation.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telcoin.org/documentation/telcoin-platform" rel="noreferrer" target="_blank">
-                Telcoin Platform overview
+              <a href="https://www.telcoinassociation.org/governance" rel="noreferrer" target="_blank">
+                Governance framework
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/problem#problem-fees',
-        learnMoreLabel: 'Learn more about Broken Money →',
+        learnMoreHref: '/governance#governance-structure',
+        learnMoreLabel: 'Review governance structure →',
       },
       {
-        question: 'How does Telcoin’s digital cash avoid the volatility critics worry about?',
+        question: 'What keeps Association treasuries accountable?',
         answer: (
           <>
             <p>
-              Telcoin details that e-money such as eUSD is fully backed by reserves held at regulated financial institutions and
-              issued under the Telcoin Platform framework. Stable value is a prerequisite for replacing remittances with digital
-              cash, so collateral and audits are central to the Broken Money storyline.
+              TAN documentation details how TEL allocations unlock only after milestones are met and reports are filed. Councils can pause or adjust future releases if KPIs or compliance evidence fall short.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telcoin.org/documentation/telcoin-platform" rel="noreferrer" target="_blank">
-                Telcoin Platform overview
+              <a href="https://docs.telcoin.org/telcoin-network/telcoin-application-network" rel="noreferrer" target="_blank">
+                TAN documentation
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/problem#problem-stability',
+        learnMoreHref: '/governance#governance-lifecycle',
       },
       {
-        question: 'Why bring telecom operators into financial services?',
+        question: 'Where can I confirm legal and compliance status?',
         answer: (
           <>
             <p>
-              Telcoin emphasizes that mobile network operators already meet strict GSMA and regulatory standards, giving them a
-              trusted footprint in markets where bank access is limited. By aligning with telecom partners, Telcoin can plug
-              remittances into phone-number based distribution without recreating traditional intermediaries.
+              Telcoin maintains a legal hub with terms, privacy notices, and jurisdiction-specific disclosures so users and partners can verify availability before transacting.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telcoin.org/documentation/participation" rel="noreferrer" target="_blank">
-                Telcoin participation guide
+              <a href="https://telco.in/legal" rel="noreferrer" target="_blank">
+                Telcoin legal resources
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/problem#problem-access',
+        learnMoreHref: '/governance#compliance',
       },
     ],
   },
   {
-    id: 'deep-telcoin-model',
-    title: 'Telcoin Model',
+    id: 'deep-network',
+    title: 'Network',
     faqs: [
       {
-        question: 'Who is responsible for what across the Telcoin ecosystem?',
+        question: 'What architecture underpins the Telcoin Network?',
         answer: (
           <>
             <p>
-              The Association governs the Telcoin Network and policy, Telcoin Holdings delivers compliant financial products, and
-              the community contributes education and liquidity. Telcoin’s official Association documentation maps how these roles
-              align so incentives stay balanced as adoption grows.
+              The Telcoin Network overview highlights DAG-based transaction propagation with BFT finality handled by GSMA-member validators. TEL is the native asset that pays gas and routes burn and treasury flows.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telcoin.org/documentation/association" rel="noreferrer" target="_blank">
-                Telcoin Association overview
+              <a href="https://docs.telcoin.org/telcoin-network/overview" rel="noreferrer" target="_blank">
+                Telcoin Network overview
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/model#model-structure',
-        learnMoreLabel: 'Learn more about the Telcoin Model →',
+        learnMoreHref: '/network#network-consensus',
+        learnMoreLabel: 'See consensus snapshot →',
       },
       {
-        question: 'Why is the TEL token essential instead of optional?',
+        question: 'How do TELx and TAN plug into the chain?',
         answer: (
           <>
             <p>
-              TEL powers gas fees, validator staking, and TELx liquidity rewards across the Telcoin Network. Official token
-              resources explain how issuance, burns, and rewards are calibrated to keep operators, liquidity providers, and users
-              aligned with the network’s long-term health.
+              TELx smart contracts manage liquidity incentives while TAN APIs collect usage and compliance events. Together they inform Association policy and direct TEL rewards toward real activity.
             </p>
             <p>
               Source:{' '}
-              <a href="https://docs.telcoin.network/telcoin-network/architecture/native-token" rel="noreferrer" target="_blank">
-                TEL native token guide
+              <a href="https://docs.telcoin.org/telcoin-network/telcoin-application-network" rel="noreferrer" target="_blank">
+                TAN documentation
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/model#model-incentives',
+        learnMoreHref: '/network#network-layers',
       },
       {
-        question: 'How does governance prevent unilateral control?',
+        question: 'What happens when incidents occur?',
         answer: (
           <>
             <p>
-              Governance materials show that Association councils, validator requirements, and policy committees share
-              responsibility for major decisions. This checks-and-balances model is designed to maintain compliance and community
-              accountability as new services come online.
+              Telcoin’s security newsroom publishes incident reports, maintenance windows, and remediation status so the community can track uptime and response steps.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telcoin.org/documentation/association-governance" rel="noreferrer" target="_blank">
-                Association governance framework
+              <a href="https://telco.in/newsroom/security" rel="noreferrer" target="_blank">
+                Security newsroom
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/model#model-guardrails',
+        learnMoreHref: '/network#network-security',
       },
     ],
   },
   {
-    id: 'deep-engine',
-    title: 'Engine',
+    id: 'deep-bank',
+    title: 'Bank',
     faqs: [
       {
-        question: 'What gives the Telcoin Network its throughput edge?',
+        question: 'How does the Telcoin Wallet deliver a fintech-grade UX while staying self-custodied?',
         answer: (
           <>
             <p>
-              Telcoin’s network documentation describes a Narwhal and Bullshark-based consensus design that separates transaction
-              propagation from ordering for low-latency finality. This architecture is the backbone of the Engine pillar because it
-              underpins the real-time settlement users expect.
+              The wallet overview walks through device binding, recovery phrase coaching, and mobile-first guardrails that help non-crypto natives stay safe without surrendering keys.
             </p>
             <p>
               Source:{' '}
-              <a
-                href="https://docs.telcoin.network/telcoin-network/architecture/consensus-layer"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Consensus layer reference
+              <a href="https://telco.in/wallet" rel="noreferrer" target="_blank">
+                Wallet overview
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/engine#engine-network',
-        learnMoreLabel: 'Learn more about the Engine →',
+        learnMoreHref: '/bank#bank-pillars',
+        learnMoreLabel: 'Explore Telcoin Bank pillars →',
       },
       {
-        question: 'How are validators chosen and kept accountable?',
+        question: 'What backs Digital Cash assets like eUSD and eCAD?',
         answer: (
           <>
             <p>
-              Participation guides explain that validators must meet telecom-grade compliance, security audits, and uptime
-              metrics. Those guardrails pair with staking requirements so only qualified operators help secure the Engine.
+              Digital Cash documentation lists each currency’s custodians, reserve attestations, and redemption processes so holders can confirm collateralization and risk controls.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telcoin.org/documentation/participation" rel="noreferrer" target="_blank">
-                Participation requirements
+              <a href="https://telco.in/digital-cash" rel="noreferrer" target="_blank">
+                Digital Cash documentation
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/engine#engine-ramps',
+        learnMoreHref: '/bank#bank-metrics',
       },
       {
-        question: 'Where does TELx fit inside the Engine story?',
+        question: 'How are remittance corridors activated and monitored?',
         answer: (
           <>
             <p>
-              TELx documentation shows how liquidity programs connect wallet swaps, remittance corridors, and partner ramps. The
-              Engine pillar references TELx because balanced pools keep prices stable while users move value across the network.
+              Remittance guides describe licensing requirements, reporting obligations, and how TAN events surface corridor status back to the Association.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telx.network/about/welcome-to-telx" rel="noreferrer" target="_blank">
-                Welcome to TELx
+              <a href="https://telco.in/remittances" rel="noreferrer" target="_blank">
+                Remittance overview
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/engine#engine-liquidity',
+        learnMoreHref: '/bank#bank-journey',
       },
     ],
   },
   {
-    id: 'deep-experience',
-    title: 'Experience',
+    id: 'deep-tokenomics',
+    title: 'Tokenomics',
     faqs: [
       {
-        question: 'What should newcomers expect during Telcoin Wallet onboarding?',
+        question: 'How do TEL burns and regen releases balance supply?',
         answer: (
           <>
             <p>
-              Telcoin’s application documentation walks through identity verification, device approval, and recovery controls so
-              mobile-first users can get started quickly without sacrificing compliance. Setting expectations upfront reduces
-              friction when inviting friends and family into the ecosystem.
+              TEL documentation shows that transaction fees burn TEL while treasury-controlled programs reintroduce supply only when usage or liquidity milestones are met, keeping growth tethered to real demand.
             </p>
             <p>
               Source:{' '}
-              <a
-                href="https://www.telcoin.org/documentation/telcoin-platform/telcoin-application-network"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Telcoin application network guide
+              <a href="https://www.telcoinassociation.org/tel" rel="noreferrer" target="_blank">
+                TEL overview
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/experience#experience-onboarding',
-        learnMoreLabel: 'Learn more about the Experience →',
+        learnMoreHref: '/tokenomics#tokenomics-cycle',
+        learnMoreLabel: 'Read about burn & regen →',
       },
       {
-        question: 'How transparent are remittance quotes and settlement?',
+        question: 'What is the purpose of TELx lifecycle stages?',
         answer: (
           <>
             <p>
-              Telcoin details that wallet remittances provide upfront FX rates, final settlement times, and corridor availability
-              powered by the Telcoin Network. Sharing these disclosures addresses concerns about hidden fees common in traditional
-              money transfer services.
+              TELx documentation outlines Active, Deprecated, and Archived stages that guide liquidity providers toward the pairs that still need depth while tapering rewards on mature pools.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telcoin.org/documentation/telcoin-platform" rel="noreferrer" target="_blank">
-                Telcoin Platform overview
+              <a href="https://www.telcoinassociation.org/telx" rel="noreferrer" target="_blank">
+                TELx documentation
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/experience#experience-transfers',
+        learnMoreHref: '/tokenomics#tokenomics-programs',
       },
       {
-        question: 'What safeguards help protect Telcoin accounts?',
+        question: 'How does TANIP support wallet adoption?',
         answer: (
           <>
             <p>
-              Participation resources outline security practices such as multi-factor recovery, device management, and fraud
-              monitoring that are built into the Telcoin Wallet. These measures demonstrate how Telcoin balances usability with
-              responsible controls.
+              TANIP directs TEL rewards toward referrals, usage streaks, and compliant integrations. Each cohort is staged and must report results before further TEL unlocks.
             </p>
             <p>
               Source:{' '}
-              <a href="https://www.telcoin.org/documentation/participation" rel="noreferrer" target="_blank">
-                Participation requirements
+              <a href="https://docs.telcoin.org/telcoin-network/telcoin-application-network" rel="noreferrer" target="_blank">
+                TAN documentation
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/experience#experience-security',
+        learnMoreHref: '/tokenomics#tokenomics-treasury',
       },
     ],
   },
   {
-    id: 'deep-learn-more',
-    title: 'Learn More',
+    id: 'deep-faq',
+    title: 'FAQ tiebacks',
     faqs: [
       {
-        question: 'Where can I follow network and developer updates?',
+        question: 'Where can I fact-check community talking points?',
         answer: (
           <>
             <p>
-              The Telcoin Network documentation hub publishes release notes, architecture updates, and builder guides for people
-              creating on the stack. Bookmarking it keeps you ahead of protocol changes mentioned throughout the Deep Dive.
-            </p>
-            <p>
-              Source:{' '}
-              <a href="https://docs.telcoin.network/telcoin-network/getting-started" rel="noreferrer" target="_blank">
-                Telcoin Network getting started
-              </a>
-              .
-            </p>
-          </>
-        ),
-        learnMoreHref: '/learn#learn-deep-dive-pathways',
-        learnMoreLabel: 'Learn more with Deep Dive pathways →',
-      },
-      {
-        question: 'How do I monitor TELx rewards and pool performance?',
-        answer: (
-          <>
-            <p>
-              TELx maintains public dashboards covering liquidity programs, pool APRs, and historical rewards so contributors can
-              track the incentives mentioned in the Engine pillar. Reviewing those numbers helps evaluate whether a strategy fits
-              your risk tolerance.
-            </p>
-            <p>
-              Source:{' '}
-              <a href="https://www.telx.network/rewards" rel="noreferrer" target="_blank">
-                TELx rewards hub
-              </a>
-              .
-            </p>
-          </>
-        ),
-        learnMoreHref: '/pools#pools-table',
-      },
-      {
-        question: 'Where should I go for policy and compliance references?',
-        answer: (
-          <>
-            <p>
-              Telcoin curates legal resources, association policies, and transparency reports so stakeholders can verify the
-              guardrails supporting the ecosystem. Keeping those links handy makes it easier to address objections about
-              regulation and oversight.
+              The FAQ explorer links every answer to Telcoin documentation, governance releases, or official announcements so you can verify claims quickly.
             </p>
             <p>
               Source:{' '}
               <a href="https://www.telcoin.org/documentation" rel="noreferrer" target="_blank">
-                Telcoin documentation index
+                Telcoin documentation portal
               </a>
               .
             </p>
           </>
         ),
-        learnMoreHref: '/links#links-governance',
+        learnMoreHref: '/faq#faq-list',
+      },
+      {
+        question: 'What is the fastest way to share context with newcomers?',
+        answer: (
+          <>
+            <p>
+              Point them to the home storyline and Start Here checklist. These walk through the Problem → Model → Engine → Experience → FAQ flow before linking deeper.
+            </p>
+            <p>
+              Source:{' '}
+              <a href="https://www.telcoin.org/documentation" rel="noreferrer" target="_blank">
+                Telcoin documentation portal
+              </a>
+              .
+            </p>
+          </>
+        ),
+        learnMoreHref: '/#home-broken-money',
+      },
+      {
+        question: 'How does the wiki stay aligned with official updates?',
+        answer: (
+          <>
+            <p>
+              Contributors monitor the Telcoin newsroom and Association feeds so content reflects the latest releases. Each section cites the primary source it is derived from.
+            </p>
+            <p>
+              Source:{' '}
+              <a href="https://telco.in/newsroom" rel="noreferrer" target="_blank">
+                Telcoin newsroom
+              </a>
+              .
+            </p>
+          </>
+        ),
+        learnMoreHref: '/faq#faq-hero',
       },
     ],
   },
@@ -359,25 +322,23 @@ const SECTIONS: DeepDiveSection[] = [
 
 export function DeepDiveFaqSections() {
   return (
-    <>
+    <div className="deep-dive-grid">
       {SECTIONS.map((section) => (
-        <section key={section.id} id={section.id} className="dd-section anchor-offset">
-          <h2 className="dd-heading">{section.title}</h2>
-          <div className="dd-accordion">
+        <section key={section.id} id={section.id} className="deep-dive-section anchor-offset">
+          <h2>{section.title}</h2>
+          <div className="deep-dive-faqs" role="list">
             {section.faqs.map((faq) => (
-              <details key={faq.question}>
-                <summary>{faq.question}</summary>
-                <div className="dd-body">
-                  {faq.answer}
-                  <p className="dd-learn-more">
-                    <a href={faq.learnMoreHref}>{faq.learnMoreLabel ?? 'Learn more →'}</a>
-                  </p>
-                </div>
-              </details>
+              <article key={faq.question} className="deep-dive-faq" role="listitem">
+                <h3>{faq.question}</h3>
+                {faq.answer}
+                <p>
+                  <a href={faq.learnMoreHref}>{faq.learnMoreLabel ?? 'Learn more →'}</a>
+                </p>
+              </article>
             ))}
           </div>
         </section>
       ))}
-    </>
+    </div>
   )
 }
