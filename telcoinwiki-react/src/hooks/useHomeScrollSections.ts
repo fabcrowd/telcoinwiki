@@ -157,6 +157,16 @@ function createStackSectionHook(
     const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 24%' : 'bottom 30%'
     const animationStart = isHandheld ? 'top 92%' : isCompact ? 'top 86%' : 'top 80%'
     const animationEnd = isHandheld ? 'bottom 20%' : isCompact ? 'bottom 24%' : 'bottom 24%'
+    const animationToggleActions = isHandheld ? 'play none none none' : undefined
+
+    const animationScrollTrigger = {
+      start: animationStart,
+      end: animationEnd,
+      ...(options?.animationScrollTrigger ?? {}),
+      ...(animationToggleActions && !options?.animationScrollTrigger?.toggleActions
+        ? { toggleActions: animationToggleActions }
+        : {}),
+    }
 
     const stageProgressRaw = useStageTimeline({
       target: sectionRef,
@@ -192,11 +202,7 @@ function createStackSectionHook(
           0.18,
         )
       },
-      {
-        start: animationStart,
-        end: animationEnd,
-        ...(options?.animationScrollTrigger ?? {}),
-      },
+      animationScrollTrigger,
     )
 
     return { sectionRef, prefersReducedMotion, stageProgress, introStyle, stackStyle }

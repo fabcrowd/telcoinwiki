@@ -50,7 +50,7 @@ export function SlidingStack({
   const progressDampener = prefersReducedMotion ? 0 : isHandheld ? 0.26 : 0.32
   const progressFloor = prefersReducedMotion ? 1 : isHandheld ? 0.42 : 0.35
   const minHeight = prefersReducedMotion || isCompact ? undefined : 360 + steps * 96
-  const staticLayout = prefersReducedMotion || isHandheld
+  const staticLayout = prefersReducedMotion
   const activeIndex = prefersReducedMotion ? 0 : Math.round(normalized)
 
   const containerStyle: CSSProperties = {
