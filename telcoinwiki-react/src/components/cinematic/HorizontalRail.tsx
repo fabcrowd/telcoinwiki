@@ -29,6 +29,8 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
   const bgRef = useRef<HTMLDivElement | null>(null)
   const progressRef = useRef<HTMLDivElement | null>(null)
   const countRef = useRef<HTMLDivElement | null>(null)
+  const statusRef = useRef<HTMLDivElement | null>(null)
+  const lastIndexRef = useRef<number>(-1)
   const prefersReducedMotion = usePrefersReducedMotion()
   const isHandheld = useMediaQuery('(max-width: 48rem)')
   const saveData = typeof navigator !== 'undefined' && (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData
@@ -68,14 +70,23 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
         tl.fromTo(progressRef.current, { scaleX: 0 }, { scaleX: 1 }, 0)
       }
 
-      // Update N of M indicator in lockstep with progress
-      if (countRef.current) {
-        tl.eventCallback('onUpdate', () => {
-          const p = tl.progress()
-          const idx = Math.round(p * (items.length - 1)) + 1
-          countRef.current!.textContent = `${idx} of ${items.length}`
-        })
-      }
+      // Update N of M indicator and screen-reader status in lockstep with progress
+      tl.eventCallback('onUpdate', () => {
+        const p = tl.progress()
+        const rawIdx = Math.round(p * (items.length - 1))
+        const clampedIdx = Math.max(0, Math.min(items.length - 1, rawIdx))
+        const humanIdx = clampedIdx + 1
+
+        if (countRef.current) {
+          countRef.current.textContent = `${humanIdx} of ${items.length}`
+        }
+
+        if (statusRef.current && clampedIdx !== lastIndexRef.current) {
+          lastIndexRef.current = clampedIdx
+          const slide = items[clampedIdx]
+          statusRef.current.textContent = `Slide ${humanIdx} of ${items.length}: ${slide?.title ?? ''}`
+        }
+      })
 
       return tl
     },
@@ -174,7 +185,8 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
         <div className="horizontal-rail__vignette horizontal-rail__vignette--right" />
         <div className="horizontal-rail__progress-wrap">
           <div ref={progressRef} className="horizontal-rail__progress" role="progressbar" aria-label="Story progress" />
-          <div ref={countRef} className="horizontal-rail__count" />
+          <div ref={countRef} className="horizontal-rail__count" aria-hidden />
+          <div ref={statusRef} className="sr-only" aria-live="polite" />
         </div>
       </div>
       <div className="horizontal-rail__viewport">

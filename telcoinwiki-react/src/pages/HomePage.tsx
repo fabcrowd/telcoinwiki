@@ -309,6 +309,7 @@ export function HomePage() {
         </div>
         <HorizontalRail
           id="home-rail"
+          parallaxStrength={0.3}
           items={[
             { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance' },
             { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network' },
