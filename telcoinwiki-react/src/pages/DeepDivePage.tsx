@@ -15,20 +15,20 @@ export function DeepDivePage() {
         lede="Explore the Telcoin ecosystem by topic. Each section expands into concise answers and background that tie into the app, the network, and the bank."
       >
         <nav className="toc-chips" aria-label="Deep-Dive sections">
-          <a className="toc-chip" href="#deep-network">
-            Telcoin Network
+          <a className="toc-chip" href="#deep-broken-money">
+            Broken Money
           </a>
-          <a className="toc-chip" href="#deep-token">
-            $TEL Token
+          <a className="toc-chip" href="#deep-telcoin-model">
+            Telcoin Model
           </a>
-          <a className="toc-chip" href="#deep-telx">
-            TELx Liquidity Engine
+          <a className="toc-chip" href="#deep-engine">
+            Engine
           </a>
-          <a className="toc-chip" href="#deep-governance">
-            Association &amp; Governance
+          <a className="toc-chip" href="#deep-experience">
+            Experience
           </a>
-          <a className="toc-chip" href="#deep-holdings">
-            Telcoin Holdings
+          <a className="toc-chip" href="#deep-learn-more">
+            Learn More
           </a>
         </nav>
       </PageIntro>
