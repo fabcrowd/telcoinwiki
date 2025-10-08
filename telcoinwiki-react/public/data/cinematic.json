@@ -1,19 +1,21 @@
 {
+  "videoPolicy": { "minEffectiveType": "3g", "allowSaveData": false },
   "heroLayers": [
-    { "id": "bg", "label": "Ambient background", "poster": null, "sources": null },
-    { "id": "mid", "label": "Flow field", "poster": null, "sources": null },
-    { "id": "hud", "label": "HUD accents", "poster": null, "sources": null }
+    { "id": "bg", "label": "Ambient background", "mask": "diagonal", "poster": null, "sources": null, "durationMs": 1200 },
+    { "id": "mid", "label": "Flow field", "mask": "sweep", "poster": null, "sources": null, "durationMs": 1200, "delayMs": 90 },
+    { "id": "hud", "label": "HUD accents", "mask": "hud", "poster": null, "sources": null, "durationMs": 1200, "delayMs": 160 }
   ],
   "marquee": {
     "speedSec": 33,
+    "reverse": false,
+    "pauseOnHover": true,
     "items": [
-      { "id": "brand-tn", "label": "Telcoin Network" },
-      { "id": "brand-telx", "label": "TELx" },
-      { "id": "brand-tan", "label": "TAN" },
+      { "id": "brand-tn", "label": "Telcoin Network", "logoSrc": "/media/marquee/logos/telcoin-network.svg" },
+      { "id": "brand-telx", "label": "TELx", "logoSrc": "/media/marquee/logos/telx.svg" },
+      { "id": "brand-tan", "label": "TAN", "logoSrc": "/media/marquee/logos/tan.svg" },
       { "id": "brand-ramps", "label": "Licensed Ramps" },
       { "id": "brand-validators", "label": "GSMA Validators" },
       { "id": "brand-wallet", "label": "Telcoin Wallet" }
     ]
   }
 }
-

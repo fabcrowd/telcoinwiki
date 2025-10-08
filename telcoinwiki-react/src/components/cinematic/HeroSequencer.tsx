@@ -46,6 +46,10 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
   const [isNear, setIsNear] = useState(false)
   const [isStarted, setIsStarted] = useState(false)
   const [loadedLayers, setLoadedLayers] = useState<HeroLayer[] | null>(null)
+  const [policy, setPolicy] = useState<{ minEffectiveType: 'slow-2g'|'2g'|'3g'|'4g'; allowSaveData: boolean }>({
+    minEffectiveType: '3g',
+    allowSaveData: false,
+  })
 
   // Default ambient layers (CSS gradient fallbacks); can be replaced by real assets later
   // Load external config if available and map to layers, unless explicit props provided
@@ -58,6 +62,12 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
       const cfg = await loadCinematicConfig()
       if (!mounted) return
       setLoadedLayers(cfg.heroLayers as HeroLayer[])
+      if (cfg.videoPolicy) {
+        setPolicy({
+          minEffectiveType: cfg.videoPolicy.minEffectiveType ?? '3g',
+          allowSaveData: cfg.videoPolicy.allowSaveData ?? false,
+        })
+      }
     })()
     return () => {
       mounted = false
@@ -91,15 +101,30 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
         { id: 'mid', label: 'Flow field', poster: null, sources: null },
         { id: 'hud', label: 'HUD accents', poster: null, sources: null },
       ]).map((layer, index) => {
-        const hasVideo = !!(layer.sources && layer.sources.length) && !prefersReducedMotion
+        const saveData = (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData === true
+        const effectiveType = (navigator as unknown as { connection?: { effectiveType?: string } }).connection?.effectiveType as
+          | 'slow-2g'
+          | '2g'
+          | '3g'
+          | '4g'
+          | undefined
+
+        const rank: Record<'slow-2g'|'2g'|'3g'|'4g', number> = { 'slow-2g': 0, '2g': 1, '3g': 2, '4g': 3 }
+        const meetsConnection = effectiveType ? rank[effectiveType] >= rank[policy.minEffectiveType] : true
+        const canLoadVideo = !prefersReducedMotion && (!saveData || policy.allowSaveData) && meetsConnection
+        const hasVideo = !!(layer.sources && layer.sources.length) && canLoadVideo
         const z = 10 + index
-        const style = { '--hero-layer-z': z } as CSSProperties
+        const style = {
+          '--hero-layer-z': z,
+          animationDuration: `${layer.durationMs ?? 1200}ms`,
+          animationDelay: `${layer.delayMs ?? 0}ms`,
+          animationTimingFunction: layer.easing ?? 'var(--transition-overshoot)',
+        } as CSSProperties
 
         // Different masks per layer for more cinematic feel
+        const mask = layer.mask ?? (layer.id === 'bg' ? 'diagonal' : layer.id === 'mid' ? 'sweep' : 'hud')
         const maskClass =
-          layer.id === 'bg' ? 'mask-diagonal'
-          : layer.id === 'mid' ? 'mask-sweep'
-          : 'mask-hud'
+          mask === 'diagonal' ? 'mask-diagonal' : mask === 'sweep' ? 'mask-sweep' : mask === 'hud' ? 'mask-hud' : ''
 
         return (
           <div key={layer.id} className={cn('hero-layer', isStarted && 'animate-hero-mask', maskClass)} style={style}>

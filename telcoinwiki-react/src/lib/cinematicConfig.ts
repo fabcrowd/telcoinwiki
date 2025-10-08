@@ -12,15 +12,21 @@ export async function loadCinematicConfig(): Promise<CinematicConfig> {
 }
 
 function mergeConfig(base: CinematicConfig, user: Partial<CinematicConfig>): CinematicConfig {
-  return {
-    heroLayers: user.heroLayers && Array.isArray(user.heroLayers) && user.heroLayers.length > 0 ? user.heroLayers : base.heroLayers,
-    marquee: {
-      speedSec: user.marquee?.speedSec ?? base.marquee.speedSec,
-      items:
-        user.marquee?.items && Array.isArray(user.marquee.items) && user.marquee.items.length > 0
-          ? user.marquee.items
-          : base.marquee.items,
-    },
+  const heroLayers = Array.isArray(user.heroLayers) && user.heroLayers.length > 0 ? user.heroLayers : base.heroLayers
+  const marqueeBase = base.marquee
+  const marqueeUser = user.marquee ?? {}
+  const marquee = {
+    speedSec: marqueeUser.speedSec ?? marqueeBase.speedSec,
+    reverse: marqueeUser.reverse ?? marqueeBase.reverse ?? false,
+    pauseOnHover: marqueeUser.pauseOnHover ?? marqueeBase.pauseOnHover ?? true,
+    items:
+      Array.isArray(marqueeUser.items) && marqueeUser.items.length > 0 ? marqueeUser.items : marqueeBase.items,
   }
-}
 
+  const videoPolicy = {
+    minEffectiveType: user.videoPolicy?.minEffectiveType ?? base.videoPolicy?.minEffectiveType ?? '3g',
+    allowSaveData: user.videoPolicy?.allowSaveData ?? base.videoPolicy?.allowSaveData ?? false,
+  }
+
+  return { heroLayers, marquee, videoPolicy }
+}

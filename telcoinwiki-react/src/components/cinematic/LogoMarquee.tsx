@@ -3,30 +3,58 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { loadCinematicConfig } from '../../lib/cinematicConfig'
 
 export interface MarqueeItem {
   id: string
   label: string
   href?: string
   render?: ReactNode // optional custom logo node
+  logoSrc?: string
+  alt?: string
 }
 
 interface LogoMarqueeProps {
-  items: MarqueeItem[]
+  items?: MarqueeItem[]
   speedSec?: number
   reverse?: boolean
+  pauseOnHover?: boolean
   className?: string
 }
 
-export function LogoMarquee({ items, speedSec = 32, reverse = false, className }: LogoMarqueeProps) {
+export function LogoMarquee({ items: propItems, speedSec, reverse, pauseOnHover, className }: LogoMarqueeProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const trackRef = useRef<HTMLDivElement | null>(null)
   const [paused, setPaused] = useState(false)
+  const [items, setItems] = useState<MarqueeItem[]>(propItems ?? [])
+  const [cfg, setCfg] = useState<{ speedSec: number; reverse: boolean; pauseOnHover: boolean }>(
+    {
+      speedSec: speedSec ?? 32,
+      reverse: reverse ?? false,
+      pauseOnHover: pauseOnHover ?? true,
+    },
+  )
+
+  useEffect(() => {
+    if (propItems) return
+    let m = true
+    ;(async () => {
+      const conf = await loadCinematicConfig()
+      if (!m) return
+      setItems(conf.marquee.items as unknown as MarqueeItem[])
+      setCfg({
+        speedSec: speedSec ?? conf.marquee.speedSec ?? 32,
+        reverse: reverse ?? conf.marquee.reverse ?? false,
+        pauseOnHover: pauseOnHover ?? conf.marquee.pauseOnHover ?? true,
+      })
+    })()
+    return () => { m = false }
+  }, [propItems, speedSec, reverse, pauseOnHover])
 
   const list = useMemo(() => (items.length < 6 ? [...items, ...items, ...items] : [...items, ...items]), [items])
 
   const style = {
-    '--marquee-duration': `${speedSec}s`,
+    '--marquee-duration': `${cfg.speedSec}s`,
   } as CSSProperties
 
   useEffect(() => {
@@ -35,10 +63,14 @@ export function LogoMarquee({ items, speedSec = 32, reverse = false, className }
   }, [paused, prefersReducedMotion])
 
   return (
-    <div className={cn('logo-marquee', className)}>
+    <div
+      className={cn('logo-marquee', className)}
+      onMouseEnter={() => cfg.pauseOnHover && setPaused(true)}
+      onMouseLeave={() => cfg.pauseOnHover && setPaused(false)}
+    >
       <div
         ref={trackRef}
-        className={cn('logo-marquee__track', reverse && 'logo-marquee__track--reverse', prefersReducedMotion && 'logo-marquee--static')}
+        className={cn('logo-marquee__track', (reverse ?? cfg.reverse) && 'logo-marquee__track--reverse', prefersReducedMotion && 'logo-marquee--static')}
         style={style}
         aria-hidden
         onMouseMove={(e) => {
@@ -53,15 +85,19 @@ export function LogoMarquee({ items, speedSec = 32, reverse = false, className }
       >
         {list.map((item) => (
           <a
-            key={item.id + '-a'}
+            key={`${item.id}-${item.label}`}
             className="logo-tile"
             href={item.href ?? '#'}
             target={item.href ? '_blank' : undefined}
             rel={item.href ? 'noreferrer noopener' : undefined}
-            title={item.label}
+            aria-label={item.alt ?? item.label}
           >
             <span className="sr-only">{item.label}</span>
-            {item.render ?? <DefaultGlyph label={item.label} />}
+            {item.render
+              ? item.render
+              : item.logoSrc
+                ? <img src={item.logoSrc} height={24} width={24} className="opacity-90" alt={item.alt ?? item.label} />
+                : <DefaultGlyph label={item.label} />}
           </a>
         ))}
       </div>
