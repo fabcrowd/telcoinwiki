@@ -10,6 +10,8 @@ export interface TopologyNode {
   summary: string
   details: string
   position: { x: number; y: number }
+  positionTablet?: { x: number; y: number }
+  positionMobile?: { x: number; y: number }
   relatedFlows: TopologyEdgeType[]
   cta?: {
     label: string
@@ -27,6 +29,14 @@ export interface TopologyEdge {
     x: number
     y: number
   }
+  curveTablet?: {
+    x: number
+    y: number
+  } | null
+  curveMobile?: {
+    x: number
+    y: number
+  } | null
 }
 
 export interface NetworkTopology {
@@ -45,6 +55,8 @@ export const networkTopology: NetworkTopology = {
       details:
         'The Association orchestrates governance, compliance reviews, and validator activation so the network engine stays aligned with regulatory guardrails.',
       position: { x: 50, y: 32 },
+      positionTablet: { x: 50, y: 34 },
+      positionMobile: { x: 50, y: 28 },
       relatedFlows: ['tanTouchpoint', 'telFlow'],
       cta: {
         label: 'Governance pillars',
@@ -60,6 +72,8 @@ export const networkTopology: NetworkTopology = {
       details:
         'A GSMA member operator finalizes blocks close to high-volume Asian corridors, feeding TEL issuance rewards and uptime metrics back to the Association.',
       position: { x: 18, y: 18 },
+      positionTablet: { x: 28, y: 24 },
+      positionMobile: { x: 34, y: 42 },
       relatedFlows: ['telFlow', 'telxFlow'],
       cta: {
         label: 'Validator requirements',
@@ -75,6 +89,8 @@ export const networkTopology: NetworkTopology = {
       details:
         'North American carriers pair telecom security practices with EVM tooling, relaying TELx program updates and TAN change controls.',
       position: { x: 82, y: 18 },
+      positionTablet: { x: 72, y: 24 },
+      positionMobile: { x: 64, y: 50 },
       relatedFlows: ['telFlow', 'tanTouchpoint'],
       cta: {
         label: 'Engine narrative',
@@ -90,6 +106,8 @@ export const networkTopology: NetworkTopology = {
       details:
         'Liquidity providers keep remittance pairs liquid so value routes instantly between corridors, TEL staking, and Digital Cash conversions.',
       position: { x: 25, y: 58 },
+      positionTablet: { x: 30, y: 64 },
+      positionMobile: { x: 34, y: 68 },
       relatedFlows: ['telxFlow'],
       cta: {
         label: 'Explore TELx pools',
@@ -105,6 +123,8 @@ export const networkTopology: NetworkTopology = {
       details:
         'Licensed partners settle fiat and mobile money payouts, pulling liquidity from TELx pools and reporting status back through TAN touchpoints.',
       position: { x: 75, y: 58 },
+      positionTablet: { x: 70, y: 64 },
+      positionMobile: { x: 64, y: 76 },
       relatedFlows: ['telxFlow', 'tanTouchpoint'],
       cta: {
         label: 'See remittance playbooks',
@@ -120,6 +140,8 @@ export const networkTopology: NetworkTopology = {
       details:
         'The Telcoin Wallet exposes regulated cash-in and cash-out, anchored to the Association-controlled smart contracts and network validators.',
       position: { x: 50, y: 80 },
+      positionTablet: { x: 50, y: 84 },
+      positionMobile: { x: 50, y: 86 },
       relatedFlows: ['telFlow', 'telxFlow', 'tanTouchpoint'],
       cta: {
         label: 'Wallet experience',
@@ -135,6 +157,8 @@ export const networkTopology: NetworkTopology = {
       details:
         'Reserve attestations, cash management, and TAN monitoring keep Digital Cash tokens redeemable, feeding compliance signals back to validators.',
       position: { x: 50, y: 8 },
+      positionTablet: { x: 50, y: 10 },
+      positionMobile: { x: 50, y: 16 },
       relatedFlows: ['tanTouchpoint', 'telxFlow'],
       cta: {
         label: 'Learn about Digital Cash',
@@ -150,6 +174,8 @@ export const networkTopology: NetworkTopology = {
       type: 'tanTouchpoint',
       label: 'Compliance signals',
       curve: { x: 50, y: 55 },
+      curveTablet: { x: 52, y: 58 },
+      curveMobile: { x: 50, y: 68 },
     },
     {
       id: 'edge-association-digital-cash',
@@ -158,6 +184,8 @@ export const networkTopology: NetworkTopology = {
       type: 'tanTouchpoint',
       label: 'Reserve oversight',
       curve: { x: 50, y: 18 },
+      curveTablet: { x: 50, y: 16 },
+      curveMobile: { x: 50, y: 22 },
     },
     {
       id: 'edge-association-validator-apac',
@@ -166,6 +194,8 @@ export const networkTopology: NetworkTopology = {
       type: 'tanTouchpoint',
       label: 'Validator policy sync',
       curve: { x: 34, y: 26 },
+      curveTablet: { x: 36, y: 32 },
+      curveMobile: { x: 42, y: 34 },
     },
     {
       id: 'edge-association-validator-na',
@@ -174,6 +204,8 @@ export const networkTopology: NetworkTopology = {
       type: 'tanTouchpoint',
       label: 'Validator policy sync',
       curve: { x: 66, y: 26 },
+      curveTablet: { x: 64, y: 32 },
+      curveMobile: { x: 58, y: 34 },
     },
     {
       id: 'edge-validator-apac-liquidity',
@@ -182,6 +214,8 @@ export const networkTopology: NetworkTopology = {
       type: 'telFlow',
       label: 'TEL staking rewards',
       curve: { x: 20, y: 38 },
+      curveTablet: { x: 26, y: 44 },
+      curveMobile: null,
     },
     {
       id: 'edge-validator-na-liquidity',
@@ -190,6 +224,8 @@ export const networkTopology: NetworkTopology = {
       type: 'telFlow',
       label: 'TEL staking rewards',
       curve: { x: 80, y: 38 },
+      curveTablet: { x: 74, y: 44 },
+      curveMobile: null,
     },
     {
       id: 'edge-liquidity-wallet',
@@ -198,6 +234,8 @@ export const networkTopology: NetworkTopology = {
       type: 'telxFlow',
       label: 'TELx conversions',
       curve: { x: 38, y: 72 },
+      curveTablet: { x: 34, y: 76 },
+      curveMobile: { x: 40, y: 78 },
     },
     {
       id: 'edge-wallet-remittance',
@@ -206,6 +244,8 @@ export const networkTopology: NetworkTopology = {
       type: 'telxFlow',
       label: 'Remittance settlement',
       curve: { x: 62, y: 72 },
+      curveTablet: { x: 66, y: 76 },
+      curveMobile: { x: 58, y: 78 },
     },
     {
       id: 'edge-digital-cash-wallet',
@@ -214,6 +254,8 @@ export const networkTopology: NetworkTopology = {
       type: 'telxFlow',
       label: 'Digital Cash mint/burn',
       curve: { x: 50, y: 40 },
+      curveTablet: { x: 48, y: 48 },
+      curveMobile: { x: 50, y: 48 },
     },
     {
       id: 'edge-remittance-association',
@@ -222,6 +264,8 @@ export const networkTopology: NetworkTopology = {
       type: 'tanTouchpoint',
       label: 'Reporting & TAN updates',
       curve: { x: 68, y: 44 },
+      curveTablet: { x: 66, y: 48 },
+      curveMobile: { x: 62, y: 48 },
     },
   ],
 }

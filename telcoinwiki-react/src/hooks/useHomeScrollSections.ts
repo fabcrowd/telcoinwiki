@@ -4,6 +4,7 @@ import type { CSSProperties, RefObject } from 'react'
 import { useScrollTimeline } from './useScrollTimeline'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 import { useStageTimeline } from './useStageTimeline'
+import { useMediaQuery } from './useMediaQuery'
 
 const heroStageStops = {
   from: {
@@ -149,14 +150,21 @@ function createStackSectionHook(
   return function useHomeStackSection(): SlidingSectionState {
     const sectionRef = useRef<HTMLElement | null>(null)
     const prefersReducedMotion = usePrefersReducedMotion()
+    const isCompact = useMediaQuery('(max-width: 62rem)')
+    const isHandheld = useMediaQuery('(max-width: 40rem)')
+
+    const stageStart = isHandheld ? 'top 86%' : isCompact ? 'top 80%' : 'top 76%'
+    const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 24%' : 'bottom 30%'
+    const animationStart = isHandheld ? 'top 92%' : isCompact ? 'top 86%' : 'top 80%'
+    const animationEnd = isHandheld ? 'bottom 20%' : isCompact ? 'bottom 24%' : 'bottom 24%'
 
     const stageProgressRaw = useStageTimeline({
       target: sectionRef,
       from: stageStops.from,
       to: stageStops.to,
       scrollTrigger: {
-        start: 'top 76%',
-        end: 'bottom 30%',
+        start: stageStart,
+        end: stageEnd,
         ...(options?.stageScrollTrigger ?? {}),
       },
       prefersReducedMotion,
@@ -185,8 +193,8 @@ function createStackSectionHook(
         )
       },
       {
-        start: 'top 80%',
-        end: 'bottom 24%',
+        start: animationStart,
+        end: animationEnd,
         ...(options?.animationScrollTrigger ?? {}),
       },
     )

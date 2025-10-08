@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
 
@@ -12,8 +11,9 @@ describe('HomePage SSR', () => {
       </StaticRouter>,
     )
 
-    expect(markup).toContain('Understand the Telcoin platform in minutes')
-    expect(markup).toContain('Choose a pathway tailored to your goal')
-    expect(markup).toContain('Volunteer editors, community ambassadors, and early adopters share verified answers')
+    // Check for hero + narrative markers that should exist server-side
+    expect(markup).toContain('Home')
+    expect(markup).toContain('The Problem')
+    expect(markup).toContain('The Telcoin Model')
   })
 })

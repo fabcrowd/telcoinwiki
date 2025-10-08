@@ -1,21 +1,13 @@
 import { motion } from 'framer-motion'
-import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { useId, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 
 import { networkTopology } from '../../data/network/topology'
-import type { TopologyEdge, TopologyEdgeType, TopologyNode } from '../../data/network/topology'
+import type { TopologyEdge, TopologyNode } from '../../data/network/topology'
+import { EDGE_COLORS, EDGE_PATTERNS, FLOW_LABELS } from './edgeMeta'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
-const EDGE_COLORS: Record<TopologyEdgeType, string> = {
-  telFlow: '#2563eb',
-  telxFlow: '#9333ea',
-  tanTouchpoint: '#f97316',
-}
-
-const FLOW_LABELS: Record<TopologyEdgeType, string> = {
-  telFlow: 'TEL issuance & staking flow',
-  telxFlow: 'TELx liquidity flow',
-  tanTouchpoint: 'TAN compliance touchpoint',
-}
+// EDGE_COLORS, EDGE_PATTERNS and FLOW_LABELS now live in edgeMeta.ts
 
 const NODE_TYPE_STYLES: Record<TopologyNode['type'], string> = {
   association: 'from-sky-500/90 to-sky-600/70',
@@ -26,7 +18,40 @@ const NODE_TYPE_STYLES: Record<TopologyNode['type'], string> = {
 
 const VIEWBOX = { width: 100, height: 88 }
 
-function buildPath(edge: TopologyEdge, nodeMap: Map<string, TopologyNode>): string {
+type PositionedNode = TopologyNode & {
+  computedPosition: { x: number; y: number }
+}
+
+type PositionedEdge = TopologyEdge & {
+  selectedCurve?: { x: number; y: number }
+}
+
+function resolveCurve(
+  edge: TopologyEdge,
+  isTablet: boolean,
+  isMobile: boolean,
+): PositionedEdge['selectedCurve'] {
+  if (isMobile) {
+    if (edge.curveMobile === null) {
+      return undefined
+    }
+    return edge.curveMobile ?? edge.curve
+  }
+
+  if (isTablet) {
+    if (edge.curveTablet === null) {
+      return undefined
+    }
+    return edge.curveTablet ?? edge.curve
+  }
+
+  return edge.curve
+}
+
+function buildPath(
+  edge: PositionedEdge,
+  nodeMap: Map<string, PositionedNode>,
+): string {
   const from = nodeMap.get(edge.from)
   const to = nodeMap.get(edge.to)
 
@@ -34,11 +59,11 @@ function buildPath(edge: TopologyEdge, nodeMap: Map<string, TopologyNode>): stri
     return ''
   }
 
-  const move = `M ${from.position.x} ${from.position.y}`
-  const destination = `${to.position.x} ${to.position.y}`
+  const move = `M ${from.computedPosition.x} ${from.computedPosition.y}`
+  const destination = `${to.computedPosition.x} ${to.computedPosition.y}`
 
-  if (edge.curve) {
-    return `${move} Q ${edge.curve.x} ${edge.curve.y} ${destination}`
+  if (edge.selectedCurve) {
+    return `${move} Q ${edge.selectedCurve.x} ${edge.selectedCurve.y} ${destination}`
   }
 
   return `${move} L ${destination}`
@@ -46,27 +71,49 @@ function buildPath(edge: TopologyEdge, nodeMap: Map<string, TopologyNode>): stri
 
 export function InteractiveTopology() {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const saveData = typeof navigator !== 'undefined' && (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData
+  const isTablet = useMediaQuery('(max-width: 1024px)')
+  const isMobile = useMediaQuery('(max-width: 640px)')
   const [activeNodeId, setActiveNodeId] = useState<string>(networkTopology.nodes[0]?.id ?? '')
   const instructionsId = useId()
   const descriptionId = useId()
   const nodeRefs = useRef<Record<string, HTMLButtonElement | null>>({})
 
-  const nodeMap = useMemo(() => new Map(networkTopology.nodes.map((node) => [node.id, node])), [])
-  const activeNode = nodeMap.get(activeNodeId) ?? networkTopology.nodes[0]
+  const positionedNodes = useMemo<PositionedNode[]>(() => {
+    return networkTopology.nodes.map((node) => {
+      const computedPosition = isMobile && node.positionMobile
+        ? node.positionMobile
+        : isTablet && node.positionTablet
+          ? node.positionTablet
+          : node.position
+
+      return { ...node, computedPosition }
+    })
+  }, [isMobile, isTablet])
+
+  const positionedEdges = useMemo<PositionedEdge[]>(() => {
+    return networkTopology.edges.map((edge) => ({
+      ...edge,
+      selectedCurve: resolveCurve(edge, isTablet, isMobile),
+    }))
+  }, [isMobile, isTablet])
+
+  const nodeMap = useMemo(() => new Map(positionedNodes.map((node) => [node.id, node])), [positionedNodes])
+  const activeNode = nodeMap.get(activeNodeId) ?? positionedNodes[0]
 
   const activeEdgeIds = useMemo(() => {
     return new Set(
-      networkTopology.edges
+      positionedEdges
         .filter((edge) => edge.from === activeNodeId || edge.to === activeNodeId)
         .map((edge) => edge.id),
     )
-  }, [activeNodeId])
+  }, [activeNodeId, positionedEdges])
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
       event.preventDefault()
 
-      const orderedNodes = networkTopology.nodes
+      const orderedNodes = positionedNodes
       const currentIndex = orderedNodes.findIndex((node) => node.id === activeNodeId)
       if (currentIndex === -1) {
         return
@@ -80,6 +127,18 @@ export function InteractiveTopology() {
       nodeRefs.current[nextNode.id]?.focus()
     }
   }
+
+  const nodeWidthStyle: CSSProperties = useMemo(() => {
+    if (isMobile) {
+      return { width: 'min(64vw, 13.5rem)' }
+    }
+
+    if (isTablet) {
+      return { width: 'min(32vw, 14.5rem)' }
+    }
+
+    return { width: '15rem' }
+  }, [isMobile, isTablet])
 
   return (
     <div
@@ -107,10 +166,21 @@ export function InteractiveTopology() {
           </defs>
           <rect width="100" height="88" fill="url(#topology-glow)" rx="6" ry="6" />
 
-          {networkTopology.edges.map((edge, index) => {
+          {positionedEdges.map((edge, index) => {
             const path = buildPath(edge, nodeMap)
             const isActive = activeEdgeIds.has(edge.id)
-            const motionProps = prefersReducedMotion
+            const strokeWidth = isMobile
+              ? isActive
+                ? 1.8
+                : 1.1
+              : isTablet
+                ? isActive
+                  ? 2
+                  : 1.2
+                : isActive
+                  ? 2.2
+                  : 1.4
+            const motionProps = prefersReducedMotion || saveData
               ? { initial: { pathLength: 1 }, animate: { pathLength: 1 } }
               : {
                   initial: { pathLength: 0 },
@@ -128,11 +198,11 @@ export function InteractiveTopology() {
                 key={edge.id}
                 d={path}
                 stroke={EDGE_COLORS[edge.type]}
-                strokeWidth={isActive ? 2.2 : 1.4}
+                strokeWidth={strokeWidth}
                 strokeOpacity={isActive ? 0.9 : 0.4}
                 strokeLinecap="round"
                 fill="none"
-                strokeDasharray="1 6"
+                strokeDasharray={EDGE_PATTERNS[edge.type]}
                 {...motionProps}
               >
                 <title>{edge.label}</title>
@@ -142,13 +212,13 @@ export function InteractiveTopology() {
         </svg>
 
         <div className="pointer-events-none absolute inset-0">
-          {networkTopology.nodes.map((node) => {
+          {positionedNodes.map((node) => {
             const isActive = node.id === activeNodeId
             return (
               <div
                 key={node.id}
                 className="absolute"
-                style={{ left: `${node.position.x}%`, top: `${node.position.y}%` }}
+                style={{ left: `${node.computedPosition.x}%`, top: `${node.computedPosition.y}%` }}
               >
                 <button
                   type="button"
@@ -162,12 +232,13 @@ export function InteractiveTopology() {
                   aria-describedby={descriptionId}
                   onFocus={() => setActiveNodeId(node.id)}
                   onMouseEnter={() => setActiveNodeId(node.id)}
+                  style={nodeWidthStyle}
                 >
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90">
                     {node.label}
                   </span>
-                  <span className="text-sm font-semibold text-white drop-shadow">{node.title}</span>
-                  <span className="text-[11px] text-white/80">{node.summary}</span>
+                  <span className="text-sm font-semibold text-white drop-shadow sm:text-base">{node.title}</span>
+                  <span className="text-[11px] leading-snug text-white/80 sm:text-xs">{node.summary}</span>
                 </button>
               </div>
             )
@@ -189,9 +260,14 @@ export function InteractiveTopology() {
             {activeNode.relatedFlows.map((flow) => (
               <span
                 key={`${activeNode.id}-${flow}`}
-                className="inline-flex items-center gap-1 rounded-full border border-telcoin-ink/10 bg-telcoin-surface/70 px-3 py-1 text-xs font-medium text-telcoin-ink"
+                className="inline-flex items-center gap-2 rounded-full border border-telcoin-ink/10 bg-telcoin-surface/70 px-3 py-1 text-xs font-medium text-telcoin-ink"
+                title={FLOW_LABELS[flow]}
               >
                 <span aria-hidden="true" className="h-2 w-2 rounded-full" style={{ backgroundColor: EDGE_COLORS[flow] }} />
+                <span aria-hidden="true" className="font-mono tracking-[0.2em] text-telcoin-ink/80">
+                  {flow === 'tanTouchpoint' ? '⎯⎯' : flow === 'telFlow' ? '– – –' : '· · ·'}
+                </span>
+                <span className="sr-only">Pattern:</span>
                 {FLOW_LABELS[flow]}
               </span>
             ))}

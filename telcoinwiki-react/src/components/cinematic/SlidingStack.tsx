@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { cn } from '../../utils/cn'
 import { ColorMorphCard } from './ColorMorphCard'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 export interface SlidingStackItem {
   id: string
@@ -40,31 +41,47 @@ export function SlidingStack({
 }: SlidingStackProps) {
   const hasMultiple = items.length > 1
   const steps = hasMultiple ? items.length - 1 : 1
+  const isCompact = useMediaQuery('(max-width: 62rem)')
+  const isHandheld = useMediaQuery('(max-width: 40rem)')
   const normalized = prefersReducedMotion ? 0 : progress * steps
-  const baseHeight = 360 + steps * 90
+  const translateUnit = prefersReducedMotion ? 36 : isHandheld ? 56 : isCompact ? 68 : 76
+  const scaleIncrement = prefersReducedMotion ? 0 : isHandheld ? 0.045 : isCompact ? 0.05 : 0.055
+  const opacityFloor = prefersReducedMotion ? 1 : isHandheld ? 0.28 : isCompact ? 0.22 : 0.18
+  const progressDampener = prefersReducedMotion ? 0 : isHandheld ? 0.26 : 0.32
+  const progressFloor = prefersReducedMotion ? 1 : isHandheld ? 0.42 : 0.35
+  const minHeight = prefersReducedMotion || isCompact ? undefined : 360 + steps * 96
+  const staticLayout = prefersReducedMotion || isHandheld
+  const activeIndex = prefersReducedMotion ? 0 : Math.round(normalized)
+
+  const containerStyle: CSSProperties = {
+    ...(minHeight ? { minHeight: `${minHeight}px` } : {}),
+    ...(style ?? {}),
+  }
 
   return (
     <div
-      className={cn('sliding-stack', prefersReducedMotion && 'sliding-stack--static', className)}
+      className={cn('sliding-stack', staticLayout && 'sliding-stack--static', className)}
       data-sliding-stack=""
-      style={{
-        minHeight: `${baseHeight}px`,
-        ...(style ?? {}),
-      }}
+      style={containerStyle}
     >
+      <div className="sr-only" aria-live="polite">
+        {`Section card: ${items[Math.min(Math.max(activeIndex, 0), items.length - 1)]?.title ?? ''}`}
+      </div>
       {items.map((item, index) => {
         const relative = prefersReducedMotion ? index : index - normalized
-        const translateY = prefersReducedMotion ? index * 36 : relative * 76
-        const scale = prefersReducedMotion ? 1 : 1 - Math.min(Math.max(relative, 0), 3) * 0.05
-        const opacityBase = prefersReducedMotion ? 1 : Math.min(Math.max(1 + Math.min(relative, 0), 0.18), 1)
+        const translateY = relative * translateUnit
+        const scale = prefersReducedMotion ? 1 : 1 - Math.min(Math.max(relative, 0), 3) * scaleIncrement
+        const opacityBase = prefersReducedMotion ? 1 : Math.min(Math.max(1 + Math.min(relative, 0), opacityFloor), 1)
         const cardProgress = prefersReducedMotion
           ? 1
-          : Math.min(Math.max(1 - Math.max(relative, 0) * 0.32, 0.35), 1)
+          : Math.min(Math.max(1 - Math.max(relative, 0) * progressDampener, progressFloor), 1)
 
         const style = {
           '--stack-translate': `${formatNumber(translateY)}px`,
           '--stack-scale': formatNumber(scale),
           '--stack-opacity': formatNumber(opacityBase),
+          '--stack-content-translate': `${formatNumber((1 - cardProgress) * 12)}px`,
+          '--stack-content-opacity': formatNumber(0.75 + cardProgress * 0.25),
           zIndex: items.length - index,
         } as CSSProperties
 
@@ -82,8 +99,10 @@ export function SlidingStack({
                 {item.eyebrow}
               </span>
             ) : null}
-            <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
-            <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+            <div className="sliding-stack__content">
+              <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
+              <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+            </div>
             {item.href ? (
               isExternalLink(item.href) ? (
                 <a

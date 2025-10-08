@@ -8,6 +8,7 @@ import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
 import { HeroTicker } from '../components/home/HeroTicker'
 import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
+import { HorizontalRail } from '../components/cinematic/HorizontalRail'
 import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
 import {
   useHomeBrokenMoneyScroll,
@@ -299,6 +300,24 @@ export function HomePage() {
           prefersReducedMotion={state.prefersReducedMotion}
         />
       ))}
+
+      {/* Horizontal sweep carousel mirroring avax-style cards */}
+      <section id="home-carousel" className="anchor-offset">
+        <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+          <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Explore the pillars at your pace</h2>
+          <p className="mb-4 text-telcoin-ink-muted">Swipe through the core sections—each card links into the deep dive.</p>
+        </div>
+        <HorizontalRail
+          id="home-rail"
+          items={[
+            { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance' },
+            { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network' },
+            { id: 'trk-bank', eyebrow: 'Bank', title: 'Wallet + Digital Cash', body: 'A fintech-feel experience with self-custody at the core.', href: '/bank' },
+            { id: 'trk-tokenomics', eyebrow: 'Tokenomics', title: 'TEL burn & regen', body: 'Understand how TEL powers gas, liquidity, rewards, and recycling.', href: '/tokenomics' },
+            { id: 'trk-faq', eyebrow: 'FAQ', title: 'Verified answers', body: 'Every question links back to official Telcoin sources.', href: '/faq' },
+          ]}
+        />
+      </section>
     </>
   )
 }
