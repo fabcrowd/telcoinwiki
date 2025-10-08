@@ -22,7 +22,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "^9.37.0",
     "html-validate": "^9.5.5",
     "linkinator": "^4.1.0",
     "prettier": "^3.3.2"

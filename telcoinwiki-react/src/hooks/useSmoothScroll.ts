@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
-import type Lenis from '@studio-freight/lenis'
-import type { LenisOptions } from '@studio-freight/lenis'
+import type Lenis from 'lenis'
+import type { LenisOptions } from 'lenis'
 
 export interface UseSmoothScrollOptions {
   /**
@@ -23,7 +23,7 @@ export interface SmoothScrollHandle {
 const prefersReducedMotionQuery = '(prefers-reduced-motion: reduce)'
 
 interface AnimationModules {
-  LenisCtor: typeof import('@studio-freight/lenis').default
+  LenisCtor: typeof import('lenis').default
   ScrollTrigger: typeof import('gsap/ScrollTrigger').ScrollTrigger
 }
 
@@ -32,7 +32,7 @@ let animationModulesPromise: Promise<AnimationModules> | null = null
 async function loadAnimationModules(): Promise<AnimationModules> {
   if (!animationModulesPromise) {
     animationModulesPromise = Promise.all([
-      import('@studio-freight/lenis'),
+      import('lenis'),
       import('gsap'),
       import('gsap/ScrollTrigger'),
     ]).then(([lenisModule, gsapModule, scrollTriggerModule]) => {
