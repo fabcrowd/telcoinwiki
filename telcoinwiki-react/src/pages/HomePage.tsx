@@ -314,11 +314,11 @@ export function HomePage() {
           id="home-rail"
           parallaxStrength={0.3}
           items={[
-            { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance' },
-            { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network' },
-            { id: 'trk-bank', eyebrow: 'Bank', title: 'Wallet + Digital Cash', body: 'A fintech-feel experience with self-custody at the core.', href: '/bank' },
-            { id: 'trk-tokenomics', eyebrow: 'Tokenomics', title: 'TEL burn & regen', body: 'Understand how TEL powers gas, liquidity, rewards, and recycling.', href: '/tokenomics' },
-            { id: 'trk-faq', eyebrow: 'FAQ', title: 'Verified answers', body: 'Every question links back to official Telcoin sources.', href: '/faq' },
+            { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance', accentHue: 210 },
+            { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network', accentHue: 170 },
+            { id: 'trk-bank', eyebrow: 'Bank', title: 'Wallet + Digital Cash', body: 'A fintech-feel experience with self-custody at the core.', href: '/bank', accentHue: 42 },
+            { id: 'trk-tokenomics', eyebrow: 'Tokenomics', title: 'TEL burn & regen', body: 'Understand how TEL powers gas, liquidity, rewards, and recycling.', href: '/tokenomics', accentHue: 278 },
+            { id: 'trk-faq', eyebrow: 'FAQ', title: 'Verified answers', body: 'Every question links back to official Telcoin sources.', href: '/faq', accentHue: 336 },
           ]}
         />
       </section>
@@ -331,7 +331,7 @@ export function HomePage() {
         </div>
         <div className="mx-auto max-w-[100vw] overflow-hidden">
           <div className="px-2 sm:px-4">
-            <LogoRail />
+            <LogoMarquee />
           </div>
         </div>
       </section>
@@ -340,19 +340,3 @@ export function HomePage() {
 }
 
 import { LogoMarquee } from '../components/cinematic/LogoMarquee'
-
-function LogoRail() {
-  return (
-    <LogoMarquee
-      speedSec={33}
-      items={[
-        { id: 'brand-tn', label: 'Telcoin Network' },
-        { id: 'brand-telx', label: 'TELx' },
-        { id: 'brand-tan', label: 'TAN' },
-        { id: 'brand-ramps', label: 'Licensed Ramps' },
-        { id: 'brand-validators', label: 'GSMA Validators' },
-        { id: 'brand-wallet', label: 'Telcoin Wallet' },
-      ]}
-    />
-  )
-}

@@ -15,6 +15,8 @@ export interface HorizontalRailItem {
   body: ReactNode
   href?: string
   ctaLabel?: string
+  /** Optional accent hue (0..360) to tint the slide */
+  accentHue?: number
 }
 
 interface HorizontalRailProps {
@@ -129,8 +131,16 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
 
   const content = (
     <div ref={trackRef} className="horizontal-rail__track">
-      {items.map((item) => (
-        <article key={item.id} className="horizontal-rail__slide">
+      {items.map((item) => {
+        const hue = typeof item.accentHue === 'number' ? Math.max(0, Math.min(360, item.accentHue)) : null
+        const style: React.CSSProperties & Record<string, number | string> = hue
+          ? {
+              ['--tc-stage-hue']: hue,
+              ['--tc-stage-accent-hue']: (hue + 24) % 360,
+            }
+          : undefined
+        return (
+          <article key={item.id} className="horizontal-rail__slide color-morph-card p-6" style={style}>
           {item.eyebrow ? (
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
               {item.eyebrow}
@@ -151,8 +161,9 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
               </Link>
             )
           ) : null}
-        </article>
-      ))}
+          </article>
+        )
+      })}
     </div>
   )
 
@@ -161,8 +172,16 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
     return (
       <section id={id} className={cn('horizontal-rail horizontal-rail--fallback', className)}>
         <div className="horizontal-rail__viewport sliding-track">
-          {items.map((item) => (
-            <article key={item.id} className="sliding-track__card color-morph-card p-6">
+          {items.map((item) => {
+            const hue = typeof item.accentHue === 'number' ? Math.max(0, Math.min(360, item.accentHue)) : null
+            const style: React.CSSProperties & Record<string, number | string> = hue
+              ? {
+                  ['--tc-stage-hue']: hue,
+                  ['--tc-stage-accent-hue']: (hue + 24) % 360,
+                }
+              : undefined
+            return (
+              <article key={item.id} className="sliding-track__card color-morph-card p-6" style={style}>
               {item.eyebrow ? (
                 <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
                   {item.eyebrow}
@@ -170,8 +189,9 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
               ) : null}
               <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
               <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
-            </article>
-          ))}
+              </article>
+            )
+          })}
         </div>
       </section>
     )

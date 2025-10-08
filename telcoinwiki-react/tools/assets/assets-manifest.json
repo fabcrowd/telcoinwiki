@@ -1,0 +1,161 @@
+{
+  "fetchedAt": "2025-10-08T11:55:33.654Z",
+  "entries": [
+    {
+      "url": "https://telco.in/logos/telcoin-logo-light.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/telcoin-logo-light.svg",
+      "type": "image/svg+xml",
+      "bytes": 1871
+    },
+    {
+      "url": "https://telco.in/locale/en.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/en.svg",
+      "type": "image/svg+xml",
+      "bytes": 603
+    },
+    {
+      "url": "https://telco.in/locale/lt.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/lt.svg",
+      "type": "image/svg+xml",
+      "bytes": 753
+    },
+    {
+      "url": "https://telco.in/locale/es.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/es.svg",
+      "type": "image/svg+xml",
+      "bytes": 2357
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/ta.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/ta.svg",
+      "type": "image/svg+xml",
+      "bytes": 8107
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/gsma.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/gsma.svg",
+      "type": "image/svg+xml",
+      "bytes": 3753
+    },
+    {
+      "url": "https://telco.in/icons/projects/network.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/network.svg",
+      "type": "image/svg+xml",
+      "bytes": 2759
+    },
+    {
+      "url": "https://telco.in/icons/projects/TEL.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/TEL.svg",
+      "type": "image/svg+xml",
+      "bytes": 273447
+    },
+    {
+      "url": "https://telco.in/icons/projects/TELx.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/TELx.svg",
+      "type": "image/svg+xml",
+      "bytes": 6411
+    },
+    {
+      "url": "https://telco.in/icons/projects/TAN.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/TAN.svg",
+      "type": "image/svg+xml",
+      "bytes": 2134
+    },
+    {
+      "url": "https://telco.in/crypto/usdc.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/usdc.svg",
+      "type": "image/svg+xml",
+      "bytes": 119660
+    },
+    {
+      "url": "https://www.telco.in/logos/telcoin-logo-light.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/telcoin-logo-light.svg",
+      "type": "image/svg+xml",
+      "bytes": 1871
+    },
+    {
+      "url": "https://www.telco.in/locale/en.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/en.svg",
+      "type": "image/svg+xml",
+      "bytes": 603
+    },
+    {
+      "url": "https://www.telco.in/locale/lt.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/lt.svg",
+      "type": "image/svg+xml",
+      "bytes": 753
+    },
+    {
+      "url": "https://www.telco.in/locale/es.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/es.svg",
+      "type": "image/svg+xml",
+      "bytes": 2357
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/ta.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/ta.svg",
+      "type": "image/svg+xml",
+      "bytes": 8107
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/gsma.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/gsma.svg",
+      "type": "image/svg+xml",
+      "bytes": 3753
+    },
+    {
+      "url": "https://www.telco.in/icons/projects/network.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/network.svg",
+      "type": "image/svg+xml",
+      "bytes": 2759
+    },
+    {
+      "url": "https://www.telco.in/icons/projects/TEL.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/TEL.svg",
+      "type": "image/svg+xml",
+      "bytes": 273447
+    },
+    {
+      "url": "https://www.telco.in/icons/projects/TELx.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/TELx.svg",
+      "type": "image/svg+xml",
+      "bytes": 6411
+    },
+    {
+      "url": "https://www.telco.in/icons/projects/TAN.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/TAN.svg",
+      "type": "image/svg+xml",
+      "bytes": 2134
+    },
+    {
+      "url": "https://www.telco.in/crypto/usdc.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/usdc.svg",
+      "type": "image/svg+xml",
+      "bytes": 119660
+    },
+    {
+      "url": "https://telcoin.org/logos/GSMA.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/GSMA.svg",
+      "type": "image/svg+xml",
+      "bytes": 3861
+    },
+    {
+      "url": "https://www.telcoin.org/logos/GSMA.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/GSMA.svg",
+      "type": "image/svg+xml",
+      "bytes": 3861
+    },
+    {
+      "url": "https://telcoin.network/logos/GSMA.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/GSMA.svg",
+      "type": "image/svg+xml",
+      "bytes": 3861
+    },
+    {
+      "url": "https://www.telcoin.network/logos/GSMA.svg",
+      "dest": "telcoinwiki-react/public/media/marquee/logos/GSMA.svg",
+      "type": "image/svg+xml",
+      "bytes": 3861
+    }
+  ]
+}

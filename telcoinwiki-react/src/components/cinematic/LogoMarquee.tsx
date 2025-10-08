@@ -108,7 +108,7 @@ export function LogoMarquee({ items: propItems, speedSec, reverse, pauseOnHover,
             {item.render
               ? item.render
               : item.logoSrc
-                ? <img src={item.logoSrc} height={24} width={24} className="opacity-90" alt={item.alt ?? item.label} />
+                ? <img src={item.logoSrc} height={24} width={24} className="opacity-90" alt={item.alt ?? item.label} loading="lazy" decoding="async" />
                 : <DefaultGlyph label={item.label} />}
           </a>
         ))}
@@ -125,7 +125,7 @@ export function LogoMarquee({ items: propItems, speedSec, reverse, pauseOnHover,
             {userPaused ? 'Play' : 'Pause'} marquee
           </button>
           {cfg.pauseOnHover ? (
-            <span className="ml-3 text-[11px] text-telcoin-ink-subtle" aria-hidden>
+            <span className="ml-3 logo-marquee__hint" aria-hidden>
               Hint: hover to pause • press space to toggle
             </span>
           ) : null}

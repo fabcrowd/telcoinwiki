@@ -411,7 +411,9 @@ pre {
 .logo-tile:hover::after { opacity: 1; }
 .logo-glyph { display: inline-flex; align-items: center; gap: 12px; }
 .logo-glyph__label { font-size: 14px; color: var(--tc-ink-muted); }
-.logo-marquee__hint { font-size: 11px; color: var(--tc-ink-subtle); }
+.logo-marquee__hint { font-size: 11px; color: var(--tc-ink-subtle); opacity: 0; transition: opacity .25s var(--transition-smooth); }
+.logo-marquee:focus-visible .logo-marquee__hint,
+.logo-marquee [aria-pressed]:focus-visible + .logo-marquee__hint { opacity: .75; }
 .horizontal-rail {
   position: relative;
   min-height: 100vh;
