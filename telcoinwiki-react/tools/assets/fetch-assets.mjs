@@ -17,7 +17,8 @@ const LOGO_DIR = join(OUT_DIR, 'marquee/logos')
 const HERO_DIR = join(OUT_DIR, 'hero')
 const MANIFEST = 'telcoinwiki-react/tools/assets/assets-manifest.json'
 
-const MAX_BYTES = 15 * 1024 * 1024 // 15MB cap per file
+const MAX_BYTES_VIDEO = 15 * 1024 * 1024 // 15MB cap per video
+const MAX_BYTES_IMAGE = 4 * 1024 * 1024 // 4MB cap per image (posters)
 const TIMEOUT_MS = 15000
 
 const sleep = (ms)=>new Promise(r=>setTimeout(r,ms))
@@ -43,7 +44,7 @@ async function respectRobots(origin) {
 }
 
 function extractAssetLinks(html, origin) {
-  const re = /(href|src)=["']([^"']+\.(?:svg|mp4|webm))(?:\?[^"']*)?["']/gi
+  const re = /(href|src)=["']([^"']+\.(?:svg|mp4|webm|webp|jpg|jpeg|png))(?:\?[^"']*)?["']/gi
   const out = new Set()
   let m
   while ((m = re.exec(html))) {
@@ -65,8 +66,11 @@ async function headOk(url) {
     if (!res.ok) return null
     const len = Number(res.headers.get('content-length') || '0')
     const type = (res.headers.get('content-type') || '').split(';')[0].trim()
-    if (len && len > MAX_BYTES) return null
-    if (!/^(image\/svg\+xml|video\/mp4|video\/webm)$/.test(type)) return null
+    const isVideo = /^(video\/mp4|video\/webm)$/.test(type)
+    const isImage = /^(image\/(?:svg\+xml|webp|jpeg|png))$/.test(type)
+    if (!isVideo && !isImage) return null
+    if (len && isVideo && len > MAX_BYTES_VIDEO) return null
+    if (len && isImage && len > MAX_BYTES_IMAGE) return null
     return { len, type }
   } catch { return null }
 }
@@ -100,7 +104,7 @@ async function crawlOrigin(origin) {
 function destFor(url) {
   const name = basename(new URL(url).pathname)
   if (/\.svg$/i.test(name)) return join(LOGO_DIR, name)
-  if (/\.(mp4|webm)$/i.test(name)) return join(HERO_DIR, name)
+  if (/\.(mp4|webm|webp|jpg|jpeg|png)$/i.test(name)) return join(HERO_DIR, name)
   return null
 }
 

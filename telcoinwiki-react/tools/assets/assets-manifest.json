@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2025-10-08T11:55:33.654Z",
+  "fetchedAt": "2025-10-08T22:05:47.009Z",
   "entries": [
     {
       "url": "https://telco.in/logos/telcoin-logo-light.svg",
@@ -24,6 +24,78 @@
       "dest": "telcoinwiki-react/public/media/marquee/logos/es.svg",
       "type": "image/svg+xml",
       "bytes": 2357
+    },
+    {
+      "url": "https://telco.in/foregrounds/screens/wallet-mockup-send-php-l.png",
+      "dest": "telcoinwiki-react/public/media/hero/wallet-mockup-send-php-l.png",
+      "type": "image/png",
+      "bytes": 429099
+    },
+    {
+      "url": "https://telco.in/foregrounds/screens/wallet-mockup-home-r.png",
+      "dest": "telcoinwiki-react/public/media/hero/wallet-mockup-home-r.png",
+      "type": "image/png",
+      "bytes": 688886
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eAUD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eAUD.png",
+      "type": "image/png",
+      "bytes": 83068
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eCAD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eCAD.png",
+      "type": "image/png",
+      "bytes": 68265
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eCFA.png",
+      "dest": "telcoinwiki-react/public/media/hero/eCFA.png",
+      "type": "image/png",
+      "bytes": 73481
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eGBP.png",
+      "dest": "telcoinwiki-react/public/media/hero/eGBP.png",
+      "type": "image/png",
+      "bytes": 86763
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eHKD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eHKD.png",
+      "type": "image/png",
+      "bytes": 67319
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eJPY.png",
+      "dest": "telcoinwiki-react/public/media/hero/eJPY.png",
+      "type": "image/png",
+      "bytes": 59783
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eMXN.png",
+      "dest": "telcoinwiki-react/public/media/hero/eMXN.png",
+      "type": "image/png",
+      "bytes": 79066
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eNZD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eNZD.png",
+      "type": "image/png",
+      "bytes": 86071
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eSGD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eSGD.png",
+      "type": "image/png",
+      "bytes": 66912
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eZAR.png",
+      "dest": "telcoinwiki-react/public/media/hero/eZAR.png",
+      "type": "image/png",
+      "bytes": 74756
     },
     {
       "url": "https://telco.in/digital-cash/images/ta.svg",
@@ -90,6 +162,78 @@
       "dest": "telcoinwiki-react/public/media/marquee/logos/es.svg",
       "type": "image/svg+xml",
       "bytes": 2357
+    },
+    {
+      "url": "https://www.telco.in/foregrounds/screens/wallet-mockup-send-php-l.png",
+      "dest": "telcoinwiki-react/public/media/hero/wallet-mockup-send-php-l.png",
+      "type": "image/png",
+      "bytes": 429099
+    },
+    {
+      "url": "https://www.telco.in/foregrounds/screens/wallet-mockup-home-r.png",
+      "dest": "telcoinwiki-react/public/media/hero/wallet-mockup-home-r.png",
+      "type": "image/png",
+      "bytes": 688886
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eAUD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eAUD.png",
+      "type": "image/png",
+      "bytes": 83068
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eCAD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eCAD.png",
+      "type": "image/png",
+      "bytes": 68265
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eCFA.png",
+      "dest": "telcoinwiki-react/public/media/hero/eCFA.png",
+      "type": "image/png",
+      "bytes": 73481
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eGBP.png",
+      "dest": "telcoinwiki-react/public/media/hero/eGBP.png",
+      "type": "image/png",
+      "bytes": 86763
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eHKD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eHKD.png",
+      "type": "image/png",
+      "bytes": 67319
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eJPY.png",
+      "dest": "telcoinwiki-react/public/media/hero/eJPY.png",
+      "type": "image/png",
+      "bytes": 59783
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eMXN.png",
+      "dest": "telcoinwiki-react/public/media/hero/eMXN.png",
+      "type": "image/png",
+      "bytes": 79066
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eNZD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eNZD.png",
+      "type": "image/png",
+      "bytes": 86071
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eSGD.png",
+      "dest": "telcoinwiki-react/public/media/hero/eSGD.png",
+      "type": "image/png",
+      "bytes": 66912
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eZAR.png",
+      "dest": "telcoinwiki-react/public/media/hero/eZAR.png",
+      "type": "image/png",
+      "bytes": 74756
     },
     {
       "url": "https://www.telco.in/digital-cash/images/ta.svg",

@@ -1,9 +1,9 @@
 {
   "videoPolicy": { "minEffectiveType": "3g", "allowSaveData": false },
   "heroLayers": [
-    { "id": "bg", "label": "Ambient background", "mask": "diagonal", "poster": null, "sources": null, "durationMs": 1200 },
-    { "id": "mid", "label": "Flow field", "mask": "sweep", "poster": null, "sources": null, "durationMs": 1200, "delayMs": 90 },
-    { "id": "hud", "label": "HUD accents", "mask": "hud", "poster": null, "sources": null, "durationMs": 1200, "delayMs": 160 }
+    { "id": "bg",  "label": "Ambient background", "mask": "diagonal", "poster": "/media/hero/wallet-mockup-home-r.png",      "sources": null, "durationMs": 1200 },
+    { "id": "mid", "label": "Flow field",          "mask": "sweep",    "poster": "/media/hero/wallet-mockup-send-php-l.png", "sources": null, "durationMs": 1200, "delayMs": 90 },
+    { "id": "hud", "label": "HUD accents",         "mask": "hud",      "poster": "/media/hero/eCAD.png",                   "sources": null, "durationMs": 1200, "delayMs": 160 }
   ],
   "marquee": {
     "speedSec": 33,
