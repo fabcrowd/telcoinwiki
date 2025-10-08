@@ -149,9 +149,10 @@ function createStackSectionHook(
 ): () => SlidingSectionState {
   return function useHomeStackSection(): SlidingSectionState {
     const sectionRef = useRef<HTMLElement | null>(null)
-    const prefersReducedMotion = usePrefersReducedMotion()
+    const systemPrefersReducedMotion = usePrefersReducedMotion()
     const isCompact = useMediaQuery('(max-width: 62rem)')
     const isHandheld = useMediaQuery('(max-width: 40rem)')
+    const prefersReducedMotion = systemPrefersReducedMotion || isHandheld
 
     const stageStart = isHandheld ? 'top 86%' : isCompact ? 'top 80%' : 'top 76%'
     const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 24%' : 'bottom 30%'
