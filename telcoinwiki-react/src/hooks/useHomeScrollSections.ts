@@ -307,6 +307,8 @@ function createStackSectionHook(
         top: `${topValue.toFixed(3)}vh`,
         transform: `translate3d(0, -${translateValue.toFixed(3)}%, 0)`,
         willChange: 'transform, top',
+        // Expose a normalized center focus weight to drive workspace sizing
+        ['--workspace-center' as any]: centerWeight.toFixed(3),
       } as CSSProperties
     }, [interactive, stackProgress])
 

@@ -324,6 +324,44 @@ pre {
   box-shadow: var(--shadow-glass);
 }
 
+/* Workspace (main) card: fills the viewport as the intro centers */
+.workspace-card {
+  position: relative;
+  z-index: 2; /* above the sub-cards which animate underneath */
+  /* The StickyModule sets --workspace-center (0..1) on the sticky container. */
+  --workspace-center: var(--workspace-center, 0);
+}
+
+.workspace-card__inner {
+  width: clamp(48rem, calc(70vw + 12rem * var(--workspace-center)), 92vw);
+  min-height: clamp(22rem, calc(56vh + 24vh * var(--workspace-center)), 92vh);
+  margin-inline: auto;
+  border-radius: calc(var(--radius-card) + 12px * var(--workspace-center));
+  box-shadow:
+    0 12px 28px rgba(5, 12, 32, calc(0.18 + 0.18 * var(--workspace-center))),
+    0 40px 80px rgba(5, 12, 32, calc(0.16 + 0.12 * var(--workspace-center)));
+  transition: width 0.4s var(--transition-smooth),
+    min-height 0.4s var(--transition-smooth),
+    border-radius 0.4s var(--transition-smooth),
+    box-shadow 0.4s var(--transition-smooth);
+}
+
+.workspace-card [data-section-intro] {
+  /* Keep intro copy centered vertically while the workspace is focused */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 40vh;
+}
+
+@media (max-width: 62rem) {
+  .workspace-card__inner {
+    width: clamp(20rem, calc(92vw - 2rem), 92vw);
+    min-height: clamp(18rem, calc(56vh + 20vh * var(--workspace-center)), 86vh);
+  }
+}
+
+
 /* Hero Sequencer */
 .hero-sequencer {
   position: absolute;

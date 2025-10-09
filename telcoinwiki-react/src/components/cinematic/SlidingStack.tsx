@@ -131,27 +131,30 @@ export function SlidingStack({
       const stackOffset = 4
       const segmentDuration = 1
 
-      // Phase mapping: lead hold (drag intro to center) -> horizontal slides -> tail hold (drag out)
-      // Keep the horizontal slides confined to the middle 64% of total progress so
-      // the intro can "drag" to center first, then resume after cards complete.
+      // Phase mapping: lead hold (drag intro to center) -> accordion fan-out -> per-card exits -> tail hold (drag out)
+      // Keep the horizontal phases confined to the middle 64% so the intro can "drag" to center first, then resume after.
       const HOLD_IN_FRAC = 0.18
       const HOLD_OUT_FRAC = 0.18
       const BODY_FRAC = 1 - HOLD_IN_FRAC - HOLD_OUT_FRAC // 0.64
 
-      const bodyDuration = cards.length * segmentDuration
+      const exitDuration = cards.length * segmentDuration
+      const fanDuration = Math.max(0.5, Math.min(cards.length * 0.35, 1.2))
+      const bodyDuration = fanDuration + exitDuration
       const leadHold = bodyDuration * (HOLD_IN_FRAC / BODY_FRAC)
       const tailHold = bodyDuration * (HOLD_OUT_FRAC / BODY_FRAC)
 
+      // Initial state: all sub-cards stacked under the main workspace, slightly offset in Y to suggest depth
       cards.forEach((card, index) => {
         timeline.set(
           card,
           {
+            x: 0,
             xPercent: 0,
             yPercent: index * stackOffset,
             rotation: index === 0 ? 0 : -index * 0.6,
             opacity: 1,
             zIndex: cards.length - index,
-            pointerEvents: index === 0 ? 'auto' : 'none',
+            pointerEvents: 'none',
           },
           0,
         )
@@ -188,17 +191,36 @@ export function SlidingStack({
         updateLiveRegion(currentActiveIndex)
       }
 
+      // Accordion fan-out: reveal the smaller sub-cards left→right beneath the main workspace card, then pause
+      const baseSpacingVw = isCompact ? 11 : 10
+      const fanStep = fanDuration / Math.max(1, cards.length)
+      cards.forEach((card, index) => {
+        const stageX = `${index * baseSpacingVw}vw`
+        timeline.to(
+          card,
+          {
+            x: stageX,
+            rotation: Math.max(0, index * 1.2),
+            duration: fanStep,
+            ease: 'none',
+          },
+          leadHold + index * fanStep,
+        )
+      })
+
+      // Per-card exits: one-by-one, each staged card slides smoothly off-screen to the right
       cards.forEach((card, index) => {
         timeline.to(
           card,
           {
-            xPercent: 240,
+            xPercent: 220,
             rotation: 6,
             opacity: 0,
             pointerEvents: 'none',
             duration: segmentDuration,
+            ease: 'none',
           },
-          leadHold + index * segmentDuration,
+          leadHold + fanDuration + index * segmentDuration,
         )
       })
 
@@ -216,7 +238,11 @@ export function SlidingStack({
         // Compute active index based only on the horizontal slide body range
         const time = timeline.time()
         const tBody = Math.max(0, Math.min(bodyDuration, time - leadHold))
-        const nextIndex = Math.min(cards.length - 1, Math.max(0, Math.floor(tBody / segmentDuration + SNAP_EPSILON)))
+        const tAfterFan = Math.max(0, tBody - fanDuration)
+        const nextIndex = Math.min(
+          cards.length - 1,
+          Math.max(0, Math.floor(tAfterFan / segmentDuration + SNAP_EPSILON)),
+        )
         setActiveCard(nextIndex)
       })
 
