@@ -53,8 +53,8 @@ export function SlidingStack({
   const containerRef = useRef<HTMLDivElement | null>(null)
   const liveRegionRef = useRef<HTMLDivElement | null>(null)
   const cardRefs = useRef<Array<HTMLElement | null>>([])
-  const tabOutRefs = useRef<Array<HTMLElement | null>>([])
-  const tabInRefs = useRef<Array<HTMLElement | null>>([])
+  const tabRefs = useRef<Array<HTMLElement | null>>([])
+  const contentRefs = useRef<Array<HTMLElement | null>>([])
   const progressCallbackRef = useRef(onProgressChange)
   const [moduleElement, setModuleElement] = useState<HTMLElement | null>(null)
 
@@ -87,16 +87,16 @@ export function SlidingStack({
     [],
   )
 
-  const setTabOutRef = useCallback(
+  const setTabRef = useCallback(
     (index: number) => (element: HTMLElement | null) => {
-      tabOutRefs.current[index] = element
+      tabRefs.current[index] = element
     },
     [],
   )
 
-  const setTabInRef = useCallback(
+  const setContentRef = useCallback(
     (index: number) => (element: HTMLElement | null) => {
-      tabInRefs.current[index] = element
+      contentRefs.current[index] = element
     },
     [],
   )
@@ -176,15 +176,16 @@ export function SlidingStack({
         )
       })
 
-      // Tabs: each card has two label states
-      const tabsOut = tabOutRefs.current.filter((t): t is HTMLElement => Boolean(t))
-      const tabsIn = tabInRefs.current.filter((t): t is HTMLElement => Boolean(t))
-
-      tabsOut.forEach((tab, index) => {
-        timeline.set(tab, { opacity: 1, y: -index * 10 }, 0)
+      // Tabs: single element peeks from right when stacked, slides into locked top-left on fan-out
+      const tabs = tabRefs.current.filter((t): t is HTMLElement => Boolean(t))
+      tabs.forEach((tab, index) => {
+        timeline.set(tab, { x: 'calc(100% + 2.2rem)', y: -index * 10 }, 0)
       })
-      tabsIn.forEach((tab) => {
-        timeline.set(tab, { opacity: 0, y: 0 }, 0)
+
+      // Sliding content: start offset to the right; slides in during fan-out (no fading)
+      const contents = contentRefs.current.filter((c): c is HTMLElement => Boolean(c))
+      contents.forEach((content) => {
+        timeline.set(content, { x: '8vw' }, 0)
       })
 
       let currentActiveIndex = 0
@@ -223,33 +224,26 @@ export function SlidingStack({
       const fanStep = fanDuration / Math.max(1, cards.length)
       cards.forEach((card, index) => {
         const stageX = `${index * baseSpacingVw}vw`
+        const when = leadHold + index * fanStep
         timeline.to(
           card,
           {
             x: stageX,
-            rotation: Math.max(0, index * 1.2),
+            rotation: 0,
             duration: fanStep,
             ease: 'none',
           },
-          leadHold + index * fanStep,
+          when,
         )
 
-        // Tabs crossfade: filing-cabinet tab (out) -> locked header (in)
-        const tabOut = tabsOut[index]
-        const tabIn = tabsIn[index]
-        if (tabOut) {
-          timeline.to(
-            tabOut,
-            { opacity: 0, y: 0, duration: fanStep, ease: 'none' },
-            leadHold + index * fanStep,
-          )
+        const tab = tabs[index]
+        if (tab) {
+          timeline.to(tab, { x: 0, y: 0, duration: fanStep, ease: 'none' }, when)
         }
-        if (tabIn) {
-          timeline.to(
-            tabIn,
-            { opacity: 1, y: 0, duration: fanStep, ease: 'none' },
-            leadHold + index * fanStep,
-          )
+
+        const content = contents[index]
+        if (content) {
+          timeline.to(content, { x: 0, duration: fanStep, ease: 'none' }, when)
         }
       })
 
@@ -260,7 +254,6 @@ export function SlidingStack({
           {
             xPercent: 220,
             rotation: 0,
-            opacity: 0,
             pointerEvents: 'none',
             duration: segmentDuration,
             ease: 'none',
@@ -368,9 +361,9 @@ export function SlidingStack({
               progress={1}
               className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
             >
-              <div className="sliding-stack__tab sl-st-tab-in">
-                <span className="sl-st-tab-in__text">{item.title}</span>
-              </div>
+            <div className="sliding-stack__tab">
+              <span className="sliding-stack__tab-text">{item.title}</span>
+            </div>
               {renderCardContent(item, ctaLabel)}
             </ColorMorphCard>
           )
@@ -398,15 +391,14 @@ export function SlidingStack({
             progress={1}
             className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
           >
-            {/* Filing-cabinet style tab that peeks out on the right when stacked */}
-            <div ref={setTabOutRef(index)} className="sliding-stack__tab sl-st-tab-out" aria-hidden>
-              <span className="sl-st-tab-out__text">{item.title}</span>
+            {/* Filing-cabinet tab: peeks from right when stacked; slides into top-left when staged */}
+            <div ref={setTabRef(index)} className="sliding-stack__tab" aria-hidden>
+              <span className="sliding-stack__tab-text">{item.title}</span>
             </div>
-            {/* Locked header label used once staged */}
-            <div ref={setTabInRef(index)} className="sliding-stack__tab sl-st-tab-in" aria-hidden>
-              <span className="sl-st-tab-in__text">{item.title}</span>
+            {/* Content wrapper that slides horizontally into place (no fading) */}
+            <div ref={setContentRef(index)}>
+              {renderCardContent(item, ctaLabel)}
             </div>
-            {renderCardContent(item, ctaLabel)}
           </ColorMorphCard>
         )
       })}

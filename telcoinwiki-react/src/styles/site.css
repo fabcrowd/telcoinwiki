@@ -244,6 +244,7 @@ pre {
   transition: none;
   pointer-events: none;
   will-change: transform, opacity;
+  overflow: hidden;
 }
 
 .sliding-stack--interactive .sliding-stack__card.is-active {
@@ -339,6 +340,9 @@ pre {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   border-radius: calc(var(--radius-card) + 12px * var(--workspace-center));
+  /* Swipe-to-reveal: hard mask from top controlled by --workspace-reveal (0..1) */
+  clip-path: inset(calc((1 - var(--workspace-reveal, 0)) * 70%) 0 0 0 round inherit);
+  will-change: clip-path;
   box-shadow:
     0 12px 28px rgba(5, 12, 32, calc(0.18 + 0.18 * var(--workspace-center))),
     0 40px 80px rgba(5, 12, 32, calc(0.16 + 0.12 * var(--workspace-center)));
@@ -388,18 +392,7 @@ pre {
   pointer-events: none;
 }
 
-/* Tab when stacked: peek from the right edge */
-.sl-st-tab-out {
-  left: auto;
-  right: -2.25rem; /* protrude beyond card */
-  transform-origin: right center;
-}
-
-/* Tab when staged: lock at top-left inside card */
-.sl-st-tab-in {
-  left: 0.75rem;
-  right: auto;
-}
+/* Note: no fading — tabs start peeking at right via transform and slide into place */
 
 
 /* Hero Sequencer */

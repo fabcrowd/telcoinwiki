@@ -268,6 +268,25 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Horizontal sweep carousel mirroring avax-style cards — chained to first workspace */}
+      <section id="home-carousel" className="anchor-offset">
+        <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+          <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Explore the pillars at your pace</h2>
+          <p className="mb-4 text-telcoin-ink-muted">Swipe through the core sectionsâ€”each card links into the deep dive.</p>
+        </div>
+        <HorizontalRail
+          id="home-rail"
+          parallaxStrength={0.3}
+          items={[
+            { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance', accentHue: 210 },
+            { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network', accentHue: 170 },
+            { id: 'trk-bank', eyebrow: 'Bank', title: 'Wallet + Digital Cash', body: 'A fintech-feel experience with self-custody at the core.', href: '/bank', accentHue: 42 },
+            { id: 'trk-tokenomics', eyebrow: 'Tokenomics', title: 'TEL burn & regen', body: 'Understand how TEL powers gas, liquidity, rewards, and recycling.', href: '/tokenomics', accentHue: 278 },
+            { id: 'trk-faq', eyebrow: 'FAQ', title: 'Verified answers', body: 'Every question links back to official Telcoin sources.', href: '/faq', accentHue: 336 },
+          ]}
+        />
+      </section>
+
       {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => (
         <StickyModule
           key={id}
@@ -307,25 +326,6 @@ export function HomePage() {
           stickyStyle={state.stickyStyle}
         />
       ))}
-
-      {/* Horizontal sweep carousel mirroring avax-style cards */}
-      <section id="home-carousel" className="anchor-offset">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-          <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Explore the pillars at your pace</h2>
-          <p className="mb-4 text-telcoin-ink-muted">Swipe through the core sectionsâ€”each card links into the deep dive.</p>
-        </div>
-        <HorizontalRail
-          id="home-rail"
-          parallaxStrength={0.3}
-          items={[
-            { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance', accentHue: 210 },
-            { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network', accentHue: 170 },
-            { id: 'trk-bank', eyebrow: 'Bank', title: 'Wallet + Digital Cash', body: 'A fintech-feel experience with self-custody at the core.', href: '/bank', accentHue: 42 },
-            { id: 'trk-tokenomics', eyebrow: 'Tokenomics', title: 'TEL burn & regen', body: 'Understand how TEL powers gas, liquidity, rewards, and recycling.', href: '/tokenomics', accentHue: 278 },
-            { id: 'trk-faq', eyebrow: 'FAQ', title: 'Verified answers', body: 'Every question links back to official Telcoin sources.', href: '/faq', accentHue: 336 },
-          ]}
-        />
-      </section>
 
       {/* Trusted by / Ecosystem marquee */}
       <section id="home-trust" className="anchor-offset">
