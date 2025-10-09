@@ -333,9 +333,11 @@ pre {
 }
 
 .workspace-card__inner {
-  width: clamp(48rem, calc(70vw + 12rem * var(--workspace-center)), 92vw);
-  min-height: clamp(22rem, calc(56vh + 24vh * var(--workspace-center)), 92vh);
-  margin-inline: auto;
+  /* Full-bleed workspace: stretch to viewport and break out of the content container */
+  width: 100vw;
+  min-height: 100svh;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   border-radius: calc(var(--radius-card) + 12px * var(--workspace-center));
   box-shadow:
     0 12px 28px rgba(5, 12, 32, calc(0.18 + 0.18 * var(--workspace-center))),
@@ -356,9 +358,47 @@ pre {
 
 @media (max-width: 62rem) {
   .workspace-card__inner {
-    width: clamp(20rem, calc(92vw - 2rem), 92vw);
-    min-height: clamp(18rem, calc(56vh + 20vh * var(--workspace-center)), 86vh);
+    width: 100vw;
+    min-height: 100svh;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
+}
+
+/* Filing-cabinet style tabs for SlidingStack */
+.sliding-stack__tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--tc-ink);
+  background: var(--tc-surface);
+  border: 1px solid var(--tc-border);
+  border-bottom: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: 0 4px 8px rgba(5, 12, 32, 0.18);
+  pointer-events: none;
+}
+
+/* Tab when stacked: peek from the right edge */
+.sl-st-tab-out {
+  left: auto;
+  right: -2.25rem; /* protrude beyond card */
+  transform-origin: right center;
+}
+
+/* Tab when staged: lock at top-left inside card */
+.sl-st-tab-in {
+  left: 0.75rem;
+  right: auto;
 }
 
 

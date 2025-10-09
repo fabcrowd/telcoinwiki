@@ -53,6 +53,8 @@ export function SlidingStack({
   const containerRef = useRef<HTMLDivElement | null>(null)
   const liveRegionRef = useRef<HTMLDivElement | null>(null)
   const cardRefs = useRef<Array<HTMLElement | null>>([])
+  const tabOutRefs = useRef<Array<HTMLElement | null>>([])
+  const tabInRefs = useRef<Array<HTMLElement | null>>([])
   const progressCallbackRef = useRef(onProgressChange)
   const [moduleElement, setModuleElement] = useState<HTMLElement | null>(null)
 
@@ -81,6 +83,20 @@ export function SlidingStack({
   const setCardRef = useCallback(
     (index: number) => (element: HTMLElement | null) => {
       cardRefs.current[index] = element
+    },
+    [],
+  )
+
+  const setTabOutRef = useCallback(
+    (index: number) => (element: HTMLElement | null) => {
+      tabOutRefs.current[index] = element
+    },
+    [],
+  )
+
+  const setTabInRef = useCallback(
+    (index: number) => (element: HTMLElement | null) => {
+      tabInRefs.current[index] = element
     },
     [],
   )
@@ -143,7 +159,7 @@ export function SlidingStack({
       const leadHold = bodyDuration * (HOLD_IN_FRAC / BODY_FRAC)
       const tailHold = bodyDuration * (HOLD_OUT_FRAC / BODY_FRAC)
 
-      // Initial state: all sub-cards stacked under the main workspace, slightly offset in Y to suggest depth
+      // Initial state: all sub-cards stacked under the main workspace, slight Y offset for depth
       cards.forEach((card, index) => {
         timeline.set(
           card,
@@ -158,6 +174,17 @@ export function SlidingStack({
           },
           0,
         )
+      })
+
+      // Tabs: each card has two label states
+      const tabsOut = tabOutRefs.current.filter((t): t is HTMLElement => Boolean(t))
+      const tabsIn = tabInRefs.current.filter((t): t is HTMLElement => Boolean(t))
+
+      tabsOut.forEach((tab, index) => {
+        timeline.set(tab, { opacity: 1, y: -index * 10 }, 0)
+      })
+      tabsIn.forEach((tab) => {
+        timeline.set(tab, { opacity: 0, y: 0 }, 0)
       })
 
       let currentActiveIndex = 0
@@ -206,6 +233,24 @@ export function SlidingStack({
           },
           leadHold + index * fanStep,
         )
+
+        // Tabs crossfade: filing-cabinet tab (out) -> locked header (in)
+        const tabOut = tabsOut[index]
+        const tabIn = tabsIn[index]
+        if (tabOut) {
+          timeline.to(
+            tabOut,
+            { opacity: 0, y: 0, duration: fanStep, ease: 'none' },
+            leadHold + index * fanStep,
+          )
+        }
+        if (tabIn) {
+          timeline.to(
+            tabIn,
+            { opacity: 1, y: 0, duration: fanStep, ease: 'none' },
+            leadHold + index * fanStep,
+          )
+        }
       })
 
       // Per-card exits: one-by-one, each staged card slides smoothly off-screen to the right
@@ -214,7 +259,7 @@ export function SlidingStack({
           card,
           {
             xPercent: 220,
-            rotation: 6,
+            rotation: 0,
             opacity: 0,
             pointerEvents: 'none',
             duration: segmentDuration,
@@ -323,6 +368,9 @@ export function SlidingStack({
               progress={1}
               className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
             >
+              <div className="sliding-stack__tab sl-st-tab-in">
+                <span className="sl-st-tab-in__text">{item.title}</span>
+              </div>
               {renderCardContent(item, ctaLabel)}
             </ColorMorphCard>
           )
@@ -350,6 +398,14 @@ export function SlidingStack({
             progress={1}
             className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
           >
+            {/* Filing-cabinet style tab that peeks out on the right when stacked */}
+            <div ref={setTabOutRef(index)} className="sliding-stack__tab sl-st-tab-out" aria-hidden>
+              <span className="sl-st-tab-out__text">{item.title}</span>
+            </div>
+            {/* Locked header label used once staged */}
+            <div ref={setTabInRef(index)} className="sliding-stack__tab sl-st-tab-in" aria-hidden>
+              <span className="sl-st-tab-in__text">{item.title}</span>
+            </div>
             {renderCardContent(item, ctaLabel)}
           </ColorMorphCard>
         )
