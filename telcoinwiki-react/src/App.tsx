@@ -23,18 +23,16 @@ const queryClient = new QueryClient({
 const AppRoutes = () => (
   <Routes>
     {APP_ROUTES.map(({ path, pageId, Component, headings, layout = 'app' }) => {
-      const element =
+      const content =
         layout === 'cinematic' ? (
-          <Suspense fallback={null}>
-            <CinematicLayout
-              pageId={pageId}
-              navItems={NAV_ITEMS}
-              pageMeta={PAGE_META}
-              searchConfig={SEARCH_CONFIG}
-            >
-              <Component />
-            </CinematicLayout>
-          </Suspense>
+          <CinematicLayout
+            pageId={pageId}
+            navItems={NAV_ITEMS}
+            pageMeta={PAGE_META}
+            searchConfig={SEARCH_CONFIG}
+          >
+            <Component />
+          </CinematicLayout>
         ) : (
           <AppLayout
             pageId={pageId}
@@ -47,7 +45,9 @@ const AppRoutes = () => (
           </AppLayout>
         )
 
-      return <Route key={path} path={path} element={element} />
+      return (
+        <Route key={path} path={path} element={<Suspense fallback={null}>{content}</Suspense>} />
+      )
     })}
     <Route
       path="*"

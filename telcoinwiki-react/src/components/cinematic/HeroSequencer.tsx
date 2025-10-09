@@ -61,44 +61,53 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
   const [resolvedSources, setResolvedSources] = useState<Record<string, { src: string; type: string }[]>>({})
 
   useEffect(() => {
-    let mounted = true
+    if (!isNear || !layers.length) {
+      return
+    }
+    if (prefersReducedMotion) {
+      setResolvedSources({})
+      return
+    }
+    let cancelled = false
     const client = tryGetSupabaseClient()
     ;(async () => {
       const out: Record<string, { src: string; type: string }[]> = {}
       for (const layer of layers) {
         const list = layer.sources ?? []
         const resolved: { src: string; type: string }[] = []
-        for (const s of list) {
-          if ('supabase' in s) {
+        for (const source of list) {
+          if ('supabase' in source) {
             if (!client) continue
-            const { bucket, path, expiresIn = 3600 } = s.supabase
+            const { bucket, path, expiresIn = 3600 } = source.supabase
             try {
               const { data, error } = await client.storage.from(bucket).createSignedUrl(path, expiresIn)
               if (!error && data?.signedUrl) {
-                resolved.push({ src: data.signedUrl, type: s.type })
+                resolved.push({ src: data.signedUrl, type: source.type })
               }
             } catch {
               // ignore and continue
             }
           } else {
-            resolved.push({ src: s.src, type: s.type })
+            resolved.push({ src: source.src, type: source.type })
           }
         }
         if (resolved.length) out[layer.id] = resolved
       }
-      if (mounted) setResolvedSources(out)
+      if (!cancelled) {
+        setResolvedSources(out)
+      }
     })()
     return () => {
-      mounted = false
+      cancelled = true
     }
-  }, [layers])
+  }, [isNear, layers, prefersReducedMotion])
 
   useEffect(() => {
-    if (propLayers) return
-    let mounted = true
+    if (propLayers || loadedLayers || !isNear) return
+    let cancelled = false
     ;(async () => {
       const cfg = await loadCinematicConfig()
-      if (!mounted) return
+      if (cancelled) return
       setLoadedLayers(cfg.heroLayers as HeroLayer[])
       if (cfg.videoPolicy) {
         setPolicy({
@@ -108,9 +117,9 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
       }
     })()
     return () => {
-      mounted = false
+      cancelled = true
     }
-  }, [propLayers])
+  }, [propLayers, loadedLayers, isNear])
 
   // Observe proximity to viewport to avoid hurting LCP
   useEffect(() => {

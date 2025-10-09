@@ -246,6 +246,18 @@ pre {
   will-change: transform, opacity;
 }
 
+[data-sticky-module-content] {
+  content-visibility: auto;
+  contain: layout paint;
+  contain-intrinsic-size: 1024px;
+}
+
+[data-prefers-reduced-motion] [data-sticky-module-content] {
+  content-visibility: visible;
+  contain: initial;
+  contain-intrinsic-size: auto;
+}
+
 .sliding-stack--interactive .sliding-stack__card.is-active {
   pointer-events: auto;
   box-shadow: 0 30px 60px rgba(5, 12, 32, 0.38);
