@@ -111,9 +111,11 @@ export function SlidingStack({
       ? {
           start: 'top top',
           end: `+=${Math.max(120, items.length * 120)}%`,
-          scrub: true,
+          // Slight scrub smoothing cooperates with snap to avoid jitter
+          scrub: 0.6,
           pin: true,
-          anticipatePin: 0.6,
+          // Helps avoid layout jumps when pinning on fast scrolls
+          anticipatePin: 1,
           snap: items.length
             ? {
                 snapTo: (value) => {
@@ -121,11 +123,12 @@ export function SlidingStack({
                   if (segments <= 0) {
                     return value
                   }
+                  // Snap to the nearest segment (value is progress 0..1)
                   const snapped = Math.round(value * segments) / segments
                   return Math.max(0, Math.min(1, snapped))
                 },
-                duration: 0.2,
-                ease: 'power1.out',
+                duration: { min: 0.18, max: 0.3 },
+                ease: 'power2.out',
               }
             : undefined,
         }
@@ -321,4 +324,3 @@ export function SlidingStack({
     </div>
   )
 }
-

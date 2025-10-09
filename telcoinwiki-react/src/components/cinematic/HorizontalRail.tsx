@@ -130,7 +130,16 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
           start: 'top top',
           end: `+=${Math.max(200, totalSlides * 100)}%`,
           pin: true,
-          scrub: 1,
+          scrub: 0.8,
+          // Snap progression so each slide settles cleanly at center like a card-edge clamp
+          snap:
+            totalSlides > 1
+              ? {
+                  snapTo: 1 / (totalSlides - 1),
+                  duration: { min: 0.18, max: 0.35 },
+                  ease: 'power3.out',
+                }
+              : undefined,
         }
       : undefined,
   })

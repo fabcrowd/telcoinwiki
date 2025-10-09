@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import type { NavItem, PageMetaMap, SearchConfig } from '../../config/types'
 import { Header } from './Header'
 import { MAIN_CONTENT_ID, useHashScroll, useLayoutChrome } from './layoutShared'
+import { useSmoothScroll } from '../../hooks/useSmoothScroll'
 
 const StarfieldCanvas = lazy(() =>
   import('../visual/StarfieldCanvas').then((module) => ({ default: module.StarfieldCanvas })),
@@ -23,6 +24,8 @@ export function CinematicLayout({
   searchConfig,
   children,
 }: CinematicLayoutProps) {
+  // Enable Lenis+GSAP smooth scrolling on cinematic pages for stable pinned timelines
+  useSmoothScroll({ enabled: true, lenis: { smoothWheel: true, smoothTouch: false } })
   const { hash, pathname } = useLocation()
   useHashScroll(hash, pathname)
 
