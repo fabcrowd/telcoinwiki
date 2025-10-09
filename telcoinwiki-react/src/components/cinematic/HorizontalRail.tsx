@@ -281,12 +281,18 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
     }
 
     const targetProgress = nextIndex / maxIndex
-    const timeline = timelineRef.current as any
+    const timeline = timelineRef.current
     if (!timeline) {
       return
     }
-    if (typeof timeline.tweenTo === 'function') {
-      timeline.tweenTo(timeline.duration() * targetProgress, { duration: 0.45, ease: 'power2.out' })
+    const tweenableTimeline = timeline as typeof timeline & {
+      tweenTo?: (position: number, vars?: Record<string, unknown>) => unknown
+    }
+    if (typeof tweenableTimeline.tweenTo === 'function') {
+      tweenableTimeline.tweenTo(timeline.duration() * targetProgress, {
+        duration: 0.45,
+        ease: 'power2.out',
+      })
     } else {
       timeline.progress(targetProgress)
     }

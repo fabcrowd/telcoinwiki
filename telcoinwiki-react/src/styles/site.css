@@ -240,7 +240,7 @@ pre {
 .sliding-stack--interactive .sliding-stack__card {
   position: absolute;
   inset: 0;
-  transform-origin: center;
+  transform-origin: left center;
   transition: none;
   pointer-events: none;
   will-change: transform, opacity;

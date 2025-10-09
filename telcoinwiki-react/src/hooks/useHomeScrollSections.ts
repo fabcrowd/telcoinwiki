@@ -282,36 +282,40 @@ function createStackSectionHook(
       }
 
       const clamped = Math.max(0, Math.min(1, stackProgress))
-      const holdIn = 0.18
-      const holdOut = 0.82
+      const ENTRY_THRESHOLD = 0.24
+      const EXIT_THRESHOLD = 0.76
 
       const smooth = (value: number) => value * value * (3 - 2 * value)
 
-      let centerWeight: number
-      if (clamped <= holdIn) {
-        const divisor = holdIn === 0 ? 1 : holdIn
-        const t = Math.min(Math.max(clamped / divisor, 0), 1)
-        centerWeight = smooth(t)
-      } else if (clamped >= holdOut) {
-        const denominator = 1 - holdOut
-        const t = denominator === 0 ? 1 : Math.min(Math.max((clamped - holdOut) / denominator, 0), 1)
-        centerWeight = smooth(1 - t)
-      } else {
-        centerWeight = 1
+      const enterPhase = ENTRY_THRESHOLD <= 0 ? 1 : Math.min(Math.max(clamped / ENTRY_THRESHOLD, 0), 1)
+      const exitPhase = EXIT_THRESHOLD >= 1 ? 0 : Math.min(
+        Math.max((clamped - EXIT_THRESHOLD) / (1 - EXIT_THRESHOLD), 0),
+        1,
+      )
+
+      const enterEase = smooth(enterPhase)
+      const exitEase = smooth(exitPhase)
+
+      const centerWeight = enterEase * (1 - exitEase)
+
+      // Translate from below the viewport, hold centered, then lift out.
+      const ENTRY_OFFSET = 130
+      const EXIT_OFFSET = 140
+      const translateEnter = (1 - enterEase) * ENTRY_OFFSET
+      const translateExit = exitEase * EXIT_OFFSET
+      const translatePercent = -50 + translateEnter - translateExit
+
+      const revealWeight = centerWeight
+
+      const stickyVars: CSSProperties & Record<'--workspace-center' | '--workspace-reveal', string> = {
+        top: '50vh',
+        transform: `translate3d(0, ${translatePercent.toFixed(3)}%, 0)`,
+        willChange: 'transform',
+        '--workspace-center': centerWeight.toFixed(3),
+        '--workspace-reveal': revealWeight.toFixed(3),
       }
 
-      const topValue = 20 + (50 - 20) * centerWeight
-      const translateValue = 50 * centerWeight
-
-      return {
-        top: `${topValue.toFixed(3)}vh`,
-        transform: `translate3d(0, -${translateValue.toFixed(3)}%, 0)`,
-        willChange: 'transform, top',
-        // Expose a normalized center focus weight to drive workspace sizing
-        ['--workspace-center' as any]: centerWeight.toFixed(3),
-        // Drive a hard clip-path reveal for the workspace
-        ['--workspace-reveal' as any]: centerWeight.toFixed(3),
-      } as CSSProperties
+      return stickyVars
     }, [interactive, stackProgress])
 
     useEffect(() => {
@@ -339,8 +343,6 @@ function createStackSectionHook(
       prefersReducedMotion,
       sectionRef,
       (timeline) => {
-        // No fading: just a subtle position settle
-        timeline.fromTo('[data-section-intro]', { y: 36 }, { y: 0, duration: 0.7, ease: 'power2.out' }, 0)
         timeline.fromTo('[data-sliding-stack]', { y: 52 }, { y: 0, duration: 0.9, ease: 'power2.out' }, 0.18)
       },
       animationScrollTrigger,
