@@ -3,7 +3,9 @@ import { forwardRef, useMemo } from 'react'
 
 import { cn } from '../../utils/cn'
 
-interface StickyModuleProps extends ComponentPropsWithoutRef<'section'> {
+type SectionProps = Omit<ComponentPropsWithoutRef<'section'>, 'content'>
+
+interface StickyModuleProps extends SectionProps {
   sticky: ReactNode
   content: ReactNode
   top?: string | number

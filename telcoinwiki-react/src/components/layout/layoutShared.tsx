@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import type { ComponentProps, ReactElement } from 'react'
 import { useLayoutEffect, useMemo, useState } from 'react'
 import type { NavItem, SearchConfig } from '../../config/types'
 import { Header } from './Header'
@@ -15,8 +15,8 @@ interface UseLayoutChromeOptions {
 
 interface LayoutChrome {
   headerProps: ComponentProps<typeof Header>
-  footer: JSX.Element
-  searchModal: JSX.Element
+  footer: ReactElement
+  searchModal: ReactElement
 }
 
 export function useLayoutChrome({

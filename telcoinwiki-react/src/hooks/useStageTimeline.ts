@@ -1,12 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-
 import { clamp01, lerp } from '../utils/interpolate'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
-import { useScrollTimeline } from './useScrollTimeline'
+import { useScrollTimeline, type ScrollTriggerVars } from './useScrollTimeline'
 
-interface StageStop {
+export interface StageStop {
   hue: number
   accentHue?: number
   overlayOpacity?: number
@@ -20,8 +18,14 @@ export interface UseStageTimelineConfig {
   target: Parameters<typeof useScrollTimeline>[0]['target']
   from: StageStop
   to: StageStop
-  scrollTrigger?: ScrollTriggerType.Vars
+  scrollTrigger?: ScrollTriggerVars
   prefersReducedMotion?: boolean
+}
+
+type ScrollTriggerInstance = {
+  progress: number
+  isActive: boolean
+  eventCallback?: (event: string, callback?: () => void) => unknown
 }
 
 interface NormalizedStageStop {
@@ -107,7 +111,7 @@ export function useStageTimeline({
   const toStop = useStageStopMemo(to)
 
   const combinedScrollTrigger = useMemo(() => {
-    const base: ScrollTriggerType.Vars = { ...(scrollTrigger ?? {}) }
+    const base: ScrollTriggerVars = { ...(scrollTrigger ?? {}) }
 
     if (shouldReduce) {
       base.scrub = false
@@ -128,7 +132,7 @@ export function useStageTimeline({
         }
 
         const root = document.documentElement
-        const trigger = timeline.scrollTrigger
+        const trigger = (timeline.scrollTrigger ?? null) as ScrollTriggerInstance | null
 
         if (shouldReduce) {
           const applyFrom = () => {
@@ -140,10 +144,10 @@ export function useStageTimeline({
             setProgress(1)
           }
 
-          trigger?.eventCallback('onEnter', applyTo)
-          trigger?.eventCallback('onEnterBack', applyTo)
-          trigger?.eventCallback('onLeave', applyFrom)
-          trigger?.eventCallback('onLeaveBack', applyFrom)
+          trigger?.eventCallback?.('onEnter', applyTo)
+          trigger?.eventCallback?.('onEnterBack', applyTo)
+          trigger?.eventCallback?.('onLeave', applyFrom)
+          trigger?.eventCallback?.('onLeaveBack', applyFrom)
 
           if (trigger && (trigger.progress > 0 || trigger.isActive)) {
             applyTo()

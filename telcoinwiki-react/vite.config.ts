@@ -15,11 +15,4 @@ export default defineConfig({
       '@scroll': fileURLToPath(new URL('./src/lib/scroll', import.meta.url)),
     },
   },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
-    css: true,
-    passWithNoTests: true,
-  },
 })

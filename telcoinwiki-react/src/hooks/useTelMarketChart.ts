@@ -9,6 +9,13 @@ export interface TelMarketChartData {
   fetchedAt: Date
 }
 
+type RawMarketChart = Partial<
+  Pick<TelMarketChartData, 'prices' | 'marketCaps' | 'totalVolumes'> & {
+    total_volumes?: MarketDataPoint[]
+    market_caps?: MarketDataPoint[]
+  }
+>
+
 export interface TelMarketChartState {
   data: TelMarketChartData | null
   loading: boolean
@@ -68,17 +75,17 @@ export function useTelMarketChart(options: TelMarketChartOptions = {}): TelMarke
           throw new Error(`Chart request failed: ${response.status}`)
         }
 
-        const json = (await response.json()) as Partial<TelMarketChartData>
-        const prices = Array.isArray(json.prices) ? (json.prices as MarketDataPoint[]) : []
+        const json = (await response.json()) as RawMarketChart
+        const prices = Array.isArray(json.prices) ? json.prices : []
         const totalVolumes = Array.isArray(json.total_volumes)
-          ? (json.total_volumes as MarketDataPoint[])
+          ? json.total_volumes
           : Array.isArray(json.totalVolumes)
-            ? (json.totalVolumes as MarketDataPoint[])
+            ? json.totalVolumes
             : []
         const marketCaps = Array.isArray(json.market_caps)
-          ? (json.market_caps as MarketDataPoint[])
+          ? json.market_caps
           : Array.isArray(json.marketCaps)
-            ? (json.marketCaps as MarketDataPoint[])
+            ? json.marketCaps
             : undefined
 
         if (!prices.length) {

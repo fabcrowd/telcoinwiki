@@ -1,10 +1,12 @@
 import { useMemo, useRef } from 'react'
 import type { CSSProperties, RefObject } from 'react'
 
-import { useScrollTimeline } from './useScrollTimeline'
+import { useScrollTimeline, type ScrollTimelineTarget } from './useScrollTimeline'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
-import { useStageTimeline } from './useStageTimeline'
+import { useStageTimeline, type StageStop } from './useStageTimeline'
 import { useMediaQuery } from './useMediaQuery'
+
+type StageStops = { readonly from: StageStop; readonly to: StageStop }
 
 const heroStageStops = {
   from: {
@@ -25,7 +27,7 @@ const heroStageStops = {
     cardBorderOpacity: 0.52,
     cardShadowOpacity: 0.34,
   },
-} as const
+} satisfies StageStops
 
 const brokenMoneyStageStops = {
   from: {
@@ -40,7 +42,7 @@ const brokenMoneyStageStops = {
     cardBorderOpacity: 0.52,
     cardShadowOpacity: 0.35,
   },
-} as const
+} satisfies StageStops
 
 const telcoinModelStageStops = {
   from: {
@@ -55,7 +57,7 @@ const telcoinModelStageStops = {
     cardBorderOpacity: 0.55,
     cardShadowOpacity: 0.36,
   },
-} as const
+} satisfies StageStops
 
 const engineStageStops = {
   from: {
@@ -70,7 +72,7 @@ const engineStageStops = {
     cardBorderOpacity: 0.5,
     cardShadowOpacity: 0.33,
   },
-} as const
+} satisfies StageStops
 
 const experienceStageStops = {
   from: {
@@ -85,7 +87,7 @@ const experienceStageStops = {
     cardBorderOpacity: 0.58,
     cardShadowOpacity: 0.38,
   },
-} as const
+} satisfies StageStops
 
 const learnMoreStageStops = {
   from: {
@@ -100,7 +102,7 @@ const learnMoreStageStops = {
     cardBorderOpacity: 0.53,
     cardShadowOpacity: 0.35,
   },
-} as const
+} satisfies StageStops
 
 type TimelineCreator = Parameters<typeof useScrollTimeline>[0]['create']
 
@@ -109,7 +111,7 @@ function createFadeInStyle(prefersReducedMotion: boolean): CSSProperties | undef
 }
 
 interface BaseSectionState {
-  sectionRef: RefObject<HTMLElement>
+  sectionRef: RefObject<HTMLElement | null>
   prefersReducedMotion: boolean
 }
 
@@ -127,12 +129,12 @@ interface SlidingSectionState extends BaseSectionState {
 
 function useCinematicSection(
   prefersReducedMotion: boolean,
-  sectionRef: RefObject<HTMLElement>,
+  sectionRef: RefObject<HTMLElement | null>,
   create: TimelineCreator,
   options?: Parameters<typeof useScrollTimeline>[0]['scrollTrigger'],
 ) {
   useScrollTimeline({
-    target: prefersReducedMotion ? null : sectionRef,
+    target: (prefersReducedMotion ? null : sectionRef) as ScrollTimelineTarget,
     create,
     scrollTrigger: options,
   })
@@ -144,28 +146,21 @@ interface StackSectionOptions {
 }
 
 function createStackSectionHook(
-  stageStops: typeof heroStageStops,
+  stageStops: StageStops,
   options?: StackSectionOptions,
 ): () => SlidingSectionState {
   return function useHomeStackSection(): SlidingSectionState {
     const sectionRef = useRef<HTMLElement | null>(null)
-<<<<<<< HEAD
-    const prefersReducedMotion = usePrefersReducedMotion()
-    const isCompact = useMediaQuery('(max-width: 62rem)')
-    const isHandheld = useMediaQuery('(max-width: 40rem)')
-=======
     const systemPrefersReducedMotion = usePrefersReducedMotion()
     const isCompact = useMediaQuery('(max-width: 62rem)')
     const isHandheld = useMediaQuery('(max-width: 40rem)')
     const prefersReducedMotion = systemPrefersReducedMotion || isHandheld
->>>>>>> origin/main
 
     const stageStart = isHandheld ? 'top 86%' : isCompact ? 'top 80%' : 'top 76%'
     const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 24%' : 'bottom 30%'
     const animationStart = isHandheld ? 'top 92%' : isCompact ? 'top 86%' : 'top 80%'
     const animationEnd = isHandheld ? 'bottom 20%' : isCompact ? 'bottom 24%' : 'bottom 24%'
-<<<<<<< HEAD
-=======
+
     const animationToggleActions = isHandheld ? 'play none none none' : undefined
 
     const animationScrollTrigger = {
@@ -176,7 +171,6 @@ function createStackSectionHook(
         ? { toggleActions: animationToggleActions }
         : {}),
     }
->>>>>>> origin/main
 
     const stageProgressRaw = useStageTimeline({
       target: sectionRef,
@@ -212,15 +206,7 @@ function createStackSectionHook(
           0.18,
         )
       },
-<<<<<<< HEAD
-      {
-        start: animationStart,
-        end: animationEnd,
-        ...(options?.animationScrollTrigger ?? {}),
-      },
-=======
       animationScrollTrigger,
->>>>>>> origin/main
     )
 
     return { sectionRef, prefersReducedMotion, stageProgress, introStyle, stackStyle }

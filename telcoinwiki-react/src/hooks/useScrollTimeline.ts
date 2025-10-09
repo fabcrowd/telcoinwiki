@@ -1,17 +1,16 @@
 import type { MutableRefObject, RefObject } from 'react'
 import { useEffect, useRef } from 'react'
 
-import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
-
 type GsapExports = typeof import('gsap')
 type GsapInstance = GsapExports['gsap']
 type Timeline = ReturnType<GsapInstance['timeline']>
 type TimelineVars = Parameters<GsapInstance['timeline']>[0]
 type GsapContext = ReturnType<GsapInstance['context']>
+type GsapPlugin = Parameters<GsapInstance['registerPlugin']>[0]
 
 interface ScrollTimelineModules {
   gsap: GsapInstance
-  ScrollTrigger: typeof import('gsap/ScrollTrigger').ScrollTrigger
+  ScrollTrigger: GsapPlugin
 }
 
 let scrollTimelineModulesPromise: Promise<ScrollTimelineModules> | null = null
@@ -35,7 +34,18 @@ async function loadScrollTimelineModules(): Promise<ScrollTimelineModules> {
   return scrollTimelineModulesPromise
 }
 
-type ScrollTimelineTarget = Element | RefObject<Element> | null
+export type ScrollTimelineTarget = Element | RefObject<Element | null> | null
+
+export type ScrollTriggerVars = {
+  start?: string | number
+  end?: string | number
+  toggleActions?: string
+  pin?: boolean | Element | string
+  scrub?: boolean | number
+  trigger?: Element
+  pinSpacing?: boolean | string
+  [key: string]: unknown
+}
 
 export interface UseScrollTimelineConfig {
   /**
@@ -53,16 +63,16 @@ export interface UseScrollTimelineConfig {
   /**
    * Optional ScrollTrigger configuration overriding the sensible defaults.
    */
-  scrollTrigger?: ScrollTriggerType.Vars
+  scrollTrigger?: ScrollTriggerVars
 }
 
-const defaultScrollTrigger: ScrollTriggerType.Vars = {
+const defaultScrollTrigger: ScrollTriggerVars = {
   start: 'top 80%',
   end: 'bottom top',
   toggleActions: 'play reverse play reverse',
 }
 
-function isRefObject(value: ScrollTimelineTarget): value is RefObject<Element> {
+function isRefObject(value: ScrollTimelineTarget): value is RefObject<Element | null> {
   return Boolean(value && typeof value === 'object' && 'current' in value)
 }
 
@@ -122,7 +132,7 @@ export function useScrollTimeline({
           create(createdTimeline, ctx)
         }, element)
       } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (import.meta.env?.MODE !== 'production') {
           console.warn('Failed to load GSAP for scroll timelines', error)
         }
       }
@@ -138,7 +148,7 @@ export function useScrollTimeline({
 
     if (nearViewport) {
       schedule()
-    } else if ('requestIdleCallback' in window) {
+    } else if (typeof window.requestIdleCallback === 'function') {
       ;(window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout?: number }) => number }).requestIdleCallback(
         schedule,
         { timeout: 400 },

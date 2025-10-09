@@ -1,1 +1,31 @@
-{\n  "name": "telcoinwiki",\n  "version": "1.0.0",\n  "private": true,\n  "description": "Build tooling and quality checks for the Telcoin Wiki static site",\n  "engines": {\n    "node": ">=22 <23"\n  },\n  "scripts": {\n    "dev": "npm --prefix telcoinwiki-react run dev",\n    "format": "npm --prefix telcoinwiki-react run format",\n    "lint": "npm --prefix telcoinwiki-react run lint",\n    "lint:ci": "npm --prefix telcoinwiki-react run lint:ci",\n    "test": "npm --prefix telcoinwiki-react run test",\n    "test:ci": "npm --prefix telcoinwiki-react run test:ci",\n    "check:html": "html-validate \"telcoinwiki-react/public/**/*.html\"",\n    "check:links": "linkinator telcoinwiki-react/public/supabase-test/index.html --recurse --silent --skip \"node_modules|dist\"",\n    "prebuild": "node tools/make-supabase-test.mjs telcoinwiki-react/public/supabase-test",\n    "build": "npm --prefix telcoinwiki-react run build",\n    "preview": "npm --prefix telcoinwiki-react run preview",\n    "verify:supabase": "node tools/verify-supabase.mjs",\n    "perf": "node tools/run-perf.mjs"\n  },\n  "type": "module",\n  "devDependencies": {\n    "eslint": "^9.37.0",\n    "html-validate": "^9.5.5",\n    "linkinator": "^4.1.0",\n    "prettier": "^3.3.2"\n  }\n}
+{
+  "name": "telcoinwiki",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build tooling and quality checks for the Telcoin Wiki static site",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "dev": "npm --prefix telcoinwiki-react run dev",
+    "format": "npm --prefix telcoinwiki-react run format",
+    "lint": "npm --prefix telcoinwiki-react run lint",
+    "lint:ci": "npm --prefix telcoinwiki-react run lint:ci",
+    "test": "npm --prefix telcoinwiki-react run test",
+    "test:ci": "npm --prefix telcoinwiki-react run test:ci",
+    "check:html": "html-validate \"telcoinwiki-react/public/**/*.html\"",
+    "check:links": "linkinator telcoinwiki-react/public/supabase-test/index.html --recurse --silent --skip \"node_modules|dist\"",
+    "prebuild": "node tools/make-supabase-test.mjs telcoinwiki-react/public/supabase-test",
+    "build": "npm --prefix telcoinwiki-react run build",
+    "preview": "npm --prefix telcoinwiki-react run preview",
+    "verify:supabase": "node tools/verify-supabase.mjs",
+    "perf": "node tools/run-perf.mjs"
+  },
+  "type": "module",
+  "devDependencies": {
+    "eslint": "^9.37.0",
+    "html-validate": "^9.5.5",
+    "linkinator": "^4.1.0",
+    "prettier": "^3.3.2"
+  }
+}

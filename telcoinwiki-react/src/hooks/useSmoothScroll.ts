@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import type Lenis from 'lenis'
 import type { LenisOptions } from 'lenis'
 
+type ExtendedLenisOptions = LenisOptions & { smoothTouch?: boolean }
+
 export interface UseSmoothScrollOptions {
   /**
    * Allows consumers to disable Lenis entirely (e.g. for specific pages).
@@ -12,7 +14,7 @@ export interface UseSmoothScrollOptions {
   /**
    * Options passed directly to the Lenis constructor.
    */
-  lenis?: LenisOptions
+  lenis?: ExtendedLenisOptions
 }
 
 export interface SmoothScrollHandle {
@@ -24,7 +26,7 @@ const prefersReducedMotionQuery = '(prefers-reduced-motion: reduce)'
 
 interface AnimationModules {
   LenisCtor: typeof import('lenis').default
-  ScrollTrigger: typeof import('gsap/ScrollTrigger').ScrollTrigger
+  ScrollTrigger: { update: () => void; refresh?: () => void }
 }
 
 let animationModulesPromise: Promise<AnimationModules> | null = null
@@ -171,7 +173,7 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         document.addEventListener('visibilitychange', handleVisibilityChange)
         cleanupCallbacks.push(() => document.removeEventListener('visibilitychange', handleVisibilityChange))
 
-        if ('ResizeObserver' in window) {
+        if (typeof window.ResizeObserver === 'function') {
           const resizeObserver = new window.ResizeObserver((entries) => {
             const entry = entries[0]
             if (!entry) {
@@ -205,7 +207,7 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
           handleResize()
         }
 
-        if ('IntersectionObserver' in window) {
+        if (typeof window.IntersectionObserver === 'function') {
           const intersectionObserver = new window.IntersectionObserver((entries) => {
             const entry = entries[0]
             if (!entry) {
@@ -253,7 +255,7 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
 
         startAnimation()
       } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (import.meta.env?.MODE !== 'production') {
           console.warn('Failed to load smooth scroll modules', error)
         }
       }

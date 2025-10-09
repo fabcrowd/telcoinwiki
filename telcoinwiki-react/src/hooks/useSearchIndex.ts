@@ -3,7 +3,7 @@ import type { SearchConfig } from '../config/types'
 import type { FaqEntry } from '../lib/queries'
 import { supabaseQueries } from '../lib/queries'
 import { mapArtifactFaqEntries, type ArtifactFaqEntry } from '../utils/faq'
-import { loadElasticlunr } from '../vendor/loadElasticlunr'
+import { loadElasticlunr, type ElasticlunrFactory, type ElasticlunrIndex } from '../vendor/loadElasticlunr'
 
 interface SearchPageEntry {
   id: string
@@ -39,12 +39,8 @@ export interface SearchResultGroup {
   items: SearchResultItem[]
 }
 
-type ElasticModule = Awaited<ReturnType<typeof loadElasticlunr>>
-type ElasticIndex = ElasticModule['Index']
-type ElasticBuilder = ElasticModule['default']
-
 interface SearchIndexState {
-  index: ElasticIndex<IndexedDocument> | null
+  index: ElasticlunrIndex<IndexedDocument> | null
   documents: Map<string, SearchDocument>
   isLoading: boolean
   error: Error | null
@@ -190,8 +186,8 @@ type IndexedDocument = SearchDocument & { tagsText: string }
 
 const buildIndex = (
   documents: Map<string, SearchDocument>,
-  elasticlunr: ElasticBuilder,
-): ElasticIndex<IndexedDocument> => {
+  elasticlunr: ElasticlunrFactory,
+): ElasticlunrIndex<IndexedDocument> => {
   const index = elasticlunr<IndexedDocument>()
   index.setRef('ref')
   index.addField('title')

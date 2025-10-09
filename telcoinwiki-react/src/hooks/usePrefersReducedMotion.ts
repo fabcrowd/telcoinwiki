@@ -24,16 +24,16 @@ export function usePrefersReducedMotion(): boolean {
 
     updatePreference(mediaQueryList)
 
-    if ('addEventListener' in mediaQueryList) {
+    if (typeof mediaQueryList.addEventListener === 'function') {
       mediaQueryList.addEventListener('change', updatePreference)
-    } else {
+    } else if (typeof mediaQueryList.addListener === 'function') {
       mediaQueryList.addListener(updatePreference)
     }
 
     return () => {
-      if ('removeEventListener' in mediaQueryList) {
+      if (typeof mediaQueryList.removeEventListener === 'function') {
         mediaQueryList.removeEventListener('change', updatePreference)
-      } else {
+      } else if (typeof mediaQueryList.removeListener === 'function') {
         mediaQueryList.removeListener(updatePreference)
       }
     }

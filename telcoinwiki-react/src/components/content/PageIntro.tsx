@@ -5,8 +5,10 @@ import { cn } from '../../utils/cn'
 
 type PageIntroVariant = 'card' | 'hero'
 
-interface PageIntroProps extends Omit<ComponentPropsWithoutRef<'section'>, 'children'> {
-  id: string
+type SectionProps = Omit<ComponentPropsWithoutRef<'section'>, 'children' | 'title'>
+
+interface PageIntroProps extends SectionProps {
+  id?: string
   eyebrow: ReactNode
   title: ReactNode
   lede: ReactNode

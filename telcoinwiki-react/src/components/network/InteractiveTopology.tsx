@@ -18,13 +18,10 @@ const NODE_TYPE_STYLES: Record<TopologyNode['type'], string> = {
 
 const VIEWBOX = { width: 100, height: 88 }
 
-<<<<<<< HEAD
 interface InteractiveTopologyProps {
   describedById?: string
 }
 
-=======
->>>>>>> origin/main
 type PositionedNode = TopologyNode & {
   computedPosition: { x: number; y: number }
 }

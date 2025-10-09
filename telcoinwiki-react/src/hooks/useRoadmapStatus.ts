@@ -45,25 +45,37 @@ function mapServices(payload: unknown): ServiceStatus[] {
     return []
   }
 
-  return payload
-    .map((item) => {
-      if (!item || typeof item !== 'object') return null
-      const record = item as Record<string, unknown>
-      const id = typeof record.id === 'string' ? record.id : undefined
-      const name = typeof record.name === 'string' ? record.name : undefined
-      const status = typeof record.status === 'string' ? record.status : undefined
-      const isGroup = typeof record.group === 'boolean' ? (record.group as boolean) : undefined
-      if (!id || !name || !status || isGroup) {
-        return null
-      }
-      return {
-        id,
-        name,
-        status,
-        group: typeof record.group_id === 'string' ? record.group_id : typeof record.groupId === 'string' ? record.groupId : null,
-      }
+  const results: ServiceStatus[] = []
+
+  payload.forEach((item) => {
+    if (!item || typeof item !== 'object') {
+      return
+    }
+
+    const record = item as Record<string, unknown>
+    const id = typeof record.id === 'string' ? record.id : undefined
+    const name = typeof record.name === 'string' ? record.name : undefined
+    const status = typeof record.status === 'string' ? record.status : undefined
+    const isGroup = typeof record.group === 'boolean' ? (record.group as boolean) : undefined
+
+    if (!id || !name || !status || isGroup) {
+      return
+    }
+
+    results.push({
+      id,
+      name,
+      status,
+      group:
+        typeof record.group_id === 'string'
+          ? record.group_id
+          : typeof record.groupId === 'string'
+            ? record.groupId
+            : null,
     })
-    .filter((item): item is ServiceStatus => Boolean(item))
+  })
+
+  return results
 }
 
 export function useRoadmapStatus(): RoadmapStatusState {

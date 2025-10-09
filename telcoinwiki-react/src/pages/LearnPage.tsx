@@ -36,7 +36,7 @@ export function LearnPage() {
           The homepage story introduces each pillar at a high level. Use these links when you are ready to read the detailed breakdowns for Governance, Network, Bank, and Tokenomics.
         </p>
         <CardGrid
-          columns={4}
+          columns={2}
           items={[
             {
               id: 'learn-start-governance',

@@ -2,18 +2,14 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { loadCinematicConfig } from '../../lib/cinematicConfig'
 import { tryGetSupabaseClient } from '../../lib/supabaseClient'
 import { preferCodecs, pickResolutionVariant } from '../../lib/videoSupport'
+import type { EffectiveType, HeroLayerConfig } from '../../config/cinematic'
 
 import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
-type VideoSource = { src: string; type: string } | { supabase: { bucket: string; path: string; expiresIn?: number }; type: string }
+type HeroLayer = HeroLayerConfig
 
-export interface HeroLayer {
-  id: string
-  label: string
-  poster?: string | null
-  sources?: VideoSource[] | null
-}
+type VideoPolicyState = { minEffectiveType: EffectiveType; allowSaveData: boolean }
 
 interface HeroSequencerProps {
   layers?: HeroLayer[]
@@ -36,8 +32,8 @@ function useIdleStart(active: boolean, cb: () => void) {
         { timeout: 800 },
       )
     } else {
-      const t = window.setTimeout(run, 500)
-      return () => window.clearTimeout(t)
+      const t = setTimeout(run, 500)
+      return () => clearTimeout(t)
     }
   }, [active, cb])
 }
@@ -48,10 +44,7 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
   const [isNear, setIsNear] = useState(false)
   const [isStarted, setIsStarted] = useState(false)
   const [loadedLayers, setLoadedLayers] = useState<HeroLayer[] | null>(null)
-  const [policy, setPolicy] = useState<{ minEffectiveType: 'slow-2g'|'2g'|'3g'|'4g'; allowSaveData: boolean }>({
-    minEffectiveType: '3g',
-    allowSaveData: false,
-  })
+  const [policy, setPolicy] = useState<VideoPolicyState>({ minEffectiveType: '3g', allowSaveData: false })
 
   // Default ambient layers (CSS gradient fallbacks); can be replaced by real assets later
   // Load external config if available and map to layers, unless explicit props provided
@@ -99,7 +92,7 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
     ;(async () => {
       const cfg = await loadCinematicConfig()
       if (!mounted) return
-      setLoadedLayers(cfg.heroLayers as HeroLayer[])
+      setLoadedLayers(cfg.heroLayers)
       if (cfg.videoPolicy) {
         setPolicy({
           minEffectiveType: cfg.videoPolicy.minEffectiveType ?? '3g',
@@ -140,14 +133,10 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
         { id: 'hud', label: 'HUD accents', poster: null, sources: null },
       ]).map((layer, index) => {
         const saveData = (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData === true
-        const effectiveType = (navigator as unknown as { connection?: { effectiveType?: string } }).connection?.effectiveType as
-          | 'slow-2g'
-          | '2g'
-          | '3g'
-          | '4g'
-          | undefined
+        const effectiveType = (navigator as unknown as { connection?: { effectiveType?: string } }).connection
+          ?.effectiveType as EffectiveType | undefined
 
-        const rank: Record<'slow-2g'|'2g'|'3g'|'4g', number> = { 'slow-2g': 0, '2g': 1, '3g': 2, '4g': 3 }
+        const rank: Record<EffectiveType, number> = { 'slow-2g': 0, '2g': 1, '3g': 2, '4g': 3 }
         const meetsConnection = effectiveType ? rank[effectiveType] >= rank[policy.minEffectiveType] : true
         const canLoadVideo = !prefersReducedMotion && (!saveData || policy.allowSaveData) && meetsConnection
         const sourcesForLayer = resolvedSources[layer.id] ?? []

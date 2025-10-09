@@ -14,7 +14,7 @@ export async function loadCinematicConfig(): Promise<CinematicConfig> {
 function mergeConfig(base: CinematicConfig, user: Partial<CinematicConfig>): CinematicConfig {
   const heroLayers = Array.isArray(user.heroLayers) && user.heroLayers.length > 0 ? user.heroLayers : base.heroLayers
   const marqueeBase = base.marquee
-  const marqueeUser = user.marquee ?? {}
+  const marqueeUser: Partial<CinematicConfig['marquee']> = user.marquee ?? {}
   const marquee = {
     speedSec: marqueeUser.speedSec ?? marqueeBase.speedSec,
     reverse: marqueeUser.reverse ?? marqueeBase.reverse ?? false,
