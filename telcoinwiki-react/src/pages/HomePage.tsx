@@ -9,6 +9,7 @@ import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
 import { HeroTicker } from '../components/home/HeroTicker'
 import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
+import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
 import { HorizontalRail } from '../components/cinematic/HorizontalRail'
 import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
 import {
@@ -267,45 +268,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => (
-        <StickyModule
-          key={id}
-          className="stage-theme"
-          ref={state.sectionRef}
-          id={`home-${id}`}
-          aria-labelledby={`home-${id}-heading`}
-          background={
-            <>
-              <ColorShiftBackground
-                prefersReducedMotion={state.prefersReducedMotion}
-                style={colorShiftClip(backgroundClip, state.prefersReducedMotion)}
-              />
-              <StageBackdrop progress={state.stageProgress} />
-            </>
-          }
-          sticky={
-            <div className="flex flex-col gap-4" data-section-intro style={state.introStyle}>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">{label}</p>
-              <h2 id={`home-${id}-heading`} className="text-3xl font-semibold text-telcoin-ink lg:text-4xl">
-                {heading}
-              </h2>
-              <p className="max-w-xl text-lg text-telcoin-ink-muted">{description}</p>
-            </div>
-          }
-          content={
-            <SlidingStack
-              items={cards}
-              onProgressChange={state.onStackProgress}
-              prefersReducedMotion={state.prefersReducedMotion}
-              style={state.stackStyle}
-            />
-          }
-          prefersReducedMotion={state.prefersReducedMotion}
-          stickyStyle={state.stickyStyle}
-        />
-      ))}
-
-      {/* Horizontal sweep carousel mirroring avax-style cards */}
+      {/* Horizontal sweep carousel mirroring avax-style cards — chained to first workspace */}
       <section id="home-carousel" className="anchor-offset">
         <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
           <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Explore the pillars at your pace</h2>
@@ -323,6 +286,46 @@ export function HomePage() {
           ]}
         />
       </section>
+
+      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => (
+        <StickyModule
+          key={id}
+          className="stage-theme"
+          ref={state.sectionRef}
+          id={`home-${id}`}
+          aria-labelledby={`home-${id}-heading`}
+          background={
+            <>
+              <ColorShiftBackground
+                prefersReducedMotion={state.prefersReducedMotion}
+                style={colorShiftClip(backgroundClip, state.prefersReducedMotion)}
+              />
+              <StageBackdrop progress={state.stageProgress} />
+            </>
+          }
+          sticky={
+            <MainWorkspaceCard progress={state.stageProgress}>
+              <div className="flex flex-col gap-4" data-section-intro style={state.introStyle}>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">{label}</p>
+                <h2 id={`home-${id}-heading`} className="text-3xl font-semibold text-telcoin-ink lg:text-4xl">
+                  {heading}
+                </h2>
+                <p className="max-w-xl text-lg text-telcoin-ink-muted">{description}</p>
+              </div>
+            </MainWorkspaceCard>
+          }
+          content={
+            <SlidingStack
+              items={cards}
+              onProgressChange={state.onStackProgress}
+              prefersReducedMotion={state.prefersReducedMotion}
+              style={state.stackStyle}
+            />
+          }
+          prefersReducedMotion={state.prefersReducedMotion}
+          stickyStyle={state.stickyStyle}
+        />
+      ))}
 
       {/* Trusted by / Ecosystem marquee */}
       <section id="home-trust" className="anchor-offset">

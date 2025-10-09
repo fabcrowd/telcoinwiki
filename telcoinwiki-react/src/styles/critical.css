@@ -64,8 +64,9 @@
   box-sizing: border-box;
 }
 
+/* Avoid native CSS smooth scrolling; Lenis/GSAP provide smoothness on cinematic pages. */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {

@@ -6,8 +6,10 @@
   box-sizing: border-box;
 }
 
+/* Avoid native CSS smooth scrolling; Lenis/GSAP handle scroll smoothing.
+   This prevents double-smoothing and jitter when timelines are pinned. */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -241,6 +243,7 @@ pre {
   transform-origin: center;
   transition: none;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .sliding-stack--interactive .sliding-stack__card.is-active {
@@ -320,6 +323,78 @@ pre {
   color: var(--tc-ink);
   box-shadow: var(--shadow-glass);
 }
+
+/* Workspace (main) card: fills the viewport as the intro centers */
+.workspace-card {
+  position: relative;
+  z-index: 2; /* above the sub-cards which animate underneath */
+  /* The StickyModule sets --workspace-center (0..1) on the sticky container. */
+  --workspace-center: var(--workspace-center, 0);
+}
+
+.workspace-card__inner {
+  /* Full-bleed workspace: stretch to viewport and break out of the content container */
+  width: 100vw;
+  min-height: 100svh;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  border-radius: calc(var(--radius-card) + 12px * var(--workspace-center));
+  /* Swipe-to-reveal: hard mask from top controlled by --workspace-reveal (0..1) */
+  clip-path: inset(calc((1 - var(--workspace-reveal, 0)) * 70%) 0 0 0 round inherit);
+  will-change: clip-path;
+  box-shadow:
+    0 12px 28px rgba(5, 12, 32, calc(0.18 + 0.18 * var(--workspace-center))),
+    0 40px 80px rgba(5, 12, 32, calc(0.16 + 0.12 * var(--workspace-center)));
+  transition: width 0.4s var(--transition-smooth),
+    min-height 0.4s var(--transition-smooth),
+    border-radius 0.4s var(--transition-smooth),
+    box-shadow 0.4s var(--transition-smooth);
+}
+
+.workspace-card [data-section-intro] {
+  /* Keep intro copy centered vertically while the workspace is focused */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 40vh;
+}
+
+@media (max-width: 62rem) {
+  .workspace-card__inner {
+    width: 100vw;
+    min-height: 100svh;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+}
+
+/* Filing-cabinet style tabs for SlidingStack */
+.sliding-stack__tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--tc-ink);
+  background: var(--tc-surface);
+  border: 1px solid var(--tc-border);
+  border-bottom: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: 0 4px 8px rgba(5, 12, 32, 0.18);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* Note: no fading — tabs start peeking at right via transform and slide into place */
+
 
 /* Hero Sequencer */
 .hero-sequencer {

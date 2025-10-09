@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { CSSProperties, ReactNode, KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { gsap } from 'gsap'
 
 import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
@@ -102,7 +101,8 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
       }
 
       if (progressRef.current) {
-        gsap.set(progressRef.current, { transformOrigin: 'left center' })
+        // Avoid static gsap import; set via DOM and animate on the timeline
+        progressRef.current.style.transformOrigin = 'left center'
         timeline.fromTo(progressRef.current, { scaleX: 0 }, { scaleX: 1 }, 0)
       }
 
@@ -130,7 +130,8 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
           start: 'top top',
           end: `+=${Math.max(200, totalSlides * 100)}%`,
           pin: true,
-          scrub: 1,
+          // Pure scrub so movement mirrors wheel input and reverses smoothly
+          scrub: true,
         }
       : undefined,
   })
@@ -280,16 +281,15 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
     }
 
     const targetProgress = nextIndex / maxIndex
-    const timeline = timelineRef.current
+    const timeline = timelineRef.current as any
     if (!timeline) {
       return
     }
-
-    gsap.to(timeline, {
-      progress: targetProgress,
-      duration: 0.6,
-      ease: 'power3.out',
-    })
+    if (typeof timeline.tweenTo === 'function') {
+      timeline.tweenTo(timeline.duration() * targetProgress, { duration: 0.45, ease: 'power2.out' })
+    } else {
+      timeline.progress(targetProgress)
+    }
   }
 
   return (

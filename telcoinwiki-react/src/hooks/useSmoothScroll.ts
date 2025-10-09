@@ -55,6 +55,7 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
   const { enabled = true, lenis: lenisOptions } = options
   const lenisRef = useRef<Lenis | null>(null)
   const frameRef = useRef<number | null>(null)
+  const previousScrollBehaviorRef = useRef<string | null>(null)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
     if (typeof window === 'undefined') {
       return false
@@ -106,6 +107,11 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         }
 
         const root = document.documentElement
+
+        // Ensure native CSS smooth scrolling doesn't fight Lenis/GSAP.
+        // Store previous inline style so we can restore it on cleanup.
+        previousScrollBehaviorRef.current = root.style.scrollBehavior || null
+        root.style.scrollBehavior = 'auto'
         const lenis = new LenisCtor({
           smoothWheel: true,
           smoothTouch: false,
@@ -249,6 +255,13 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
           lenis.destroy()
           lenisRef.current = null
           lenisInstance = null
+
+          // Restore any previous inline scroll-behavior style
+          if (previousScrollBehaviorRef.current !== null) {
+            root.style.scrollBehavior = previousScrollBehaviorRef.current
+          } else {
+            root.style.removeProperty('scroll-behavior')
+          }
         })
 
         startAnimation()

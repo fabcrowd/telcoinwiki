@@ -307,6 +307,10 @@ function createStackSectionHook(
         top: `${topValue.toFixed(3)}vh`,
         transform: `translate3d(0, -${translateValue.toFixed(3)}%, 0)`,
         willChange: 'transform, top',
+        // Expose a normalized center focus weight to drive workspace sizing
+        ['--workspace-center' as any]: centerWeight.toFixed(3),
+        // Drive a hard clip-path reveal for the workspace
+        ['--workspace-reveal' as any]: centerWeight.toFixed(3),
       } as CSSProperties
     }, [interactive, stackProgress])
 
@@ -335,19 +339,9 @@ function createStackSectionHook(
       prefersReducedMotion,
       sectionRef,
       (timeline) => {
-        timeline.fromTo(
-          '[data-section-intro]',
-          { autoAlpha: 0, y: 36 },
-          { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out' },
-          0,
-        )
-
-        timeline.fromTo(
-          '[data-sliding-stack]',
-          { autoAlpha: 0, y: 52 },
-          { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power2.out' },
-          0.18,
-        )
+        // No fading: just a subtle position settle
+        timeline.fromTo('[data-section-intro]', { y: 36 }, { y: 0, duration: 0.7, ease: 'power2.out' }, 0)
+        timeline.fromTo('[data-sliding-stack]', { y: 52 }, { y: 0, duration: 0.9, ease: 'power2.out' }, 0.18)
       },
       animationScrollTrigger,
     )
@@ -388,13 +382,15 @@ export function useHomeHeroScroll(): HeroSectionState {
     } as CSSProperties
   }, [prefersReducedMotion])
 
-  const copyStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
+  // Keep themes consistent: no fade on hero copy
+  const copyStyle = useMemo<CSSProperties | undefined>(() => (prefersReducedMotion ? { transform: 'none' } : undefined), [prefersReducedMotion])
 
   useCinematicSection(prefersReducedMotion, sectionRef, (timeline) => {
+    // No fade: slide hero copy into place with y-only motion
     timeline.fromTo(
       '[data-hero-copy]',
-      { autoAlpha: 0, y: 48 },
-      { autoAlpha: 1, y: 0, duration: 1, stagger: 0.1, ease: 'power2.out' },
+      { y: 48 },
+      { y: 0, duration: 1, stagger: 0.1, ease: 'power2.out' },
       0,
     )
 
