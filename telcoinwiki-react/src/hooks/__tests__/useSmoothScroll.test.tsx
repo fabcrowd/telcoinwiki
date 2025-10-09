@@ -29,7 +29,7 @@ const { lenisInstances, LenisConstructor, scrollTriggerMock } = vi.hoisted(() =>
   return { lenisInstances: instances, LenisConstructor: constructor, scrollTriggerMock: scrollTrigger }
 })
 
-vi.mock('@studio-freight/lenis', () => ({
+vi.mock('lenis', () => ({
   default: LenisConstructor,
 }))
 

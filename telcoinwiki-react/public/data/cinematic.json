@@ -1,0 +1,51 @@
+{
+  "videoPolicy": { "minEffectiveType": "3g", "allowSaveData": false },
+  "heroLayers": [
+    {
+      "id": "bg",
+      "label": "Global network",
+      "mask": "diagonal",
+      "poster": "/media/hero/bg-1080.webp",
+      "sources": [
+        { "src": "/media/hero/bg-1080.webm", "type": "video/webm" },
+        { "src": "/media/hero/bg-1080.mp4",  "type": "video/mp4" }
+      ],
+      "durationMs": 1200
+    },
+    {
+      "id": "mid",
+      "label": "Data streams",
+      "mask": "sweep",
+      "poster": "/media/hero/mid-1080.webp",
+      "sources": [
+        { "src": "/media/hero/mid-1080.webm", "type": "video/webm" },
+        { "src": "/media/hero/mid-1080.mp4",  "type": "video/mp4" }
+      ],
+      "durationMs": 1200,
+      "delayMs": 120
+    },
+    {
+      "id": "hud",
+      "label": "HUD accents",
+      "mask": "hud",
+      "poster": "/media/hero/eCAD.png",
+      "sources": null,
+      "durationMs": 1200,
+      "delayMs": 200
+    }
+  ],
+  "marquee": {
+    "speedSec": 33,
+    "reverse": false,
+    "pauseOnHover": true,
+    "items": [
+      { "id": "brand-telcoin",    "label": "Telcoin",           "logoSrc": "/media/marquee/logos/telcoin-logo-light.svg", "alt": "Telcoin" },
+      { "id": "brand-network",    "label": "Telcoin Network",   "logoSrc": "/media/marquee/logos/network.svg",            "alt": "Telcoin Network" },
+      { "id": "brand-tel",        "label": "TEL",               "logoSrc": "/media/marquee/logos/TEL.svg",                "alt": "TEL Token" },
+      { "id": "brand-telx",       "label": "TELx",              "logoSrc": "/media/marquee/logos/TELx.svg",               "alt": "TELx Liquidity" },
+      { "id": "brand-tan",        "label": "TAN",               "logoSrc": "/media/marquee/logos/TAN.svg",                "alt": "Telcoin Application Network" },
+      { "id": "brand-gsma",       "label": "GSMA",              "logoSrc": "/media/marquee/logos/gsma.svg",               "alt": "GSMA" },
+      { "id": "brand-usdc",       "label": "USDC",              "logoSrc": "/media/marquee/logos/usdc.svg",               "alt": "USDC" }
+    ]
+  }
+}

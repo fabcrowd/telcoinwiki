@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 
 import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
+import { HeroSequencer } from '../components/cinematic/HeroSequencer'
 import { StageBackdrop } from '../components/cinematic/StageBackdrop'
 import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
@@ -229,6 +230,8 @@ export function HomePage() {
           className="opacity-90"
           style={colorShiftClip('65%', hero.prefersReducedMotion)}
         />
+        {/* Cinematic hero sequencer (uses CSS fallbacks until videos are provided) */}
+        <HeroSequencer className="pointer-events-none absolute inset-0" />
         <StageBackdrop progress={hero.stageProgress} />
         <HeroOverlay
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-telcoin-surface/0 via-telcoin-surface/20 to-telcoin-surface/0"
@@ -309,6 +312,31 @@ export function HomePage() {
         </div>
         <HorizontalRail
           id="home-rail"
+<<<<<<< HEAD
+          parallaxStrength={0.3}
+          items={[
+            { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance', accentHue: 210 },
+            { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network', accentHue: 170 },
+            { id: 'trk-bank', eyebrow: 'Bank', title: 'Wallet + Digital Cash', body: 'A fintech-feel experience with self-custody at the core.', href: '/bank', accentHue: 42 },
+            { id: 'trk-tokenomics', eyebrow: 'Tokenomics', title: 'TEL burn & regen', body: 'Understand how TEL powers gas, liquidity, rewards, and recycling.', href: '/tokenomics', accentHue: 278 },
+            { id: 'trk-faq', eyebrow: 'FAQ', title: 'Verified answers', body: 'Every question links back to official Telcoin sources.', href: '/faq', accentHue: 336 },
+          ]}
+        />
+      </section>
+
+      {/* Trusted by / Ecosystem marquee */}
+      <section id="home-trust" className="anchor-offset">
+        <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+          <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Trusted ecosystem</h2>
+          <p className="mb-4 text-telcoin-ink-muted">Placeholder brands shown; final logos will replace these once assets arrive.</p>
+        </div>
+        <div className="mx-auto max-w-[100vw] overflow-hidden">
+          <div className="px-2 sm:px-4">
+            <LogoMarquee />
+          </div>
+        </div>
+      </section>
+=======
           items={[
             { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance' },
             { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network' },
@@ -318,6 +346,9 @@ export function HomePage() {
           ]}
         />
       </section>
+>>>>>>> origin/main
     </>
   )
 }
+
+import { LogoMarquee } from '../components/cinematic/LogoMarquee'

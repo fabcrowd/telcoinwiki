@@ -18,11 +18,12 @@
     "prebuild": "node tools/make-supabase-test.mjs telcoinwiki-react/public/supabase-test",
     "build": "npm --prefix telcoinwiki-react run build",
     "preview": "npm --prefix telcoinwiki-react run preview",
-    "verify:supabase": "node tools/verify-supabase.mjs"
+    "verify:supabase": "node tools/verify-supabase.mjs",
+    "perf": "node tools/run-perf.mjs"
   },
   "type": "module",
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "^9.37.0",
     "html-validate": "^9.5.5",
     "linkinator": "^4.1.0",
     "prettier": "^3.3.2"

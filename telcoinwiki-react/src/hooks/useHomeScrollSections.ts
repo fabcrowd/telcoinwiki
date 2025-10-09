@@ -149,15 +149,23 @@ function createStackSectionHook(
 ): () => SlidingSectionState {
   return function useHomeStackSection(): SlidingSectionState {
     const sectionRef = useRef<HTMLElement | null>(null)
+<<<<<<< HEAD
+    const prefersReducedMotion = usePrefersReducedMotion()
+    const isCompact = useMediaQuery('(max-width: 62rem)')
+    const isHandheld = useMediaQuery('(max-width: 40rem)')
+=======
     const systemPrefersReducedMotion = usePrefersReducedMotion()
     const isCompact = useMediaQuery('(max-width: 62rem)')
     const isHandheld = useMediaQuery('(max-width: 40rem)')
     const prefersReducedMotion = systemPrefersReducedMotion || isHandheld
+>>>>>>> origin/main
 
     const stageStart = isHandheld ? 'top 86%' : isCompact ? 'top 80%' : 'top 76%'
     const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 24%' : 'bottom 30%'
     const animationStart = isHandheld ? 'top 92%' : isCompact ? 'top 86%' : 'top 80%'
     const animationEnd = isHandheld ? 'bottom 20%' : isCompact ? 'bottom 24%' : 'bottom 24%'
+<<<<<<< HEAD
+=======
     const animationToggleActions = isHandheld ? 'play none none none' : undefined
 
     const animationScrollTrigger = {
@@ -168,6 +176,7 @@ function createStackSectionHook(
         ? { toggleActions: animationToggleActions }
         : {}),
     }
+>>>>>>> origin/main
 
     const stageProgressRaw = useStageTimeline({
       target: sectionRef,
@@ -203,7 +212,15 @@ function createStackSectionHook(
           0.18,
         )
       },
+<<<<<<< HEAD
+      {
+        start: animationStart,
+        end: animationEnd,
+        ...(options?.animationScrollTrigger ?? {}),
+      },
+=======
       animationScrollTrigger,
+>>>>>>> origin/main
     )
 
     return { sectionRef, prefersReducedMotion, stageProgress, introStyle, stackStyle }

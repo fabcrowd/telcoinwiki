@@ -18,6 +18,13 @@ const NODE_TYPE_STYLES: Record<TopologyNode['type'], string> = {
 
 const VIEWBOX = { width: 100, height: 88 }
 
+<<<<<<< HEAD
+interface InteractiveTopologyProps {
+  describedById?: string
+}
+
+=======
+>>>>>>> origin/main
 type PositionedNode = TopologyNode & {
   computedPosition: { x: number; y: number }
 }
@@ -69,7 +76,7 @@ function buildPath(
   return `${move} L ${destination}`
 }
 
-export function InteractiveTopology() {
+export function InteractiveTopology({ describedById }: InteractiveTopologyProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const saveData = typeof navigator !== 'undefined' && (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData
   const isTablet = useMediaQuery('(max-width: 1024px)')
@@ -145,7 +152,7 @@ export function InteractiveTopology() {
       className="relative flex flex-col gap-6"
       role="group"
       aria-labelledby={descriptionId}
-      aria-describedby={instructionsId}
+      aria-describedby={describedById ?? instructionsId}
       onKeyDown={handleKeyDown}
     >
       <div className="sr-only" id={instructionsId}>

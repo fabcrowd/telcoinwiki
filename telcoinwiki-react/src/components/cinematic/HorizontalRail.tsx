@@ -6,6 +6,10 @@ import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { useScrollTimeline } from '../../hooks/useScrollTimeline'
+<<<<<<< HEAD
+import { gsap } from 'gsap'
+=======
+>>>>>>> origin/main
 
 export interface HorizontalRailItem {
   id: string
@@ -14,6 +18,11 @@ export interface HorizontalRailItem {
   body: ReactNode
   href?: string
   ctaLabel?: string
+<<<<<<< HEAD
+  /** Optional accent hue (0..360) to tint the slide */
+  accentHue?: number
+=======
+>>>>>>> origin/main
 }
 
 interface HorizontalRailProps {
@@ -29,6 +38,11 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
   const bgRef = useRef<HTMLDivElement | null>(null)
   const progressRef = useRef<HTMLDivElement | null>(null)
   const countRef = useRef<HTMLDivElement | null>(null)
+<<<<<<< HEAD
+  const statusRef = useRef<HTMLDivElement | null>(null)
+  const lastIndexRef = useRef<number>(-1)
+=======
+>>>>>>> origin/main
   const prefersReducedMotion = usePrefersReducedMotion()
   const isHandheld = useMediaQuery('(max-width: 48rem)')
   const saveData = typeof navigator !== 'undefined' && (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData
@@ -54,10 +68,18 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
 
       // Parallax background glides at a slower rate
       if (bgRef.current) {
+<<<<<<< HEAD
+        const parallax = Math.max(0, Math.min(parallaxStrength, 1)) * (saveData ? 0.1 : 1)
+        tl.fromTo(
+          bgRef.current,
+          { xPercent: 0 },
+          { xPercent: totalPercent * parallax },
+=======
         tl.fromTo(
           bgRef.current,
           { xPercent: 0 },
           { xPercent: totalPercent * Math.max(0, Math.min(parallaxStrength, 1)) },
+>>>>>>> origin/main
           0,
         )
       }
@@ -68,6 +90,25 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
         tl.fromTo(progressRef.current, { scaleX: 0 }, { scaleX: 1 }, 0)
       }
 
+<<<<<<< HEAD
+      // Update N of M indicator and screen-reader status in lockstep with progress
+      tl.eventCallback('onUpdate', () => {
+        const p = tl.progress()
+        const rawIdx = Math.round(p * (items.length - 1))
+        const clampedIdx = Math.max(0, Math.min(items.length - 1, rawIdx))
+        const humanIdx = clampedIdx + 1
+
+        if (countRef.current) {
+          countRef.current.textContent = `${humanIdx} of ${items.length}`
+        }
+
+        if (statusRef.current && clampedIdx !== lastIndexRef.current) {
+          lastIndexRef.current = clampedIdx
+          const slide = items[clampedIdx]
+          statusRef.current.textContent = `Slide ${humanIdx} of ${items.length}: ${slide?.title ?? ''}`
+        }
+      })
+=======
       // Update N of M indicator in lockstep with progress
       if (countRef.current) {
         tl.eventCallback('onUpdate', () => {
@@ -76,6 +117,7 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
           countRef.current!.textContent = `${idx} of ${items.length}`
         })
       }
+>>>>>>> origin/main
 
       return tl
     },
@@ -116,8 +158,21 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
 
   const content = (
     <div ref={trackRef} className="horizontal-rail__track">
+<<<<<<< HEAD
+      {items.map((item) => {
+        const hue = typeof item.accentHue === 'number' ? Math.max(0, Math.min(360, item.accentHue)) : null
+        const style: React.CSSProperties & Record<string, number | string> = hue
+          ? {
+              ['--tc-stage-hue']: hue,
+              ['--tc-stage-accent-hue']: (hue + 24) % 360,
+            }
+          : undefined
+        return (
+          <article key={item.id} className="horizontal-rail__slide color-morph-card p-6" style={style}>
+=======
       {items.map((item) => (
         <article key={item.id} className="horizontal-rail__slide">
+>>>>>>> origin/main
           {item.eyebrow ? (
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
               {item.eyebrow}
@@ -138,8 +193,14 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
               </Link>
             )
           ) : null}
+<<<<<<< HEAD
+          </article>
+        )
+      })}
+=======
         </article>
       ))}
+>>>>>>> origin/main
     </div>
   )
 
@@ -148,8 +209,21 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
     return (
       <section id={id} className={cn('horizontal-rail horizontal-rail--fallback', className)}>
         <div className="horizontal-rail__viewport sliding-track">
+<<<<<<< HEAD
+          {items.map((item) => {
+            const hue = typeof item.accentHue === 'number' ? Math.max(0, Math.min(360, item.accentHue)) : null
+            const style: React.CSSProperties & Record<string, number | string> = hue
+              ? {
+                  ['--tc-stage-hue']: hue,
+                  ['--tc-stage-accent-hue']: (hue + 24) % 360,
+                }
+              : undefined
+            return (
+              <article key={item.id} className="sliding-track__card color-morph-card p-6" style={style}>
+=======
           {items.map((item) => (
             <article key={item.id} className="sliding-track__card color-morph-card p-6">
+>>>>>>> origin/main
               {item.eyebrow ? (
                 <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
                   {item.eyebrow}
@@ -157,15 +231,71 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
               ) : null}
               <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
               <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+<<<<<<< HEAD
+              </article>
+            )
+          })}
+=======
             </article>
           ))}
+>>>>>>> origin/main
         </div>
       </section>
     )
   }
 
   return (
+<<<<<<< HEAD
+    <section
+      id={id}
+      ref={containerRef}
+      className={cn('horizontal-rail', className)}
+      aria-label="Horizontal storyline"
+      role="group"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+        e.preventDefault()
+        // Find current transform by reading progress from the progress bar scaleX
+        const maxIndex = Math.max(0, items.length - 1)
+        // Estimate progress using countRef when available
+        let current = 0
+        if (countRef.current?.textContent) {
+          const m = /(\d+) of (\d+)/.exec(countRef.current.textContent)
+          if (m) {
+            current = Math.max(0, Math.min(maxIndex, parseInt(m[1], 10) - 1))
+          }
+        }
+        const next = Math.max(0, Math.min(maxIndex, current + (e.key === 'ArrowRight' ? 1 : -1)))
+        const target = maxIndex === 0 ? 0 : next / maxIndex
+        // Smoothly tween the pinned timeline's progress via progress bar scaleX
+        if (progressRef.current) {
+          gsap.to(progressRef.current, {
+            scaleX: target,
+            duration: 0.6,
+            ease: 'power3.out',
+            onUpdate: () => {
+              // mirror count/status updates for SR users
+              const humanIdx = Math.round(target * maxIndex) + 1
+              if (countRef.current) countRef.current.textContent = `${humanIdx} of ${items.length}`
+              if (statusRef.current) statusRef.current.textContent = `Slide ${humanIdx} of ${items.length}: ${items[humanIdx - 1]?.title ?? ''}`
+              if (trackRef.current) {
+                const totalPercent = -(items.length - 1) * 100
+                trackRef.current.style.transform = `translateX(${(totalPercent * target).toFixed(2)}%)`
+              }
+              if (bgRef.current) {
+                const parallax = Math.max(0, Math.min(parallaxStrength, 1)) * (saveData ? 0.1 : 1)
+                const totalPercent = -(items.length - 1) * 100
+                bgRef.current.style.transform = `translateX(${(totalPercent * parallax * target).toFixed(2)}%)`
+              }
+            },
+          })
+        }
+      }}
+    >
+=======
     <section id={id} ref={containerRef} className={cn('horizontal-rail', className)} aria-label="Horizontal storyline">
+>>>>>>> origin/main
       {/* Subtle parallax background */}
       <div ref={bgRef} className="horizontal-rail__bg" aria-hidden />
       {/* Framing overlays to emphasize sideways motion */}
@@ -174,7 +304,12 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
         <div className="horizontal-rail__vignette horizontal-rail__vignette--right" />
         <div className="horizontal-rail__progress-wrap">
           <div ref={progressRef} className="horizontal-rail__progress" role="progressbar" aria-label="Story progress" />
+<<<<<<< HEAD
+          <div ref={countRef} className="horizontal-rail__count" aria-hidden />
+          <div ref={statusRef} className="sr-only" aria-live="polite" />
+=======
           <div ref={countRef} className="horizontal-rail__count" />
+>>>>>>> origin/main
         </div>
       </div>
       <div className="horizontal-rail__viewport">

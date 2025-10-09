@@ -2,7 +2,11 @@ import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 import { InteractiveTopology } from '../components/network/InteractiveTopology'
+<<<<<<< HEAD
+import { Legend } from '../components/network/Legend'
+=======
 import { EDGE_COLORS, FLOW_LABELS } from '../components/network/edgeMeta'
+>>>>>>> origin/main
 
 export function NetworkPage() {
   return (
@@ -31,6 +35,9 @@ export function NetworkPage() {
 
       <section id="network-architecture" className="anchor-offset">
         <h2>The engine topology</h2>
+<<<<<<< HEAD
+        <Legend />
+=======
         <div className="mb-4 flex flex-wrap items-center gap-2 text-sm" aria-label="Legend">
           {(Object.keys(EDGE_COLORS) as Array<keyof typeof EDGE_COLORS>).map((key) => (
             <span
@@ -47,12 +54,13 @@ export function NetworkPage() {
             </span>
           ))}
         </div>
+>>>>>>> origin/main
         <p>
           Explore how Association governance, validator operators, TELx liquidity, and app endpoints weave together to power Telcoin services. The interactive canvas below highlights how value and compliance signals move between pillars.
         </p>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <InteractiveTopology />
+          <InteractiveTopology describedById="network-legend" />
 
           <div className="flex flex-col gap-6">
             <article className="rounded-3xl border border-telcoin-ink/10 bg-white/80 p-6 shadow-lg shadow-telcoin-ink/10 backdrop-blur">

@@ -48,7 +48,10 @@ const runOne = (pathname) =>
   })
 
 for (const route of routes) {
+<<<<<<< HEAD
+=======
   // eslint-disable-next-line no-await-in-loop
+>>>>>>> origin/main
   await runOne(route)
 }
 
