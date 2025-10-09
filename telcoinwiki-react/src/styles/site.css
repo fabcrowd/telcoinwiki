@@ -321,7 +321,6 @@ pre {
   box-shadow: var(--shadow-glass);
 }
 
-<<<<<<< HEAD
 /* Hero Sequencer */
 .hero-sequencer {
   position: absolute;
@@ -417,8 +416,6 @@ pre {
 .logo-marquee__hint { font-size: 11px; color: var(--tc-ink-subtle); opacity: 0; transition: opacity .25s var(--transition-smooth); }
 .logo-marquee:focus-visible .logo-marquee__hint,
 .logo-marquee [aria-pressed]:focus-visible + .logo-marquee__hint { opacity: .75; }
-=======
->>>>>>> origin/main
 .horizontal-rail {
   position: relative;
   min-height: 100vh;
