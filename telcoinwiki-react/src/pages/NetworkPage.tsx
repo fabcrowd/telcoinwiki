@@ -2,11 +2,7 @@ import { HeroOverlay } from '../components/content/HeroOverlay'
 import { PageIntro } from '../components/content/PageIntro'
 import { SourceBox } from '../components/content/SourceBox'
 import { InteractiveTopology } from '../components/network/InteractiveTopology'
-<<<<<<< HEAD
 import { Legend } from '../components/network/Legend'
-=======
-import { EDGE_COLORS, FLOW_LABELS } from '../components/network/edgeMeta'
->>>>>>> origin/main
 
 export function NetworkPage() {
   return (
@@ -35,26 +31,7 @@ export function NetworkPage() {
 
       <section id="network-architecture" className="anchor-offset">
         <h2>The engine topology</h2>
-<<<<<<< HEAD
         <Legend />
-=======
-        <div className="mb-4 flex flex-wrap items-center gap-2 text-sm" aria-label="Legend">
-          {(Object.keys(EDGE_COLORS) as Array<keyof typeof EDGE_COLORS>).map((key) => (
-            <span
-              key={key}
-              className="inline-flex items-center gap-2 rounded-full border border-telcoin-ink/10 bg-telcoin-surface/70 px-3 py-1 font-medium text-telcoin-ink"
-              title={FLOW_LABELS[key]}
-            >
-              <span aria-hidden="true" className="h-2 w-2 rounded-full" style={{ backgroundColor: EDGE_COLORS[key] }} />
-              <span aria-hidden="true" className="font-mono tracking-[0.2em] text-telcoin-ink/80">
-                {key === 'tanTouchpoint' ? '⎯⎯' : key === 'telFlow' ? '– – –' : '· · ·'}
-              </span>
-              <span className="sr-only">Pattern:</span>
-              {FLOW_LABELS[key]}
-            </span>
-          ))}
-        </div>
->>>>>>> origin/main
         <p>
           Explore how Association governance, validator operators, TELx liquidity, and app endpoints weave together to power Telcoin services. The interactive canvas below highlights how value and compliance signals move between pillars.
         </p>

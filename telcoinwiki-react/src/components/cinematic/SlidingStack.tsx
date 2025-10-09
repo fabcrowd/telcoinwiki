@@ -1,9 +1,19 @@
-import type { CSSProperties, ReactNode } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from 'react'
 import { Link } from 'react-router-dom'
 
 import { cn } from '../../utils/cn'
 import { ColorMorphCard } from './ColorMorphCard'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
+import { useScrollTimeline } from '../../hooks/useScrollTimeline'
 
 export interface SlidingStackItem {
   id: string
@@ -16,171 +26,289 @@ export interface SlidingStackItem {
 
 interface SlidingStackProps {
   items: SlidingStackItem[]
-  progress: number
   prefersReducedMotion?: boolean
   className?: string
   cardClassName?: string
   style?: CSSProperties
+  onProgressChange?: (value: number) => void
 }
 
-function isExternalLink(href: string): boolean {
-  return /^https?:\/\//.test(href)
-}
+const isExternalLink = (href: string) => /^https?:\/\//i.test(href)
 
-function formatNumber(value: number): string {
-  return Number.isFinite(value) ? value.toFixed(3) : '0'
-}
+const SNAP_EPSILON = 0.0001
 
 export function SlidingStack({
   items,
-  progress,
   prefersReducedMotion = false,
   className,
   cardClassName,
   style,
+  onProgressChange,
 }: SlidingStackProps) {
-  const hasMultiple = items.length > 1
-  const steps = hasMultiple ? items.length - 1 : 1
   const isCompact = useMediaQuery('(max-width: 62rem)')
   const isHandheld = useMediaQuery('(max-width: 40rem)')
-  const normalized = prefersReducedMotion ? 0 : progress * steps
-  const translateUnit = prefersReducedMotion ? 36 : isHandheld ? 56 : isCompact ? 68 : 76
-  const scaleIncrement = prefersReducedMotion ? 0 : isHandheld ? 0.045 : isCompact ? 0.05 : 0.055
-  const opacityFloor = prefersReducedMotion ? 1 : isHandheld ? 0.28 : isCompact ? 0.22 : 0.18
-  const progressDampener = prefersReducedMotion ? 0 : isHandheld ? 0.26 : 0.32
-  const progressFloor = prefersReducedMotion ? 1 : isHandheld ? 0.42 : 0.35
-  const minHeight = prefersReducedMotion || isCompact ? undefined : 360 + steps * 96
-<<<<<<< HEAD
-  const staticLayout = prefersReducedMotion || isHandheld
-=======
-  const staticLayout = prefersReducedMotion
->>>>>>> origin/main
-  const activeIndex = prefersReducedMotion ? 0 : Math.round(normalized)
+  const interactive = !prefersReducedMotion && !isHandheld
+
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const liveRegionRef = useRef<HTMLDivElement | null>(null)
+  const cardRefs = useRef<Array<HTMLElement | null>>([])
+  const progressCallbackRef = useRef(onProgressChange)
+  const [moduleElement, setModuleElement] = useState<HTMLElement | null>(null)
+
+  useEffect(() => {
+    progressCallbackRef.current = onProgressChange
+  }, [onProgressChange])
+
+  useLayoutEffect(() => {
+    if (!interactive) {
+      setModuleElement(null)
+      return
+    }
+
+    if (containerRef.current) {
+      const module = containerRef.current.closest('[data-sticky-module]')
+      setModuleElement((module as HTMLElement | null) ?? null)
+    }
+  }, [interactive, items.length])
+
+  useEffect(() => {
+    if (!interactive) {
+      progressCallbackRef.current?.(1)
+    }
+  }, [interactive, items.length])
+
+  const setCardRef = useCallback(
+    (index: number) => (element: HTMLElement | null) => {
+      cardRefs.current[index] = element
+    },
+    [],
+  )
+
+  const minHeight = useMemo(() => {
+    if (!interactive) {
+      return undefined
+    }
+    const base = (isCompact ? 260 : 320) + items.length * 28
+    return Math.max(420, base)
+  }, [interactive, items.length])
 
   const containerStyle: CSSProperties = {
     ...(minHeight ? { minHeight: `${minHeight}px` } : {}),
-    ...(style ?? {}),
+    ...style,
+  }
+
+  useScrollTimeline({
+    target: interactive ? moduleElement : null,
+    timeline: { defaults: { ease: 'power1.inOut' } },
+    scrollTrigger: interactive
+      ? {
+          start: 'top top',
+          end: `+=${Math.max(120, items.length * 120)}%`,
+          scrub: true,
+          pin: true,
+          anticipatePin: 0.6,
+          snap: items.length
+            ? {
+                snapTo: (value) => {
+                  const segments = items.length
+                  if (segments <= 0) {
+                    return value
+                  }
+                  const snapped = Math.round(value * segments) / segments
+                  return Math.max(0, Math.min(1, snapped))
+                },
+                duration: 0.2,
+                ease: 'power1.out',
+              }
+            : undefined,
+        }
+      : undefined,
+    create: (timeline) => {
+      if (!interactive) {
+        return
+      }
+
+      const cards = cardRefs.current.filter((card): card is HTMLElement => Boolean(card))
+      if (!cards.length) {
+        progressCallbackRef.current?.(1)
+        return
+      }
+
+      const stackOffset = 4
+      const segmentDuration = 1
+
+      cards.forEach((card, index) => {
+        timeline.set(
+          card,
+          {
+            xPercent: 0,
+            yPercent: index * stackOffset,
+            rotation: index === 0 ? 0 : -index * 0.6,
+            opacity: 1,
+            zIndex: cards.length - index,
+            pointerEvents: index === 0 ? 'auto' : 'none',
+          },
+          0,
+        )
+      })
+
+      let currentActiveIndex = 0
+
+      const updateLiveRegion = (activeIndex: number) => {
+        if (!liveRegionRef.current) {
+          return
+        }
+        const item = items[activeIndex]
+        if (!item) {
+          return
+        }
+        liveRegionRef.current.textContent = `Slide ${activeIndex + 1} of ${items.length}: ${item.title}`
+      }
+
+      const setActiveCard = (activeIndex: number, force = false) => {
+        const clamped = Math.min(cards.length - 1, Math.max(0, activeIndex))
+
+        if (!force && clamped === currentActiveIndex) {
+          return
+        }
+
+        currentActiveIndex = clamped
+
+        cards.forEach((card, idx) => {
+          const isActive = idx === currentActiveIndex
+          card.classList.toggle('is-active', isActive)
+          card.style.pointerEvents = isActive ? 'auto' : 'none'
+        })
+
+        updateLiveRegion(currentActiveIndex)
+      }
+
+      cards.forEach((card, index) => {
+        timeline.to(
+          card,
+          {
+            xPercent: 160,
+            rotation: 6,
+            opacity: 0,
+            pointerEvents: 'none',
+            duration: segmentDuration,
+          },
+          index * segmentDuration,
+        )
+      })
+
+      timeline.eventCallback('onUpdate', () => {
+        const total = timeline.totalProgress()
+        progressCallbackRef.current?.(total)
+
+        const time = timeline.time()
+        const nextIndex = Math.min(cards.length - 1, Math.max(0, Math.floor(time + SNAP_EPSILON)))
+        setActiveCard(nextIndex)
+      })
+
+      timeline.eventCallback('onComplete', () => {
+        progressCallbackRef.current?.(1)
+        setActiveCard(cards.length - 1, true)
+      })
+
+      timeline.eventCallback('onReverseComplete', () => {
+        progressCallbackRef.current?.(0)
+        setActiveCard(0, true)
+      })
+
+      progressCallbackRef.current?.(0)
+      setActiveCard(0, true)
+    },
+  })
+
+  const renderCardContent = useCallback(
+    (item: SlidingStackItem, ctaLabel = 'Learn more') => {
+      const cta = item.href
+        ? isExternalLink(item.href)
+          ? (
+              <a
+                className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent"
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {ctaLabel}
+                <span aria-hidden>→</span>
+              </a>
+            )
+          : (
+              <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to={item.href}>
+                {ctaLabel}
+                <span aria-hidden>→</span>
+              </Link>
+            )
+        : null
+
+      return (
+        <>
+          {item.eyebrow ? (
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
+              {item.eyebrow}
+            </span>
+          ) : null}
+          <div className="sliding-stack__content">
+            <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
+            <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+          </div>
+          {cta}
+        </>
+      )
+    },
+    [],
+  )
+
+  if (!interactive) {
+    return (
+      <div
+        ref={containerRef}
+        className={cn('sliding-stack sliding-stack--static', className)}
+        data-sliding-stack=""
+        style={containerStyle}
+      >
+        <div className="sr-only" aria-live="polite" ref={liveRegionRef}>
+          {items.length ? `Slide 1 of ${items.length}: ${items[0].title}` : ''}
+        </div>
+        {items.map((item) => {
+          const ctaLabel = item.ctaLabel ?? 'Learn more'
+          return (
+            <ColorMorphCard key={item.id} progress={1} className={cn('p-6 sm:p-8', cardClassName)}>
+              {renderCardContent(item, ctaLabel)}
+            </ColorMorphCard>
+          )
+        })}
+      </div>
+    )
   }
 
   return (
     <div
-      className={cn('sliding-stack', staticLayout && 'sliding-stack--static', className)}
+      ref={containerRef}
+      className={cn('sliding-stack sliding-stack--interactive', className)}
       data-sliding-stack=""
       style={containerStyle}
     >
-      <div className="sr-only" aria-live="polite">
-        {`Section card: ${items[Math.min(Math.max(activeIndex, 0), items.length - 1)]?.title ?? ''}`}
+      <div className="sr-only" aria-live="polite" ref={liveRegionRef}>
+        {items.length ? `Slide 1 of ${items.length}: ${items[0].title}` : ''}
       </div>
       {items.map((item, index) => {
-        const relative = prefersReducedMotion ? index : index - normalized
-        const translateY = relative * translateUnit
-        const scale = prefersReducedMotion ? 1 : 1 - Math.min(Math.max(relative, 0), 3) * scaleIncrement
-        const opacityBase = prefersReducedMotion ? 1 : Math.min(Math.max(1 + Math.min(relative, 0), opacityFloor), 1)
-        const cardProgress = prefersReducedMotion
-          ? 1
-          : Math.min(Math.max(1 - Math.max(relative, 0) * progressDampener, progressFloor), 1)
-<<<<<<< HEAD
-
-        const style = {
-          '--stack-translate': `${formatNumber(translateY)}px`,
-          '--stack-scale': formatNumber(scale),
-          '--stack-opacity': formatNumber(opacityBase),
-=======
-
-        const morphTranslate = prefersReducedMotion ? 0 : (1 - cardProgress) * 24
-        const morphScale = prefersReducedMotion ? 1 : 0.96 + cardProgress * 0.04
-        const morphOpacity = prefersReducedMotion ? 1 : 0.82 + cardProgress * 0.18
-
-        const finalTranslate = translateY + morphTranslate
-        const finalScale = scale * morphScale
-        const finalOpacity = opacityBase * morphOpacity
-
-        const style = {
->>>>>>> origin/main
-          '--stack-content-translate': `${formatNumber((1 - cardProgress) * 12)}px`,
-          '--stack-content-opacity': formatNumber(0.75 + cardProgress * 0.25),
-          zIndex: items.length - index,
-        } as CSSProperties
-
-        if (!staticLayout) {
-          style.transform = `translateY(${formatNumber(finalTranslate)}px) scale(${formatNumber(finalScale)})`
-          style.opacity = formatNumber(finalOpacity)
-        }
-
         const ctaLabel = item.ctaLabel ?? 'Learn more'
-
-<<<<<<< HEAD
-        const content = (
+        return (
           <ColorMorphCard
             key={item.id}
-            progress={cardProgress}
+            ref={setCardRef(index)}
+            progress={1}
             className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
-            style={style}
           >
-            {item.eyebrow ? (
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
-                {item.eyebrow}
-              </span>
-            ) : null}
-            <div className="sliding-stack__content">
-              <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
-              <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
-            </div>
-            {item.href ? (
-              isExternalLink(item.href) ? (
-                <a
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent"
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {ctaLabel}
-                  <span aria-hidden>→</span>
-                </a>
-              ) : (
-                <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to={item.href}>
-                  {ctaLabel}
-                  <span aria-hidden>→</span>
-                </Link>
-              )
-            ) : null}
+            {renderCardContent(item, ctaLabel)}
           </ColorMorphCard>
-=======
-        return (
-          <div key={item.id} className="sliding-stack__card" style={style}>
-            <ColorMorphCard progress={cardProgress} className={cn('p-6 sm:p-8', cardClassName)}>
-              {item.eyebrow ? (
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">
-                  {item.eyebrow}
-                </span>
-              ) : null}
-              <div className="sliding-stack__content">
-                <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
-                <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
-              </div>
-              {item.href ? (
-                isExternalLink(item.href) ? (
-                  <a
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent"
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {ctaLabel}
-                    <span aria-hidden>→</span>
-                  </a>
-                ) : (
-                  <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to={item.href}>
-                    {ctaLabel}
-                    <span aria-hidden>→</span>
-                  </Link>
-                )
-              ) : null}
-            </ColorMorphCard>
-          </div>
->>>>>>> origin/main
         )
       })}
     </div>
   )
 }
+

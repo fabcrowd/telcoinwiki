@@ -1,10 +1,89 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, RefObject } from 'react'
 
 import { useScrollTimeline } from './useScrollTimeline'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 import { useStageTimeline } from './useStageTimeline'
 import { useMediaQuery } from './useMediaQuery'
+import { lerp } from '../utils/interpolate'
+
+interface StageStop {
+  hue: number
+  accentHue?: number
+  overlayOpacity?: number
+  spotOpacity?: number
+  cardOverlayOpacity?: number
+  cardBorderOpacity?: number
+  cardShadowOpacity?: number
+}
+
+interface NormalizedStageStop {
+  hue: number
+  accentHue: number
+  overlayOpacity: number
+  spotOpacity: number
+  cardOverlayOpacity: number
+  cardBorderOpacity: number
+  cardShadowOpacity: number
+}
+
+const STAGE_DEFAULTS: NormalizedStageStop = {
+  hue: 220,
+  accentHue: 268,
+  overlayOpacity: 0.38,
+  spotOpacity: 0.28,
+  cardOverlayOpacity: 0.32,
+  cardBorderOpacity: 0.38,
+  cardShadowOpacity: 0.26,
+}
+
+const STAGE_VARIABLE_KEYS = [
+  '--tc-stage-hue',
+  '--tc-stage-accent-hue',
+  '--tc-stage-overlay-opacity',
+  '--tc-stage-spot-opacity',
+  '--tc-stage-card-overlay-opacity',
+  '--tc-stage-card-border-opacity',
+  '--tc-stage-card-shadow-opacity',
+] as const
+
+function normalizeStageStop(stop: StageStop): NormalizedStageStop {
+  return {
+    hue: stop.hue,
+    accentHue: stop.accentHue ?? STAGE_DEFAULTS.accentHue,
+    overlayOpacity: stop.overlayOpacity ?? STAGE_DEFAULTS.overlayOpacity,
+    spotOpacity: stop.spotOpacity ?? STAGE_DEFAULTS.spotOpacity,
+    cardOverlayOpacity: stop.cardOverlayOpacity ?? STAGE_DEFAULTS.cardOverlayOpacity,
+    cardBorderOpacity: stop.cardBorderOpacity ?? STAGE_DEFAULTS.cardBorderOpacity,
+    cardShadowOpacity: stop.cardShadowOpacity ?? STAGE_DEFAULTS.cardShadowOpacity,
+  }
+}
+
+function interpolateStageStops(start: NormalizedStageStop, end: NormalizedStageStop, progress: number): NormalizedStageStop {
+  return {
+    hue: lerp(start.hue, end.hue, progress),
+    accentHue: lerp(start.accentHue, end.accentHue, progress),
+    overlayOpacity: lerp(start.overlayOpacity, end.overlayOpacity, progress),
+    spotOpacity: lerp(start.spotOpacity, end.spotOpacity, progress),
+    cardOverlayOpacity: lerp(start.cardOverlayOpacity, end.cardOverlayOpacity, progress),
+    cardBorderOpacity: lerp(start.cardBorderOpacity, end.cardBorderOpacity, progress),
+    cardShadowOpacity: lerp(start.cardShadowOpacity, end.cardShadowOpacity, progress),
+  }
+}
+
+function applyStageStop(root: HTMLElement, stop: NormalizedStageStop) {
+  root.style.setProperty(STAGE_VARIABLE_KEYS[0], stop.hue.toFixed(2))
+  root.style.setProperty(STAGE_VARIABLE_KEYS[1], stop.accentHue.toFixed(2))
+  root.style.setProperty(STAGE_VARIABLE_KEYS[2], stop.overlayOpacity.toFixed(3))
+  root.style.setProperty(STAGE_VARIABLE_KEYS[3], stop.spotOpacity.toFixed(3))
+  root.style.setProperty(STAGE_VARIABLE_KEYS[4], stop.cardOverlayOpacity.toFixed(3))
+  root.style.setProperty(STAGE_VARIABLE_KEYS[5], stop.cardBorderOpacity.toFixed(3))
+  root.style.setProperty(STAGE_VARIABLE_KEYS[6], stop.cardShadowOpacity.toFixed(3))
+}
+
+function clearStageVariables(root: HTMLElement) {
+  STAGE_VARIABLE_KEYS.forEach((key) => root.style.removeProperty(key))
+}
 
 const heroStageStops = {
   from: {
@@ -123,6 +202,7 @@ interface SlidingSectionState extends BaseSectionState {
   introStyle: CSSProperties | undefined
   stackStyle: CSSProperties | undefined
   stageProgress: number
+  onStackProgress?: (value: number) => void
 }
 
 function useCinematicSection(
@@ -149,50 +229,73 @@ function createStackSectionHook(
 ): () => SlidingSectionState {
   return function useHomeStackSection(): SlidingSectionState {
     const sectionRef = useRef<HTMLElement | null>(null)
-<<<<<<< HEAD
-    const prefersReducedMotion = usePrefersReducedMotion()
-    const isCompact = useMediaQuery('(max-width: 62rem)')
-    const isHandheld = useMediaQuery('(max-width: 40rem)')
-=======
     const systemPrefersReducedMotion = usePrefersReducedMotion()
     const isCompact = useMediaQuery('(max-width: 62rem)')
     const isHandheld = useMediaQuery('(max-width: 40rem)')
     const prefersReducedMotion = systemPrefersReducedMotion || isHandheld
->>>>>>> origin/main
+    const interactive = !prefersReducedMotion
+
+    const fromStop = useMemo(() => normalizeStageStop(stageStops.from), [stageStops])
+    const toStop = useMemo(() => normalizeStageStop(stageStops.to), [stageStops])
+
+    const [stackProgress, setStackProgress] = useState<number>(() => (interactive ? 0 : 1))
+
+    useEffect(() => {
+      setStackProgress(interactive ? 0 : 1)
+    }, [interactive])
 
     const stageStart = isHandheld ? 'top 86%' : isCompact ? 'top 80%' : 'top 76%'
     const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 24%' : 'bottom 30%'
     const animationStart = isHandheld ? 'top 92%' : isCompact ? 'top 86%' : 'top 80%'
     const animationEnd = isHandheld ? 'bottom 20%' : isCompact ? 'bottom 24%' : 'bottom 24%'
-<<<<<<< HEAD
-=======
-    const animationToggleActions = isHandheld ? 'play none none none' : undefined
-
     const animationScrollTrigger = {
       start: animationStart,
       end: animationEnd,
       ...(options?.animationScrollTrigger ?? {}),
-      ...(animationToggleActions && !options?.animationScrollTrigger?.toggleActions
-        ? { toggleActions: animationToggleActions }
-        : {}),
     }
->>>>>>> origin/main
+
+    if (!animationScrollTrigger.toggleActions && isHandheld) {
+      animationScrollTrigger.toggleActions = 'play none none none'
+    }
 
     const stageProgressRaw = useStageTimeline({
-      target: sectionRef,
+      target: interactive ? null : sectionRef,
       from: stageStops.from,
       to: stageStops.to,
-      scrollTrigger: {
-        start: stageStart,
-        end: stageEnd,
-        ...(options?.stageScrollTrigger ?? {}),
-      },
+      scrollTrigger: interactive
+        ? undefined
+        : {
+            start: stageStart,
+            end: stageEnd,
+            ...(options?.stageScrollTrigger ?? {}),
+          },
       prefersReducedMotion,
     })
-    const stageProgress = prefersReducedMotion ? 1 : stageProgressRaw
+    const stageProgress = interactive ? stackProgress : prefersReducedMotion ? 1 : stageProgressRaw
 
     const introStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
     const stackStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
+
+    useEffect(() => {
+      if (!interactive || typeof document === 'undefined') {
+        return
+      }
+
+      const root = document.documentElement
+      return () => {
+        clearStageVariables(root)
+      }
+    }, [interactive])
+
+    useEffect(() => {
+      if (!interactive || typeof document === 'undefined') {
+        return
+      }
+
+      const root = document.documentElement
+      const stop = interpolateStageStops(fromStop, toStop, stackProgress)
+      applyStageStop(root, stop)
+    }, [interactive, fromStop, toStop, stackProgress])
 
     useCinematicSection(
       prefersReducedMotion,
@@ -212,18 +315,17 @@ function createStackSectionHook(
           0.18,
         )
       },
-<<<<<<< HEAD
-      {
-        start: animationStart,
-        end: animationEnd,
-        ...(options?.animationScrollTrigger ?? {}),
-      },
-=======
       animationScrollTrigger,
->>>>>>> origin/main
     )
 
-    return { sectionRef, prefersReducedMotion, stageProgress, introStyle, stackStyle }
+    return {
+      sectionRef,
+      prefersReducedMotion,
+      stageProgress,
+      introStyle,
+      stackStyle,
+      onStackProgress: interactive ? setStackProgress : undefined,
+    }
   }
 }
 
