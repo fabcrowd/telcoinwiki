@@ -106,31 +106,15 @@ export function SlidingStack({
 
   useScrollTimeline({
     target: interactive ? moduleElement : null,
-    timeline: { defaults: { ease: 'power1.inOut' } },
+    timeline: { defaults: { ease: 'none' } },
     scrollTrigger: interactive
       ? {
           start: 'top top',
           end: `+=${Math.max(120, items.length * 120)}%`,
-          // Slight scrub smoothing cooperates with snap to avoid jitter
-          scrub: 0.6,
+          scrub: true,
           pin: true,
           // Helps avoid layout jumps when pinning on fast scrolls
           anticipatePin: 1,
-          snap: items.length
-            ? {
-                snapTo: (value) => {
-                  const segments = items.length
-                  if (segments <= 0) {
-                    return value
-                  }
-                  // Snap to the nearest segment (value is progress 0..1)
-                  const snapped = Math.round(value * segments) / segments
-                  return Math.max(0, Math.min(1, snapped))
-                },
-                duration: { min: 0.18, max: 0.3 },
-                ease: 'power2.out',
-              }
-            : undefined,
         }
       : undefined,
     create: (timeline) => {
@@ -146,6 +130,17 @@ export function SlidingStack({
 
       const stackOffset = 4
       const segmentDuration = 1
+
+      // Phase mapping: lead hold (drag intro to center) -> horizontal slides -> tail hold (drag out)
+      // Keep the horizontal slides confined to the middle 64% of total progress so
+      // the intro can "drag" to center first, then resume after cards complete.
+      const HOLD_IN_FRAC = 0.18
+      const HOLD_OUT_FRAC = 0.18
+      const BODY_FRAC = 1 - HOLD_IN_FRAC - HOLD_OUT_FRAC // 0.64
+
+      const bodyDuration = cards.length * segmentDuration
+      const leadHold = bodyDuration * (HOLD_IN_FRAC / BODY_FRAC)
+      const tailHold = bodyDuration * (HOLD_OUT_FRAC / BODY_FRAC)
 
       cards.forEach((card, index) => {
         timeline.set(
@@ -201,19 +196,27 @@ export function SlidingStack({
             rotation: 6,
             opacity: 0,
             pointerEvents: 'none',
-            ease: 'power3.inOut',
             duration: segmentDuration,
           },
-          index * segmentDuration,
+          leadHold + index * segmentDuration,
         )
       })
+
+      // Trailing hold to keep the intro pinned while the last card settles out
+      // and allow the "drag out" phase to feel deliberate.
+      if (tailHold > 0) {
+        // Use a dummy tween to extend the timeline
+        timeline.to({}, { duration: tailHold }, leadHold + cards.length * segmentDuration)
+      }
 
       timeline.eventCallback('onUpdate', () => {
         const total = timeline.totalProgress()
         progressCallbackRef.current?.(total)
 
+        // Compute active index based only on the horizontal slide body range
         const time = timeline.time()
-        const nextIndex = Math.min(cards.length - 1, Math.max(0, Math.floor(time + SNAP_EPSILON)))
+        const tBody = Math.max(0, Math.min(bodyDuration, time - leadHold))
+        const nextIndex = Math.min(cards.length - 1, Math.max(0, Math.floor(tBody / segmentDuration + SNAP_EPSILON)))
         setActiveCard(nextIndex)
       })
 
@@ -289,7 +292,11 @@ export function SlidingStack({
         {items.map((item) => {
           const ctaLabel = item.ctaLabel ?? 'Learn more'
           return (
-            <ColorMorphCard key={item.id} progress={1} className={cn('p-6 sm:p-8', cardClassName)}>
+            <ColorMorphCard
+              key={item.id}
+              progress={1}
+              className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
+            >
               {renderCardContent(item, ctaLabel)}
             </ColorMorphCard>
           )

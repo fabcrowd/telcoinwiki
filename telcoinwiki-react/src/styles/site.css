@@ -243,6 +243,7 @@ pre {
   transform-origin: center;
   transition: none;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .sliding-stack--interactive .sliding-stack__card.is-active {
