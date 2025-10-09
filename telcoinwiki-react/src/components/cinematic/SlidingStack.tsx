@@ -91,7 +91,7 @@ export function SlidingStack({
     }
     const base = (isCompact ? 260 : 320) + items.length * 28
     return Math.max(420, base)
-  }, [interactive, items.length])
+  }, [interactive, isCompact, items.length])
 
   const containerStyle: CSSProperties = {
     ...(minHeight ? { minHeight: `${minHeight}px` } : {}),
@@ -194,10 +194,11 @@ export function SlidingStack({
         timeline.to(
           card,
           {
-            xPercent: 160,
+            xPercent: 240,
             rotation: 6,
             opacity: 0,
             pointerEvents: 'none',
+            ease: 'power3.inOut',
             duration: segmentDuration,
           },
           index * segmentDuration,
