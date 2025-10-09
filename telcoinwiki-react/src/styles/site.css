@@ -246,13 +246,13 @@ pre {
   will-change: transform, opacity;
 }
 
-[data-sticky-module-content] {
+[data-sticky-module]:not([data-timeline-module]) [data-sticky-module-content] {
   content-visibility: auto;
   contain: layout paint;
   contain-intrinsic-size: 1024px;
 }
 
-[data-prefers-reduced-motion] [data-sticky-module-content] {
+[data-sticky-module][data-prefers-reduced-motion] [data-sticky-module-content] {
   content-visibility: visible;
   contain: initial;
   contain-intrinsic-size: auto;

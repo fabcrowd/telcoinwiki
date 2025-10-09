@@ -1,53 +1,27 @@
-import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
+import type { ComponentType } from 'react'
 
 import type { SidebarHeading } from './config/types'
 import { PAGE_META } from './config/pageMeta'
 
-type RouteComponent = LazyExoticComponent<ComponentType<unknown>>
-
-const HomePage = lazy(() =>
-  import('./pages/HomePage').then((module) => ({ default: module.HomePage })),
-)
-const GovernancePage = lazy(() =>
-  import('./pages/GovernancePage').then((module) => ({ default: module.GovernancePage })),
-)
-const NetworkPage = lazy(() =>
-  import('./pages/NetworkPage').then((module) => ({ default: module.NetworkPage })),
-)
-const BankPage = lazy(() =>
-  import('./pages/BankPage').then((module) => ({ default: module.BankPage })),
-)
-const TokenomicsPage = lazy(() =>
-  import('./pages/TokenomicsPage').then((module) => ({ default: module.TokenomicsPage })),
-)
-const FaqPage = lazy(() =>
-  import('./pages/FaqPage').then((module) => ({ default: module.FaqPage })),
-)
-const DeepDivePage = lazy(() =>
-  import('./pages/DeepDivePage').then((module) => ({ default: module.DeepDivePage })),
-)
-const BuildersPage = lazy(() =>
-  import('./pages/BuildersPage').then((module) => ({ default: module.BuildersPage })),
-)
-const LinksPage = lazy(() =>
-  import('./pages/LinksPage').then((module) => ({ default: module.LinksPage })),
-)
-const PoolsPage = lazy(() =>
-  import('./pages/PoolsPage').then((module) => ({ default: module.PoolsPage })),
-)
-const PortfolioPage = lazy(() =>
-  import('./pages/PortfolioPage').then((module) => ({ default: module.PortfolioPage })),
-)
-const AboutPage = lazy(() =>
-  import('./pages/AboutPage').then((module) => ({ default: module.AboutPage })),
-)
+import { HomePage } from './pages/HomePage'
+import { GovernancePage } from './pages/GovernancePage'
+import { NetworkPage } from './pages/NetworkPage'
+import { BankPage } from './pages/BankPage'
+import { TokenomicsPage } from './pages/TokenomicsPage'
+import { FaqPage } from './pages/FaqPage'
+import { DeepDivePage } from './pages/DeepDivePage'
+import { BuildersPage } from './pages/BuildersPage'
+import { LinksPage } from './pages/LinksPage'
+import { PoolsPage } from './pages/PoolsPage'
+import { PortfolioPage } from './pages/PortfolioPage'
+import { AboutPage } from './pages/AboutPage'
 
 export type PageId = keyof typeof PAGE_META
 
 export interface AppRoute {
   path: string
   pageId: PageId
-  Component: RouteComponent
+  Component: ComponentType
   headings?: SidebarHeading[]
   layout?: 'app' | 'cinematic'
 }

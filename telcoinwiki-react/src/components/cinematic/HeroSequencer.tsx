@@ -8,6 +8,8 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 type VideoSource = { src: string; type: string } | { supabase: { bucket: string; path: string; expiresIn?: number }; type: string }
 
+const isPresent = <T,>(value: T | null | undefined): value is T => Boolean(value)
+
 export interface HeroLayer {
   id: string
   label: string
@@ -68,35 +70,54 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
       setResolvedSources({})
       return
     }
+
     let cancelled = false
     const client = tryGetSupabaseClient()
+
     ;(async () => {
-      const out: Record<string, { src: string; type: string }[]> = {}
-      for (const layer of layers) {
-        const list = layer.sources ?? []
-        const resolved: { src: string; type: string }[] = []
-        for (const source of list) {
-          if ('supabase' in source) {
-            if (!client) continue
-            const { bucket, path, expiresIn = 3600 } = source.supabase
-            try {
-              const { data, error } = await client.storage.from(bucket).createSignedUrl(path, expiresIn)
-              if (!error && data?.signedUrl) {
-                resolved.push({ src: data.signedUrl, type: source.type })
-              }
-            } catch {
-              // ignore and continue
-            }
-          } else {
-            resolved.push({ src: source.src, type: source.type })
+      const entries = await Promise.all(
+        layers.map(async (layer) => {
+          if (!layer.sources?.length) {
+            return null
           }
-        }
-        if (resolved.length) out[layer.id] = resolved
+
+          const list = preferCodecs(layer.sources)
+          const resolved = await Promise.all(
+            list.map(async (source) => {
+              if ('supabase' in source) {
+                if (!client) {
+                  return null
+                }
+                const { bucket, path, expiresIn = 3600 } = source.supabase
+                try {
+                  const { data, error } = await client.storage.from(bucket).createSignedUrl(path, expiresIn)
+                  if (!error && data?.signedUrl) {
+                    return { src: data.signedUrl, type: source.type }
+                  }
+                } catch {
+                  return null
+                }
+                return null
+              }
+
+              return { src: source.src, type: source.type }
+            }),
+          )
+
+          const filtered = resolved.filter(isPresent)
+
+          return filtered.length ? [layer.id, filtered] : null
+        }),
+      )
+
+      if (cancelled) {
+        return
       }
-      if (!cancelled) {
-        setResolvedSources(out)
-      }
+
+      const out = Object.fromEntries(entries.filter(isPresent))
+      setResolvedSources(out)
     })()
+
     return () => {
       cancelled = true
     }
