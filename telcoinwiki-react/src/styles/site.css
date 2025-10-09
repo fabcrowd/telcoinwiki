@@ -244,7 +244,6 @@ pre {
   transition: none;
   pointer-events: none;
   will-change: transform, opacity;
-  overflow: hidden;
 }
 
 .sliding-stack--interactive .sliding-stack__card.is-active {
@@ -390,6 +389,8 @@ pre {
   border-top-right-radius: 10px;
   box-shadow: 0 4px 8px rgba(5, 12, 32, 0.18);
   pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
 }
 
 /* Note: no fading — tabs start peeking at right via transform and slide into place */

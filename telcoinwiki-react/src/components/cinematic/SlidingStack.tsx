@@ -178,8 +178,10 @@ export function SlidingStack({
 
       // Tabs: single element peeks from right when stacked, slides into locked top-left on fan-out
       const tabs = tabRefs.current.filter((t): t is HTMLElement => Boolean(t))
+      const TAB_SPACING = 28 // px vertical spacing so all titles are readable
       tabs.forEach((tab, index) => {
-        timeline.set(tab, { x: 'calc(100% + 2.2rem)', y: -index * 10 }, 0)
+        // Start peeking from the right edge, stacked downward like file-folder tabs (no fading)
+        timeline.set(tab, { x: 'calc(100% + 2.2rem)', y: index * TAB_SPACING }, 0)
       })
 
       // Sliding content: start offset to the right; slides in during fan-out (no fading)
