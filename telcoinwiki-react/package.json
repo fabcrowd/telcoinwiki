@@ -12,11 +12,18 @@
     "format": "prettier --write .",
     "test": "jest",
     "test:ci": "jest --ci",
+<<<<<<< HEAD
     "perf": "node tools/run-lighthouse.mjs",
     "assets:fetch": "node tools/assets/fetch-assets.mjs"
   },
   "dependencies": {
     "lenis": "^1.1.13",
+=======
+    "perf": "node tools/run-lighthouse.mjs"
+  },
+  "dependencies": {
+    "@studio-freight/lenis": "^1.0.42",
+>>>>>>> origin/main
     "@supabase/supabase-js": "^2.58.0",
     "@tanstack/react-query": "^5.90.2",
     "elasticlunr": "^0.9.5",

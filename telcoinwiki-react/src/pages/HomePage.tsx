@@ -312,6 +312,7 @@ export function HomePage() {
         </div>
         <HorizontalRail
           id="home-rail"
+<<<<<<< HEAD
           parallaxStrength={0.3}
           items={[
             { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance', accentHue: 210 },
@@ -335,6 +336,17 @@ export function HomePage() {
           </div>
         </div>
       </section>
+=======
+          items={[
+            { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance' },
+            { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network' },
+            { id: 'trk-bank', eyebrow: 'Bank', title: 'Wallet + Digital Cash', body: 'A fintech-feel experience with self-custody at the core.', href: '/bank' },
+            { id: 'trk-tokenomics', eyebrow: 'Tokenomics', title: 'TEL burn & regen', body: 'Understand how TEL powers gas, liquidity, rewards, and recycling.', href: '/tokenomics' },
+            { id: 'trk-faq', eyebrow: 'FAQ', title: 'Verified answers', body: 'Every question links back to official Telcoin sources.', href: '/faq' },
+          ]}
+        />
+      </section>
+>>>>>>> origin/main
     </>
   )
 }

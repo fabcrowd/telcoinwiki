@@ -38,6 +38,7 @@ describe('SlidingStack', () => {
 
     const cards = Array.from(document.querySelectorAll('.sliding-stack__card')) as HTMLElement[]
     expect(cards).toHaveLength(3)
+<<<<<<< HEAD
     expect(cards[0].style.getPropertyValue('--stack-translate')).toBe('-76.000px')
     expect(cards[0].style.getPropertyValue('--stack-scale')).toBe('1.000')
     expect(cards[0].style.getPropertyValue('--stack-opacity')).toBe('0.180')
@@ -45,6 +46,13 @@ describe('SlidingStack', () => {
     expect(cards[2].style.getPropertyValue('--stack-translate')).toBe('76.000px')
     expect(cards[2].style.getPropertyValue('--stack-scale')).toBe('0.945')
     expect(cards[2].style.getPropertyValue('--stack-opacity')).toBe('1.000')
+=======
+    expect(cards[0].style.transform).toBe('translateY(-76.000px) scale(1.000)')
+    expect(cards[0].style.opacity).toBe('0.18')
+
+    expect(cards[2].style.transform).toBe('translateY(83.680px) scale(0.933)')
+    expect(cards[2].style.opacity).toBe('0.942')
+>>>>>>> origin/main
   })
 
   it('switches to static layout on handheld breakpoints', () => {
@@ -60,9 +68,15 @@ describe('SlidingStack', () => {
     expect(container.style.minHeight).toBe('')
 
     const cards = Array.from(document.querySelectorAll('.sliding-stack__card')) as HTMLElement[]
+<<<<<<< HEAD
     // In static mode vars still compute, but CSS sets transform: none;
     // For progress=0.25 (normalized 0.5) the first card is -28px, second is 28px at handheld translate unit 56
     expect(cards[0].style.getPropertyValue('--stack-translate')).toBe('-28.000px')
     expect(cards[1].style.getPropertyValue('--stack-translate')).toBe('28.000px')
+=======
+    // In static mode transforms and opacity are handled in CSS, so inline styles are cleared
+    expect(cards[0].style.transform).toBe('')
+    expect(cards[1].style.transform).toBe('')
+>>>>>>> origin/main
   })
 })
