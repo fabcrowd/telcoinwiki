@@ -32,7 +32,7 @@ interface HomeNarrativeSection {
 const homeNarrativeSections: HomeNarrativeSection[] = [
   {
     id: 'broken-money',
-    label: '1 — The Problem',
+    label: '1 â€” The Problem',
     heading: 'Broken money keeps billions locked out',
     description:
       'Start with the real-world friction: remittance fees, delayed settlements, and unbanked households who rely on mobile money.',
@@ -63,7 +63,7 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
   },
   {
     id: 'telcoin-model',
-    label: '2 — Telcoin Model',
+    label: '2 â€” Telcoin Model',
     heading: 'Telecom + crypto + compliance working together',
     description:
       'Meet the three-layer system: the Telcoin Network (L1), TELx liquidity, and the Telcoin Application Network (TAN).',
@@ -94,7 +94,7 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
   },
   {
     id: 'engine',
-    label: '3 — The Engine',
+    label: '3 â€” The Engine',
     heading: 'Network + TEL make the system real',
     description:
       'Dive into how consensus, liquidity, and burn/regen tokenomics keep the platform running.',
@@ -125,7 +125,7 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
   },
   {
     id: 'experience',
-    label: '4 — Experience',
+    label: '4 â€” Experience',
     heading: 'Real app. Real users. All self-custodied.',
     description:
       'Walk through the Telcoin Bank journey from onboarding to payout so new users know exactly what to expect.',
@@ -156,7 +156,7 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
   },
   {
     id: 'learn-more',
-    label: '5 — Learn More & FAQ',
+    label: '5 â€” Learn More & FAQ',
     heading: 'Go deeper once the story clicks',
     description:
       'Jump from these summaries into long-form documentation, governance minutes, and a living FAQ that ties each question back to source material.',
@@ -308,7 +308,7 @@ export function HomePage() {
       <section id="home-carousel" className="anchor-offset">
         <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
           <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Explore the pillars at your pace</h2>
-          <p className="mb-4 text-telcoin-ink-muted">Swipe through the core sections—each card links into the deep dive.</p>
+          <p className="mb-4 text-telcoin-ink-muted">Swipe through the core sectionsâ€”each card links into the deep dive.</p>
         </div>
         <HorizontalRail
           id="home-rail"

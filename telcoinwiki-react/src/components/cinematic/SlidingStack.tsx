@@ -36,6 +36,7 @@ interface SlidingStackProps {
 const isExternalLink = (href: string) => /^https?:\/\//i.test(href)
 
 const SNAP_EPSILON = 0.0001
+const CTA_ARROW = '\u2192'
 
 export function SlidingStack({
   items,
@@ -96,6 +97,12 @@ export function SlidingStack({
     ...(minHeight ? { minHeight: `${minHeight}px` } : {}),
     ...style,
   }
+
+  useEffect(() => {
+    if (!interactive) {
+      onProgressChange?.(1)
+    }
+  }, [interactive, items.length, onProgressChange])
 
   useScrollTimeline({
     target: interactive ? moduleElement : null,
@@ -223,26 +230,28 @@ export function SlidingStack({
 
   const renderCardContent = useCallback(
     (item: SlidingStackItem, ctaLabel = 'Learn more') => {
-      const cta = item.href
-        ? isExternalLink(item.href)
-          ? (
-              <a
-                className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent"
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {ctaLabel}
-                <span aria-hidden>→</span>
-              </a>
-            )
-          : (
-              <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to={item.href}>
-                {ctaLabel}
-                <span aria-hidden>→</span>
-              </Link>
-            )
-        : null
+      let cta: ReactNode = null
+
+      if (item.href) {
+        const arrow = <span aria-hidden>{CTA_ARROW}</span>
+
+        cta = isExternalLink(item.href) ? (
+          <a
+            className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent"
+            href={item.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {ctaLabel}
+            {arrow}
+          </a>
+        ) : (
+          <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent" to={item.href}>
+            {ctaLabel}
+            {arrow}
+          </Link>
+        )
+      }
 
       return (
         <>
