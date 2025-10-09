@@ -203,6 +203,7 @@ interface SlidingSectionState extends BaseSectionState {
   stackStyle: CSSProperties | undefined
   stageProgress: number
   onStackProgress?: (value: number) => void
+  stickyStyle: CSSProperties | undefined
 }
 
 function useCinematicSection(
@@ -235,8 +236,8 @@ function createStackSectionHook(
     const prefersReducedMotion = systemPrefersReducedMotion || isHandheld
     const interactive = !prefersReducedMotion
 
-    const fromStop = useMemo(() => normalizeStageStop(stageStops.from), [stageStops])
-    const toStop = useMemo(() => normalizeStageStop(stageStops.to), [stageStops])
+    const fromStop = normalizeStageStop(stageStops.from)
+    const toStop = normalizeStageStop(stageStops.to)
 
     const [stackProgress, setStackProgress] = useState<number>(() => (interactive ? 0 : 1))
 
@@ -275,6 +276,39 @@ function createStackSectionHook(
 
     const introStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
     const stackStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
+    const stickyStyle = useMemo(() => {
+      if (!interactive) {
+        return undefined
+      }
+
+      const clamped = Math.max(0, Math.min(1, stackProgress))
+      const holdIn = 0.18
+      const holdOut = 0.82
+
+      const smooth = (value: number) => value * value * (3 - 2 * value)
+
+      let centerWeight: number
+      if (clamped <= holdIn) {
+        const divisor = holdIn === 0 ? 1 : holdIn
+        const t = Math.min(Math.max(clamped / divisor, 0), 1)
+        centerWeight = smooth(t)
+      } else if (clamped >= holdOut) {
+        const denominator = 1 - holdOut
+        const t = denominator === 0 ? 1 : Math.min(Math.max((clamped - holdOut) / denominator, 0), 1)
+        centerWeight = smooth(1 - t)
+      } else {
+        centerWeight = 1
+      }
+
+      const topValue = 20 + (50 - 20) * centerWeight
+      const translateValue = 50 * centerWeight
+
+      return {
+        top: `${topValue.toFixed(3)}vh`,
+        transform: `translate3d(0, -${translateValue.toFixed(3)}%, 0)`,
+        willChange: 'transform, top',
+      } as CSSProperties
+    }, [interactive, stackProgress])
 
     useEffect(() => {
       if (!interactive || typeof document === 'undefined') {
@@ -324,6 +358,7 @@ function createStackSectionHook(
       stageProgress,
       introStyle,
       stackStyle,
+      stickyStyle,
       onStackProgress: interactive ? setStackProgress : undefined,
     }
   }

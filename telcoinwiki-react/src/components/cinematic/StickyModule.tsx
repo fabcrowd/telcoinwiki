@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, CSSProperties, ReactNode } from 'react'
 import { forwardRef, useMemo } from 'react'
 
 import { cn } from '../../utils/cn'
@@ -12,6 +12,7 @@ interface StickyModuleProps extends ComponentPropsWithoutRef<'section'> {
   contentClassName?: string
   background?: ReactNode
   prefersReducedMotion?: boolean
+  stickyStyle?: CSSProperties
 }
 
 export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function StickyModule(
@@ -25,11 +26,22 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
     className,
     background,
     prefersReducedMotion = false,
+    stickyStyle,
     ...rest
   },
   ref,
 ) {
   const resolvedTop = useMemo(() => (typeof top === 'number' ? `${top}px` : top), [top])
+  const mergedStickyStyle = useMemo(() => {
+    if (prefersReducedMotion) {
+      return { top: resolvedTop }
+    }
+
+    return {
+      top: resolvedTop,
+      ...(stickyStyle ?? {}),
+    }
+  }, [prefersReducedMotion, resolvedTop, stickyStyle])
 
   return (
     <section
@@ -49,7 +61,7 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
           <div
             className={cn('lg:self-start', prefersReducedMotion ? 'lg:static' : 'lg:sticky', stickyClassName)}
-            style={{ top: resolvedTop }}
+            style={mergedStickyStyle}
             data-sticky-module-lead=""
           >
             {sticky}

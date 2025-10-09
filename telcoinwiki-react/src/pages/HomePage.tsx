@@ -301,6 +301,7 @@ export function HomePage() {
             />
           }
           prefersReducedMotion={state.prefersReducedMotion}
+          stickyStyle={state.stickyStyle}
         />
       ))}
 
