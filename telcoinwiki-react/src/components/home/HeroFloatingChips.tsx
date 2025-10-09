@@ -23,8 +23,9 @@ const chips = [
 ]
 
 const chipMotion = {
-  initial: { opacity: 0, scale: 0.8 },
-  animate: { opacity: 1, scale: 1 },
+  // No fade: scale-only motion for consistency
+  initial: { scale: 0.92 },
+  animate: { scale: 1 },
 }
 
 export function HeroFloatingChips() {

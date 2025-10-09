@@ -10,9 +10,10 @@ const longestPhrase = phrases.reduce((currentLongest, phrase) => {
 const longestPhraseLength = longestPhrase.length
 
 const typingVariants = {
-  initial: { opacity: 0, y: 6 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -6 },
+  // No fade: y-only motion for consistency
+  initial: { y: 6 },
+  animate: { y: 0 },
+  exit: { y: -6 },
 }
 
 export function HeroTypingLoop() {

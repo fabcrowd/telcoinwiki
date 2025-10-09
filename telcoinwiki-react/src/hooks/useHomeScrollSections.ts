@@ -382,13 +382,15 @@ export function useHomeHeroScroll(): HeroSectionState {
     } as CSSProperties
   }, [prefersReducedMotion])
 
-  const copyStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
+  // Keep themes consistent: no fade on hero copy
+  const copyStyle = useMemo<CSSProperties | undefined>(() => (prefersReducedMotion ? { transform: 'none' } : undefined), [prefersReducedMotion])
 
   useCinematicSection(prefersReducedMotion, sectionRef, (timeline) => {
+    // No fade: slide hero copy into place with y-only motion
     timeline.fromTo(
       '[data-hero-copy]',
-      { autoAlpha: 0, y: 48 },
-      { autoAlpha: 1, y: 0, duration: 1, stagger: 0.1, ease: 'power2.out' },
+      { y: 48 },
+      { y: 0, duration: 1, stagger: 0.1, ease: 'power2.out' },
       0,
     )
 

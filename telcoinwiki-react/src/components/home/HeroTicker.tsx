@@ -21,9 +21,10 @@ const formatValue = (value: number, unit: string | null) => {
 }
 
 const tickerVariants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -12 },
+  // No fade: y-only motion for consistency
+  initial: { y: 12 },
+  animate: { y: 0 },
+  exit: { y: -12 },
 }
 
 export function HeroTicker() {
