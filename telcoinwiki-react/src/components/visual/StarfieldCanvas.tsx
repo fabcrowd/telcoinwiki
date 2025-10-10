@@ -35,6 +35,7 @@ export function StarfieldCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [isVisible, setIsVisible] = useState(false)
   const hasActivatedVisibility = useRef(false)
+  const stopAnimationRef = useRef<() => void>(() => {})
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -202,6 +203,8 @@ export function StarfieldCanvas() {
       }
     }
 
+    stopAnimationRef.current = stopAnimation
+
     const resizeCanvas = () => {
       viewportWidth = window.innerWidth
       viewportHeight = window.innerHeight
@@ -265,6 +268,7 @@ export function StarfieldCanvas() {
 
     return () => {
       stopAnimation()
+      stopAnimationRef.current = () => {}
       window.removeEventListener('resize', resizeCanvas)
 
       if (motionMediaQuery) {
@@ -297,6 +301,7 @@ export function StarfieldCanvas() {
 
       hasActivatedVisibility.current = true
       setIsVisible(true)
+      stopAnimationRef.current()
       window.removeEventListener('scroll', activateVisibility)
     }
 

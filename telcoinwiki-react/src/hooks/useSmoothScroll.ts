@@ -149,7 +149,23 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
 
         // Sync ScrollTrigger with Lenis using the official integration pattern
         // Call ScrollTrigger.update() on Lenis scroll events for proper synchronization
-        const scrollHandler = ScrollTrigger.update
+        const maxSyncInterval = 1000 / 60
+        let lastScrollTriggerSync = Number.NEGATIVE_INFINITY
+        const scrollHandler = () => {
+          const now = window.performance?.now?.() ?? Date.now()
+          if (now - lastScrollTriggerSync < maxSyncInterval) {
+            return
+          }
+
+          lastScrollTriggerSync = now
+          try {
+            ScrollTrigger.update()
+          } catch (err) {
+            if (process.env.NODE_ENV !== 'production') {
+              console.warn('ScrollTrigger update failed', err)
+            }
+          }
+        }
         try {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (lenis as any)?.on?.('scroll', scrollHandler)

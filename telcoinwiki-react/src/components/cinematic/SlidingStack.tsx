@@ -120,15 +120,14 @@ export function SlidingStack({
     }
   }, [interactive, items.length, onProgressChange])
 
-  useScrollTimeline({
+  const stackTimelineRef = useScrollTimeline({
     target: interactive ? moduleElement : null,
     timeline: { defaults: { ease: 'none' } },
     scrollTrigger: interactive
       ? {
           start: 'top top',
-          // Reduce total scroll distance required per section.
-          // Previously 120% per card (very long); now ~40% per card (min 80%).
-          end: `+=${Math.max(80, items.length * 40)}%`,
+          // Spread scroll distance to ~100% per card (min 80%) to reduce overlapping animations.
+          end: `+=${Math.max(80, items.length * 100)}%`,
           scrub: true,
           pin: true,
           // Helps avoid layout jumps when pinning on fast scrolls
@@ -307,6 +306,25 @@ export function SlidingStack({
       setActiveCard(0, true)
     },
   })
+
+  useEffect(() => {
+    return () => {
+      const timeline = stackTimelineRef.current
+      if (!timeline) {
+        return
+      }
+
+      timeline.eventCallback('onUpdate', null)
+      timeline.eventCallback('onComplete', null)
+      timeline.eventCallback('onReverseComplete', null)
+
+      const scrollTrigger = timeline.scrollTrigger
+      if (scrollTrigger?.eventCallback) {
+        scrollTrigger.eventCallback('onUpdate', null)
+        scrollTrigger.eventCallback('onScrubComplete', null)
+      }
+    }
+  }, [stackTimelineRef])
 
   const renderCardContent = useCallback(
     (item: SlidingStackItem, ctaLabel = 'Learn more') => {
