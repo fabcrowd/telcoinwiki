@@ -6,6 +6,7 @@ import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { useScrollTimeline } from '../../hooks/useScrollTimeline'
+import { getStageHostElement } from '../../utils/stageHost'
 
 export interface HorizontalRailItem {
   id: string
@@ -156,9 +157,13 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
       return
     }
 
-    const root = document.documentElement
-    const onEnter = () => root.setAttribute('data-horizontal-stage', '')
-    const onLeave = () => root.removeAttribute('data-horizontal-stage')
+    const host = getStageHostElement()
+    if (!host) {
+      return
+    }
+
+    const onEnter = () => host.setAttribute('data-horizontal-stage', '')
+    const onLeave = () => host.removeAttribute('data-horizontal-stage')
 
     const observer = new IntersectionObserver(
       (entries) => {

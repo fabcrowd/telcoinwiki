@@ -36,7 +36,7 @@ export function CinematicLayout({
 
   return (
     <>
-      <div className="app-layer app-layer--cinematic">
+      <div className="app-layer app-layer--cinematic" data-stage-host>
         <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           Skip to content
         </a>

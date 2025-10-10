@@ -606,7 +606,7 @@ pre {
   text-shadow: 0 1px 0 rgba(0,0,0,0.25);
 }
 
-html[data-horizontal-stage] .site-header {
+[data-stage-host][data-horizontal-stage] .site-header {
   background: rgba(10, 15, 30, 0.65);
   box-shadow: 0 6px 28px rgba(2, 8, 24, 0.55);
 }

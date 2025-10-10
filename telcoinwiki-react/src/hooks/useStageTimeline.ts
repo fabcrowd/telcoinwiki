@@ -5,6 +5,7 @@ import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 import { clamp01, lerp } from '../utils/interpolate'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 import { useScrollTimeline } from './useScrollTimeline'
+import { clearStageVariables, setStageVariables, type StageVariableName, type StageVariableUpdates } from '../utils/stageHost'
 
 interface StageStop {
   hue: number
@@ -44,7 +45,7 @@ const defaultStop: NormalizedStageStop = {
   cardShadowOpacity: 0.26,
 }
 
-const stageVariableMap: Record<keyof NormalizedStageStop, string> = {
+const stageVariableMap: Record<keyof NormalizedStageStop, StageVariableName> = {
   hue: '--tc-stage-hue',
   accentHue: '--tc-stage-accent-hue',
   overlayOpacity: '--tc-stage-overlay-opacity',
@@ -78,14 +79,18 @@ function interpolateStops(start: NormalizedStageStop, end: NormalizedStageStop, 
   }
 }
 
-function applyStageStop(root: HTMLElement, stop: NormalizedStageStop) {
-  root.style.setProperty(stageVariableMap.hue, stop.hue.toFixed(2))
-  root.style.setProperty(stageVariableMap.accentHue, stop.accentHue.toFixed(2))
-  root.style.setProperty(stageVariableMap.overlayOpacity, stop.overlayOpacity.toFixed(3))
-  root.style.setProperty(stageVariableMap.spotOpacity, stop.spotOpacity.toFixed(3))
-  root.style.setProperty(stageVariableMap.cardOverlayOpacity, stop.cardOverlayOpacity.toFixed(3))
-  root.style.setProperty(stageVariableMap.cardBorderOpacity, stop.cardBorderOpacity.toFixed(3))
-  root.style.setProperty(stageVariableMap.cardShadowOpacity, stop.cardShadowOpacity.toFixed(3))
+function applyStageStop(stop: NormalizedStageStop) {
+  const updates: StageVariableUpdates = {
+    [stageVariableMap.hue]: stop.hue.toFixed(2),
+    [stageVariableMap.accentHue]: stop.accentHue.toFixed(2),
+    [stageVariableMap.overlayOpacity]: stop.overlayOpacity.toFixed(3),
+    [stageVariableMap.spotOpacity]: stop.spotOpacity.toFixed(3),
+    [stageVariableMap.cardOverlayOpacity]: stop.cardOverlayOpacity.toFixed(3),
+    [stageVariableMap.cardBorderOpacity]: stop.cardBorderOpacity.toFixed(3),
+    [stageVariableMap.cardShadowOpacity]: stop.cardShadowOpacity.toFixed(3),
+  }
+
+  setStageVariables(updates)
 }
 
 function useStageStopMemo(stop: StageStop): NormalizedStageStop {
@@ -127,16 +132,15 @@ export function useStageTimeline({
           return
         }
 
-        const root = document.documentElement
         const trigger = timeline.scrollTrigger
 
         if (shouldReduce) {
           const applyFrom = () => {
-            applyStageStop(root, fromStop)
+            applyStageStop(fromStop)
             setProgress(0)
           }
           const applyTo = () => {
-            applyStageStop(root, toStop)
+            applyStageStop(toStop)
             setProgress(1)
           }
 
@@ -163,7 +167,7 @@ export function useStageTimeline({
           }
 
           const stageStop = interpolateStops(fromStop, toStop, clamped)
-          applyStageStop(root, stageStop)
+          applyStageStop(stageStop)
           setProgress(clamped)
         }
 
@@ -180,27 +184,16 @@ export function useStageTimeline({
     ),
   })
 
-  useEffect(() => {
-    if (typeof document === 'undefined') {
-      return
-    }
-
-    const root = document.documentElement
-
-    return () => {
-      Object.values(stageVariableMap).forEach((variable) => {
-        root.style.removeProperty(variable)
-      })
-    }
+  useEffect(() => () => {
+    clearStageVariables()
   }, [])
 
   useEffect(() => {
-    if (!shouldReduce || typeof document === 'undefined') {
+    if (!shouldReduce) {
       return
     }
 
-    const root = document.documentElement
-    applyStageStop(root, progress > 0 ? toStop : fromStop)
+    applyStageStop(progress > 0 ? toStop : fromStop)
   }, [fromStop, progress, shouldReduce, toStop])
 
   return progress
