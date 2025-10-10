@@ -1670,6 +1670,58 @@ pre {
   text-decoration: underline;
 }
 
+/* ------------------------------
+   Scroll Story: Hero Parallax
+   - Subtle parallax using CSS Scroll-Driven Animations (view-timeline)
+   - Gated by [data-scroll-story] and reduced-motion preferences
+   - No JS required; gracefully does nothing where unsupported
+*/
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (view-timeline-name: --v) and (animation-timeline: --v) {
+    #home-hero[data-scroll-story] {
+      view-timeline-name: --hero;
+      view-timeline-axis: block;
+    }
+
+    #home-hero[data-scroll-story] [data-hero-background] {
+      will-change: transform;
+      animation: hero-bg-parallax linear both;
+      animation-timeline: --hero;
+      /* When the hero enters and covers the viewport */
+      animation-range: entry 0% cover 100%;
+    }
+
+    #home-hero[data-scroll-story] [data-hero-overlay] {
+      will-change: transform, opacity;
+      animation: hero-overlay-parallax linear both;
+      animation-timeline: --hero;
+      animation-range: entry 0% cover 100%;
+    }
+
+    #home-hero[data-scroll-story] [data-hero-copy] {
+      will-change: transform, opacity;
+      animation: hero-copy-parallax linear both;
+      animation-timeline: --hero;
+      animation-range: entry 0% cover 100%;
+    }
+
+    @keyframes hero-bg-parallax {
+      from { transform: translateY(-10vh) scale(1.02); }
+      to   { transform: translateY( 10vh) scale(1.02); }
+    }
+    @keyframes hero-overlay-parallax {
+      from { transform: translateY(-4vh); opacity: 0.98; }
+      to   { transform: translateY(  4vh); opacity: 1; }
+    }
+    @keyframes hero-copy-parallax {
+      from { transform: translateY(1.25vh); opacity: 0.985; }
+      to   { transform: translateY(-1.25vh); opacity: 1; }
+    }
+  }
+}
+
+
 .accordion__sources {
   margin-top: var(--space-3);
 }

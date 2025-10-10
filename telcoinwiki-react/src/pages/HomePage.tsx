@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { SCROLL_STORY_ENABLED } from '../config/featureFlags'
 
 import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
 import { HeroSequencer } from '../components/cinematic/HeroSequencer'
@@ -224,6 +225,7 @@ export function HomePage() {
         ref={hero.sectionRef}
         aria-labelledby="home-hero-heading"
         className="stage-theme relative isolate overflow-hidden bg-hero-linear animate-gradient [background-size:180%_180%]"
+        data-scroll-story={SCROLL_STORY_ENABLED ? '' : undefined}
       >
         <ColorShiftBackground
           data-hero-background=""
