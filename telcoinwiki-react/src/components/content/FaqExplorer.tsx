@@ -121,7 +121,7 @@ export function FaqExplorer({ faqDataUrl }: FaqExplorerProps) {
       </div>
 
       {isFallback ? (
-        <p className="faq-explorer__notice">Showing cached FAQ data while Supabase is unavailable.</p>
+        <p className="faq-explorer__notice">Showing cached FAQ data while live updates are disabled.</p>
       ) : null}
 
       {isLoading ? <p className="faq-explorer__status">Loading FAQs…</p> : null}

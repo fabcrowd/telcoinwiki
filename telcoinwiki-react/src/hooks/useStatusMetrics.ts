@@ -1,11 +1,10 @@
 import { useMemo } from 'react'
 import { useQuery, type UseQueryResult } from '@tanstack/react-query'
 import type { StatusMetric } from '../lib/queries'
-import { supabaseQueries } from '../lib/queries'
 
 export interface StatusMetricsResult {
   metrics: StatusMetric[]
-  source: 'supabase' | 'fallback'
+  source: 'fallback'
 }
 
 type StatusJson = Record<string, number>
@@ -33,23 +32,15 @@ export const fallbackToStatusJson = async (): Promise<StatusMetricsResult> => {
   return { metrics, source: 'fallback' }
 }
 
-export const fetchStatusMetricsWithFallback = async (): Promise<StatusMetricsResult> => {
-  try {
-    const metrics = await supabaseQueries.fetchStatusMetrics()
-    return { metrics, source: 'supabase' }
-  } catch (error) {
-    console.warn('Falling back to cached status metrics', error)
-    return fallbackToStatusJson()
-  }
-}
+export const fetchStatusMetricsWithFallback = fallbackToStatusJson
 
 export const useStatusMetricsData = (): UseQueryResult<StatusMetricsResult, Error> =>
   useQuery({
-    queryKey: ['status', 'metrics', 'with-fallback'],
+    queryKey: ['status', 'metrics', 'fallback-only'],
     queryFn: fetchStatusMetricsWithFallback,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
-    retry: 1,
+    retry: 0,
   })
 
 export const useStatusMetricValue = (
@@ -78,6 +69,6 @@ export const useStatusMetricValue = (
     isFetching,
     error,
     refetch,
-    isFallback: data?.source === 'fallback',
+    isFallback: true,
   }
 }

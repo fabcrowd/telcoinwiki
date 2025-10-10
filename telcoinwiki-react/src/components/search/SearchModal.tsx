@@ -248,7 +248,7 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
 
           {searchEnabled && !isLoading && !error && query && isFallback ? (
             <p className="search-modal__status search-modal__status--notice" role="status">
-              Showing cached FAQ data while Supabase is unavailable.
+              Showing cached FAQ data while live updates are disabled.
             </p>
           ) : null}
 

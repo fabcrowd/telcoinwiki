@@ -27,7 +27,7 @@ export function StatusValue({ metricKey, format = 'number', fallbackText = '—'
       className={`status-value${isFallback ? ' status-value--fallback' : ''}`}
       aria-live="polite"
       data-status-key={metricKey}
-      title={isFallback ? 'Showing cached data while Supabase is unavailable.' : undefined}
+      title={isFallback ? 'Showing cached metrics from the latest build.' : undefined}
     >
       {content}
       {error ? (
