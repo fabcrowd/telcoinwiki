@@ -126,7 +126,9 @@ export function SlidingStack({
     scrollTrigger: interactive
       ? {
           start: 'top top',
-          end: `+=${Math.max(120, items.length * 120)}%`,
+          // Reduce total scroll distance required per section.
+          // Previously 120% per card (very long); now ~40% per card (min 80%).
+          end: `+=${Math.max(80, items.length * 40)}%`,
           scrub: true,
           pin: true,
           // Helps avoid layout jumps when pinning on fast scrolls
@@ -366,7 +368,7 @@ export function SlidingStack({
             <ColorMorphCard
               key={item.id}
               progress={1}
-              className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
+              className={cn('sliding-stack__card p-5 sm:p-6', cardClassName)}
             >
               <div className="sliding-stack__tab">
                 <span className="sliding-stack__tab-text">{item.title}</span>
@@ -396,7 +398,7 @@ export function SlidingStack({
             key={item.id}
             ref={setCardRef(index)}
             progress={1}
-            className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
+            className={cn('sliding-stack__card p-5 sm:p-6', cardClassName)}
           >
             {/* Filing-cabinet tab: peeks from right when stacked; slides into top-left when staged */}
             <div ref={setTabRef(index)} className="sliding-stack__tab" aria-hidden>

@@ -129,7 +129,8 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
     scrollTrigger: shouldPin
       ? {
           start: 'top top',
-          end: `+=${Math.max(200, totalSlides * 100)}%`,
+          // Shorter horizontal sweep: ~40% per slide, min 100%.
+          end: `+=${Math.max(100, totalSlides * 40)}%`,
           pin: true,
           // Pure scrub so movement mirrors wheel input and reverses smoothly
           scrub: true,
@@ -239,7 +240,7 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
       {items.map((item) => (
         <article
           key={item.id}
-          className="horizontal-rail__slide color-morph-card p-6"
+          className="horizontal-rail__slide color-morph-card p-5 sm:p-6"
           style={getAccentStyle(item.accentHue)}
         >
           {renderCardContent(item)}
@@ -255,7 +256,7 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
           {items.map((item) => (
             <article
               key={item.id}
-              className="sliding-track__card color-morph-card p-6"
+              className="sliding-track__card color-morph-card p-5 sm:p-6"
               style={getAccentStyle(item.accentHue)}
             >
               {renderCardContent(item)}

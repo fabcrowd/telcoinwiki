@@ -25,7 +25,7 @@ export const MainWorkspaceCard = forwardRef<HTMLDivElement, MainWorkspaceCardPro
         as="div"
         progress={progress}
         className={cn(
-          'workspace-card__inner p-6 sm:p-8',
+          'workspace-card__inner p-5 sm:p-6',
           // Visual polish: keep text readable while scaling
           'backdrop-blur-[0.5px]'
         )}
@@ -35,4 +35,3 @@ export const MainWorkspaceCard = forwardRef<HTMLDivElement, MainWorkspaceCardPro
     </div>
   )
 })
-
