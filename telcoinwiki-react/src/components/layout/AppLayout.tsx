@@ -49,7 +49,7 @@ export function AppLayout({
 
   return (
     <>
-      <div className="app-layer">
+      <div className="app-layer" data-stage-host>
         <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           Skip to content
         </a>

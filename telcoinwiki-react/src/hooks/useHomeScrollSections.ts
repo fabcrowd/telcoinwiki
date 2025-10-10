@@ -6,6 +6,7 @@ import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 import { useStageTimeline } from './useStageTimeline'
 import { useMediaQuery } from './useMediaQuery'
 import { lerp } from '../utils/interpolate'
+import { clearStageVariables, setStageVariables, type StageVariableUpdates } from '../utils/stageHost'
 
 interface StageStop {
   hue: number
@@ -37,16 +38,6 @@ const STAGE_DEFAULTS: NormalizedStageStop = {
   cardShadowOpacity: 0.26,
 }
 
-const STAGE_VARIABLE_KEYS = [
-  '--tc-stage-hue',
-  '--tc-stage-accent-hue',
-  '--tc-stage-overlay-opacity',
-  '--tc-stage-spot-opacity',
-  '--tc-stage-card-overlay-opacity',
-  '--tc-stage-card-border-opacity',
-  '--tc-stage-card-shadow-opacity',
-] as const
-
 function normalizeStageStop(stop: StageStop): NormalizedStageStop {
   return {
     hue: stop.hue,
@@ -71,18 +62,16 @@ function interpolateStageStops(start: NormalizedStageStop, end: NormalizedStageS
   }
 }
 
-function applyStageStop(root: HTMLElement, stop: NormalizedStageStop) {
-  root.style.setProperty(STAGE_VARIABLE_KEYS[0], stop.hue.toFixed(2))
-  root.style.setProperty(STAGE_VARIABLE_KEYS[1], stop.accentHue.toFixed(2))
-  root.style.setProperty(STAGE_VARIABLE_KEYS[2], stop.overlayOpacity.toFixed(3))
-  root.style.setProperty(STAGE_VARIABLE_KEYS[3], stop.spotOpacity.toFixed(3))
-  root.style.setProperty(STAGE_VARIABLE_KEYS[4], stop.cardOverlayOpacity.toFixed(3))
-  root.style.setProperty(STAGE_VARIABLE_KEYS[5], stop.cardBorderOpacity.toFixed(3))
-  root.style.setProperty(STAGE_VARIABLE_KEYS[6], stop.cardShadowOpacity.toFixed(3))
-}
-
-function clearStageVariables(root: HTMLElement) {
-  STAGE_VARIABLE_KEYS.forEach((key) => root.style.removeProperty(key))
+function stageStopToVariables(stop: NormalizedStageStop): StageVariableUpdates {
+  return {
+    '--tc-stage-hue': stop.hue.toFixed(2),
+    '--tc-stage-accent-hue': stop.accentHue.toFixed(2),
+    '--tc-stage-overlay-opacity': stop.overlayOpacity.toFixed(3),
+    '--tc-stage-spot-opacity': stop.spotOpacity.toFixed(3),
+    '--tc-stage-card-overlay-opacity': stop.cardOverlayOpacity.toFixed(3),
+    '--tc-stage-card-border-opacity': stop.cardBorderOpacity.toFixed(3),
+    '--tc-stage-card-shadow-opacity': stop.cardShadowOpacity.toFixed(3),
+  }
 }
 
 const heroStageStops = {
@@ -319,24 +308,22 @@ function createStackSectionHook(
     }, [interactive, stackProgress])
 
     useEffect(() => {
-      if (!interactive || typeof document === 'undefined') {
+      if (!interactive) {
         return
       }
 
-      const root = document.documentElement
       return () => {
-        clearStageVariables(root)
+        clearStageVariables()
       }
     }, [interactive])
 
     useEffect(() => {
-      if (!interactive || typeof document === 'undefined') {
+      if (!interactive) {
         return
       }
 
-      const root = document.documentElement
       const stop = interpolateStageStops(fromStop, toStop, stackProgress)
-      applyStageStop(root, stop)
+      setStageVariables(stageStopToVariables(stop))
     }, [interactive, fromStop, toStop, stackProgress])
 
     useCinematicSection(
