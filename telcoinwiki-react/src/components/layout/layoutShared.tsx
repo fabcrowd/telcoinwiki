@@ -51,7 +51,9 @@ export function useLayoutChrome({
 }
 
 export function useHashScroll(hash: string, pathname: string) {
-  const [lenis, setLenis] = useState<Lenis | null>(() => getActiveLenis())
+  // Track Lenis for feature detection, but do not re-run the scroll effect when it changes.
+  // Re-running on Lenis init could yank the page back to the top mid-gesture.
+  const [, setLenis] = useState<Lenis | null>(() => getActiveLenis())
 
   useEffect(() => subscribeToLenis(setLenis), [])
 
@@ -64,12 +66,13 @@ export function useHashScroll(hash: string, pathname: string) {
       window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth'
 
-    const attemptLenisScroll = (target: HTMLElement | number) => {
-      if (!lenis || prefersReducedMotion) {
-        return false
-      }
+    // Resolve Lenis at the moment we perform the scroll, but don't include it
+    // in the dependency list so we don't fight with user input on init.
+    const activeLenis = getActiveLenis()
 
-      lenis.scrollTo(target, { lock: false })
+    const attemptLenisScroll = (target: HTMLElement | number) => {
+      if (!activeLenis || prefersReducedMotion) return false
+      activeLenis.scrollTo(target, { lock: false })
       return true
     }
 
@@ -86,7 +89,9 @@ export function useHashScroll(hash: string, pathname: string) {
     }
 
     if (!attemptLenisScroll(0)) {
-      window.scrollTo({ top: 0, behavior })
+      // Avoid smooth-scrolling to 0 on mount, which can feel like a bounce.
+      const atTop = (window.scrollY ?? window.pageYOffset ?? 0) <= 2
+      window.scrollTo({ top: 0, behavior: atTop ? 'auto' : 'auto' })
     }
-  }, [hash, pathname, lenis])
+  }, [hash, pathname])
 }
