@@ -8,6 +8,9 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 type VideoSource = { src: string; type: string } | { supabase: { bucket: string; path: string; expiresIn?: number }; type: string }
 
+// Temporary switch to keep cinematic videos disabled while we troubleshoot desktop FPS.
+const ENABLE_HERO_VIDEO = false
+
 const isPresent = <T,>(value: T | null | undefined): value is T => Boolean(value)
 
 export interface HeroLayer {
@@ -63,6 +66,11 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
   const [resolvedSources, setResolvedSources] = useState<Record<string, { src: string; type: string }[]>>({})
 
   useEffect(() => {
+    if (!ENABLE_HERO_VIDEO) {
+      setResolvedSources({})
+      return
+    }
+
     if (!isNear || !layers.length) {
       return
     }
@@ -124,13 +132,17 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
   }, [isNear, layers, prefersReducedMotion])
 
   useEffect(() => {
+    if (!ENABLE_HERO_VIDEO) {
+      return
+    }
+
     if (propLayers || loadedLayers || !isNear) return
     let cancelled = false
     ;(async () => {
       const cfg = await loadCinematicConfig()
       if (cancelled) return
       setLoadedLayers(cfg.heroLayers as HeroLayer[])
-      if (cfg.videoPolicy) {
+      if (ENABLE_HERO_VIDEO && cfg.videoPolicy) {
         setPolicy({
           minEffectiveType: cfg.videoPolicy.minEffectiveType ?? '3g',
           allowSaveData: cfg.videoPolicy.allowSaveData ?? false,
@@ -179,7 +191,7 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
 
         const rank: Record<'slow-2g'|'2g'|'3g'|'4g', number> = { 'slow-2g': 0, '2g': 1, '3g': 2, '4g': 3 }
         const meetsConnection = effectiveType ? rank[effectiveType] >= rank[policy.minEffectiveType] : true
-        const canLoadVideo = !prefersReducedMotion && (!saveData || policy.allowSaveData) && meetsConnection
+        const canLoadVideo = ENABLE_HERO_VIDEO && !prefersReducedMotion && (!saveData || policy.allowSaveData) && meetsConnection
         const sourcesForLayer = resolvedSources[layer.id] ?? []
         const orderedSources = pickResolutionVariant(preferCodecs(sourcesForLayer))
         const hasVideo = !!(orderedSources.length) && canLoadVideo

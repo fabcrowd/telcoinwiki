@@ -21,15 +21,7 @@ export const MainWorkspaceCard = forwardRef<HTMLDivElement, MainWorkspaceCardPro
 ) {
   return (
     <div ref={ref} className={cn('workspace-card', className)} {...rest}>
-      <ColorMorphCard
-        as="div"
-        progress={progress}
-        className={cn(
-          'workspace-card__inner p-5 sm:p-6',
-          // Visual polish: keep text readable while scaling
-          'backdrop-blur-[0.5px]'
-        )}
-      >
+      <ColorMorphCard as="div" progress={progress} className={cn('workspace-card__inner p-5 sm:p-6')}>
         {children}
       </ColorMorphCard>
     </div>
