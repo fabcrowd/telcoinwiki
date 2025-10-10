@@ -151,10 +151,32 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         // ScrollTrigger automatically syncs with Lenis via requestAnimationFrame.
         // Calling update() on every scroll causes jittering and performance issues.
 
-        // Refresh once after initialization to compute trigger positions
-        if (typeof ScrollTrigger.refresh === 'function') {
-          ScrollTrigger.refresh()
+        // Refresh triggers at safe times to ensure correct scroll range before
+        // the user interacts. Some browsers finish layout after images/fonts load.
+        const doRefresh = () => {
+          try {
+            if (typeof ScrollTrigger.refresh === 'function') {
+              ScrollTrigger.refresh()
+            }
+          } catch (err) {
+            if (process.env.NODE_ENV !== 'production') {
+              console.warn('ScrollTrigger refresh failed', err)
+            }
+          }
         }
+
+        // Initial refresh right away
+        doRefresh()
+        // After fonts load
+        if ('fonts' in document && 'ready' in document.fonts) {
+          document.fonts.ready.then(() => doRefresh()).catch(() => {})
+        }
+        // After window load (images, etc.)
+        const onLoad = () => doRefresh()
+        window.addEventListener('load', onLoad)
+        cleanupCallbacks.push(() => window.removeEventListener('load', onLoad))
+        // And once more on first animation frame after init
+        requestAnimationFrame(() => doRefresh())
 
         const nav = window.navigator as Navigator & { deviceMemory?: number }
         const lowPowerDevice = Boolean(
