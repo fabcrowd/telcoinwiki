@@ -225,7 +225,8 @@ pre {
 .sliding-stack {
   position: relative;
   width: 100%;
-  padding-block: var(--space-6);
+  /* Tighter vertical spacing around stacks */
+  padding-block: var(--space-4);
 }
 
 .sliding-stack__card {
@@ -234,7 +235,8 @@ pre {
 }
 
 .sliding-stack--interactive {
-  min-height: clamp(22rem, 60vw, 32rem);
+  /* Reduce card height footprint on larger screens */
+  min-height: clamp(18rem, 52vw, 28rem);
 }
 
 .sliding-stack--interactive .sliding-stack__card {
@@ -304,7 +306,8 @@ pre {
   -webkit-overflow-scrolling: touch;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: min(80vw, 22rem);
+  /* Smaller cards in fallback horizontal list */
+  grid-auto-columns: min(74vw, 18rem);
   gap: var(--space-4);
   padding: var(--space-4);
 }
@@ -347,7 +350,8 @@ pre {
 .workspace-card__inner {
   /* Full-bleed workspace: stretch to viewport and break out of the content container */
   width: 100vw;
-  min-height: 100svh;
+  /* Reduce viewport fill to shorten vertical scroll and reveal next content sooner */
+  min-height: 80svh;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   border-radius: calc(var(--radius-card) + 12px * var(--workspace-center));
@@ -368,13 +372,15 @@ pre {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 40vh;
+  /* Slightly shorter intro so the card feels lighter */
+  min-height: 32vh;
 }
 
 @media (max-width: 62rem) {
   .workspace-card__inner {
     width: 100vw;
-    min-height: 100svh;
+    /* Keep some presence on mobile but still shorter than full */
+    min-height: 88svh;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
   }
@@ -505,8 +511,9 @@ pre {
 .logo-marquee [aria-pressed]:focus-visible + .logo-marquee__hint { opacity: .75; }
 .horizontal-rail {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
+  /* Shorter pinned height for the horizontal sweep */
+  min-height: 78vh;
+  min-height: 80svh;
   overflow: clip;
   isolation: isolate;
 }
