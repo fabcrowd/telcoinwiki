@@ -1,11 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import type { MutableRefObject, RefObject } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 
-import { clamp01, lerp } from '../utils/interpolate'
-import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 import { useScrollTimeline } from './useScrollTimeline'
-import { clearStageVariables, setStageVariables, type StageVariableName, type StageVariableUpdates } from '../utils/stageHost'
 
 interface StageStop {
   hue: number
@@ -45,16 +43,6 @@ const defaultStop: NormalizedStageStop = {
   cardShadowOpacity: 0.26,
 }
 
-const stageVariableMap: Record<keyof NormalizedStageStop, StageVariableName> = {
-  hue: '--tc-stage-hue',
-  accentHue: '--tc-stage-accent-hue',
-  overlayOpacity: '--tc-stage-overlay-opacity',
-  spotOpacity: '--tc-stage-spot-opacity',
-  cardOverlayOpacity: '--tc-stage-card-overlay-opacity',
-  cardBorderOpacity: '--tc-stage-card-border-opacity',
-  cardShadowOpacity: '--tc-stage-card-shadow-opacity',
-}
-
 function normalizeStop(stop: StageStop): NormalizedStageStop {
   return {
     hue: stop.hue,
@@ -67,134 +55,60 @@ function normalizeStop(stop: StageStop): NormalizedStageStop {
   }
 }
 
-function interpolateStops(start: NormalizedStageStop, end: NormalizedStageStop, progress: number): NormalizedStageStop {
-  return {
-    hue: lerp(start.hue, end.hue, progress),
-    accentHue: lerp(start.accentHue, end.accentHue, progress),
-    overlayOpacity: lerp(start.overlayOpacity, end.overlayOpacity, progress),
-    spotOpacity: lerp(start.spotOpacity, end.spotOpacity, progress),
-    cardOverlayOpacity: lerp(start.cardOverlayOpacity, end.cardOverlayOpacity, progress),
-    cardBorderOpacity: lerp(start.cardBorderOpacity, end.cardBorderOpacity, progress),
-    cardShadowOpacity: lerp(start.cardShadowOpacity, end.cardShadowOpacity, progress),
-  }
-}
-
-function applyStageStop(stop: NormalizedStageStop) {
-  const updates: StageVariableUpdates = {
-    [stageVariableMap.hue]: stop.hue.toFixed(2),
-    [stageVariableMap.accentHue]: stop.accentHue.toFixed(2),
-    [stageVariableMap.overlayOpacity]: stop.overlayOpacity.toFixed(3),
-    [stageVariableMap.spotOpacity]: stop.spotOpacity.toFixed(3),
-    [stageVariableMap.cardOverlayOpacity]: stop.cardOverlayOpacity.toFixed(3),
-    [stageVariableMap.cardBorderOpacity]: stop.cardBorderOpacity.toFixed(3),
-    [stageVariableMap.cardShadowOpacity]: stop.cardShadowOpacity.toFixed(3),
-  }
-
-  setStageVariables(updates)
-}
-
-function useStageStopMemo(stop: StageStop): NormalizedStageStop {
-  return useMemo(() => normalizeStop(stop), [stop])
-}
-
+/**
+ * Optimized stage timeline hook that returns progress value WITHOUT updating CSS variables.
+ *
+ * PERFORMANCE FIX: Previously, this hook updated 7 CSS variables on the HTML root element
+ * on every scroll frame, causing massive repaints and flickering. Now it only tracks progress
+ * and lets components apply effects locally using GPU-accelerated transforms/opacity.
+ *
+ * @returns Progress value (0-1) for the current scroll position
+ */
 export function useStageTimeline({
   target,
   from,
   to,
   scrollTrigger,
-  prefersReducedMotion,
+  prefersReducedMotion = false,
 }: UseStageTimelineConfig): number {
-  const prefersReducedMotionValue = usePrefersReducedMotion()
-  const shouldReduce = prefersReducedMotion ?? prefersReducedMotionValue
-  const [progress, setProgress] = useState(0)
+  const progressRef = useRef(0)
+  const fromStop = normalizeStop(from)
+  const toStop = normalizeStop(to)
 
-  const fromStop = useStageStopMemo(from)
-  const toStop = useStageStopMemo(to)
-
-  const combinedScrollTrigger = useMemo(() => {
-    const base: ScrollTriggerType.Vars = { ...(scrollTrigger ?? {}) }
-
-    if (shouldReduce) {
-      base.scrub = false
-    } else if (typeof base.scrub === 'undefined') {
-      base.scrub = true
-    }
-
-    return base
-  }, [scrollTrigger, shouldReduce])
-
-  useScrollTimeline({
-    target,
-    scrollTrigger: combinedScrollTrigger,
+  const timelineRef = useScrollTimeline({
+    target: prefersReducedMotion ? null : target,
     create: useCallback(
       (timeline) => {
         if (typeof document === 'undefined') {
           return
         }
 
-        const trigger = timeline.scrollTrigger
-
-        if (shouldReduce) {
-          const applyFrom = () => {
-            applyStageStop(fromStop)
-            setProgress(0)
-          }
-          const applyTo = () => {
-            applyStageStop(toStop)
-            setProgress(1)
-          }
-
-          trigger?.eventCallback('onEnter', applyTo)
-          trigger?.eventCallback('onEnterBack', applyTo)
-          trigger?.eventCallback('onLeave', applyFrom)
-          trigger?.eventCallback('onLeaveBack', applyFrom)
-
-          if (trigger && (trigger.progress > 0 || trigger.isActive)) {
-            applyTo()
-          } else {
-            applyFrom()
-          }
-
-          return
+        // Simple progress tracker - NO CSS variable updates
+        const update = () => {
+          progressRef.current = timeline.progress()
         }
 
-        const update = (value: number) => {
-          const clamped = clamp01(value)
-
-          if (clamped <= 0 && !trigger?.isActive) {
-            setProgress(0)
-            return
-          }
-
-          const stageStop = interpolateStops(fromStop, toStop, clamped)
-          applyStageStop(stageStop)
-          setProgress(clamped)
-        }
-
-        timeline.to({}, {
-          duration: 1,
-          onUpdate: () => {
-            update(timeline.progress())
+        timeline.to(
+          {},
+          {
+            duration: 1,
+            ease: 'none',
+            onUpdate: update,
           },
-        })
+        )
 
-        update(timeline.progress())
+        update()
       },
-      [fromStop, shouldReduce, toStop],
+      [],
     ),
+    scrollTrigger: scrollTrigger
+      ? {
+          ...scrollTrigger,
+          scrub: prefersReducedMotion ? false : scrollTrigger.scrub ?? true,
+        }
+      : undefined,
   })
 
-  useEffect(() => () => {
-    clearStageVariables()
-  }, [])
-
-  useEffect(() => {
-    if (!shouldReduce) {
-      return
-    }
-
-    applyStageStop(progress > 0 ? toStop : fromStop)
-  }, [fromStop, progress, shouldReduce, toStop])
-
-  return progress
+  // Return simple progress value - let components handle effects locally
+  return prefersReducedMotion ? 1 : progressRef.current
 }

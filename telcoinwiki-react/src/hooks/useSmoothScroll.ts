@@ -147,27 +147,25 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         activeLenis = lenis
         notifyLenisSubscribers()
 
-        // Keep ScrollTrigger in sync with Lenis scroll positions.
-        // Official Lenis guidance recommends calling ScrollTrigger.update on each Lenis scroll.
-        // We do this once per Lenis scroll event; GSAP will throttle internally as needed.
+        // Sync ScrollTrigger with Lenis using the official integration pattern
+        // Call ScrollTrigger.update() on Lenis scroll events for proper synchronization
+        const scrollHandler = ScrollTrigger.update
         try {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (lenis as any)?.on?.('scroll', () => {
-            try {
-              if (typeof ScrollTrigger.update === 'function') {
-                ScrollTrigger.update()
-              }
-            } catch {
-              /* noop */
-            }
-          })
+          (lenis as any)?.on?.('scroll', scrollHandler)
         } catch {
           /* noop */
         }
 
-        // IMPORTANT: Do NOT call ScrollTrigger.update() on every scroll event.
-        // ScrollTrigger automatically syncs with Lenis via requestAnimationFrame.
-        // Calling update() on every scroll causes jittering and performance issues.
+        // Store handler for cleanup
+        cleanupCallbacks.push(() => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (lenis as any)?.off?.('scroll', scrollHandler)
+          } catch {
+            /* noop */
+          }
+        })
 
         // Refresh triggers at safe times to ensure correct scroll range before
         // the user interacts. Some browsers finish layout after images/fonts load.
@@ -317,12 +315,6 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
 
         cleanupCallbacks.push(() => {
           stopAnimation()
-          try {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (lenis as any)?.off?.('scroll', ScrollTrigger.update)
-          } catch {
-            /* noop */
-          }
           lenis.destroy()
           lenisRef.current = null
           activeLenis = null
