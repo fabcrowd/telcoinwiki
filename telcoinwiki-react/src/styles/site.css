@@ -208,12 +208,11 @@ pre {
         calc(var(--stage-card-overlay-alpha, 0.32) * 0.7)
     )
   );
-  box-shadow: 0 18px 42px hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 62% 38% / var(--stage-card-shadow-alpha, 0.26));
+  box-shadow: 0 12px 24px hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 62% 38% / calc(var(--stage-card-shadow-alpha, 0.26) * 0.75));
   color: var(--tc-ink);
   background-color: rgba(5, 11, 31, 0.45);
   overflow: hidden;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  /* Disable expensive backdrop blur to avoid GPU thrash on desktop scroll */
   transition:
     background-image 0.6s var(--transition-smooth),
     border-color 0.6s var(--transition-smooth),
