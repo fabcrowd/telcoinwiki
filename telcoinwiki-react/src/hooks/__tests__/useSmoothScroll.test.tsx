@@ -1,95 +1,52 @@
-import { renderHook, waitFor } from '@testing-library/react'
-import { describe, expect, it, vi, beforeEach } from 'vitest'
-
-const { lenisInstances, LenisConstructor, scrollTriggerMock } = vi.hoisted(() => {
-  const instances: Array<{
-    on: ReturnType<typeof vi.fn>
-    off: ReturnType<typeof vi.fn>
-    raf: ReturnType<typeof vi.fn>
-    destroy: ReturnType<typeof vi.fn>
-  }> = []
-
-  const constructor = vi.fn(() => {
-    const instance = {
-      on: vi.fn(),
-      off: vi.fn(),
-      raf: vi.fn(),
-      destroy: vi.fn(),
-    }
-
-    instances.push(instance)
-    return instance
-  })
-
-  const scrollTrigger = {
-    refresh: vi.fn(),
-    update: vi.fn(),
-  }
-
-  return { lenisInstances: instances, LenisConstructor: constructor, scrollTriggerMock: scrollTrigger }
-})
-
-vi.mock('lenis', () => ({
-  default: LenisConstructor,
-}))
-
-vi.mock('gsap/ScrollTrigger', () => ({
-  ScrollTrigger: scrollTriggerMock,
-}))
-
-vi.mock('gsap', () => ({
-  gsap: {
-    registerPlugin: vi.fn(),
-    context: vi.fn((callback?: () => void) => {
-      if (callback) {
-        callback()
-      }
-
-      return {
-        revert: vi.fn(),
-      }
-    }),
-    timeline: vi.fn(() => ({
-      to: vi.fn(),
-      kill: vi.fn(),
-      progress: vi.fn(() => 0),
-      scrollTrigger: { kill: vi.fn() },
-    })),
-  },
-}))
+import { act, renderHook } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
 
 import { useSmoothScroll } from '../useSmoothScroll'
 
 describe('useSmoothScroll', () => {
-  beforeEach(() => {
-    lenisInstances.length = 0
-    LenisConstructor.mockClear()
-    scrollTriggerMock.refresh.mockClear()
-    scrollTriggerMock.update.mockClear()
-  })
+  it('reflects the prefers-reduced-motion media query and updates on change events', () => {
+    const changeListeners: Array<(event: MediaQueryListEvent) => void> = []
 
-  it('disables Lenis when the user prefers reduced motion', async () => {
-    const matchMedia = vi.fn().mockImplementation((query: string) => ({
-      matches: query === '(prefers-reduced-motion: reduce)',
-      media: query,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    }))
+    const matchMedia = vi.fn().mockImplementation((query: string) => {
+      const mediaQueryList: MediaQueryList = {
+        matches: query === '(prefers-reduced-motion: reduce)',
+        media: query,
+        onchange: null,
+        addEventListener: vi.fn((event: string, listener: EventListenerOrEventListenerObject) => {
+          if (event === 'change' && typeof listener === 'function') {
+            changeListeners.push(listener as (event: MediaQueryListEvent) => void)
+          }
+        }),
+        removeEventListener: vi.fn((event: string, listener: EventListenerOrEventListenerObject) => {
+          if (event === 'change' && typeof listener === 'function') {
+            const index = changeListeners.indexOf(listener as (event: MediaQueryListEvent) => void)
+            if (index >= 0) {
+              changeListeners.splice(index, 1)
+            }
+          }
+        }),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      }
+
+      return mediaQueryList
+    })
 
     const originalMatchMedia = window.matchMedia
-    window.matchMedia = matchMedia as unknown as typeof window.matchMedia
+    window.matchMedia = matchMedia
 
     try {
       const { result } = renderHook(() => useSmoothScroll())
 
       expect(result.current.prefersReducedMotion).toBe(true)
+      expect(matchMedia).toHaveBeenCalledWith('(prefers-reduced-motion: reduce)')
 
-      await waitFor(() => {
-        expect(LenisConstructor).not.toHaveBeenCalled()
+      act(() => {
+        changeListeners.forEach((listener) => listener({ matches: false } as MediaQueryListEvent))
       })
+
+      expect(result.current.prefersReducedMotion).toBe(false)
     } finally {
       window.matchMedia = originalMatchMedia
     }
