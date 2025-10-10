@@ -40,3 +40,25 @@ export const SCROLL_DEBUG_ENABLED: boolean = (() => {
     return false
   }
 })()
+
+// Mega menu (header) enablement — disabled by default in production.
+const nodeNavVal =
+  typeof process !== 'undefined' && process && (process.env?.VITE_MEGA_MENU_ENABLED ?? process.env?.MEGA_MENU_ENABLED)
+
+const urlNavOverride = (() => {
+  try {
+    const params = new URLSearchParams(window.location.search)
+    const raw = params.get('nav')
+    if (!raw) return null
+    const v = raw.trim().toLowerCase()
+    return v === '1' || v === 'true' || v === 'yes' || v === 'on'
+      ? true
+      : v === '0' || v === 'false' || v === 'no' || v === 'off'
+        ? false
+        : null
+  } catch {
+    return null
+  }
+})()
+
+export const MEGA_MENU_ENABLED: boolean = (urlNavOverride ?? boolFromEnv(nodeNavVal, false))

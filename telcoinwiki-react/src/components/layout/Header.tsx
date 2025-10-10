@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { MEGA_MENU_ENABLED } from '../../config/featureFlags';
+import { megaMenuSections } from '../../config/megaMenu';
+import { MegaMenu } from './MegaMenu';
 import type { NavItem } from '../../config/types';
 
 interface HeaderProps {
@@ -94,63 +97,54 @@ export function Header({
           </button>
 
           <div className="desktop-nav" ref={dropdownRef}>
-            <button
-              type="button"
-              className={`nav-dropdown__trigger${isDropdownOpen ? ' is-open' : ''}`}
-              aria-haspopup="true"
-              aria-expanded={isDropdownOpen}
-              aria-controls={dropdownId}
-              onClick={toggleDropdown}
-            >
-              Resources
-              <span aria-hidden="true" className="nav-dropdown__caret">
-                ▾
-              </span>
-            </button>
-            <div
-              id={dropdownId}
-              className={`nav-dropdown${isDropdownOpen ? ' is-open' : ''}`}
-              role="menu"
-            >
-              <nav aria-label="Primary navigation">
-                <ul className="nav-dropdown__list">
-                  {navItems.map((item) => {
-                    const itemIsActive = item.id === activeNavId;
-                    return (
-                      <li
-                        key={item.id}
-                        className={`nav-dropdown__item${itemIsActive ? ' is-active' : ''}`}
-                      >
-                        <NavLink
-                          to={item.href}
-                          className={({ isActive }) =>
-                            `nav-dropdown__link${isActive ? ' is-current' : ''}`
-                          }
-                          onClick={closeDropdown}
-                        >
-                          {item.label}
-                        </NavLink>
-                        {item.menu && item.menu.length > 0 ? (
-                          <ul className="nav-dropdown__submenu">
-                            {item.menu.map((entry) => (
-                              <li key={entry.href} className="nav-dropdown__submenuItem">
-                                <Link
-                                  to={entry.href}
-                                  className="nav-dropdown__submenuLink"
-                                  onClick={closeDropdown}
-                                >
-                                  {entry.label}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        ) : null}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </nav>
-            </div>
+            {MEGA_MENU_ENABLED ? (
+              <MegaMenu sections={megaMenuSections} />
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className={`nav-dropdown__trigger${isDropdownOpen ? ' is-open' : ''}`}
+                  aria-haspopup="true"
+                  aria-expanded={isDropdownOpen}
+                  aria-controls={dropdownId}
+                  onClick={toggleDropdown}
+                >
+                  Resources
+                  <span aria-hidden="true" className="nav-dropdown__caret">▾</span>
+                </button>
+                <div id={dropdownId} className={`nav-dropdown${isDropdownOpen ? ' is-open' : ''}`} role="menu">
+                  <nav aria-label="Primary navigation">
+                    <ul className="nav-dropdown__list">
+                      {navItems.map((item) => {
+                        const itemIsActive = item.id === activeNavId;
+                        return (
+                          <li key={item.id} className={`nav-dropdown__item${itemIsActive ? ' is-active' : ''}`}>
+                            <NavLink
+                              to={item.href}
+                              className={({ isActive }) => `nav-dropdown__link${isActive ? ' is-current' : ''}`}
+                              onClick={closeDropdown}
+                            >
+                              {item.label}
+                            </NavLink>
+                            {item.menu && item.menu.length > 0 ? (
+                              <ul className="nav-dropdown__submenu">
+                                {item.menu.map((entry) => (
+                                  <li key={entry.href} className="nav-dropdown__submenuItem">
+                                    <Link to={entry.href} className="nav-dropdown__submenuLink" onClick={closeDropdown}>
+                                      {entry.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : null}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </nav>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="header-search">

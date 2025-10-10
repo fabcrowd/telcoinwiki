@@ -1671,6 +1671,29 @@ pre {
 }
 
 /* ------------------------------
+   Header Mega Menu (feature-flagged)
+   - Desktop: hover/focus opens; focus-out closes
+   - Mobile (<768px): handled by Header drawer; panels collapse by default
+*/
+.mega { position: relative; }
+.mega__bar { display: flex; gap: 1.25rem; align-items: center; }
+.mega__trigger { background: none; border: 0; color: var(--tc-ink); font-weight: 600; padding: .5rem .25rem; }
+.mega__tab.is-active .mega__trigger { color: var(--tc-accent); }
+.mega__panel { position: absolute; left: 0; right: 0; top: calc(100% + 8px); background: white; border: 1px solid rgba(0,0,0,.06); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.08); padding: 16px; opacity: 0; pointer-events: none; transform: translateY(-4px); transition: opacity .16s ease, transform .16s ease; z-index: 40; }
+.mega__panel.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.mega__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; list-style: none; margin: 0; padding: 0; }
+.mega__cell { padding: 8px 8px; border-radius: 8px; }
+.mega__cell:hover, .mega__cell:focus-within { background: rgba(0,0,0,.035); }
+.mega__link { display: block; text-decoration: none; color: inherit; }
+.mega__label { display: block; font-weight: 600; }
+.mega__desc { display: block; font-size: .9rem; color: var(--tc-ink-muted); }
+
+@media (max-width: 767px) {
+  .mega__panel { position: static; opacity: 1; pointer-events: auto; transform: none; box-shadow: none; border: 0; padding: 0; }
+  .mega__grid { grid-template-columns: 1fr; gap: 4px 0; }
+}
+
+/* ------------------------------
    Scroll Story: Hero Parallax
    - Subtle parallax using CSS Scroll-Driven Animations (view-timeline)
    - Gated by [data-scroll-story] and reduced-motion preferences
