@@ -6,8 +6,7 @@
   box-sizing: border-box;
 }
 
-/* Avoid native CSS smooth scrolling; Lenis/GSAP handle scroll smoothing.
-   This prevents double-smoothing and jitter when timelines are pinned. */
+/* Use a defined scroll behavior to avoid cross-browser inconsistencies. */
 html {
   scroll-behavior: auto;
 }

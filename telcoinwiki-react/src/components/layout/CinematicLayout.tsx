@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 import type { NavItem, PageMetaMap, SearchConfig } from '../../config/types'
 import { Header } from './Header'
 import { MAIN_CONTENT_ID, useHashScroll, useLayoutChrome } from './layoutShared'
-import { useSmoothScroll } from '../../hooks/useSmoothScroll'
 
 interface CinematicLayoutProps {
   pageId: string
@@ -20,8 +19,6 @@ export function CinematicLayout({
   searchConfig,
   children,
 }: CinematicLayoutProps) {
-  // Enable Lenis+GSAP smooth scrolling on cinematic pages for stable pinned timelines
-  useSmoothScroll({ enabled: true, lenis: { smoothWheel: true, smoothTouch: false } })
   const { hash, pathname } = useLocation()
   useHashScroll(hash, pathname)
 
