@@ -90,31 +90,47 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
         return
       }
 
-      timeline.fromTo(trackRef.current, { xPercent: 0 }, { xPercent: totalPercent }, 0)
+      // Use transform for GPU acceleration
+      timeline.fromTo(
+        trackRef.current,
+        { xPercent: 0 },
+        { xPercent: totalPercent, ease: 'none' },
+        0,
+      )
 
       if (bgRef.current) {
         timeline.fromTo(
           bgRef.current,
           { xPercent: 0 },
-          { xPercent: totalPercent * parallaxMultiplier },
+          { xPercent: totalPercent * parallaxMultiplier, ease: 'none' },
           0,
         )
       }
 
       if (progressRef.current) {
-        // Avoid static gsap import; set via DOM and animate on the timeline
+        // GPU-accelerated transform
         progressRef.current.style.transformOrigin = 'left center'
-        timeline.fromTo(progressRef.current, { scaleX: 0 }, { scaleX: 1 }, 0)
+        timeline.fromTo(progressRef.current, { scaleX: 0 }, { scaleX: 1, ease: 'none' }, 0)
       }
 
+      // Throttle text updates to reduce layout thrashing
+      let lastUpdateTime = 0
+      const UPDATE_INTERVAL = 100 // Update text only every 100ms
+
       timeline.eventCallback('onUpdate', () => {
+        const now = performance.now()
         const progress = timeline.progress()
         const maxIndex = totalSlides - 1
         const clampedIndex = clamp(Math.round(progress * maxIndex), 0, maxIndex)
         const humanIndex = clampedIndex + 1
 
-        if (countRef.current) {
-          countRef.current.textContent = `${humanIndex} of ${totalSlides}`
+        // Throttle text updates
+        if (now - lastUpdateTime > UPDATE_INTERVAL) {
+          lastUpdateTime = now
+
+          if (countRef.current) {
+            countRef.current.textContent = `${humanIndex} of ${totalSlides}`
+          }
         }
 
         if (statusRef.current && clampedIndex !== lastIndexRef.current) {
@@ -132,8 +148,9 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
           // Shorter horizontal sweep: ~40% per slide, min 100%.
           end: `+=${Math.max(100, totalSlides * 40)}%`,
           pin: true,
-          // Pure scrub so movement mirrors wheel input and reverses smoothly
-          scrub: true,
+          // Pure scrub with slight delay for smoothness
+          scrub: 0.5,
+          anticipatePin: 1,
         }
       : undefined,
   })

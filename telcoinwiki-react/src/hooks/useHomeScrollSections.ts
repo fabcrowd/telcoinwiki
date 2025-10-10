@@ -307,24 +307,8 @@ function createStackSectionHook(
       return stickyVars
     }, [interactive, stackProgress])
 
-    useEffect(() => {
-      if (!interactive) {
-        return
-      }
-
-      return () => {
-        clearStageVariables()
-      }
-    }, [interactive])
-
-    useEffect(() => {
-      if (!interactive) {
-        return
-      }
-
-      const stop = interpolateStageStops(fromStop, toStop, stackProgress)
-      setStageVariables(stageStopToVariables(stop))
-    }, [interactive, fromStop, toStop, stackProgress])
+    // PERFORMANCE FIX: Removed CSS variable updates that caused repaints
+    // Stage effects are now handled per-component using GPU-accelerated properties
 
     useCinematicSection(
       prefersReducedMotion,

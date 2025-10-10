@@ -25,6 +25,8 @@
   --color-warning-soft: rgba(250, 204, 21, 0.18);
   --color-info-soft: var(--tc-accent-soft);
 
+  /* Stage variables are now static defaults only - NO dynamic updates on scroll
+     PERFORMANCE: Previously these were updated on every scroll frame causing repaints */
   --tc-stage-hue: 220;
   --tc-stage-accent-hue: 268;
   --tc-stage-overlay-opacity: 0.38;
