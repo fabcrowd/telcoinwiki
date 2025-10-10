@@ -3,6 +3,33 @@ import { useEffect, useRef, useState } from 'react'
 import type Lenis from 'lenis'
 import type { LenisOptions } from 'lenis'
 
+type LenisSubscriber = (lenis: Lenis | null) => void
+
+const lenisSubscribers = new Set<LenisSubscriber>()
+let activeLenis: Lenis | null = null
+
+const notifyLenisSubscribers = () => {
+  lenisSubscribers.forEach((subscriber) => {
+    try {
+      subscriber(activeLenis)
+    } catch (error) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Smooth scroll subscriber failed', error)
+      }
+    }
+  })
+}
+
+export const getActiveLenis = (): Lenis | null => activeLenis
+
+export const subscribeToLenis = (subscriber: LenisSubscriber): (() => void) => {
+  lenisSubscribers.add(subscriber)
+  subscriber(activeLenis)
+  return () => {
+    lenisSubscribers.delete(subscriber)
+  }
+}
+
 export interface UseSmoothScrollOptions {
   /**
    * Allows consumers to disable Lenis entirely (e.g. for specific pages).
@@ -117,6 +144,8 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         })
 
         lenisRef.current = lenis
+        activeLenis = lenis
+        notifyLenisSubscribers()
 
         // IMPORTANT: Do NOT call ScrollTrigger.update() on every scroll event.
         // ScrollTrigger automatically syncs with Lenis via requestAnimationFrame.
@@ -250,6 +279,8 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
           stopAnimation()
           lenis.destroy()
           lenisRef.current = null
+          activeLenis = null
+          notifyLenisSubscribers()
 
           // Restore any previous inline scroll-behavior style
           if (previousScrollBehaviorRef.current !== null) {

@@ -1,9 +1,11 @@
 import type { ComponentProps } from 'react'
-import { useLayoutEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import type { NavItem, SearchConfig } from '../../config/types'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { SearchModal } from '../search/SearchModal'
+import type Lenis from 'lenis'
+import { getActiveLenis, subscribeToLenis } from '../../hooks/useSmoothScroll'
 
 export const MAIN_CONTENT_ID = 'main-content'
 
@@ -49,6 +51,10 @@ export function useLayoutChrome({
 }
 
 export function useHashScroll(hash: string, pathname: string) {
+  const [lenis, setLenis] = useState<Lenis | null>(() => getActiveLenis())
+
+  useEffect(() => subscribeToLenis(setLenis), [])
+
   useLayoutEffect(() => {
     if (typeof window === 'undefined') {
       return
@@ -58,16 +64,29 @@ export function useHashScroll(hash: string, pathname: string) {
       window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth'
 
+    const attemptLenisScroll = (target: HTMLElement | number) => {
+      if (!lenis || prefersReducedMotion) {
+        return false
+      }
+
+      lenis.scrollTo(target, { lock: false })
+      return true
+    }
+
     if (hash) {
       const targetId = hash.slice(1)
       const target = targetId ? document.getElementById(targetId) : null
 
       if (target) {
-        target.scrollIntoView({ behavior, block: 'start' })
+        if (!attemptLenisScroll(target)) {
+          target.scrollIntoView({ behavior, block: 'start' })
+        }
         return
       }
     }
 
-    window.scrollTo({ top: 0, behavior })
-  }, [hash, pathname])
+    if (!attemptLenisScroll(0)) {
+      window.scrollTo({ top: 0, behavior })
+    }
+  }, [hash, pathname, lenis])
 }
