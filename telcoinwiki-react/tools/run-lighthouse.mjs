@@ -24,6 +24,7 @@ const runOne = (pathname) =>
       '--throttling.cpuSlowdownMultiplier=4',
       '--screenEmulation.mobile=true',
       '--quiet',
+      '--chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu"',
     ]
 
     console.log(`\n[perf] Running Lighthouse → ${url}`)
