@@ -145,8 +145,8 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
     scrollTrigger: shouldPin
       ? {
           start: 'top top',
-          // Shorter horizontal sweep: ~40% per slide, min 100%.
-          end: `+=${Math.max(100, totalSlides * 40)}%`,
+          // Longer sweep (~100% per slide, min 100%) to reduce simultaneous slide activity.
+          end: `+=${Math.max(100, totalSlides * 100)}%`,
           pin: true,
           // Pure scrub with slight delay for smoothness
           scrub: 0.5,
@@ -154,6 +154,22 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
         }
       : undefined,
   })
+
+  useEffect(() => {
+    return () => {
+      const timeline = timelineRef.current
+      if (!timeline) {
+        return
+      }
+
+      timeline.eventCallback('onUpdate', null)
+      const scrollTrigger = timeline.scrollTrigger
+      if (scrollTrigger?.eventCallback) {
+        scrollTrigger.eventCallback('onUpdate', null)
+        scrollTrigger.eventCallback('onToggle', null)
+      }
+    }
+  }, [timelineRef])
 
   useEffect(() => {
     lastIndexRef.current = -1

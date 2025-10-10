@@ -178,10 +178,10 @@ function createStackSectionHook(
       setStackProgress(interactive ? 0 : 1)
     }, [interactive])
 
-    const stageStart = isHandheld ? 'top 86%' : isCompact ? 'top 80%' : 'top 76%'
-    const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 24%' : 'bottom 30%'
-    const animationStart = isHandheld ? 'top 92%' : isCompact ? 'top 86%' : 'top 80%'
-    const animationEnd = isHandheld ? 'bottom 20%' : isCompact ? 'bottom 24%' : 'bottom 24%'
+    const stageStart = isHandheld ? 'top 78%' : isCompact ? 'top 70%' : 'top 64%'
+    const stageEnd = isHandheld ? 'bottom 10%' : isCompact ? 'bottom 14%' : 'bottom 18%'
+    const animationStart = isHandheld ? 'top 88%' : isCompact ? 'top 80%' : 'top 74%'
+    const animationEnd = isHandheld ? 'bottom 8%' : isCompact ? 'bottom 12%' : 'bottom 14%'
     const animationScrollTrigger = {
       start: animationStart,
       end: animationEnd,

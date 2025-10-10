@@ -9,6 +9,26 @@ type Timeline = ReturnType<GsapInstance['timeline']>
 type TimelineVars = Parameters<GsapInstance['timeline']>[0]
 type GsapContext = ReturnType<GsapInstance['context']>
 
+const TIMELINE_EVENT_NAMES: Array<Parameters<Timeline['eventCallback']>[0]> = [
+  'onComplete',
+  'onRepeat',
+  'onReverseComplete',
+  'onStart',
+  'onUpdate',
+]
+
+const SCROLL_TRIGGER_EVENT_NAMES: Array<Parameters<ScrollTriggerType['eventCallback']>[0]> = [
+  'onEnter',
+  'onEnterBack',
+  'onLeave',
+  'onLeaveBack',
+  'onRefresh',
+  'onRefreshInit',
+  'onScrubComplete',
+  'onToggle',
+  'onUpdate',
+]
+
 interface ScrollTimelineModules {
   gsap: GsapInstance
   ScrollTrigger: typeof import('gsap/ScrollTrigger').ScrollTrigger
@@ -152,13 +172,26 @@ export function useScrollTimeline({
 
       if (context) {
         context.revert()
+        context = null
       }
 
       if (timeline) {
-        timeline.scrollTrigger?.kill()
+        TIMELINE_EVENT_NAMES.forEach((eventName) => {
+          timeline.eventCallback(eventName, null)
+        })
+
+        const scrollTriggerInstance = timeline.scrollTrigger as ScrollTriggerType | undefined
+        if (scrollTriggerInstance) {
+          SCROLL_TRIGGER_EVENT_NAMES.forEach((eventName) => {
+            scrollTriggerInstance.eventCallback?.(eventName, null)
+          })
+          scrollTriggerInstance.kill()
+        }
+
         timeline.kill()
       }
 
+      timeline = null
       timelineRef.current = null
     }
   }, [target, create, timelineVars, scrollTrigger])
