@@ -19,9 +19,10 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
   const resultRefs = useRef<Array<HTMLAnchorElement | null>>([])
   const previousFocusRef = useRef<HTMLElement | null>(null)
   const wasOpenRef = useRef(false)
-  const { search, isLoading, error, isFallback, reload } = useSearchIndex(searchConfig)
+  const { search, isLoading, error, isFallback, reload, isDisabled } = useSearchIndex(searchConfig)
   const [query, setQuery] = useState('')
   const trimmedQuery = query.trim()
+  const searchEnabled = !isDisabled
 
   useEffect(() => {
     if (isOpen) {
@@ -76,7 +77,10 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
     }
   }, [isOpen, onClose])
 
-  const results = useMemo(() => (trimmedQuery ? search(trimmedQuery) : []), [trimmedQuery, search])
+  const results = useMemo(
+    () => (searchEnabled && trimmedQuery ? search(trimmedQuery) : []),
+    [searchEnabled, trimmedQuery, search],
+  )
   const totalResults = useMemo(
     () => results.reduce((count, group) => count + group.items.length, 0),
     [results],
@@ -145,6 +149,10 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
   }
 
   const handleInputKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (!searchEnabled) {
+      return
+    }
+
     if (event.key === 'ArrowDown' && totalResults) {
       event.preventDefault()
       focusResult(0)
@@ -173,7 +181,8 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
     }
   }
 
-  const showEmptyState = trimmedQuery.length > 0 && !totalResults && !isLoading && !error
+  const showEmptyState =
+    searchEnabled && trimmedQuery.length > 0 && !totalResults && !isLoading && !error
 
   let runningIndex = -1
 
@@ -196,11 +205,12 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
             ref={inputRef}
             className="search-modal__input"
             type="search"
-            placeholder="Search Telcoin Wiki"
+            placeholder={searchEnabled ? 'Search Telcoin Wiki' : 'Search temporarily unavailable'}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={handleInputKeyDown}
             autoComplete="off"
+            disabled={!searchEnabled}
           />
           <button
             type="button"
@@ -213,14 +223,21 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
         </div>
 
         <div className="search-modal__body" role="region" aria-live="polite">
-          {isLoading ? (
+          {!searchEnabled ? (
+            <p className="search-modal__status search-modal__status--notice" role="status">
+              Site search is temporarily unavailable while we improve performance. Thanks for your
+              patience.
+            </p>
+          ) : null}
+
+          {searchEnabled && isLoading ? (
             <p className="search-modal__status search-modal__status--loading" role="status">
               <span className="search-modal__spinner" aria-hidden="true" />
               Loading search index...
             </p>
           ) : null}
 
-          {error ? (
+          {searchEnabled && error ? (
             <div className="search-modal__status search-modal__status--error" role="alert">
               <p>We couldn&apos;t load the search index. Check your connection and try again.</p>
               <button type="button" onClick={reload} className="search-modal__retry">
@@ -229,7 +246,7 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
             </div>
           ) : null}
 
-          {!isLoading && !error && query && isFallback ? (
+          {searchEnabled && !isLoading && !error && query && isFallback ? (
             <p className="search-modal__status search-modal__status--notice" role="status">
               Showing cached FAQ data while Supabase is unavailable.
             </p>
@@ -241,7 +258,7 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
             </p>
           ) : null}
 
-          {totalResults ? (
+          {searchEnabled && totalResults ? (
             <div className="search-modal__results">
               {results.map((group) => (
                 <Fragment key={group.id}>
