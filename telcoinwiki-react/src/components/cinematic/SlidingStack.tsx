@@ -144,8 +144,11 @@ export function SlidingStack({
         return
       }
 
-      const stackOffset = 4
+      const stackYOffset = 4
       const segmentDuration = 1
+      const revealOffsetVw = isCompact ? 14 : 12
+      const spacingVw = isCompact ? 16 : 14
+      const inactiveScale = 0.94
 
       // Phase mapping: lead hold (drag intro to center) -> accordion fan-out -> per-card exits -> tail hold (drag out)
       // Keep the horizontal phases confined to the middle 64% so the intro can "drag" to center first, then resume after.
@@ -164,13 +167,14 @@ export function SlidingStack({
         timeline.set(
           card,
           {
-            x: 0,
+            x: `-${revealOffsetVw}vw`,
             xPercent: 0,
-            yPercent: index * stackOffset,
+            yPercent: index * stackYOffset,
             rotation: index === 0 ? 0 : -index * 0.6,
             opacity: 1,
             zIndex: cards.length - index,
             pointerEvents: 'none',
+            scale: inactiveScale,
           },
           0,
         )
@@ -187,7 +191,7 @@ export function SlidingStack({
       // Sliding content: start offset to the right; slides in during fan-out (no fading)
       const contents = contentRefs.current.filter((c): c is HTMLElement => Boolean(c))
       contents.forEach((content) => {
-        timeline.set(content, { x: '8vw' }, 0)
+        timeline.set(content, { x: '12vw' }, 0)
       })
 
       let currentActiveIndex = 0
@@ -222,30 +226,31 @@ export function SlidingStack({
       }
 
       // Accordion fan-out: reveal the smaller sub-cards left→right beneath the main workspace card, then pause
-      const baseSpacingVw = isCompact ? 11 : 10
       const fanStep = fanDuration / Math.max(1, cards.length)
       cards.forEach((card, index) => {
-        const stageX = `${index * baseSpacingVw}vw`
+        const stageX = `${revealOffsetVw + index * spacingVw}vw`
+        const stageScale = index === 0 ? 1 : Math.max(0.88, 1 - index * 0.04)
         const when = leadHold + index * fanStep
         timeline.to(
           card,
           {
             x: stageX,
             rotation: 0,
+            scale: stageScale,
             duration: fanStep,
-            ease: 'none',
+            ease: 'power3.out',
           },
           when,
         )
 
         const tab = tabs[index]
         if (tab) {
-          timeline.to(tab, { x: 0, y: 0, duration: fanStep, ease: 'none' }, when)
+          timeline.to(tab, { x: 0, y: 0, duration: fanStep, ease: 'power3.out' }, when)
         }
 
         const content = contents[index]
         if (content) {
-          timeline.to(content, { x: 0, duration: fanStep, ease: 'none' }, when)
+          timeline.to(content, { x: 0, duration: fanStep, ease: 'power3.out' }, when)
         }
       })
 
@@ -258,7 +263,7 @@ export function SlidingStack({
             rotation: 0,
             pointerEvents: 'none',
             duration: segmentDuration,
-            ease: 'none',
+            ease: 'power2.inOut',
           },
           leadHold + fanDuration + index * segmentDuration,
         )
@@ -268,7 +273,7 @@ export function SlidingStack({
       // and allow the "drag out" phase to feel deliberate.
       if (tailHold > 0) {
         // Use a dummy tween to extend the timeline
-        timeline.to({}, { duration: tailHold }, leadHold + cards.length * segmentDuration)
+        timeline.to({}, { duration: tailHold }, leadHold + fanDuration + cards.length * segmentDuration)
       }
 
       timeline.eventCallback('onUpdate', () => {
@@ -363,9 +368,9 @@ export function SlidingStack({
               progress={1}
               className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
             >
-            <div className="sliding-stack__tab">
-              <span className="sliding-stack__tab-text">{item.title}</span>
-            </div>
+              <div className="sliding-stack__tab">
+                <span className="sliding-stack__tab-text">{item.title}</span>
+              </div>
               {renderCardContent(item, ctaLabel)}
             </ColorMorphCard>
           )

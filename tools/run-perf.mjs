@@ -1,4 +1,5 @@
 import { spawn } from 'node:child_process'
+import { existsSync } from 'node:fs'
 
 const PORT = process.env.PREVIEW_PORT ?? 4173
 const BASE = `http://localhost:${PORT}`
@@ -22,8 +23,29 @@ const waitForServer = async (url, timeoutMs = 30000) => {
 }
 
 async function main() {
+  if (!existsSync('telcoinwiki-react/node_modules/.bin/vite')) {
+    console.log('[perf] Installing workspace dependencies…')
+    await run('npm', ['--prefix', 'telcoinwiki-react', 'ci', '--no-audit', '--no-fund'])
+  }
+
+  const runBuild = async () => {
+    try {
+      await run('npm', ['--prefix', 'telcoinwiki-react', 'run', 'build'])
+    } catch (err) {
+      const message = err?.message ?? ''
+      const missingVite = typeof message === 'string' && message.includes('-> 127')
+      if (!missingVite) {
+        throw err
+      }
+
+      console.log('[perf] Build failed (likely missing deps). Reinstalling workspace packages…')
+      await run('npm', ['--prefix', 'telcoinwiki-react', 'ci', '--no-audit', '--no-fund'])
+      await run('npm', ['--prefix', 'telcoinwiki-react', 'run', 'build'])
+    }
+  }
+
   console.log('[perf] Building site…')
-  await run('npm', ['--prefix', 'telcoinwiki-react', 'run', 'build'])
+  await runBuild()
 
   console.log('[perf] Starting preview server…')
   const preview = spawn('npm', ['--prefix', 'telcoinwiki-react', 'run', 'preview'], { stdio: 'inherit' })
@@ -44,4 +66,3 @@ main().catch((err) => {
   console.error('[perf] Failed:', err?.message || err)
   process.exit(1)
 })
-

@@ -1,13 +1,9 @@
-import { Suspense, lazy, useEffect, useState, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 import type { NavItem, PageMetaMap, SearchConfig } from '../../config/types'
 import { Header } from './Header'
 import { MAIN_CONTENT_ID, useHashScroll, useLayoutChrome } from './layoutShared'
 import { useSmoothScroll } from '../../hooks/useSmoothScroll'
-
-const StarfieldCanvas = lazy(() =>
-  import('../visual/StarfieldCanvas').then((module) => ({ default: module.StarfieldCanvas })),
-)
 
 interface CinematicLayoutProps {
   pageId: string
@@ -38,21 +34,8 @@ export function CinematicLayout({
     activeNavId,
   })
 
-  const [showStarfield, setShowStarfield] = useState(false)
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setShowStarfield(true)
-    }
-  }, [])
-
   return (
     <>
-      {showStarfield ? (
-        <Suspense fallback={null}>
-          <StarfieldCanvas />
-        </Suspense>
-      ) : null}
       <div className="app-layer app-layer--cinematic">
         <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           Skip to content

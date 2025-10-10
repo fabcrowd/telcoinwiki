@@ -240,10 +240,22 @@ pre {
 .sliding-stack--interactive .sliding-stack__card {
   position: absolute;
   inset: 0;
-  transform-origin: center;
+  transform-origin: left center;
   transition: none;
   pointer-events: none;
   will-change: transform, opacity;
+}
+
+[data-sticky-module]:not([data-timeline-module]) [data-sticky-module-content] {
+  content-visibility: auto;
+  contain: layout paint;
+  contain-intrinsic-size: 1024px;
+}
+
+[data-sticky-module][data-prefers-reduced-motion] [data-sticky-module-content] {
+  content-visibility: visible;
+  contain: initial;
+  contain-intrinsic-size: auto;
 }
 
 .sliding-stack--interactive .sliding-stack__card.is-active {

@@ -1,6 +1,8 @@
 import type { ComponentType } from 'react'
+
 import type { SidebarHeading } from './config/types'
 import { PAGE_META } from './config/pageMeta'
+
 import { HomePage } from './pages/HomePage'
 import { GovernancePage } from './pages/GovernancePage'
 import { NetworkPage } from './pages/NetworkPage'

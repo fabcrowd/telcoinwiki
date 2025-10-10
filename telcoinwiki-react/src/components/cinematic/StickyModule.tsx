@@ -13,6 +13,7 @@ interface StickyModuleProps extends ComponentPropsWithoutRef<'section'> {
   background?: ReactNode
   prefersReducedMotion?: boolean
   stickyStyle?: CSSProperties
+  timelineDriven?: boolean
 }
 
 export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function StickyModule(
@@ -27,6 +28,7 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
     background,
     prefersReducedMotion = false,
     stickyStyle,
+    timelineDriven = false,
     ...rest
   },
   ref,
@@ -49,6 +51,7 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
       className={cn('relative isolate', className)}
       data-sticky-module=""
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
+      data-timeline-module={timelineDriven ? '' : undefined}
       {...rest}
     >
       {background}

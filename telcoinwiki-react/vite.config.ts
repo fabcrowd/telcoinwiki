@@ -15,6 +15,24 @@ export default defineConfig({
       '@scroll': fileURLToPath(new URL('./src/lib/scroll', import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/gsap')) {
+            return 'vendor-gsap'
+          }
+          if (id.includes('node_modules/lenis')) {
+            return 'vendor-lenis'
+          }
+          if (id.includes('node_modules/react-router-dom') || id.includes('node_modules/@remix-run')) {
+            return 'vendor-router'
+          }
+          return undefined
+        },
+      },
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',

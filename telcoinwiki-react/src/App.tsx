@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { AppLayout } from './components/layout/AppLayout'
 import { NAV_ITEMS } from './config/navigation'
@@ -7,8 +6,7 @@ import { PAGE_META } from './config/pageMeta'
 import { SEARCH_CONFIG } from './config/search'
 import { APP_ROUTES } from './routes'
 import { NotFoundPage } from './pages/NotFoundPage'
-
-const CinematicLayout = lazy(() => import('./components/layout/CinematicLayout'))
+import { CinematicLayout } from './components/layout/CinematicLayout'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,18 +21,16 @@ const queryClient = new QueryClient({
 const AppRoutes = () => (
   <Routes>
     {APP_ROUTES.map(({ path, pageId, Component, headings, layout = 'app' }) => {
-      const element =
+      const content =
         layout === 'cinematic' ? (
-          <Suspense fallback={null}>
-            <CinematicLayout
-              pageId={pageId}
-              navItems={NAV_ITEMS}
-              pageMeta={PAGE_META}
-              searchConfig={SEARCH_CONFIG}
-            >
-              <Component />
-            </CinematicLayout>
-          </Suspense>
+          <CinematicLayout
+            pageId={pageId}
+            navItems={NAV_ITEMS}
+            pageMeta={PAGE_META}
+            searchConfig={SEARCH_CONFIG}
+          >
+            <Component />
+          </CinematicLayout>
         ) : (
           <AppLayout
             pageId={pageId}
@@ -47,7 +43,7 @@ const AppRoutes = () => (
           </AppLayout>
         )
 
-      return <Route key={path} path={path} element={element} />
+      return <Route key={path} path={path} element={content} />
     })}
     <Route
       path="*"

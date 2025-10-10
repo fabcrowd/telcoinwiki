@@ -8,7 +8,6 @@ import type { ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useLayoutState } from '../../hooks/useLayoutState'
 import { useBreadcrumbTrail } from '../../hooks/useBreadcrumbTrail'
-import { StarfieldCanvas } from '../visual/StarfieldCanvas'
 import { Breadcrumbs } from './Breadcrumbs'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
@@ -50,7 +49,6 @@ export function AppLayout({
 
   return (
     <>
-      <StarfieldCanvas />
       <div className="app-layer">
         <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           Skip to content
