@@ -89,7 +89,6 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
     let isDisposed = false
     let cleanupCallbacks: Array<() => void> = []
     let lenisInstance: Lenis | null = null
-    let updateScrollTriggers: (() => void) | null = null
 
     const stopAnimation = () => {
       if (frameRef.current !== null) {
@@ -121,9 +120,11 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         lenisRef.current = lenis
         lenisInstance = lenis
 
-        updateScrollTriggers = () => ScrollTrigger.update()
-        lenis.on('scroll', updateScrollTriggers)
+        // IMPORTANT: Do NOT call ScrollTrigger.update() on every scroll event.
+        // ScrollTrigger automatically syncs with Lenis via requestAnimationFrame.
+        // Calling update() on every scroll causes jittering and performance issues.
 
+        // Refresh once after initialization to compute trigger positions
         if (typeof ScrollTrigger.refresh === 'function') {
           ScrollTrigger.refresh()
         }
@@ -248,9 +249,6 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         }
 
         cleanupCallbacks.push(() => {
-          if (updateScrollTriggers) {
-            lenis.off('scroll', updateScrollTriggers)
-          }
           stopAnimation()
           lenis.destroy()
           lenisRef.current = null
@@ -278,9 +276,6 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
       isDisposed = true
       cleanupCallbacks.forEach((cleanup) => cleanup())
       cleanupCallbacks = []
-      if (lenisInstance && updateScrollTriggers) {
-        lenisInstance.off('scroll', updateScrollTriggers)
-      }
       stopAnimation()
       lenisInstance = null
       lenisRef.current = null
