@@ -155,7 +155,17 @@ export function useScrollTimeline({
       }
 
       if (timeline) {
-        timeline.scrollTrigger?.kill()
+        // Clear all event callbacks to prevent memory leaks
+        timeline.eventCallback('onStart', null)
+        timeline.eventCallback('onUpdate', null)
+        timeline.eventCallback('onComplete', null)
+        timeline.eventCallback('onReverseComplete', null)
+        timeline.eventCallback('onRepeat', null)
+
+        // Kill ScrollTrigger first, then timeline
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill(true)
+        }
         timeline.kill()
       }
 

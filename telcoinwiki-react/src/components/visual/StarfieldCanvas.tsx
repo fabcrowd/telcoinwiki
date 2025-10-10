@@ -35,6 +35,7 @@ export function StarfieldCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [isVisible, setIsVisible] = useState(false)
   const hasActivatedVisibility = useRef(false)
+  const shouldStopAnimation = useRef(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -189,7 +190,7 @@ export function StarfieldCanvas() {
     }
 
     const startAnimation = () => {
-      if (prefersReducedMotion || animationId !== null) {
+      if (prefersReducedMotion || animationId !== null || shouldStopAnimation.current) {
         return
       }
       animationId = window.requestAnimationFrame(animate)
@@ -300,14 +301,26 @@ export function StarfieldCanvas() {
       window.removeEventListener('scroll', activateVisibility)
     }
 
+    // PERFORMANCE: Stop animation after scrolling past hero (one viewport height)
+    const handleScrollStop = () => {
+      if (window.scrollY > window.innerHeight) {
+        shouldStopAnimation.current = true
+        window.removeEventListener('scroll', handleScrollStop)
+      }
+    }
+
     if (window.scrollY > 0) {
       activateVisibility()
     } else {
       window.addEventListener('scroll', activateVisibility, { passive: true })
     }
 
+    // Monitor scroll to stop animation when past hero
+    window.addEventListener('scroll', handleScrollStop, { passive: true })
+
     return () => {
       window.removeEventListener('scroll', activateVisibility)
+      window.removeEventListener('scroll', handleScrollStop)
     }
   }, [])
 

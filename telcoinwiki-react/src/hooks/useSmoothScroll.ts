@@ -147,12 +147,22 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         activeLenis = lenis
         notifyLenisSubscribers()
 
-        // Sync ScrollTrigger with Lenis using the official integration pattern
-        // Call ScrollTrigger.update() on Lenis scroll events for proper synchronization
-        const scrollHandler = ScrollTrigger.update
+        // Sync ScrollTrigger with Lenis using throttled integration to prevent feedback loop
+        // Throttle to max 60fps (16.67ms) to avoid bouncing caused by excessive updates
+        let lastScrollTriggerUpdate = 0
+        const SCROLL_TRIGGER_THROTTLE = 16.67 // ~60fps
+
+        const throttledScrollHandler = () => {
+          const now = performance.now()
+          if (now - lastScrollTriggerUpdate >= SCROLL_TRIGGER_THROTTLE) {
+            lastScrollTriggerUpdate = now
+            ScrollTrigger.update()
+          }
+        }
+
         try {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (lenis as any)?.on?.('scroll', scrollHandler)
+          (lenis as any)?.on?.('scroll', throttledScrollHandler)
         } catch {
           /* noop */
         }
@@ -161,7 +171,7 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         cleanupCallbacks.push(() => {
           try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (lenis as any)?.off?.('scroll', scrollHandler)
+            (lenis as any)?.off?.('scroll', throttledScrollHandler)
           } catch {
             /* noop */
           }

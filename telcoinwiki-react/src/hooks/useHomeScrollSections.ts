@@ -178,10 +178,11 @@ function createStackSectionHook(
       setStackProgress(interactive ? 0 : 1)
     }, [interactive])
 
-    const stageStart = isHandheld ? 'top 86%' : isCompact ? 'top 80%' : 'top 76%'
-    const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 24%' : 'bottom 30%'
-    const animationStart = isHandheld ? 'top 92%' : isCompact ? 'top 86%' : 'top 80%'
-    const animationEnd = isHandheld ? 'bottom 20%' : isCompact ? 'bottom 24%' : 'bottom 24%'
+    // Adjusted scroll ranges to increase distance and reduce overlapping active sections
+    const stageStart = isHandheld ? 'top 86%' : isCompact ? 'top 75%' : 'top 70%'
+    const stageEnd = isHandheld ? 'bottom 18%' : isCompact ? 'bottom 20%' : 'bottom 25%'
+    const animationStart = isHandheld ? 'top 92%' : isCompact ? 'top 80%' : 'top 75%'
+    const animationEnd = isHandheld ? 'bottom 20%' : isCompact ? 'bottom 20%' : 'bottom 20%'
     const animationScrollTrigger = {
       start: animationStart,
       end: animationEnd,

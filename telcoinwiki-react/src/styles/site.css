@@ -565,9 +565,10 @@ pre {
   padding: var(--space-6);
   border-radius: var(--radius-big);
   border: 1px solid var(--tc-border-subtle);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  background: linear-gradient(135deg, rgba(5,11,31,0.3), rgba(13,17,34,0.24));
+  /* PERFORMANCE: Removed backdrop-filter blur to improve FPS during scroll */
+  /* backdrop-filter: blur(16px); */
+  /* -webkit-backdrop-filter: blur(16px); */
+  background: linear-gradient(135deg, rgba(5,11,31,0.85), rgba(13,17,34,0.78));
   box-shadow: var(--shadow-glass);
   /* GPU-accelerated card rendering */
   transform: translate3d(0, 0, 0);

@@ -145,8 +145,9 @@ export function HorizontalRail({ id, items, className, parallaxStrength = 0.25 }
     scrollTrigger: shouldPin
       ? {
           start: 'top top',
-          // Shorter horizontal sweep: ~40% per slide, min 100%.
-          end: `+=${Math.max(100, totalSlides * 40)}%`,
+          // Increased horizontal sweep to reduce simultaneous animations: 100% per slide
+          // Changed from 40% to 100% per slide for better performance
+          end: `+=${Math.max(150, totalSlides * 100)}%`,
           pin: true,
           // Pure scrub with slight delay for smoothness
           scrub: 0.5,

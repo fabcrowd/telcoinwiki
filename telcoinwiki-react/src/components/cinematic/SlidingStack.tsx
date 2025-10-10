@@ -126,9 +126,9 @@ export function SlidingStack({
     scrollTrigger: interactive
       ? {
           start: 'top top',
-          // Reduce total scroll distance required per section.
-          // Previously 120% per card (very long); now ~40% per card (min 80%).
-          end: `+=${Math.max(80, items.length * 40)}%`,
+          // Increased scroll distance to reduce simultaneous active sections and improve FPS
+          // Changed from 40% to 100% per card to minimize GPU load from overlapping animations
+          end: `+=${Math.max(100, items.length * 100)}%`,
           scrub: true,
           pin: true,
           // Helps avoid layout jumps when pinning on fast scrolls
