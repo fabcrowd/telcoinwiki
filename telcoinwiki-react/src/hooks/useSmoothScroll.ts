@@ -88,7 +88,6 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
 
     let isDisposed = false
     let cleanupCallbacks: Array<() => void> = []
-    let lenisInstance: Lenis | null = null
 
     const stopAnimation = () => {
       if (frameRef.current !== null) {
@@ -118,7 +117,6 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
         })
 
         lenisRef.current = lenis
-        lenisInstance = lenis
 
         // IMPORTANT: Do NOT call ScrollTrigger.update() on every scroll event.
         // ScrollTrigger automatically syncs with Lenis via requestAnimationFrame.
@@ -252,7 +250,6 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
           stopAnimation()
           lenis.destroy()
           lenisRef.current = null
-          lenisInstance = null
 
           // Restore any previous inline scroll-behavior style
           if (previousScrollBehaviorRef.current !== null) {
@@ -277,7 +274,6 @@ export function useSmoothScroll(options: UseSmoothScrollOptions = {}): SmoothScr
       cleanupCallbacks.forEach((cleanup) => cleanup())
       cleanupCallbacks = []
       stopAnimation()
-      lenisInstance = null
       lenisRef.current = null
     }
   }, [enabled, lenisOptions, prefersReducedMotion])
