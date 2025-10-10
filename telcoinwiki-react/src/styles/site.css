@@ -1722,6 +1722,74 @@ pre {
 }
 
 
+/* ------------------------------
+   Scroll Story: Sliding Stack (overlapping deck, pinned)
+   - CSS-only via view-timeline
+   - Gated by [data-sliding-stack][data-scroll-story]
+   - Mobile: falls back to static (no pin)
+*/
+@media (min-width: 48rem) {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (view-timeline-name: --v) and (animation-timeline: --v) {
+      [data-sliding-stack][data-scroll-story] {
+        /* Height equals cards × per-card duration to create scroll room */
+        height: calc(var(--stack-count, 4) * var(--stack-duration, 110vh));
+        position: relative;
+        view-timeline-name: --stack;
+        view-timeline-axis: block;
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__viewport {
+        position: sticky;
+        top: var(--stack-top, 12vh);
+        height: calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh));
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck {
+        position: relative;
+        height: 100%;
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
+        position: absolute;
+        inset: 0;
+        will-change: transform, opacity;
+        transform-origin: center;
+        /* starting state (inactive) */
+        transform: translateY(10vh) scale(0.985);
+        opacity: 0.92;
+      }
+
+      /* Active segment animation per card (4-card layout) */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
+        animation: stack-active linear both;
+        animation-timeline: --stack;
+        animation-range: 0% 25%;
+      }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) {
+        animation: stack-active linear both;
+        animation-timeline: --stack;
+        animation-range: 25% 50%;
+      }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) {
+        animation: stack-active linear both;
+        animation-timeline: --stack;
+        animation-range: 50% 75%;
+      }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) {
+        animation: stack-active linear both;
+        animation-timeline: --stack;
+        animation-range: 75% 100%;
+      }
+
+      @keyframes stack-active {
+        from { transform: translateY(10vh) scale(0.985); opacity: 0.92; }
+        to   { transform: translateY(-10vh) scale(1.0); opacity: 1; }
+      }
+    }
+  }
+}
+
 .accordion__sources {
   margin-top: var(--space-3);
 }

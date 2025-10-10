@@ -9,9 +9,12 @@ const boolFromEnv = (value: unknown, defaultValue = false): boolean => {
   return defaultValue
 }
 
-// Vite exposes import.meta.env at build time; type as unknown to avoid 'any'.
-const viteEnv = (import.meta as unknown as { env?: Record<string, string | undefined> })?.env
-export const SCROLL_STORY_ENABLED: boolean = boolFromEnv(viteEnv?.VITE_SCROLL_STORY_ENABLED, false)
+// Read from process.env in tests/Node, and from Vite env at build via env injection.
+// Avoid `import.meta` so Jest (CJS) doesn't choke on the syntax.
+const nodeEnvVal =
+  typeof process !== 'undefined' && process && (process.env?.VITE_SCROLL_STORY_ENABLED ?? process.env?.SCROLL_STORY_ENABLED)
+
+export const SCROLL_STORY_ENABLED: boolean = boolFromEnv(nodeEnvVal, false)
 
 export const SCROLL_DEBUG_ENABLED: boolean = (() => {
   try {
