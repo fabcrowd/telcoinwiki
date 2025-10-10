@@ -67,7 +67,15 @@
 /* Avoid native CSS smooth scrolling; Lenis/GSAP provide smoothness on cinematic pages. */
 html {
   scroll-behavior: auto;
+  /* Reduce rubber-band effects and scroll chaining on root */
+  overscroll-behavior-y: none;
 }
+
+/* Lenis recommended CSS to avoid double smoothing and layout issues */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
 
 body {
   margin: 0;
