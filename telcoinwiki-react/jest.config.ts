@@ -21,7 +21,10 @@ const config: Config = {
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/', '<rootDir>/src/pages/__tests__/'],
-  testMatch: ['**/src/components/**/__tests__/**/*.test.ts?(x)'],
+  testMatch: [
+    '**/src/components/**/__tests__/**/*.test.ts?(x)',
+    '**/src/hooks/**/__tests__/**/*.test.ts?(x)',
+  ],
 }
 
 export default config

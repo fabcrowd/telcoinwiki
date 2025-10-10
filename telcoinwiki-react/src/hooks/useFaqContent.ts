@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { FaqEntry, FaqTag } from '../lib/queries'
-import { supabaseQueries } from '../lib/queries'
 import { mapArtifactFaqEntries, type ArtifactFaqEntry } from '../utils/faq'
 
 interface FaqContentState {
@@ -23,24 +22,18 @@ export const useFaqContent = (faqUrl: string) => {
     items: [],
     isLoading: true,
     error: null,
-    isFallback: false,
+    isFallback: true,
   })
 
   const loadFaqs = useCallback(async () => {
     setState((current) => ({ ...current, isLoading: true, error: null }))
 
     try {
-      const faqs = await supabaseQueries.fetchFaqList()
-      setState({ items: faqs, isLoading: false, error: null, isFallback: false })
+      const fallback = await fetchJson<ArtifactFaqEntry[]>(faqUrl)
+      const mapped = mapArtifactFaqEntries(fallback)
+      setState({ items: mapped, isLoading: false, error: null, isFallback: true })
     } catch (error) {
-      console.warn('Falling back to cached FAQs', error)
-      try {
-        const fallback = await fetchJson<ArtifactFaqEntry[]>(faqUrl)
-        const mapped = mapArtifactFaqEntries(fallback)
-        setState({ items: mapped, isLoading: false, error: null, isFallback: true })
-      } catch (fallbackError) {
-        setState({ items: [], isLoading: false, error: fallbackError as Error, isFallback: false })
-      }
+      setState({ items: [], isLoading: false, error: error as Error, isFallback: true })
     }
   }, [faqUrl])
 

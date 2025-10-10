@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { loadCinematicConfig } from '../../lib/cinematicConfig'
-import { tryGetSupabaseClient } from '../../lib/supabaseClient'
 import { preferCodecs, pickResolutionVariant } from '../../lib/videoSupport'
 
 import { cn } from '../../utils/cn'
@@ -62,7 +61,7 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
   // Load external config if available and map to layers, unless explicit props provided
   const layers = useMemo<HeroLayer[]>(() => loadedLayers ?? propLayers ?? [], [loadedLayers, propLayers])
 
-  // Resolve Supabase-signed URLs if needed
+  // Cache resolved video sources for layers that include direct URLs
   const [resolvedSources, setResolvedSources] = useState<Record<string, { src: string; type: string }[]>>({})
 
   useEffect(() => {
@@ -80,7 +79,6 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
     }
 
     let cancelled = false
-    const client = tryGetSupabaseClient()
 
     ;(async () => {
       const entries = await Promise.all(
@@ -90,31 +88,11 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
           }
 
           const list = preferCodecs(layer.sources)
-          const resolved = await Promise.all(
-            list.map(async (source) => {
-              if ('supabase' in source) {
-                if (!client) {
-                  return null
-                }
-                const { bucket, path, expiresIn = 3600 } = source.supabase
-                try {
-                  const { data, error } = await client.storage.from(bucket).createSignedUrl(path, expiresIn)
-                  if (!error && data?.signedUrl) {
-                    return { src: data.signedUrl, type: source.type }
-                  }
-                } catch {
-                  return null
-                }
-                return null
-              }
+          const resolved = list
+            .map((source) => ('supabase' in source ? null : { src: source.src, type: source.type }))
+            .filter(isPresent)
 
-              return { src: source.src, type: source.type }
-            }),
-          )
-
-          const filtered = resolved.filter(isPresent)
-
-          return filtered.length ? [layer.id, filtered] : null
+          return resolved.length ? [layer.id, resolved] : null
         }),
       )
 
