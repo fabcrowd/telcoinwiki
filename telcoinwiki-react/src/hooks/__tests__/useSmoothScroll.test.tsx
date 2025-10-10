@@ -1,5 +1,4 @@
 import { act, renderHook } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
 
 import { useSmoothScroll } from '../useSmoothScroll'
 
@@ -7,17 +6,17 @@ describe('useSmoothScroll', () => {
   it('reflects the prefers-reduced-motion media query and updates on change events', () => {
     const changeListeners: Array<(event: MediaQueryListEvent) => void> = []
 
-    const matchMedia = vi.fn().mockImplementation((query: string) => {
+    const matchMedia = jest.fn().mockImplementation((query: string) => {
       const mediaQueryList: MediaQueryList = {
         matches: query === '(prefers-reduced-motion: reduce)',
         media: query,
         onchange: null,
-        addEventListener: vi.fn((event: string, listener: EventListenerOrEventListenerObject) => {
+        addEventListener: jest.fn((event: string, listener: EventListenerOrEventListenerObject) => {
           if (event === 'change' && typeof listener === 'function') {
             changeListeners.push(listener as (event: MediaQueryListEvent) => void)
           }
         }),
-        removeEventListener: vi.fn((event: string, listener: EventListenerOrEventListenerObject) => {
+        removeEventListener: jest.fn((event: string, listener: EventListenerOrEventListenerObject) => {
           if (event === 'change' && typeof listener === 'function') {
             const index = changeListeners.indexOf(listener as (event: MediaQueryListEvent) => void)
             if (index >= 0) {
@@ -25,15 +24,16 @@ describe('useSmoothScroll', () => {
             }
           }
         }),
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        dispatchEvent: vi.fn(),
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        dispatchEvent: jest.fn(),
       }
 
       return mediaQueryList
     })
 
     const originalMatchMedia = window.matchMedia
+    // @ts-expect-error - we override for test purposes
     window.matchMedia = matchMedia
 
     try {
