@@ -24,6 +24,7 @@ const runOne = (pathname) =>
       '--throttling.cpuSlowdownMultiplier=4',
       '--screenEmulation.mobile=true',
       '--quiet',
+      '--chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu"',
     ]
 
     console.log(`\n[perf] Running Lighthouse → ${url}`)
@@ -48,10 +49,7 @@ const runOne = (pathname) =>
   })
 
 for (const route of routes) {
-<<<<<<< HEAD
-=======
   // eslint-disable-next-line no-await-in-loop
->>>>>>> origin/main
   await runOne(route)
 }
 
