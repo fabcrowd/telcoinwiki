@@ -14,7 +14,23 @@ const boolFromEnv = (value: unknown, defaultValue = false): boolean => {
 const nodeEnvVal =
   typeof process !== 'undefined' && process && (process.env?.VITE_SCROLL_STORY_ENABLED ?? process.env?.SCROLL_STORY_ENABLED)
 
-export const SCROLL_STORY_ENABLED: boolean = boolFromEnv(nodeEnvVal, false)
+const urlOverride = (() => {
+  try {
+    const params = new URLSearchParams(window.location.search)
+    const raw = params.get('story')
+    if (!raw) return null
+    const v = raw.trim().toLowerCase()
+    return v === '1' || v === 'true' || v === 'yes' || v === 'on'
+      ? true
+      : v === '0' || v === 'false' || v === 'no' || v === 'off'
+        ? false
+        : null
+  } catch {
+    return null
+  }
+})()
+
+export const SCROLL_STORY_ENABLED: boolean = (urlOverride ?? boolFromEnv(nodeEnvVal, false))
 
 export const SCROLL_DEBUG_ENABLED: boolean = (() => {
   try {

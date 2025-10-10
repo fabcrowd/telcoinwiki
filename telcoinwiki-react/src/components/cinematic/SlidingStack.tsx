@@ -62,6 +62,19 @@ export function SlidingStack({
           {arrow}
         </Link>
       )
+    } else if (SCROLL_STORY_ENABLED) {
+      // Show a non-navigating placeholder CTA while links are being finalized.
+      cta = (
+        <a
+          className="inline-flex cursor-default items-center gap-2 text-sm font-semibold text-telcoin-accent/60"
+          href="#"
+          onClick={(e) => e.preventDefault()}
+          aria-disabled
+        >
+          {ctaLabel}
+          <span aria-hidden>{CTA_ARROW}</span>
+        </a>
+      )
     }
 
     return (
