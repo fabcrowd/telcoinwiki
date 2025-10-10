@@ -1,5 +1,4 @@
-import type { MutableRefObject, RefObject } from 'react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger'
 
@@ -23,38 +22,6 @@ export interface UseStageTimelineConfig {
   prefersReducedMotion?: boolean
 }
 
-interface NormalizedStageStop {
-  hue: number
-  accentHue: number
-  overlayOpacity: number
-  spotOpacity: number
-  cardOverlayOpacity: number
-  cardBorderOpacity: number
-  cardShadowOpacity: number
-}
-
-const defaultStop: NormalizedStageStop = {
-  hue: 220,
-  accentHue: 268,
-  overlayOpacity: 0.38,
-  spotOpacity: 0.28,
-  cardOverlayOpacity: 0.32,
-  cardBorderOpacity: 0.38,
-  cardShadowOpacity: 0.26,
-}
-
-function normalizeStop(stop: StageStop): NormalizedStageStop {
-  return {
-    hue: stop.hue,
-    accentHue: stop.accentHue ?? defaultStop.accentHue,
-    overlayOpacity: stop.overlayOpacity ?? defaultStop.overlayOpacity,
-    spotOpacity: stop.spotOpacity ?? defaultStop.spotOpacity,
-    cardOverlayOpacity: stop.cardOverlayOpacity ?? defaultStop.cardOverlayOpacity,
-    cardBorderOpacity: stop.cardBorderOpacity ?? defaultStop.cardBorderOpacity,
-    cardShadowOpacity: stop.cardShadowOpacity ?? defaultStop.cardShadowOpacity,
-  }
-}
-
 /**
  * Optimized stage timeline hook that returns progress value WITHOUT updating CSS variables.
  *
@@ -66,16 +33,12 @@ function normalizeStop(stop: StageStop): NormalizedStageStop {
  */
 export function useStageTimeline({
   target,
-  from,
-  to,
   scrollTrigger,
   prefersReducedMotion = false,
 }: UseStageTimelineConfig): number {
   const progressRef = useRef(0)
-  const fromStop = normalizeStop(from)
-  const toStop = normalizeStop(to)
 
-  const timelineRef = useScrollTimeline({
+  useScrollTimeline({
     target: prefersReducedMotion ? null : target,
     create: useCallback(
       (timeline) => {

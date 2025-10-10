@@ -5,8 +5,6 @@ import { useScrollTimeline } from './useScrollTimeline'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 import { useStageTimeline } from './useStageTimeline'
 import { useMediaQuery } from './useMediaQuery'
-import { lerp } from '../utils/interpolate'
-import { clearStageVariables, setStageVariables, type StageVariableUpdates } from '../utils/stageHost'
 
 interface StageStop {
   hue: number
@@ -18,63 +16,12 @@ interface StageStop {
   cardShadowOpacity?: number
 }
 
-interface NormalizedStageStop {
-  hue: number
-  accentHue: number
-  overlayOpacity: number
-  spotOpacity: number
-  cardOverlayOpacity: number
-  cardBorderOpacity: number
-  cardShadowOpacity: number
+interface StageStops {
+  from: StageStop
+  to: StageStop
 }
 
-const STAGE_DEFAULTS: NormalizedStageStop = {
-  hue: 220,
-  accentHue: 268,
-  overlayOpacity: 0.38,
-  spotOpacity: 0.28,
-  cardOverlayOpacity: 0.32,
-  cardBorderOpacity: 0.38,
-  cardShadowOpacity: 0.26,
-}
-
-function normalizeStageStop(stop: StageStop): NormalizedStageStop {
-  return {
-    hue: stop.hue,
-    accentHue: stop.accentHue ?? STAGE_DEFAULTS.accentHue,
-    overlayOpacity: stop.overlayOpacity ?? STAGE_DEFAULTS.overlayOpacity,
-    spotOpacity: stop.spotOpacity ?? STAGE_DEFAULTS.spotOpacity,
-    cardOverlayOpacity: stop.cardOverlayOpacity ?? STAGE_DEFAULTS.cardOverlayOpacity,
-    cardBorderOpacity: stop.cardBorderOpacity ?? STAGE_DEFAULTS.cardBorderOpacity,
-    cardShadowOpacity: stop.cardShadowOpacity ?? STAGE_DEFAULTS.cardShadowOpacity,
-  }
-}
-
-function interpolateStageStops(start: NormalizedStageStop, end: NormalizedStageStop, progress: number): NormalizedStageStop {
-  return {
-    hue: lerp(start.hue, end.hue, progress),
-    accentHue: lerp(start.accentHue, end.accentHue, progress),
-    overlayOpacity: lerp(start.overlayOpacity, end.overlayOpacity, progress),
-    spotOpacity: lerp(start.spotOpacity, end.spotOpacity, progress),
-    cardOverlayOpacity: lerp(start.cardOverlayOpacity, end.cardOverlayOpacity, progress),
-    cardBorderOpacity: lerp(start.cardBorderOpacity, end.cardBorderOpacity, progress),
-    cardShadowOpacity: lerp(start.cardShadowOpacity, end.cardShadowOpacity, progress),
-  }
-}
-
-function stageStopToVariables(stop: NormalizedStageStop): StageVariableUpdates {
-  return {
-    '--tc-stage-hue': stop.hue.toFixed(2),
-    '--tc-stage-accent-hue': stop.accentHue.toFixed(2),
-    '--tc-stage-overlay-opacity': stop.overlayOpacity.toFixed(3),
-    '--tc-stage-spot-opacity': stop.spotOpacity.toFixed(3),
-    '--tc-stage-card-overlay-opacity': stop.cardOverlayOpacity.toFixed(3),
-    '--tc-stage-card-border-opacity': stop.cardBorderOpacity.toFixed(3),
-    '--tc-stage-card-shadow-opacity': stop.cardShadowOpacity.toFixed(3),
-  }
-}
-
-const heroStageStops = {
+const heroStageStops: StageStops = {
   from: {
     hue: 220,
     accentHue: 268,
@@ -93,9 +40,9 @@ const heroStageStops = {
     cardBorderOpacity: 0.52,
     cardShadowOpacity: 0.34,
   },
-} as const
+}
 
-const brokenMoneyStageStops = {
+const brokenMoneyStageStops: StageStops = {
   from: {
     ...heroStageStops.to,
   },
@@ -108,9 +55,9 @@ const brokenMoneyStageStops = {
     cardBorderOpacity: 0.52,
     cardShadowOpacity: 0.35,
   },
-} as const
+}
 
-const telcoinModelStageStops = {
+const telcoinModelStageStops: StageStops = {
   from: {
     ...brokenMoneyStageStops.to,
   },
@@ -123,9 +70,9 @@ const telcoinModelStageStops = {
     cardBorderOpacity: 0.55,
     cardShadowOpacity: 0.36,
   },
-} as const
+}
 
-const engineStageStops = {
+const engineStageStops: StageStops = {
   from: {
     ...telcoinModelStageStops.to,
   },
@@ -138,9 +85,9 @@ const engineStageStops = {
     cardBorderOpacity: 0.5,
     cardShadowOpacity: 0.33,
   },
-} as const
+}
 
-const experienceStageStops = {
+const experienceStageStops: StageStops = {
   from: {
     ...engineStageStops.to,
   },
@@ -153,9 +100,9 @@ const experienceStageStops = {
     cardBorderOpacity: 0.58,
     cardShadowOpacity: 0.38,
   },
-} as const
+}
 
-const learnMoreStageStops = {
+const learnMoreStageStops: StageStops = {
   from: {
     ...experienceStageStops.to,
   },
@@ -168,7 +115,7 @@ const learnMoreStageStops = {
     cardBorderOpacity: 0.53,
     cardShadowOpacity: 0.35,
   },
-} as const
+}
 
 type TimelineCreator = Parameters<typeof useScrollTimeline>[0]['create']
 
@@ -214,7 +161,7 @@ interface StackSectionOptions {
 }
 
 function createStackSectionHook(
-  stageStops: typeof heroStageStops,
+  stageStops: StageStops,
   options?: StackSectionOptions,
 ): () => SlidingSectionState {
   return function useHomeStackSection(): SlidingSectionState {
@@ -224,9 +171,6 @@ function createStackSectionHook(
     const isHandheld = useMediaQuery('(max-width: 40rem)')
     const prefersReducedMotion = systemPrefersReducedMotion || isHandheld
     const interactive = !prefersReducedMotion
-
-    const fromStop = normalizeStageStop(stageStops.from)
-    const toStop = normalizeStageStop(stageStops.to)
 
     const [stackProgress, setStackProgress] = useState<number>(() => (interactive ? 0 : 1))
 
