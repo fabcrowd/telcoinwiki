@@ -1736,6 +1736,7 @@ pre {
   gap: 0.85rem;
   color: var(--tc-ink-muted);
   font-size: 0.95rem;
+  transition: color 0.25s ease;
 }
 
 .story-pin__listIndex {
@@ -1749,6 +1750,7 @@ pre {
   color: white;
   font-weight: 600;
   font-size: 0.85rem;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .story-pin__listLabel {
@@ -1840,9 +1842,63 @@ pre {
       [data-story-pin][data-scroll-story] .story-pin__frame:nth-child(3) { animation-range: 50% 75%; }
       [data-story-pin][data-scroll-story] .story-pin__frame:nth-child(4) { animation-range: 75% 100%; }
 
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(1) {
+        animation: story-pin-list linear both;
+        animation-timeline: --story;
+        animation-range: 0% 25%;
+      }
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(2) {
+        animation: story-pin-list linear both;
+        animation-timeline: --story;
+        animation-range: 25% 50%;
+      }
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(3) {
+        animation: story-pin-list linear both;
+        animation-timeline: --story;
+        animation-range: 50% 75%;
+      }
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(4) {
+        animation: story-pin-list linear both;
+        animation-timeline: --story;
+        animation-range: 75% 100%;
+      }
+
       @keyframes story-pin-frame {
         from { transform: translateY(12vh) scale(0.98); opacity: 0.88; }
         to   { transform: translateY(-12vh) scale(1); opacity: 1; }
+      }
+
+      @keyframes story-pin-list {
+        from {
+          color: var(--tc-ink-muted);
+        }
+        to {
+          color: var(--tc-ink);
+        }
+      }
+
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(1) .story-pin__listIndex,
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(2) .story-pin__listIndex,
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(3) .story-pin__listIndex,
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(4) .story-pin__listIndex {
+        animation: story-pin-list-index linear both;
+        animation-timeline: --story;
+      }
+
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(1) .story-pin__listIndex { animation-range: 0% 25%; }
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(2) .story-pin__listIndex { animation-range: 25% 50%; }
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(3) .story-pin__listIndex { animation-range: 50% 75%; }
+      [data-story-pin][data-scroll-story] .story-pin__listItem:nth-child(4) .story-pin__listIndex { animation-range: 75% 100%; }
+
+      @keyframes story-pin-list-index {
+        from {
+          background: linear-gradient(135deg, rgba(66, 108, 255, 0.45), rgba(173, 120, 255, 0.5));
+          color: rgba(255,255,255,0.85);
+        }
+        to {
+          background: linear-gradient(135deg, rgba(66, 108, 255, 0.95), rgba(173, 120, 255, 0.98));
+          color: #fff;
+        }
       }
     }
   }
