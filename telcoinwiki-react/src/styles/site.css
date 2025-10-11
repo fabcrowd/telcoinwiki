@@ -2039,20 +2039,28 @@ pre {
         position: sticky;
         top: var(--stack-top, 12vh);
         height: calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh));
+        /* Side gutters so cards never touch the viewport edges */
+        --stack-gutter: clamp(16px, 5vw, 40px);
+        padding-inline: var(--stack-gutter);
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck {
         position: relative;
         height: 100%;
+        /* Constrain overall width for nicer margins on large screens */
+        max-width: min(72rem, 100%);
+        margin-inline: auto;
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
         position: absolute;
-        inset: 0;
+        /* Leave side margins via deck padding; keep card from touching edges */
+        left: 0; right: 0; top: 0; bottom: 0;
         will-change: transform, opacity;
         transform-origin: center;
-        /* starting state (inactive) */
-        transform: translateY(10vh) scale(0.985);
+        border-radius: 20px;
+        /* stronger from-bottom entrance */
+        transform: translateY(22vh) scale(0.985);
         opacity: 0.92;
       }
 
@@ -2079,8 +2087,9 @@ pre {
       }
 
       @keyframes stack-active {
-        from { transform: translateY(10vh) scale(0.985); opacity: 0.92; }
-        to   { transform: translateY(-10vh) scale(1.0); opacity: 1; }
+        /* Slide up from the bottom into place and hold */
+        from { transform: translateY(22vh) scale(0.985); opacity: 0.92; }
+        to   { transform: translateY(0)     scale(1.0);  opacity: 1; }
       }
     }
   }
