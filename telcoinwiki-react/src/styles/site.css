@@ -2039,16 +2039,19 @@ pre {
         position: sticky;
         top: var(--stack-top, 12vh);
         height: calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh));
-        /* Side gutters so cards never touch the viewport edges */
-        --stack-gutter: clamp(16px, 5vw, 40px);
+        /* Side gutters so cards never touch the viewport edges
+           Slightly reduce the min gutter and scale with viewport so
+           cards can run wider while still breathing near edges. */
+        --stack-gutter: clamp(12px, 3.5vw, 40px);
         padding-inline: var(--stack-gutter);
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck {
         position: relative;
         height: 100%;
-        /* Constrain overall width for nicer margins on large screens */
-        max-width: min(72rem, 100%);
+        /* Constrain overall width for nicer margins on large screens
+           Make the deck wider than before while respecting viewport */
+        max-width: min(90rem, 100%);
         margin-inline: auto;
         /* Provide a step offset so collapsed titles can peek below the active card */
         --stack-step: 44px;
