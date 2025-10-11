@@ -37,3 +37,14 @@ Check the [migration handbook](docs/migration.md) for Supabase connection steps,
     - `NEXT_PUBLIC_SUPABASE_URL`
     - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
   - Run **Actions → Verify Supabase** or `npm run verify:supabase` locally.
+
+## Netlify build settings
+
+Use the simplest Netlify setup:
+
+- Base directory: `telcoinwiki-react`
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Functions directory: leave blank (none used)
+
+These settings match `netlify.toml` where `publish = "dist"` and `command = "npm run build"`. Headers and redirects live in `telcoinwiki-react/public/` so they are included in the Vite build output.
