@@ -9,8 +9,11 @@ const boolFromEnv = (value: unknown, defaultValue = false): boolean => {
   return defaultValue
 }
 
-// Read from process.env in tests/Node, and from Vite env at build via env injection.
-// Avoid `import.meta` so Jest (CJS) doesn't choke on the syntax.
+// 1) Build-time flags injected into window by index.html (safe in Jest/CJS)
+const runtimeFlags = (globalThis as unknown as { __FEATURE_FLAGS__?: Record<string, unknown> }).__FEATURE_FLAGS__ || {}
+const runtimeScrollVal = runtimeFlags.SCROLL_STORY_ENABLED as boolean | undefined
+
+// 2) Node env (tests / SSR) fallback
 const nodeEnvVal =
   typeof process !== 'undefined' && process && (process.env?.VITE_SCROLL_STORY_ENABLED ?? process.env?.SCROLL_STORY_ENABLED)
 
@@ -30,7 +33,9 @@ const urlOverride = (() => {
   }
 })()
 
-export const SCROLL_STORY_ENABLED: boolean = (urlOverride ?? boolFromEnv(nodeEnvVal, false))
+export const SCROLL_STORY_ENABLED: boolean = (
+  urlOverride ?? (typeof runtimeScrollVal === 'boolean' ? runtimeScrollVal : boolFromEnv(nodeEnvVal, false))
+)
 
 export const SCROLL_DEBUG_ENABLED: boolean = (() => {
   try {
@@ -42,8 +47,7 @@ export const SCROLL_DEBUG_ENABLED: boolean = (() => {
 })()
 
 // Mega menu (header) enablement — disabled by default in production.
-const nodeNavVal =
-  typeof process !== 'undefined' && process && (process.env?.VITE_MEGA_MENU_ENABLED ?? process.env?.MEGA_MENU_ENABLED)
+const runtimeNavVal = runtimeFlags.MEGA_MENU_ENABLED as boolean | undefined
 
 const urlNavOverride = (() => {
   try {
@@ -61,4 +65,11 @@ const urlNavOverride = (() => {
   }
 })()
 
-export const MEGA_MENU_ENABLED: boolean = (urlNavOverride ?? boolFromEnv(nodeNavVal, false))
+export const MEGA_MENU_ENABLED: boolean = (
+  // URL override wins first
+  urlNavOverride ??
+  // then any runtime/env flag injected at build time
+  (typeof runtimeNavVal === 'boolean' ? runtimeNavVal : undefined) ??
+  // finally default to true across environments
+  true
+)
