@@ -1,9 +1,10 @@
-import { useEffect, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, type CSSProperties, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
 import { cn } from '../../utils/cn'
 import { ColorMorphCard } from './ColorMorphCard'
 import { SCROLL_STORY_ENABLED } from '../../config/featureFlags'
+import { useScrollProgress } from '../../hooks/useScrollProgress'
 
 export interface SlidingStackItem {
   id: string
@@ -35,9 +36,21 @@ export function SlidingStack({
   style,
   onProgressChange,
 }: SlidingStackProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const effectiveDisabled = prefersReducedMotion || !SCROLL_STORY_ENABLED
+  const progress = useScrollProgress(containerRef, {
+    disabled: effectiveDisabled,
+    clamp: true,
+  })
+
   useEffect(() => {
-    onProgressChange?.(1)
-  }, [onProgressChange, items.length])
+    if (!onProgressChange) return
+    if (effectiveDisabled) {
+      onProgressChange(1)
+      return
+    }
+    onProgressChange(progress)
+  }, [effectiveDisabled, onProgressChange, progress])
 
   const initialAnnouncement = items.length ? `Slide 1 of ${items.length}: ${items[0].title}` : ''
 
@@ -93,17 +106,28 @@ export function SlidingStack({
     )
   }
 
-  const cssVars = {} as CSSProperties & Record<'--stack-count' | '--stack-duration', string>
-  // Card count and per-card duration for CSS sizing; CSS handles the rest.
-  cssVars['--stack-count'] = String(items.length || 1)
-  cssVars['--stack-duration'] = '110vh'
+  const cssVars = useMemo(() => {
+    const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
+      '--stack-count': String(items.length || 1),
+      '--stack-duration': '110vh',
+    }
+    return vars
+  }, [items.length])
+
+  const activeIndex = useMemo(() => {
+    if (items.length <= 1) return 0
+    if (progress >= 1) return items.length - 1
+    return Math.min(items.length - 1, Math.floor(progress * items.length))
+  }, [items.length, progress])
 
   return (
     <div
+      ref={containerRef}
       className={cn('sliding-stack sliding-stack--static', className)}
       data-sliding-stack=""
       data-scroll-story={SCROLL_STORY_ENABLED && !prefersReducedMotion ? '' : undefined}
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
+      data-active-index={activeIndex}
       style={{ ...cssVars, ...style }}
     >
       <div className="sr-only" aria-live="polite">

@@ -21,6 +21,7 @@ import {
   useHomeLearnMoreScroll,
   useHomeTelcoinModelScroll,
 } from '../hooks/useHomeScrollSections'
+import { cn } from '../utils/cn'
 
 interface HomeNarrativeSection {
   id: 'broken-money' | 'telcoin-model' | 'engine' | 'experience' | 'learn-more'
@@ -393,8 +394,13 @@ export function HomePage() {
 
       {/* Former HorizontalRail removed per new header strategy. */}
 
-      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => (
-        <StickyModule
+      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => {
+        const activeIndex = cards.length > 1
+          ? Math.min(cards.length - 1, Math.floor(state.stackProgress * cards.length))
+          : 0
+
+        return (
+          <StickyModule
           key={id}
           className="stage-theme"
           ref={state.sectionRef}
@@ -417,6 +423,19 @@ export function HomePage() {
                   {heading}
                 </h2>
                 <p className="max-w-xl text-lg text-telcoin-ink-muted">{description}</p>
+                <ol className="workspace-pin__list">
+                  {cards.map((card, index) => (
+                    <li
+                      key={card.id}
+                      className={cn('workspace-pin__listItem', { 'is-active': index === activeIndex })}
+                    >
+                      <span className={cn('workspace-pin__listIndex', { 'is-active': index === activeIndex })}>
+                        {index + 1}
+                      </span>
+                      <span className="workspace-pin__listLabel">{card.title}</span>
+                    </li>
+                  ))}
+                </ol>
               </div>
             </MainWorkspaceCard>
           }
@@ -432,7 +451,8 @@ export function HomePage() {
           stickyStyle={state.stickyStyle}
           timelineDriven
         />
-      ))}
+        )
+      })}
 
       {/* Trusted by / Ecosystem marquee */}
       <section id="home-trust" className="anchor-offset">
