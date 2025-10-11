@@ -109,8 +109,8 @@ export function SlidingStack({
   const cssVars = useMemo(() => {
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(items.length || 1),
-      // Longer per-card duration so each panel stays stacked before the next moves
-      '--stack-duration': '140vh',
+      // Increase per‑card duration so panels hold longer before the next slides
+      '--stack-duration': '200vh',
     }
     return vars
   }, [items.length])

@@ -2040,19 +2040,19 @@ pre {
         position: sticky;
         top: var(--stack-top, 12vh);
         height: calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh));
-        /* Side gutters so cards never touch the viewport edges */
-        --stack-gutter: clamp(12px, 3vw, 48px);
+        /* Side gutters so cards never touch the viewport edges (reduced for near full‑width) */
+        --stack-gutter: clamp(12px, 2.5vw, 32px);
         padding-inline: var(--stack-gutter);
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck {
         position: relative;
         height: 100%;
-        /* Constrain overall width for nicer margins on large screens */
-        max-width: min(96rem, 100%);
+        /* Run cards close to full width; gutters provide edge margins */
+        max-width: 100%;
         margin-inline: auto;
-        /* Provide a step offset so collapsed titles can peek below the active card */
-        --stack-step: 44px;
+        /* Larger step so stacked titles are fully visible */
+        --stack-step: 60px;
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
@@ -2109,21 +2109,17 @@ pre {
         to   { transform: translateY(0)     scale(1.0);  }
       }
 
-      /* Collapse each card's body near the end of its segment, leaving only the title tab visible */
-      .sliding-stack__body { overflow: hidden; }
+      /* Keep card body visible at all times (no collapse) */
+      .sliding-stack__body { overflow: visible; max-height: none; animation: none !important; }
       .sliding-stack__tab { position: relative; z-index: 2; }
 
-      /* Shift collapse to near the segment end, keep titles peeking longer */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) .sliding-stack__body { animation: stack-body linear both; animation-timeline: --stack; animation-range: 26% 30%; }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) .sliding-stack__body { animation: stack-body linear both; animation-timeline: --stack; animation-range: 61% 65%; }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) .sliding-stack__body { animation: stack-body linear both; animation-timeline: --stack; animation-range: 86% 90%; }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) .sliding-stack__body { animation: stack-body linear both; animation-timeline: --stack; animation-range: 98% 100%; }
+      /* Disable body collapse animations entirely */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(n) .sliding-stack__body { animation: none !important; max-height: none !important; }
 
-      @keyframes stack-body {
-        /* No opacity; only collapse height to avoid ghosting */
-        from { max-height: 70vh; }
-        to   { max-height: 0vh; }
-      }
+      @keyframes stack-body { from { max-height: none; } to { max-height: none; } }
+
+      /* Bring titles closer to the top inside each card */
+      .sliding-stack__deck > .sliding-stack__card { padding-top: clamp(12px, 1.5vw, 20px) !important; }
     }
   }
 }
