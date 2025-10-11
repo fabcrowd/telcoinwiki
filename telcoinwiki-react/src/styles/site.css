@@ -2050,6 +2050,8 @@ pre {
         /* Constrain overall width for nicer margins on large screens */
         max-width: min(72rem, 100%);
         margin-inline: auto;
+        /* Provide a step offset so collapsed titles can peek below the active card */
+        --stack-step: 44px;
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
@@ -2062,7 +2064,14 @@ pre {
         /* stronger from-bottom entrance */
         transform: translateY(22vh) scale(0.985);
         opacity: 0.92;
+        overflow: clip;
       }
+
+      /* Stagger cards vertically so previous titles can remain visible under the active panel */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { top: calc(var(--stack-step) * 0); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { top: calc(var(--stack-step) * 1); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) { top: calc(var(--stack-step) * 2); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { top: calc(var(--stack-step) * 3); }
 
       /* Active segment animation per card (4-card layout) */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
@@ -2090,6 +2099,20 @@ pre {
         /* Slide up from the bottom into place and hold */
         from { transform: translateY(22vh) scale(0.985); opacity: 0.92; }
         to   { transform: translateY(0)     scale(1.0);  opacity: 1; }
+      }
+
+      /* Collapse each card's body near the end of its segment, leaving only the title tab visible */
+      .sliding-stack__body { overflow: hidden; }
+      .sliding-stack__tab { position: relative; z-index: 2; }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) .sliding-stack__body { animation: stack-body linear both; animation-timeline: --stack; animation-range: 18% 25%; }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) .sliding-stack__body { animation: stack-body linear both; animation-timeline: --stack; animation-range: 43% 50%; }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) .sliding-stack__body { animation: stack-body linear both; animation-timeline: --stack; animation-range: 68% 75%; }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) .sliding-stack__body { animation: stack-body linear both; animation-timeline: --stack; animation-range: 93% 100%; }
+
+      @keyframes stack-body {
+        from { opacity: 1; max-height: 70vh; }
+        to   { opacity: 0; max-height: 0vh; }
       }
     }
   }
