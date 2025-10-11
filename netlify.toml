@@ -11,7 +11,7 @@
 
 [context.branch-deploy]
   publish = "telcoinwiki-react/dist"
-  command = "npm ci --no-audit --no-fund && npm --prefix telcoinwiki-react ci --no-audit --no-fund && export VITE_SUPABASE_URL=\"${VITE_SUPABASE_URL:-$NEXT_PUBLIC_SUPABASE_URL}\" && export VITE_SUPABASE_ANON_KEY=\"${VITE_SUPABASE_ANON_KEY:-$NEXT_PUBLIC_SUPABASE_ANON_KEY}\" && npm run build"
+  command = "npm ci --no-audit --no-fund && npm --prefix telcoinwiki-react ci --no-audit --no-fund && export VITE_SUPABASE_URL=\"${VITE_SUPABASE_URL:-$NEXT_PUBLIC_SUPABASE_URL}\" && export VITE_SUPABASE_ANON_KEY=\"${VITE_SUPABASE_ANON_KEY:-$NEXT_PUBLIC_SUPABASE_ANON_KEY}\" && npm run prebuild && npm run build"
 
 [context.branch-deploy.environment]
   VITE_APP_ENV = "preview"
@@ -20,7 +20,7 @@
 
 [context.deploy-preview]
   publish = "telcoinwiki-react/dist"
-  command = "npm ci --no-audit --no-fund && npm --prefix telcoinwiki-react ci --no-audit --no-fund && export VITE_SUPABASE_URL=\"${VITE_SUPABASE_URL:-$NEXT_PUBLIC_SUPABASE_URL}\" && export VITE_SUPABASE_ANON_KEY=\"${VITE_SUPABASE_ANON_KEY:-$NEXT_PUBLIC_SUPABASE_ANON_KEY}\" && npm run build"
+  command = "npm ci --no-audit --no-fund && npm --prefix telcoinwiki-react ci --no-audit --no-fund && export VITE_SUPABASE_URL=\"${VITE_SUPABASE_URL:-$NEXT_PUBLIC_SUPABASE_URL}\" && export VITE_SUPABASE_ANON_KEY=\"${VITE_SUPABASE_ANON_KEY:-$NEXT_PUBLIC_SUPABASE_ANON_KEY}\" && npm run prebuild && npm run build"
 
 [context.deploy-preview.environment]
   VITE_APP_ENV = "preview"
