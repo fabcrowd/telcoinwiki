@@ -198,18 +198,12 @@ pre {
   flex-direction: column;
   gap: var(--space-4);
   border-radius: var(--radius-big);
-  border: 1px solid hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 78% 68% / var(--stage-card-border-alpha, 0.38));
-  background-image: linear-gradient(
-    135deg,
-    hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 90% 60% / var(--stage-card-overlay-alpha, 0.32)),
-    hsla(
-      var(--stage-accent-hue, var(--tc-stage-accent-hue, 268)) 86% 60% /
-        calc(var(--stage-card-overlay-alpha, 0.32) * 0.7)
-    )
-  );
-  box-shadow: 0 12px 24px hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 62% 38% / calc(var(--stage-card-shadow-alpha, 0.26) * 0.75));
+  border: 1px solid var(--tc-border-strong);
+  /* Solid card background — no transparency */
+  background-image: none;
+  background-color: var(--card-bg, var(--tc-surface));
+  box-shadow: 0 12px 24px rgba(5, 7, 20, calc(var(--stage-card-shadow-alpha, 0.22) * 1));
   color: var(--tc-ink);
-  background-color: rgba(5, 11, 31, 0.45);
   overflow: hidden;
   /* Disable expensive backdrop blur to avoid GPU thrash on desktop scroll */
   transition:
@@ -313,6 +307,12 @@ pre {
 .sliding-track__card {
   scroll-snap-align: center;
 }
+
+/* Alternate solid backgrounds for horizontal cards */
+.sliding-track > .sliding-track__card:nth-child(4n+1) { --card-bg: var(--palette-1); }
+.sliding-track > .sliding-track__card:nth-child(4n+2) { --card-bg: var(--palette-6); }
+.sliding-track > .sliding-track__card:nth-child(4n+3) { --card-bg: var(--palette-5); }
+.sliding-track > .sliding-track__card:nth-child(4n+4) { --card-bg: var(--palette-4); }
 
 .sliding-track__nav {
   position: absolute;
@@ -621,13 +621,14 @@ pre {
 }
 
 .horizontal-rail__slide {
-  max-width: min(72ch, calc(100vw - 4rem));
+  max-width: min(92ch, calc(100vw - 3rem));
   margin-inline: auto;
   padding: var(--space-6);
   border-radius: var(--radius-big);
-  border: 1px solid var(--tc-border-subtle);
-  background-color: rgba(5,11,31,0.3);
-  background-image: linear-gradient(135deg, rgba(5,11,31,0.3), rgba(13,17,34,0.24));
+  border: 1px solid var(--tc-border-strong);
+  /* Solid card background */
+  background-color: var(--card-bg, var(--tc-surface));
+  background-image: none;
   box-shadow: var(--shadow-glass);
   /* GPU-accelerated card rendering */
   transform: translate3d(0, 0, 0);
@@ -2040,7 +2041,7 @@ pre {
         top: var(--stack-top, 12vh);
         height: calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh));
         /* Side gutters so cards never touch the viewport edges */
-        --stack-gutter: clamp(16px, 5vw, 40px);
+        --stack-gutter: clamp(12px, 3vw, 48px);
         padding-inline: var(--stack-gutter);
       }
 
@@ -2048,7 +2049,7 @@ pre {
         position: relative;
         height: 100%;
         /* Constrain overall width for nicer margins on large screens */
-        max-width: min(72rem, 100%);
+        max-width: min(96rem, 100%);
         margin-inline: auto;
         /* Provide a step offset so collapsed titles can peek below the active card */
         --stack-step: 44px;
@@ -2067,6 +2068,12 @@ pre {
         opacity: 1;
         overflow: clip;
       }
+
+      /* Solid contrasting backgrounds per card */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { --card-bg: var(--palette-1); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { --card-bg: var(--palette-6); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) { --card-bg: var(--palette-5); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { --card-bg: var(--palette-4); }
 
       /* Stagger cards vertically so previous titles can remain visible under the active panel */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { top: calc(var(--stack-step) * 0); }

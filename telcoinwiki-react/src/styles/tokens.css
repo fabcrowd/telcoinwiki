@@ -1,59 +1,56 @@
 :root {
-  /* Telcoin palette — sampled from telcoin.network */
-  --tc-blue-sky: #37AEFF;
-  --tc-blue-core: #0093F5;
-  --tc-blue-royal: #391FFF;
-  --tc-blue-violet: #5533FF;
+  /* Global palette (client-provided) */
+  --palette-1: #4066DE; /* blue */
+  --palette-2: #E4ECF7; /* light */
+  --palette-3: #323451; /* slate */
+  --palette-4: #45BCF1; /* cyan */
+  --palette-5: #7F86D2; /* periwinkle */
+  --palette-6: #2C2C7A; /* indigo */
 
-  --tc-neutral-50: #F8F8FB;
-  --tc-neutral-100: #F2F2F5;
-  --tc-neutral-200: #DBDDE6;
-  --tc-neutral-300: #D3D3D3;
-  --tc-neutral-500: #636B92;
-  --tc-neutral-600: #535979;
-  --tc-white: #FFFFFF;
+  /* Map existing tokens to new palette */
+  --tc-primary: var(--palette-1);
+  --tc-primary-50: var(--palette-2);
+  --tc-primary-300: var(--palette-5);
+  --tc-primary-500: var(--palette-1);
+  --tc-primary-700: var(--palette-6);
+  --tc-accent: var(--palette-4);
+  --tc-accent-strong: var(--palette-6);
 
-  --tc-primary-50: var(--tc-neutral-100);
-  --tc-primary-300: var(--tc-blue-sky);
-  --tc-primary-500: var(--tc-blue-core);
-  --tc-primary-700: var(--tc-blue-royal);
-  --tc-primary: var(--tc-primary-500);
-  --tc-accent: var(--tc-blue-sky);
-  --tc-accent-strong: var(--tc-blue-royal);
+  /* Text on dark backgrounds */
+  --tc-ink: #FFFFFF;
+  --tc-ink-muted: rgba(255, 255, 255, 0.82);
+  --tc-ink-subtle: rgba(255, 255, 255, 0.7);
 
-  --tc-ink: rgba(248, 248, 251, 0.95);
-  --tc-ink-muted: rgba(248, 248, 251, 0.78);
-  --tc-ink-subtle: rgba(248, 248, 251, 0.62);
+  /* Backgrounds and surfaces — use opaque colors (no translucency) */
+  --tc-bg: var(--palette-3);
+  --tc-bg-gradient-top: var(--palette-6);
+  --tc-surface: #2F335A; /* near palette-3 */
+  --tc-surface-2: #262A4D;
+  --tc-border: rgba(228, 236, 247, 0.28); /* from palette-2 */
+  --tc-border-strong: rgba(228, 236, 247, 0.5);
 
-  --tc-bg: #050B1F;
-  --tc-bg-gradient-top: #04345F;
-  --tc-surface: rgba(248, 248, 251, 0.06);
-  --tc-surface-2: rgba(248, 248, 251, 0.1);
-  --tc-border: rgba(219, 221, 230, 0.24);
-  --tc-border-strong: rgba(219, 221, 230, 0.42);
+  /* Opaque design — remove overlay translucency */
+  --tc-primary-soft: var(--palette-5);
+  --tc-accent-soft: var(--palette-4);
+  --tc-accent-veil: var(--palette-3);
+  --tc-accent-outline: var(--palette-2);
+  --tc-royal-soft: var(--palette-6);
+  --tc-royal-outline: var(--palette-6);
 
-  --tc-primary-soft: rgba(0, 147, 245, 0.22);
-  --tc-accent-soft: rgba(55, 174, 255, 0.18);
-  --tc-accent-veil: rgba(55, 174, 255, 0.12);
-  --tc-accent-outline: rgba(55, 174, 255, 0.45);
-  --tc-royal-soft: rgba(57, 31, 255, 0.32);
-  --tc-royal-outline: rgba(57, 31, 255, 0.4);
-
-  --tc-hero-radial: radial-gradient(1200px 800px at 10% -10%, rgba(55, 174, 255, 0.16), transparent 70%);
+  --tc-hero-radial: none;
   --tc-hero-linear: linear-gradient(180deg, var(--tc-bg-gradient-top) 0%, var(--tc-bg) 60%);
-  --tc-ocean-gradient: linear-gradient(256deg, rgba(55, 174, 255, 0.6), rgba(85, 51, 255, 0.6)),
-    linear-gradient(245deg, rgba(51, 172, 255, 0.3) 43.29%, var(--tc-blue-violet) 78%);
+  --tc-ocean-gradient: linear-gradient(256deg, var(--palette-6), var(--palette-5));
 
-  --tc-stage-hue: 220;
-  --tc-stage-accent-hue: 268;
-  --tc-stage-overlay-opacity: 0.38;
-  --tc-stage-spot-opacity: 0.28;
-  --tc-stage-card-overlay-opacity: 0.32;
-  --tc-stage-card-border-opacity: 0.38;
-  --tc-stage-card-shadow-opacity: 0.26;
+  /* Disable stage overlays/shadows to remove see-through effects */
+  --tc-stage-hue: 226;
+  --tc-stage-accent-hue: 226;
+  --tc-stage-overlay-opacity: 0;
+  --tc-stage-spot-opacity: 0;
+  --tc-stage-card-overlay-opacity: 0;
+  --tc-stage-card-border-opacity: 1;
+  --tc-stage-card-shadow-opacity: 0.22;
 
   --tc-radius: 1rem;
   --tc-radius-lg: 1.25rem;
-  --tc-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --tc-shadow: 0 8px 24px rgba(5, 7, 20, 0.35);
 }
-
