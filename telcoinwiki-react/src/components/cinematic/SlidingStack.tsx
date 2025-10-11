@@ -109,8 +109,7 @@ export function SlidingStack({
   const cssVars = useMemo(() => {
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(items.length || 1),
-      // Longer per-card duration so each panel stays stacked before the next moves
-      '--stack-duration': '140vh',
+      '--stack-duration': '110vh',
     }
     return vars
   }, [items.length])
@@ -136,10 +135,10 @@ export function SlidingStack({
       </div>
       <div className="sliding-stack__viewport">
         <div className="sliding-stack__deck">
-          {items.map((item) => {
+          {items.map((item, index) => {
             const ctaLabel = item.ctaLabel ?? 'Learn more'
             // Ensure the first card appears on top initially (higher zIndex).
-            const zIndex = undefined
+            const zIndex = (items.length - index) + 10
             return (
               <ColorMorphCard
                 key={item.id}
@@ -150,9 +149,7 @@ export function SlidingStack({
                 <div className="sliding-stack__tab">
                   <span className="sliding-stack__tab-text">{item.title}</span>
                 </div>
-                <div className="sliding-stack__body">
-                  {renderCardContent(item, ctaLabel)}
-                </div>
+                {renderCardContent(item, ctaLabel)}
               </ColorMorphCard>
             )
           })}

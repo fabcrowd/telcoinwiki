@@ -5,7 +5,6 @@
 [build.environment]
   NODE_VERSION = "22.20.0"
   NPM_FLAGS = "--no-audit --no-fund"
-  VITE_MEGA_MENU_ENABLED = "true"
 
 [context.branch-deploy]
   publish = "telcoinwiki-react/dist"
@@ -14,7 +13,6 @@
 [context.branch-deploy.environment]
   VITE_APP_ENV = "preview"
   VITE_SCROLL_STORY_ENABLED = "true"
-  VITE_MEGA_MENU_ENABLED = "true"
 
 [context.deploy-preview]
   publish = "telcoinwiki-react/dist"
@@ -23,4 +21,3 @@
 [context.deploy-preview.environment]
   VITE_APP_ENV = "preview"
   VITE_SCROLL_STORY_ENABLED = "true"
-  VITE_MEGA_MENU_ENABLED = "true"
