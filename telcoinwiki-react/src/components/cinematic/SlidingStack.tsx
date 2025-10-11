@@ -121,6 +121,36 @@ export function SlidingStack({
     return Math.min(items.length - 1, Math.floor(progress * items.length))
   }, [items.length, progress])
 
+  const cardCount = Math.max(items.length, 1)
+  const windowSize = 100 / cardCount
+  const overlap = 2
+
+  const cards = items.map((item, index) => {
+    const ctaLabel = item.ctaLabel ?? 'Learn more'
+    // Ensure the first card appears on top initially (higher zIndex).
+    const zIndex = undefined
+    const start = Math.max(0, index * windowSize)
+    const end = Math.min(100, (index + 1) * windowSize - overlap)
+    const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
+      '--stack-start': `${start}%`,
+      '--stack-end': `${end}%`,
+    }
+
+    return (
+      <ColorMorphCard
+        key={item.id}
+        progress={1}
+        className={cn('sliding-stack__card p-5 sm:p-6', cardClassName)}
+        style={{ zIndex, ...timingVars }}
+      >
+        <div className="sliding-stack__tab">
+          <span className="sliding-stack__tab-text">{item.title}</span>
+        </div>
+        <div className="sliding-stack__body">{renderCardContent(item, ctaLabel)}</div>
+      </ColorMorphCard>
+    )
+  })
+
   return (
     <div
       ref={containerRef}
@@ -136,36 +166,7 @@ export function SlidingStack({
       </div>
       <div className="sliding-stack__viewport">
         <div className="sliding-stack__deck">
-          const count = Math.max(items.length, 1)
-          const window = 100 / count
-          const overlap = 2
-
-          return items.map((item, index) => {
-            const ctaLabel = item.ctaLabel ?? 'Learn more'
-            // Ensure the first card appears on top initially (higher zIndex).
-            const zIndex = undefined
-            const start = Math.max(0, index * window)
-            const end = Math.min(100, (index + 1) * window - overlap)
-            const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
-              '--stack-start': `${start}%`,
-              '--stack-end': `${end}%`,
-            }
-            return (
-              <ColorMorphCard
-                key={item.id}
-                progress={1}
-                className={cn('sliding-stack__card p-5 sm:p-6', cardClassName)}
-                style={{ zIndex, ...timingVars }}
-              >
-                <div className="sliding-stack__tab">
-                  <span className="sliding-stack__tab-text">{item.title}</span>
-                </div>
-                <div className="sliding-stack__body">
-                  {renderCardContent(item, ctaLabel)}
-                </div>
-              </ColorMorphCard>
-            )
-          })}
+          {cards}
         </div>
       </div>
     </div>
