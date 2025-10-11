@@ -1,6 +1,8 @@
 [build]
-  publish = "telcoinwiki-react/dist"
-  command = "npm ci --no-audit --no-fund && npm --prefix telcoinwiki-react ci --no-audit --no-fund && export VITE_SUPABASE_URL=\"${VITE_SUPABASE_URL:-$NEXT_PUBLIC_SUPABASE_URL}\" && export VITE_SUPABASE_ANON_KEY=\"${VITE_SUPABASE_ANON_KEY:-$NEXT_PUBLIC_SUPABASE_ANON_KEY}\" && npm run prebuild && npm run build && rm -rf node_modules telcoinwiki-react/node_modules"
+  # Base directory is set in the Netlify UI to "telcoinwiki-react".
+  # With baseRelDir=true, publish is relative to that base.
+  publish = "dist"
+  command = "npm run build"
   ignore = "bash tools/netlify-skip-non-main.sh"
 
 [build.environment]
@@ -11,8 +13,7 @@
   VITE_SCROLL_STORY_ENABLED = "true"
 
 [context.branch-deploy]
-  publish = "telcoinwiki-react/dist"
-  command = "npm ci --no-audit --no-fund && npm --prefix telcoinwiki-react ci --no-audit --no-fund && export VITE_SUPABASE_URL=\"${VITE_SUPABASE_URL:-$NEXT_PUBLIC_SUPABASE_URL}\" && export VITE_SUPABASE_ANON_KEY=\"${VITE_SUPABASE_ANON_KEY:-$NEXT_PUBLIC_SUPABASE_ANON_KEY}\" && npm run prebuild && npm run build"
+  # Use the default [build] command and publish paths.
 
 [context.branch-deploy.environment]
   VITE_APP_ENV = "preview"
@@ -20,8 +21,7 @@
   VITE_MEGA_MENU_ENABLED = "true"
 
 [context.deploy-preview]
-  publish = "telcoinwiki-react/dist"
-  command = "npm ci --no-audit --no-fund && npm --prefix telcoinwiki-react ci --no-audit --no-fund && export VITE_SUPABASE_URL=\"${VITE_SUPABASE_URL:-$NEXT_PUBLIC_SUPABASE_URL}\" && export VITE_SUPABASE_ANON_KEY=\"${VITE_SUPABASE_ANON_KEY:-$NEXT_PUBLIC_SUPABASE_ANON_KEY}\" && npm run prebuild && npm run build"
+  # Use the default [build] command and publish paths.
 
 [context.deploy-preview.environment]
   VITE_APP_ENV = "preview"
