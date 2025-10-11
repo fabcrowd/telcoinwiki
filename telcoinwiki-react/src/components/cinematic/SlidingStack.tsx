@@ -107,12 +107,10 @@ export function SlidingStack({
   }
 
   const cssVars = useMemo(() => {
-    const count = Math.max(items.length || 1, 1)
-    const vars: CSSProperties & Record<'--stack-count' | '--stack-duration' | '--stack-window', string> = {
+    const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(items.length || 1),
-      // Increase per‑card duration so panels hold longer before the next slides
+      // Increase per-card duration so panels hold longer before the next slides
       '--stack-duration': '200vh',
-      '--stack-window': `${100 / count}%`,
     }
     return vars
   }, [items.length])
@@ -138,16 +136,26 @@ export function SlidingStack({
       </div>
       <div className="sliding-stack__viewport">
         <div className="sliding-stack__deck">
-          {items.map((item) => {
+          const count = Math.max(items.length, 1)
+          const window = 100 / count
+          const overlap = 2
+
+          return items.map((item, index) => {
             const ctaLabel = item.ctaLabel ?? 'Learn more'
             // Ensure the first card appears on top initially (higher zIndex).
             const zIndex = undefined
+            const start = Math.max(0, index * window)
+            const end = Math.min(100, (index + 1) * window - overlap)
+            const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
+              '--stack-start': `${start}%`,
+              '--stack-end': `${end}%`,
+            }
             return (
               <ColorMorphCard
                 key={item.id}
                 progress={1}
                 className={cn('sliding-stack__card p-5 sm:p-6', cardClassName)}
-                style={{ zIndex }}
+                style={{ zIndex, ...timingVars }}
               >
                 <div className="sliding-stack__tab">
                   <span className="sliding-stack__tab-text">{item.title}</span>
