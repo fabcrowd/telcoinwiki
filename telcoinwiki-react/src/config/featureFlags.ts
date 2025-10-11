@@ -48,8 +48,6 @@ export const SCROLL_DEBUG_ENABLED: boolean = (() => {
 
 // Mega menu (header) enablement — disabled by default in production.
 const runtimeNavVal = runtimeFlags.MEGA_MENU_ENABLED as boolean | undefined
-const nodeNavVal =
-  typeof process !== 'undefined' && process && (process.env?.VITE_MEGA_MENU_ENABLED ?? process.env?.MEGA_MENU_ENABLED)
 
 const urlNavOverride = (() => {
   try {
@@ -68,5 +66,10 @@ const urlNavOverride = (() => {
 })()
 
 export const MEGA_MENU_ENABLED: boolean = (
-  urlNavOverride ?? (typeof runtimeNavVal === 'boolean' ? runtimeNavVal : boolFromEnv(nodeNavVal, false))
+  // URL override wins first
+  urlNavOverride ??
+  // then any runtime/env flag injected at build time
+  (typeof runtimeNavVal === 'boolean' ? runtimeNavVal : undefined) ??
+  // finally default to true across environments
+  true
 )
