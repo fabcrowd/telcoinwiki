@@ -8,6 +8,15 @@
   </head>
   <body>
     <div id="root"></div>
+    <script type="module">
+      // Expose build-time feature flags for runtime without importing import.meta in TS (keeps Jest happy)
+      window.__FEATURE_FLAGS__ = {
+        SCROLL_STORY_ENABLED: Boolean(import.meta.env?.VITE_SCROLL_STORY_ENABLED) &&
+          String(import.meta.env?.VITE_SCROLL_STORY_ENABLED).match(/^(1|true|yes|on)$/i) !== null,
+        MEGA_MENU_ENABLED: Boolean(import.meta.env?.VITE_MEGA_MENU_ENABLED) &&
+          String(import.meta.env?.VITE_MEGA_MENU_ENABLED).match(/^(1|true|yes|on)$/i) !== null,
+      };
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
