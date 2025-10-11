@@ -121,10 +121,6 @@ export function SlidingStack({
     return Math.min(items.length - 1, Math.floor(progress * items.length))
   }, [items.length, progress])
 
-  const count = Math.max(items.length, 1)
-  const windowSize = 100 / count
-  const overlap = 2
-
   return (
     <div
       ref={containerRef}
@@ -140,12 +136,16 @@ export function SlidingStack({
       </div>
       <div className="sliding-stack__viewport">
         <div className="sliding-stack__deck">
-          {items.map((item, index) => {
+          const count = Math.max(items.length, 1)
+          const window = 100 / count
+          const overlap = 2
+
+          return items.map((item, index) => {
             const ctaLabel = item.ctaLabel ?? 'Learn more'
             // Ensure the first card appears on top initially (higher zIndex).
             const zIndex = undefined
-            const start = Math.max(0, index * windowSize)
-            const end = Math.min(100, (index + 1) * windowSize - overlap)
+            const start = Math.max(0, index * window)
+            const end = Math.min(100, (index + 1) * window - overlap)
             const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
               '--stack-start': `${start}%`,
               '--stack-end': `${end}%`,
