@@ -5,7 +5,9 @@
 [build.environment]
   NODE_VERSION = "22.20.0"
   NPM_FLAGS = "--no-audit --no-fund"
+  # Align with PR #170 feature flags in production
   VITE_MEGA_MENU_ENABLED = "true"
+  VITE_SCROLL_STORY_ENABLED = "true"
 
 [context.branch-deploy]
   publish = "telcoinwiki-react/dist"
