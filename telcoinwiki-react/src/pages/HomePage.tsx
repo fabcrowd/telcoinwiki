@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { SCROLL_STORY_ENABLED } from '../config/featureFlags'
 
 import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
 import { HeroSequencer } from '../components/cinematic/HeroSequencer'
@@ -10,8 +11,8 @@ import { HeroTicker } from '../components/home/HeroTicker'
 import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
 import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
-import { HorizontalRail } from '../components/cinematic/HorizontalRail'
 import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 import {
   useHomeBrokenMoneyScroll,
   useHomeEngineScroll,
@@ -20,6 +21,7 @@ import {
   useHomeLearnMoreScroll,
   useHomeTelcoinModelScroll,
 } from '../hooks/useHomeScrollSections'
+import { cn } from '../utils/cn'
 
 interface HomeNarrativeSection {
   id: 'broken-money' | 'telcoin-model' | 'engine' | 'experience' | 'learn-more'
@@ -196,8 +198,36 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
   } as CSSProperties
 }
 
+const storyFrames = [
+  {
+    id: 'story-problem',
+    title: "The Problem: Money Isn’t Built for People",
+    body:
+      'Most of the world’s financial infrastructure excludes the very people who need it most. Sending money costs too much, takes too long, and leaves billions behind.',
+  },
+  {
+    id: 'story-model',
+    title: 'The Telcoin Model: Financial Access, Rebuilt',
+    body:
+      'Telcoin is a new kind of system—combining telecom networks, blockchain rails, and regulatory clarity to move money like a message. It’s mobile-first, self-custodial, and built to reach anyone with a phone.',
+  },
+  {
+    id: 'story-engine',
+    title: 'The Engine: Telcoin Network + $TEL',
+    body:
+      'At the core is the Telcoin Network, a purpose-built Layer 1 blockchain secured by mobile network operators. The $TEL token powers everything—from transaction fees to staking, liquidity, and governance—through a unique burn-and-regen model.',
+  },
+  {
+    id: 'story-experience',
+    title: 'The Experience: Use It Like an App, Own It Like Crypto',
+    body:
+      'With the Telcoin App, users can send money, swap assets, and earn—all without giving up control. No middlemen, no passwords—just a secure wallet in your pocket that works like the apps you already use.',
+  },
+]
+
 export function HomePage() {
   const hero = useHomeHeroScroll()
+  const prefersReducedMotion = usePrefersReducedMotion()
   const brokenMoney = useHomeBrokenMoneyScroll()
   const telcoinModel = useHomeTelcoinModelScroll()
   const engine = useHomeEngineScroll()
@@ -217,6 +247,11 @@ export function HomePage() {
     state: sectionStates[section.id],
   }))
 
+  const storyPinVars = {
+    '--story-count': String(storyFrames.length),
+    '--story-duration': '120vh',
+  } as CSSProperties & Record<'--story-count' | '--story-duration', string>
+
   return (
     <>
       <section
@@ -224,6 +259,7 @@ export function HomePage() {
         ref={hero.sectionRef}
         aria-labelledby="home-hero-heading"
         className="stage-theme relative isolate overflow-hidden bg-hero-linear animate-gradient [background-size:180%_180%]"
+        data-scroll-story={SCROLL_STORY_ENABLED ? '' : undefined}
       >
         <ColorShiftBackground
           data-hero-background=""
@@ -268,27 +304,103 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Horizontal sweep carousel mirroring avax-style cards — chained to first workspace */}
-      <section id="home-carousel" className="anchor-offset">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-          <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Explore the pillars at your pace</h2>
-          <p className="mb-4 text-telcoin-ink-muted">Swipe through the core sectionsâ€”each card links into the deep dive.</p>
-        </div>
-        <HorizontalRail
-          id="home-rail"
-          parallaxStrength={0.3}
-          items={[
-            { id: 'trk-governance', eyebrow: 'Governance', title: 'Policy & councils', body: 'How accuracy-first oversight aligns network upgrades and treasuries.', href: '/governance', accentHue: 210 },
-            { id: 'trk-network', eyebrow: 'Network', title: 'DAG + BFT', body: 'Carrier-operated validators finalize blocks with telecom-grade compliance.', href: '/network', accentHue: 170 },
-            { id: 'trk-bank', eyebrow: 'Bank', title: 'Wallet + Digital Cash', body: 'A fintech-feel experience with self-custody at the core.', href: '/bank', accentHue: 42 },
-            { id: 'trk-tokenomics', eyebrow: 'Tokenomics', title: 'TEL burn & regen', body: 'Understand how TEL powers gas, liquidity, rewards, and recycling.', href: '/tokenomics', accentHue: 278 },
-            { id: 'trk-faq', eyebrow: 'FAQ', title: 'Verified answers', body: 'Every question links back to official Telcoin sources.', href: '/faq', accentHue: 336 },
-          ]}
-        />
-      </section>
+      {/* Sliding deck: four-story beats directly under the hero (feature-flagged) */}
+      {SCROLL_STORY_ENABLED ? (
+        <section id="home-story-cards" className="anchor-offset">
+          <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
+            <SlidingStack
+              className="mt-4"
+              items={[
+                {
+                  id: 'story-problem',
+                  title: "The Problem: Money Isn’t Built for People",
+                  body:
+                    'Most of the world’s financial infrastructure excludes the very people who need it most. Sending money costs too much, takes too long, and leaves billions behind.',
+                },
+                {
+                  id: 'story-model',
+                  title: 'The Telcoin Model: Financial Access, Rebuilt',
+                  body:
+                    'Telcoin is a new kind of system—combining telecom networks, blockchain rails, and regulatory clarity to move money like a message. It’s mobile-first, self-custodial, and built to reach anyone with a phone.',
+                },
+                {
+                  id: 'story-engine',
+                  title: 'The Engine: Telcoin Network + $TEL',
+                  body:
+                    'At the core is the Telcoin Network, a purpose-built Layer 1 blockchain secured by mobile network operators. The $TEL token powers everything—from transaction fees to staking, liquidity, and governance—through a unique burn-and-regen model.',
+                },
+                {
+                  id: 'story-experience',
+                  title: 'The Experience: Use It Like an App, Own It Like Crypto',
+                  body:
+                    'With the Telcoin App, users can send money, swap assets, and earn—all without giving up control. No middlemen, no passwords—just a secure wallet in your pocket that works like the apps you already use.',
+                },
+              ]}
+            />
+          </div>
+        </section>
+      ) : null}
 
-      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => (
+      {SCROLL_STORY_ENABLED ? (
         <StickyModule
+          id="home-story-pin"
+          className="stage-theme"
+          top="14vh"
+          aria-labelledby="home-story-pin-heading"
+          sticky={
+            <div className="story-pin__lead">
+              <p className="story-pin__eyebrow">Storyboard</p>
+              <h2 id="home-story-pin-heading" className="story-pin__heading">
+                Follow the Telcoin story as you scroll
+              </h2>
+              <p className="story-pin__copy">
+                Each panel reveals another layer—problem, model, engine, experience—mirroring how newcomers discover Telcoin.
+              </p>
+              <ol className="story-pin__list">
+                {storyFrames.map((frame, index) => (
+                  <li key={frame.id} className="story-pin__listItem">
+                    <span className="story-pin__listIndex">{index + 1}</span>
+                    <span className="story-pin__listLabel">{frame.title}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          }
+          content={
+            <div
+              className="story-pin__viewport"
+              data-story-pin={SCROLL_STORY_ENABLED && !prefersReducedMotion ? '' : undefined}
+              data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
+              style={storyPinVars}
+            >
+              <div className="story-pin__deck">
+                {storyFrames.map((frame, index) => (
+                  <figure key={frame.id} className={`story-pin__frame story-pin__frame--${frame.id}`} data-story-index={index}>
+                    <div className="story-pin__art" aria-hidden />
+                    <figcaption className="story-pin__caption">
+                      <h3>{frame.title}</h3>
+                      <p>{frame.body}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          }
+          prefersReducedMotion={prefersReducedMotion}
+          stickyStyle={{ top: '14vh' }}
+          timelineDriven
+        />
+      ) : null}
+
+      {/* Former HorizontalRail removed per new header strategy. */}
+
+      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => {
+        const activeIndex = cards.length > 1
+          ? Math.min(cards.length - 1, Math.floor(state.stackProgress * cards.length))
+          : 0
+
+        return (
+          <StickyModule
           key={id}
           className="stage-theme"
           ref={state.sectionRef}
@@ -311,6 +423,19 @@ export function HomePage() {
                   {heading}
                 </h2>
                 <p className="max-w-xl text-lg text-telcoin-ink-muted">{description}</p>
+                <ol className="workspace-pin__list">
+                  {cards.map((card, index) => (
+                    <li
+                      key={card.id}
+                      className={cn('workspace-pin__listItem', { 'is-active': index === activeIndex })}
+                    >
+                      <span className={cn('workspace-pin__listIndex', { 'is-active': index === activeIndex })}>
+                        {index + 1}
+                      </span>
+                      <span className="workspace-pin__listLabel">{card.title}</span>
+                    </li>
+                  ))}
+                </ol>
               </div>
             </MainWorkspaceCard>
           }
@@ -326,7 +451,8 @@ export function HomePage() {
           stickyStyle={state.stickyStyle}
           timelineDriven
         />
-      ))}
+        )
+      })}
 
       {/* Trusted by / Ecosystem marquee */}
       <section id="home-trust" className="anchor-offset">

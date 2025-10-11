@@ -12,6 +12,7 @@
 
 [context.branch-deploy.environment]
   VITE_APP_ENV = "preview"
+  VITE_SCROLL_STORY_ENABLED = "true"
 
 [context.deploy-preview]
   publish = "telcoinwiki-react/dist"
@@ -19,3 +20,4 @@
 
 [context.deploy-preview.environment]
   VITE_APP_ENV = "preview"
+  VITE_SCROLL_STORY_ENABLED = "true"

@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import type { CSSProperties, RefObject } from 'react'
 
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
@@ -19,6 +19,7 @@ interface SlidingSectionState extends BaseSectionState {
   introStyle: CSSProperties | undefined
   stackStyle: CSSProperties | undefined
   stageProgress: number
+  stackProgress: number
   onStackProgress?: (value: number) => void
   stickyStyle: CSSProperties | undefined
 }
@@ -36,15 +37,17 @@ function createStackSectionHook(): () => SlidingSectionState {
 
     const introStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
     const stackStyle = useMemo(() => createFadeInStyle(prefersReducedMotion), [prefersReducedMotion])
+    const [stackProgress, setStackProgress] = useState(0)
 
     return {
       sectionRef,
       prefersReducedMotion,
       stageProgress: 1,
+      stackProgress,
       introStyle,
       stackStyle,
       stickyStyle: prefersReducedMotion ? undefined : { top: '20vh' },
-      onStackProgress: undefined,
+      onStackProgress: prefersReducedMotion ? undefined : setStackProgress,
     }
   }
 }
