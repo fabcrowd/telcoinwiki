@@ -5,3 +5,4 @@
   Referrer-Policy: no-referrer-when-downgrade
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://telco.in https://www.telcoinnetwork.org https://www.telcoinassociation.org https://cdn.jsdelivr.net; font-src 'self'; connect-src 'self' https://www.telx.network https://telx.network https://api.telx.network; frame-ancestors 'none'
+
