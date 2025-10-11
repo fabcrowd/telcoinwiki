@@ -107,10 +107,12 @@ export function SlidingStack({
   }
 
   const cssVars = useMemo(() => {
-    const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
+    const count = Math.max(items.length || 1, 1)
+    const vars: CSSProperties & Record<'--stack-count' | '--stack-duration' | '--stack-window', string> = {
       '--stack-count': String(items.length || 1),
       // Increase per‑card duration so panels hold longer before the next slides
       '--stack-duration': '200vh',
+      '--stack-window': `${100 / count}%`,
     }
     return vars
   }, [items.length])

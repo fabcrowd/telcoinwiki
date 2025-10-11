@@ -2066,7 +2066,7 @@ pre {
         transform: translateY(28vh) scale(0.985);
         /* eliminate opacity changes to avoid ghosting */
         opacity: 1;
-        overflow: clip;
+        overflow: visible;
       }
 
       /* Solid contrasting backgrounds per card */
@@ -2082,25 +2082,25 @@ pre {
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { top: calc(var(--stack-step) * 3); }
 
       /* Active segment animation per card with gaps so the next waits until the current fully locks */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
-        animation: stack-active linear both;
-        animation-timeline: --stack;
-        animation-range: 0% 30%;
-      }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) {
-        animation: stack-active linear both;
-        animation-timeline: --stack;
-        animation-range: 35% 65%;
-      }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) {
-        animation: stack-active linear both;
-        animation-timeline: --stack;
-        animation-range: 70% 90%;
-      }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1),
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2),
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3),
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) {
         animation: stack-active linear both;
         animation-timeline: --stack;
-        animation-range: 92% 100%;
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
+        animation-range: calc(var(--stack-window) * 0) calc(var(--stack-window) * 1 - 2%);
+      }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) {
+        animation-range: calc(var(--stack-window) * 1) calc(var(--stack-window) * 2 - 2%);
+      }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) {
+        animation-range: calc(var(--stack-window) * 2) calc(var(--stack-window) * 3 - 2%);
+      }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) {
+        animation-range: calc(var(--stack-window) * 3) calc(var(--stack-window) * 4 - 2%);
       }
 
       @keyframes stack-active {
@@ -2114,12 +2114,16 @@ pre {
       .sliding-stack__tab { position: relative; z-index: 2; }
 
       /* Disable body collapse animations entirely */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(n) .sliding-stack__body { animation: none !important; max-height: none !important; }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(n) .sliding-stack__body {
+        animation: none !important;
+        max-height: none !important;
+      }
 
       @keyframes stack-body { from { max-height: none; } to { max-height: none; } }
 
-      /* Bring titles closer to the top inside each card */
-      .sliding-stack__deck > .sliding-stack__card { padding-top: clamp(12px, 1.5vw, 20px) !important; }
+      /* Bring titles closer to the top: adjust inner spacing */
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: clamp(8px, 1vw, 16px); }
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { margin-top: var(--space-3); }
     }
   }
 }
