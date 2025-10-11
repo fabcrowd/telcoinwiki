@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type FocusEvent } from 'react'
 import { Link } from 'react-router-dom'
 import type { MegaSection } from '../../config/megaMenu'
 
@@ -7,11 +7,14 @@ interface MegaMenuProps {
 }
 
 const MOBILE_BREAKPOINT = 768 // px
+const CLOSE_DELAY_MS = 180
 
 export function MegaMenu({ sections }: MegaMenuProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const openTimeoutRef = useRef<number | null>(null)
+  const closeTimeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
     const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
@@ -33,19 +36,57 @@ export function MegaMenu({ sections }: MegaMenuProps) {
     return () => document.removeEventListener('keydown', onDocKey)
   }, [])
 
-  const topItems = useMemo(() => sections.map((s) => ({ id: s.id, label: s.label })), [sections])
+  const { topItems, sectionMap } = useMemo(() => {
+    const items = sections.map((s) => ({ id: s.id, label: s.label }))
+    const map = new Map(sections.map((s) => [s.id, s]))
+    return { topItems: items, sectionMap: map }
+  }, [sections])
+
+  useEffect(() => {
+    return () => {
+      if (openTimeoutRef.current !== null) window.clearTimeout(openTimeoutRef.current)
+      if (closeTimeoutRef.current !== null) window.clearTimeout(closeTimeoutRef.current)
+    }
+  }, [])
+
+  const clearOpenTimeout = () => {
+    if (openTimeoutRef.current !== null) {
+      window.clearTimeout(openTimeoutRef.current)
+      openTimeoutRef.current = null
+    }
+  }
+
+  const clearCloseTimeout = () => {
+    if (closeTimeoutRef.current !== null) {
+      window.clearTimeout(closeTimeoutRef.current)
+      closeTimeoutRef.current = null
+    }
+  }
 
   const handleEnter = (id: string) => {
     if (isMobile) return
-    setActiveId(id)
+    clearCloseTimeout()
+    if (activeId === id) return
+    clearOpenTimeout()
+    openTimeoutRef.current = window.setTimeout(() => {
+      setActiveId(id)
+      openTimeoutRef.current = null
+    }, 0)
   }
   const handleLeave = () => {
     if (isMobile) return
-    setActiveId((current) => (current ? null : current))
+    clearOpenTimeout()
+    clearCloseTimeout()
+    closeTimeoutRef.current = window.setTimeout(() => {
+      setActiveId(null)
+      closeTimeoutRef.current = null
+    }, CLOSE_DELAY_MS)
   }
-  const handleFocusOut = (e: React.FocusEvent) => {
+  const handleFocusOut = (e: FocusEvent) => {
     if (!containerRef.current) return
     if (containerRef.current.contains(e.relatedTarget as Node)) return
+    clearOpenTimeout()
+    clearCloseTimeout()
     setActiveId(null)
   }
 
@@ -74,13 +115,15 @@ export function MegaMenu({ sections }: MegaMenuProps) {
               role="menu"
               className={`mega__panel${activeId === item.id ? ' is-open' : ''}`}
               aria-hidden={activeId !== item.id}
+              onMouseEnter={() => handleEnter(item.id)}
+              onMouseLeave={handleLeave}
             >
               <ul className="mega__grid">
-                {sections
-                  .find((s) => s.id === item.id)!
+                {sectionMap
+                  .get(item.id)!
                   .items.map((entry) => (
                     <li key={entry.href} className="mega__cell">
-                      <Link to={entry.href} className="mega__link">
+                      <Link to={entry.href} className="mega__link" onFocus={() => handleEnter(item.id)}>
                         <span className="mega__label">{entry.label}</span>
                         {entry.description ? (
                           <span className="mega__desc">{entry.description}</span>
@@ -96,4 +139,3 @@ export function MegaMenu({ sections }: MegaMenuProps) {
     </div>
   )
 }
-
