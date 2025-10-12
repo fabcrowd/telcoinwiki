@@ -348,7 +348,7 @@ export function HomePage() {
       {SCROLL_STORY_ENABLED ? (
         <StickyModule
           id="home-story-pin"
-          className="stage-theme mt-[32vh]"
+          className="stage-theme mt-[36vh] mb-[24vh]"
           top="14vh"
           aria-labelledby="home-story-pin-heading"
           sticky={
