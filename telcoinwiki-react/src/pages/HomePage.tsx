@@ -354,13 +354,15 @@ export function HomePage() {
               ]}
             />
           </div>
+          {/* Large spacer to give the final storyboard card ample runway before next content */}
+          <div aria-hidden className="h-[80vh]" />
         </section>
       ) : null}
 
       {SCROLL_STORY_ENABLED ? (
         <StickyModule
           id="home-story-pin"
-          className="stage-theme mt-[36vh] mb-[24vh]"
+          className="stage-theme mt-[36vh] mb-[40vh]"
           top="14vh"
           aria-labelledby="home-story-pin-heading"
           sticky={
