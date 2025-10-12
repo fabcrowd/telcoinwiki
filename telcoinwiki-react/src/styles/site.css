@@ -311,7 +311,7 @@ pre {
 .sliding-stack__content {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 /* Horizontal SlidingTrack */
@@ -506,7 +506,7 @@ pre {
 
 /* Content clears the header tab vertically; no horizontal inset */
 .sliding-stack__card .sliding-stack__content {
-  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 + 10px);
+  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 + 2px);
 }
 
 /* Inset the content so it clears the folder tab on larger screens */
