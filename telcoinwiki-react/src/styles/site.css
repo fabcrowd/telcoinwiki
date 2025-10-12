@@ -2114,7 +2114,7 @@ pre {
 
       /* Nudge the last card slightly downward so its tab/header remains visible */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) {
-        top: var(--last-card-top, 0.8vh);
+        top: var(--last-card-top, 1.6vh);
       }
 
       /* First card is locked in place (no upward scroll-in),

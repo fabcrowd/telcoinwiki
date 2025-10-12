@@ -127,7 +127,7 @@ export function SlidingStack({
   const windowSize = 100 / cardCount
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
-  const lastEndPadPct = 10 // slightly less early-finish so header has more time fully visible
+  const lastEndPadPct = 0 // let the last card animate through 100% for maximum hold
   const secondEndPadPct = 8 // move 2nd card faster by shortening its range by 8%
   const thirdEndPadPct = 5  // move 3rd card faster by shortening its range by 5%
   // Start the 2nd card earlier so it appears sooner; 3rd slightly earlier as well
@@ -189,7 +189,7 @@ export function SlidingStack({
         ['--stack-top' as any]: 'calc(var(--header-height) + 2vh)',
         ['--stack-bottom' as any]: '2vh',
         // Extra tail so the final card reaches the top and holds briefly
-        ['--stack-tail' as any]: '120vh',
+        ['--stack-tail' as any]: '240vh',
         // Only one card visible at a time; remove vertical staggering
         ['--stack-step' as any]: '0px',
         ...cssVars,
