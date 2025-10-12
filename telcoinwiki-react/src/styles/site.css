@@ -506,8 +506,8 @@ pre {
 
 /* Content clears the header tab vertically; no horizontal inset */
 .sliding-stack__card .sliding-stack__content {
-  /* Align content baseline almost directly under the tab header */
-  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05);
+  /* Pull content extremely close to the tab header */
+  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 - 6px);
 }
 
 /* Inset the content so it clears the folder tab on larger screens */
