@@ -234,6 +234,10 @@ pre {
 .sliding-stack__body {
   overflow: visible;
   max-height: none;
+  /* Two-column layout: text on the left half, space on right for mini cards */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
 }
 
 /* Ensure card content is always visible (no fade-out or clipping) */
@@ -288,6 +292,9 @@ pre {
   .sliding-stack--interactive .sliding-stack__card {
     position: relative;
   }
+
+  /* Collapse to single column on smaller screens */
+  .sliding-stack__body { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

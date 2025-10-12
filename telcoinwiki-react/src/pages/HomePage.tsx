@@ -313,28 +313,28 @@ export function HomePage() {
               items={[
                 {
                   id: 'story-problem',
-                  tabLabel: 'The Problem',
+                  tabLabel: 'The Problem:',
                   title: "Money Isn’t Built for People",
                   body:
                     'Most of the world’s financial infrastructure excludes the very people who need it most. Sending money costs too much, takes too long, and leaves billions behind.',
                 },
                 {
                   id: 'story-model',
-                  tabLabel: 'Model',
+                  tabLabel: 'The Telcoin Model:',
                   title: 'Financial Access, Rebuilt',
                   body:
                     'Telcoin is a new kind of system—combining telecom networks, blockchain rails, and regulatory clarity to move money like a message. It’s mobile-first, self-custodial, and built to reach anyone with a phone.',
                 },
                 {
                   id: 'story-engine',
-                  tabLabel: 'Engine',
+                  tabLabel: 'The Engine:',
                   title: 'Telcoin Network + $TEL',
                   body:
                     'At the core is the Telcoin Network, a purpose-built Layer 1 blockchain secured by mobile network operators. The $TEL token powers everything—from transaction fees to staking, liquidity, and governance—through a unique burn-and-regen model.',
                 },
                 {
                   id: 'story-experience',
-                  tabLabel: 'Experience',
+                  tabLabel: 'The Experience:',
                   title: 'Use It Like an App, Own It Like Crypto',
                   body:
                     'With the Telcoin App, users can send money, swap assets, and earn—all without giving up control. No middlemen, no passwords—just a secure wallet in your pocket that works like the apps you already use.',
