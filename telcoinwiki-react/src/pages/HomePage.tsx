@@ -459,24 +459,9 @@ export function HomePage() {
         )
       })}
 
-      {/* Extra vertical gap before the next page section to ensure
-          the final card remains fully visible and not crowded. */}
-      <div aria-hidden className="h-[44vh]" />
-
-      {/* Trusted by / Ecosystem marquee */}
-      <section id="home-trust" className="anchor-offset">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-          <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Trusted ecosystem</h2>
-          <p className="mb-4 text-telcoin-ink-muted">Placeholder brands shown; final logos will replace these once assets arrive.</p>
-        </div>
-        <div className="mx-auto max-w-[100vw] overflow-hidden">
-          <div className="px-2 sm:px-4">
-            <LogoMarquee />
-          </div>
-        </div>
-      </section>
+      {/* Below this point, we intentionally remove additional content to focus on the sliding cards. */}
     </>
   )
 }
 
-import { LogoMarquee } from '../components/cinematic/LogoMarquee'
+// import { LogoMarquee } from '../components/cinematic/LogoMarquee'
