@@ -255,7 +255,7 @@ export function HomePage() {
     '--story-duration': '160vh',
     // Loosen vertical constraints so frames aren't scrunched
     '--story-top': '12vh',
-    '--story-bottom': '10vh',
+    '--story-bottom': '22vh',
   } as CSSProperties & Record<'--story-count' | '--story-duration' | '--story-top' | '--story-bottom', string>
 
   return (
@@ -354,7 +354,7 @@ export function HomePage() {
             />
           </div>
           {/* Big fixed spacer after deck to ensure clear separation before next content */}
-          <div aria-hidden className="h-[120vh]" />
+          <div aria-hidden className="h-[180vh]" />
         </section>
       ) : null}
 
