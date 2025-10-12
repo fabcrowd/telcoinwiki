@@ -191,7 +191,7 @@ export function SlidingStack({
         // Extra tail so the final card reaches the top and holds fully before handoff
         ['--stack-tail' as any]: '320vh',
         // Ensure the last card header clears the top edge significantly
-        ['--last-card-top' as any]: '12vh',
+        ['--last-card-translate-end' as any]: '12vh',
         // Only one card visible at a time; remove vertical staggering
         ['--stack-step' as any]: '0px',
         ...cssVars,

@@ -2112,10 +2112,14 @@ pre {
         overflow: visible;
       }
 
-      /* Push the final card slightly lower so its full-width header tab clears
-         the sticky viewport and site header reliably across tall/short screens. */
+      /* For the final card, end a bit below 0 so the header/tab is visible */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) {
-        top: var(--last-card-top, 12vh);
+        animation-name: stack-active-last;
+      }
+
+      @keyframes stack-active-last {
+        from { transform: translateY(120vh) scale(0.985); }
+        to   { transform: translateY(var(--last-card-translate-end, 10vh)) scale(1.0); }
       }
 
       /* Ensure all cards align to the same top; no per-card offset */
