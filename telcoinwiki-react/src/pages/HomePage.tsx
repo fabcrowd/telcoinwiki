@@ -317,10 +317,10 @@ export function HomePage() {
             <SlidingStack
               className="mt-4"
               style={{
-                ['--stack-top' as any]: 'calc(var(--header-height) + 4vh)',
+                ['--stack-top' as any]: 'calc(var(--header-height) + 1vh)',
                 ['--stack-bottom' as any]: '0vh',
-                ['--stack-tail' as any]: '260vh',
-                ['--last-card-translate-end' as any]: '14vh',
+                ['--stack-tail' as any]: '400vh',
+                ['--tab-base-height' as any]: '88px',
               }}
               items={[
                 {
@@ -354,15 +354,14 @@ export function HomePage() {
               ]}
             />
           </div>
-          {/* Large spacer to give the final storyboard card ample runway before next content */}
-          <div aria-hidden className="h-[80vh]" />
+          {/* Spacer removed; using longer internal runway instead */}
         </section>
       ) : null}
 
       {SCROLL_STORY_ENABLED ? (
         <StickyModule
           id="home-story-pin"
-          className="stage-theme mt-[36vh] mb-[40vh]"
+          className="stage-theme mt-[36vh] mb-[24vh]"
           top="14vh"
           aria-labelledby="home-story-pin-heading"
           sticky={

@@ -2113,15 +2113,7 @@ pre {
         overflow: visible;
       }
 
-      /* For the final card, end a bit below 0 so the header/tab is visible */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) {
-        animation-name: stack-active-last;
-      }
-
-      @keyframes stack-active-last {
-        from { transform: translateY(120vh) scale(0.985); }
-        to   { transform: translateY(var(--last-card-translate-end, 10vh)) scale(1.0); }
-      }
+      /* Last-card custom animation removed; rely on greater runway instead */
 
       /* Ensure all cards align to the same top; no per-card offset */
 
