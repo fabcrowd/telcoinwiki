@@ -219,6 +219,8 @@ pre {
   width: 100%;
   /* Tighter vertical spacing around stacks */
   padding-block: var(--space-4);
+  /* Tab layout variables */
+  --tab-inset-step: clamp(10px, 1.2vw, 28px);
 }
 
 
@@ -232,6 +234,17 @@ pre {
 .sliding-stack__body {
   overflow: visible;
   max-height: none;
+  /* Two-column layout: text on the left half, space on right for mini cards */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+/* Ensure card content is always visible (no fade-out or clipping) */
+[data-sliding-stack] .sliding-stack__card,
+[data-sliding-stack] .sliding-stack__body {
+  opacity: 1;
+  visibility: visible;
 }
 
 .sliding-stack--interactive {
@@ -279,6 +292,9 @@ pre {
   .sliding-stack--interactive .sliding-stack__card {
     position: relative;
   }
+
+  /* Collapse to single column on smaller screens */
+  .sliding-stack__body { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -295,7 +311,7 @@ pre {
 .sliding-stack__content {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 /* Horizontal SlidingTrack */
@@ -455,29 +471,48 @@ pre {
 }
 
 /* Filing-cabinet style tabs for SlidingStack */
+.l\:sliding-tab-reset{} /* anchor for findability */
 .sliding-stack__tab {
   position: absolute;
   top: 0;
   left: 0;
   display: inline-flex;
   align-items: center;
-  height: 2rem;
-  line-height: 2rem;
-  padding: 0 0.6rem;
-  font-size: 0.8rem;
-  font-weight: 600;
+  justify-content: flex-start;
+  /* Header-style full-width tab; height +5% for seamless edge */
+  --tab-base-height: clamp(56px, 8.5vh, 88px);
+  height: calc(var(--tab-base-height) * 1.05);
+  line-height: 1;
+  padding: 0 0.75rem;
+  width: 100%;
+  /* Scale label to visually fill header height */
+  font-size: clamp(1rem, calc(var(--tab-base-height) * 0.42), 2.6rem);
+  font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--tc-ink);
   background: var(--tc-surface);
   border: 1px solid var(--tc-border);
+  outline: 1.5px solid var(--tc-border-strong);
+  outline-offset: -1px;
   border-bottom: 0;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  box-shadow: 0 4px 8px rgba(5, 12, 32, 0.18);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 6px 14px rgba(5, 12, 32, 0.22);
   pointer-events: none;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   z-index: 10;
 }
+
+/* Content clears the header tab vertically; no horizontal inset */
+.sliding-stack__card .sliding-stack__content {
+  /* Snug under header: minimal gap below tab */
+  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 - 8px);
+}
+
+/* Inset the content so it clears the folder tab on larger screens */
+/* Content sits flush; no left inset under the tab */
 
 /* Note: no fading — tabs start peeking at right via transform and slide into place */
 
@@ -1832,7 +1867,8 @@ pre {
 
 .story-pin__viewport {
   position: relative;
-  min-height: clamp(20rem, 55vh, 30rem);
+  /* Give storyboard ample vertical room to avoid a scrunched look */
+  min-height: clamp(32rem, 72vh, 54rem);
 }
 
 .story-pin__deck {
@@ -2037,8 +2073,8 @@ pre {
   @media (prefers-reduced-motion: no-preference) {
     @supports (view-timeline-name: --v) and (animation-timeline: --v) {
       [data-sliding-stack][data-scroll-story] {
-        /* Height equals cards × per-card duration to create scroll room */
-        height: calc(var(--stack-count, 4) * var(--stack-duration, 110vh));
+        /* Height equals cards × per-card duration, plus a tail so the last card fully reaches top */
+        height: calc(var(--stack-count, 4) * var(--stack-duration, 110vh) + var(--stack-tail, 0vh));
         position: relative;
         view-timeline-name: --stack;
         view-timeline-axis: block;
@@ -2070,12 +2106,25 @@ pre {
         will-change: transform, opacity;
         transform-origin: center;
         border-radius: 20px;
-        /* stronger from-bottom entrance */
-        transform: translateY(28vh) scale(0.985);
+        /* move well below viewport so only one card is visible */
+        transform: translateY(120vh) scale(0.985);
         /* eliminate opacity changes to avoid ghosting */
         opacity: 1;
         overflow: visible;
       }
+
+      /* Last-card custom animation removed; rely on greater runway instead */
+
+      /* Ensure all cards align to the same top; no per-card offset */
+
+      /* First card is locked in place (no upward scroll-in),
+         so it immediately fills the viewport below the header. */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
+        transform: translateY(0) scale(1);
+        animation: none !important;
+      }
+
+      
 
       /* Solid contrasting backgrounds per card */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { --card-bg: var(--palette-1); }
@@ -2098,8 +2147,8 @@ pre {
 
       @keyframes stack-active {
         /* Slide up from the bottom into place and hold (no opacity changes) */
-        from { transform: translateY(28vh) scale(0.985); }
-        to   { transform: translateY(0)     scale(1.0);  }
+        from { transform: translateY(120vh) scale(0.985); }
+        to   { transform: translateY(0) scale(1.0); }
       }
 
       /* Keep card body visible at all times (no collapse) */
@@ -2115,8 +2164,8 @@ pre {
       @keyframes stack-body { from { max-height: none; } to { max-height: none; } }
 
       /* Bring titles closer to the top: adjust inner spacing */
-      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: clamp(8px, 1vw, 16px); }
-      .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { margin-top: var(--space-3); }
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: 0; }
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { margin-top: var(--space-2); }
     }
   }
 }

@@ -10,6 +10,8 @@ export interface SlidingStackItem {
   id: string
   eyebrow?: string
   title: string
+  /** Optional short label for the folder tab. Falls back to title. */
+  tabLabel?: string
   body: ReactNode
   href?: string
   ctaLabel?: string
@@ -98,8 +100,8 @@ export function SlidingStack({
           </span>
         ) : null}
         <div className="sliding-stack__content">
-          <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
-          <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+          <h3 className="-mt-4 sm:-mt-4 lg:-mt-5 mb-3 sm:mb-4 lg:mb-6 text-5xl leading-tight font-semibold text-telcoin-ink sm:text-6xl lg:text-[4.8rem]">{item.title}</h3>
+          <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">{item.body}</div>
         </div>
         {cta}
       </>
@@ -109,8 +111,8 @@ export function SlidingStack({
   const cssVars = useMemo(() => {
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(items.length || 1),
-      // Increase per-card duration so panels hold longer before the next slides
-      '--stack-duration': '200vh',
+      // Balanced per-card duration; long enough without overshooting
+      '--stack-duration': '280vh',
     }
     return vars
   }, [items.length])
@@ -123,14 +125,34 @@ export function SlidingStack({
 
   const cardCount = Math.max(items.length, 1)
   const windowSize = 100 / cardCount
-  const overlap = 2
+  // No overlap: next card begins exactly when the previous finishes
+  const overlap = 0
+  const lastEndPadPct = 0 // let the last card animate through 100% for maximum hold
+  const secondEndPadPct = 8 // move 2nd card faster by shortening its range by 8%
+  const thirdEndPadPct = 5  // move 3rd card faster by shortening its range by 5%
+  // Start the 2nd card earlier so it appears sooner; 3rd slightly earlier as well
+  const secondStartAdvancePct = 8
+  const thirdStartAdvancePct = 4
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
-    // Ensure the first card appears on top initially (higher zIndex).
-    const zIndex = undefined
-    const start = Math.max(0, index * windowSize)
-    const end = Math.min(100, (index + 1) * windowSize - overlap)
+    // Ensure later cards can layer above earlier ones so headers aren't hidden.
+    const zIndex = index + 1
+    const startBase = index * windowSize
+    const start = Math.max(
+      0,
+      startBase - (index === 1 ? secondStartAdvancePct : index === 2 ? thirdStartAdvancePct : 0),
+    )
+    const endPad =
+      index === cardCount - 1
+        ? lastEndPadPct
+        : index === 1
+          ? secondEndPadPct
+          : index === 2
+            ? thirdEndPadPct
+            : overlap
+
+    const end = Math.min(100, (index + 1) * windowSize - endPad)
     const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
       '--stack-start': `${start}%`,
       '--stack-end': `${end}%`,
@@ -140,13 +162,13 @@ export function SlidingStack({
       <ColorMorphCard
         key={item.id}
         progress={1}
-        className={cn('sliding-stack__card p-5 sm:p-6', cardClassName)}
+        className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName)}
         style={{ zIndex, ...timingVars }}
       >
         <div className="sliding-stack__tab">
-          <span className="sliding-stack__tab-text">{item.title}</span>
+          <span className="sliding-stack__tab-text">{item.tabLabel ?? item.title}</span>
         </div>
-        <div className="sliding-stack__body">{renderCardContent(item, ctaLabel)}</div>
+        <div className="sliding-stack__body px-6 sm:px-8 lg:px-10">{renderCardContent(item, ctaLabel)}</div>
       </ColorMorphCard>
     )
   })
@@ -159,7 +181,22 @@ export function SlidingStack({
       data-scroll-story={SCROLL_STORY_ENABLED && !prefersReducedMotion ? '' : undefined}
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       data-active-index={activeIndex}
-      style={{ ...cssVars, ...style }}
+      style={{
+        // Reduce gutters so cards appear ~20% wider overall.
+        ['--stack-gutter' as any]: 'clamp(6px, 0.6vw, 12px)',
+        // Make cards ~50% taller by expanding the sticky viewport height.
+        // Height = 100vh - top - bottom.
+        ['--stack-top' as any]: 'calc(var(--header-height) + 2vh)',
+        ['--stack-bottom' as any]: '0vh',
+        // Extra tail so the final card reaches the top and holds fully before handoff
+        ['--stack-tail' as any]: '320vh',
+        // Ensure the last card header clears the top edge significantly
+        ['--last-card-translate-end' as any]: '12vh',
+        // Only one card visible at a time; remove vertical staggering
+        ['--stack-step' as any]: '0px',
+        ...cssVars,
+        ...style,
+      }}
     >
       <div className="sr-only" aria-live="polite">
         {initialAnnouncement}

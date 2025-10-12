@@ -234,6 +234,9 @@ export function HomePage() {
   const experience = useHomeExperienceScroll()
   const learnMore = useHomeLearnMoreScroll()
 
+  // Toggle for non-storyboard narrative sections (disabled per request)
+  const NON_STORYBOARD_ENABLED = false
+
   const sectionStates: Record<HomeNarrativeSection['id'], HomeStackSectionState> = {
     'broken-money': brokenMoney,
     'telcoin-model': telcoinModel,
@@ -249,8 +252,11 @@ export function HomePage() {
 
   const storyPinVars = {
     '--story-count': String(storyFrames.length),
-    '--story-duration': '120vh',
-  } as CSSProperties & Record<'--story-count' | '--story-duration', string>
+    '--story-duration': '160vh',
+    // Loosen vertical constraints so frames aren't scrunched
+    '--story-top': '12vh',
+    '--story-bottom': '35vh',
+  } as CSSProperties & Record<'--story-count' | '--story-duration' | '--story-top' | '--story-bottom', string>
 
   return (
     <>
@@ -310,41 +316,52 @@ export function HomePage() {
           <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
             <SlidingStack
               className="mt-4"
+              style={{
+                ['--stack-top' as any]: 'calc(var(--header-height) + 2.5vh)',
+                ['--stack-bottom' as any]: '0vh',
+                ['--stack-tail' as any]: '800vh',
+              }}
               items={[
                 {
                   id: 'story-problem',
-                  title: "The Problem: Money Isn’t Built for People",
+                  tabLabel: 'The Problem:',
+                  title: "Money Isn’t Built for People",
                   body:
                     'Most of the world’s financial infrastructure excludes the very people who need it most. Sending money costs too much, takes too long, and leaves billions behind.',
                 },
                 {
                   id: 'story-model',
-                  title: 'The Telcoin Model: Financial Access, Rebuilt',
+                  tabLabel: 'The Telcoin Model:',
+                  title: 'Financial Access, Rebuilt',
                   body:
                     'Telcoin is a new kind of system—combining telecom networks, blockchain rails, and regulatory clarity to move money like a message. It’s mobile-first, self-custodial, and built to reach anyone with a phone.',
                 },
                 {
                   id: 'story-engine',
-                  title: 'The Engine: Telcoin Network + $TEL',
+                  tabLabel: 'The Engine:',
+                  title: 'Telcoin Network + $TEL',
                   body:
                     'At the core is the Telcoin Network, a purpose-built Layer 1 blockchain secured by mobile network operators. The $TEL token powers everything—from transaction fees to staking, liquidity, and governance—through a unique burn-and-regen model.',
                 },
                 {
                   id: 'story-experience',
-                  title: 'The Experience: Use It Like an App, Own It Like Crypto',
+                  tabLabel: 'The Experience:',
+                  title: 'Use It Like an App, Own It Like Crypto',
                   body:
                     'With the Telcoin App, users can send money, swap assets, and earn—all without giving up control. No middlemen, no passwords—just a secure wallet in your pocket that works like the apps you already use.',
                 },
               ]}
             />
           </div>
+          {/* Big fixed spacer after deck to ensure clear separation before next content */}
+          <div aria-hidden className="h-[220vh]" />
         </section>
       ) : null}
 
       {SCROLL_STORY_ENABLED ? (
         <StickyModule
           id="home-story-pin"
-          className="stage-theme"
+          className="stage-theme mt-[36vh] mb-[24vh]"
           top="14vh"
           aria-labelledby="home-story-pin-heading"
           sticky={
@@ -394,7 +411,7 @@ export function HomePage() {
 
       {/* Former HorizontalRail removed per new header strategy. */}
 
-      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => {
+      {NON_STORYBOARD_ENABLED ? sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => {
         const activeIndex = cards.length > 1
           ? Math.min(cards.length - 1, Math.floor(state.stackProgress * cards.length))
           : 0
@@ -406,6 +423,7 @@ export function HomePage() {
           ref={state.sectionRef}
           id={`home-${id}`}
           aria-labelledby={`home-${id}-heading`}
+          containerClassName="max-w-[min(1920px,98vw)]"
           background={
             <>
               <ColorShiftBackground
@@ -452,22 +470,11 @@ export function HomePage() {
           timelineDriven
         />
         )
-      })}
+      }) : null}
 
-      {/* Trusted by / Ecosystem marquee */}
-      <section id="home-trust" className="anchor-offset">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">
-          <h2 className="mb-2 text-2xl font-semibold text-telcoin-ink">Trusted ecosystem</h2>
-          <p className="mb-4 text-telcoin-ink-muted">Placeholder brands shown; final logos will replace these once assets arrive.</p>
-        </div>
-        <div className="mx-auto max-w-[100vw] overflow-hidden">
-          <div className="px-2 sm:px-4">
-            <LogoMarquee />
-          </div>
-        </div>
-      </section>
+      {/* Below this point, we intentionally remove additional content to focus on the sliding cards. */}
     </>
   )
 }
 
-import { LogoMarquee } from '../components/cinematic/LogoMarquee'
+// import { LogoMarquee } from '../components/cinematic/LogoMarquee'
