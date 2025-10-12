@@ -2084,6 +2084,13 @@ pre {
         overflow: visible;
       }
 
+      /* First card is locked in place (no upward scroll-in),
+         so it immediately fills the viewport below the header. */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
+        transform: translateY(0) scale(1);
+        animation: none !important;
+      }
+
       
 
       /* Solid contrasting backgrounds per card */

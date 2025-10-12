@@ -169,7 +169,7 @@ export function SlidingStack({
         ['--stack-gutter' as any]: 'clamp(6px, 0.6vw, 12px)',
         // Make cards ~50% taller by expanding the sticky viewport height.
         // Height = 100vh - top - bottom.
-        ['--stack-top' as any]: '2vh',
+        ['--stack-top' as any]: 'calc(var(--header-height) + 2vh)',
         ['--stack-bottom' as any]: '2vh',
         // Extra tail so the final card reaches the top and holds briefly
         ['--stack-tail' as any]: '72vh',
