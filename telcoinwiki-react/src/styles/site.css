@@ -484,6 +484,8 @@ pre {
   color: var(--tc-ink);
   background: var(--tc-surface);
   border: 1px solid var(--tc-border);
+  outline: 1.5px solid var(--tc-border-strong);
+  outline-offset: -1px;
   border-bottom: 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 12px;

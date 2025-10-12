@@ -155,13 +155,13 @@ export function SlidingStack({
       <ColorMorphCard
         key={item.id}
         progress={1}
-        className={cn('sliding-stack__card px-6 sm:px-8 lg:px-10 pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName)}
+        className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName)}
         style={{ zIndex, ...timingVars }}
       >
         <div className="sliding-stack__tab">
           <span className="sliding-stack__tab-text">{item.tabLabel ?? item.title}</span>
         </div>
-        <div className="sliding-stack__body">{renderCardContent(item, ctaLabel)}</div>
+        <div className="sliding-stack__body px-6 sm:px-8 lg:px-10">{renderCardContent(item, ctaLabel)}</div>
       </ColorMorphCard>
     )
   })
