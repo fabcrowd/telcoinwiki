@@ -485,7 +485,8 @@ pre {
   line-height: 1;
   padding: 0 0.75rem;
   width: 100%;
-  font-size: 0.9rem;
+  /* Scale label to visually fill header height */
+  font-size: clamp(1rem, calc(var(--tab-base-height) * 0.42), 2.6rem);
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--tc-ink);
@@ -506,8 +507,8 @@ pre {
 
 /* Content clears the header tab vertically; no horizontal inset */
 .sliding-stack__card .sliding-stack__content {
-  /* Pull content extremely close to the tab header */
-  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 - 6px);
+  /* Snug under header: minimal gap below tab */
+  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 - 8px);
 }
 
 /* Inset the content so it clears the folder tab on larger screens */
