@@ -348,7 +348,7 @@ export function HomePage() {
       {SCROLL_STORY_ENABLED ? (
         <StickyModule
           id="home-story-pin"
-          className="stage-theme"
+          className="stage-theme mt-[18vh]"
           top="14vh"
           aria-labelledby="home-story-pin-heading"
           sticky={
@@ -458,6 +458,10 @@ export function HomePage() {
         />
         )
       })}
+
+      {/* Extra vertical gap before the next page section to ensure
+          the final card remains fully visible and not crowded. */}
+      <div aria-hidden className="h-[22vh]" />
 
       {/* Trusted by / Ecosystem marquee */}
       <section id="home-trust" className="anchor-offset">
