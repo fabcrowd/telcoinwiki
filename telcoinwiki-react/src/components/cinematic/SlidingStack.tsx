@@ -130,12 +130,19 @@ export function SlidingStack({
   const lastEndPadPct = 12 // +4% more completion buffer so last card holds longer
   const secondEndPadPct = 8 // move 2nd card faster by shortening its range by 8%
   const thirdEndPadPct = 5  // move 3rd card faster by shortening its range by 5%
+  // Start the 2nd card earlier so it appears sooner; 3rd slightly earlier as well
+  const secondStartAdvancePct = 8
+  const thirdStartAdvancePct = 4
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
     // Ensure the first card appears on top initially (higher zIndex).
     const zIndex = undefined
-    const start = Math.max(0, index * windowSize)
+    const startBase = index * windowSize
+    const start = Math.max(
+      0,
+      startBase - (index === 1 ? secondStartAdvancePct : index === 2 ? thirdStartAdvancePct : 0),
+    )
     const endPad =
       index === cardCount - 1
         ? lastEndPadPct
