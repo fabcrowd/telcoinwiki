@@ -2096,7 +2096,7 @@ pre {
         max-width: 100%;
         margin-inline: auto;
         /* Overlap tabs so all four labels remain visible */
-        --stack-step: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 0.78);
+        --stack-step: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 0.82);
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
