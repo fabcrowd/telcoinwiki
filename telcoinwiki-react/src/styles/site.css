@@ -2084,6 +2084,19 @@ pre {
         overflow: visible;
       }
 
+      /* Neutralize scroll vector on text/content so copy doesn't drift */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card .sliding-stack__content {
+        animation: stack-cancel linear both;
+        animation-timeline: --stack;
+        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
+        will-change: transform;
+      }
+
+      @keyframes stack-cancel {
+        from { transform: translateY(-28vh); }
+        to   { transform: translateY(  0vh); }
+      }
+
       /* Solid contrasting backgrounds per card */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { --card-bg: var(--palette-1); }
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { --card-bg: var(--palette-6); }
