@@ -2112,6 +2112,12 @@ pre {
         overflow: visible;
       }
 
+      /* Push the final card slightly lower so its full-width header tab clears
+         the sticky viewport and site header reliably across tall/short screens. */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) {
+        top: var(--last-card-top, 12vh);
+      }
+
       /* Ensure all cards align to the same top; no per-card offset */
 
       /* First card is locked in place (no upward scroll-in),
