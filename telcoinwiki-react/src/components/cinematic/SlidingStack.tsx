@@ -10,6 +10,8 @@ export interface SlidingStackItem {
   id: string
   eyebrow?: string
   title: string
+  /** Optional short label for the folder tab. Falls back to title. */
+  tabLabel?: string
   body: ReactNode
   href?: string
   ctaLabel?: string
@@ -160,7 +162,7 @@ export function SlidingStack({
         style={{ zIndex, ...timingVars }}
       >
         <div className="sliding-stack__tab">
-          <span className="sliding-stack__tab-text">{item.title}</span>
+          <span className="sliding-stack__tab-text">{item.tabLabel ?? item.title}</span>
         </div>
         <div className="sliding-stack__body">{renderCardContent(item, ctaLabel)}</div>
       </ColorMorphCard>

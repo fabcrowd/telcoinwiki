@@ -470,10 +470,10 @@ pre {
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  height: clamp(44px, 7vh, 72px);
+  height: var(--tab-height, clamp(44px, 7vh, 72px));
   line-height: 1;
   padding: 0 0.75rem;
-  width: 33.333%;
+  width: var(--tab-width, 33.333%);
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -489,6 +489,15 @@ pre {
   overflow: hidden;
   text-overflow: ellipsis;
   z-index: 10;
+}
+
+/* Inset the content so it clears the folder tab on larger screens */
+.sliding-stack__card .sliding-stack__content {
+  padding-left: calc(var(--tab-width, 33.333%) + var(--tab-gap, 12px));
+}
+
+@media (max-width: 62rem) {
+  .sliding-stack__card .sliding-stack__content { padding-left: var(--space-3); }
 }
 
 /* Note: no fading — tabs start peeking at right via transform and slide into place */
