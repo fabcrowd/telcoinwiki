@@ -462,27 +462,32 @@ pre {
 }
 
 /* Filing-cabinet style tabs for SlidingStack */
+.l\:sliding-tab-reset{} /* anchor for findability */
 .sliding-stack__tab {
   position: absolute;
   top: 0;
   left: 0;
   display: inline-flex;
   align-items: center;
-  height: 2rem;
-  line-height: 2rem;
-  padding: 0 0.6rem;
-  font-size: 0.8rem;
-  font-weight: 600;
+  justify-content: flex-start;
+  height: clamp(44px, 7vh, 72px);
+  line-height: 1;
+  padding: 0 0.75rem;
+  width: 33.333%;
+  font-size: 0.9rem;
+  font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--tc-ink);
   background: var(--tc-surface);
   border: 1px solid var(--tc-border);
   border-bottom: 0;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  box-shadow: 0 4px 8px rgba(5, 12, 32, 0.18);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 6px 14px rgba(5, 12, 32, 0.22);
   pointer-events: none;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   z-index: 10;
 }
 
@@ -2131,7 +2136,7 @@ pre {
       @keyframes stack-body { from { max-height: none; } to { max-height: none; } }
 
       /* Bring titles closer to the top: adjust inner spacing */
-      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: 4px; }
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: 0; }
       .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { margin-top: var(--space-2); }
     }
   }
