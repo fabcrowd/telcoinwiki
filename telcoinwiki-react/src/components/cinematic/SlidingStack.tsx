@@ -123,7 +123,8 @@ export function SlidingStack({
 
   const cardCount = Math.max(items.length, 1)
   const windowSize = 100 / cardCount
-  const overlap = 2
+  // Larger gap between cards so each fully settles before the next moves
+  const overlap = 8
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
@@ -160,11 +161,12 @@ export function SlidingStack({
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       data-active-index={activeIndex}
       style={{
-        // Near full-bleed feel like avax.network while keeping safe margins.
+        // Near full-bleed feel while keeping safe margins.
         ['--stack-gutter' as any]: 'clamp(12px, 1vw, 18px)',
-        // Bring the sticky viewport closer to edges for a taller, bolder look.
-        ['--stack-top' as any]: '8vh',
-        ['--stack-bottom' as any]: '8vh',
+        // Pin stack further down to reveal full copy and extra blank space
+        // before the next card starts.
+        ['--stack-top' as any]: '22vh',
+        ['--stack-bottom' as any]: '12vh',
         ...cssVars,
         ...style,
       }}
