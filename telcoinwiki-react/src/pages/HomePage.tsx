@@ -317,10 +317,10 @@ export function HomePage() {
             <SlidingStack
               className="mt-4"
               style={{
-                ['--stack-top' as any]: 'calc(var(--header-height) + 8vh)',
+                ['--stack-top' as any]: 'calc(var(--header-height) + 0.5vh)',
                 ['--stack-bottom' as any]: '0vh',
-                ['--stack-tail' as any]: '640vh',
-                ['--tab-base-height' as any]: '104px',
+                ['--stack-tail' as any]: '800vh',
+                ['--tab-base-height' as any]: '88px',
               }}
               items={[
                 {

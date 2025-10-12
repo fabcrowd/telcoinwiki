@@ -111,8 +111,8 @@ export function SlidingStack({
   const cssVars = useMemo(() => {
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(items.length || 1),
-      // Increase per-card duration to give each card more vertical runway
-      '--stack-duration': '360vh',
+      // Balanced per-card duration; long enough without overshooting
+      '--stack-duration': '280vh',
     }
     return vars
   }, [items.length])
