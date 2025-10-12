@@ -234,6 +234,13 @@ pre {
   max-height: none;
 }
 
+/* Ensure card content is always visible (no fade-out or clipping) */
+[data-sliding-stack] .sliding-stack__card,
+[data-sliding-stack] .sliding-stack__body {
+  opacity: 1;
+  visibility: visible;
+}
+
 .sliding-stack--interactive {
   /* Reduce card height footprint on larger screens */
   min-height: clamp(18rem, 52vw, 28rem);

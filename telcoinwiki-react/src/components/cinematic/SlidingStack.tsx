@@ -98,8 +98,8 @@ export function SlidingStack({
           </span>
         ) : null}
         <div className="sliding-stack__content">
-          <h3 className="text-xl font-semibold text-telcoin-ink sm:text-2xl">{item.title}</h3>
-          <div className="text-base text-telcoin-ink-muted sm:text-lg">{item.body}</div>
+          <h3 className="text-2xl font-semibold text-telcoin-ink sm:text-3xl lg:text-4xl">{item.title}</h3>
+          <div className="text-lg text-telcoin-ink-muted sm:text-xl lg:text-[1.35rem] leading-relaxed">{item.body}</div>
         </div>
         {cta}
       </>
@@ -140,7 +140,7 @@ export function SlidingStack({
       <ColorMorphCard
         key={item.id}
         progress={1}
-        className={cn('sliding-stack__card p-5 sm:p-6', cardClassName)}
+        className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
         style={{ zIndex, ...timingVars }}
       >
         <div className="sliding-stack__tab">
@@ -159,7 +159,14 @@ export function SlidingStack({
       data-scroll-story={SCROLL_STORY_ENABLED && !prefersReducedMotion ? '' : undefined}
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       data-active-index={activeIndex}
-      style={{ ...cssVars, ...style }}
+      style={{
+        // Slightly reduce gutters on wide screens to increase visual width
+        // while keeping safe edge margins.
+        // This overrides the CSS default set in site.css.
+        ['--stack-gutter' as any]: 'clamp(10px, 1.5vw, 24px)',
+        ...cssVars,
+        ...style,
+      }}
     >
       <div className="sr-only" aria-live="polite">
         {initialAnnouncement}
