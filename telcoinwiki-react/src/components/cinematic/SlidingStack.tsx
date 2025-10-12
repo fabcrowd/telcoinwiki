@@ -123,8 +123,8 @@ export function SlidingStack({
 
   const cardCount = Math.max(items.length, 1)
   const windowSize = 100 / cardCount
-  // Larger gap between cards so each fully settles before the next moves
-  const overlap = 8
+  // No overlap: next card begins exactly when the previous finishes
+  const overlap = 0
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
@@ -167,6 +167,8 @@ export function SlidingStack({
         // before the next card starts.
         ['--stack-top' as any]: '22vh',
         ['--stack-bottom' as any]: '12vh',
+        // Only one card visible at a time; remove vertical staggering
+        ['--stack-step' as any]: '0px',
         ...cssVars,
         ...style,
       }}

@@ -2077,8 +2077,8 @@ pre {
         will-change: transform, opacity;
         transform-origin: center;
         border-radius: 20px;
-        /* stronger from-bottom entrance */
-        transform: translateY(40vh) scale(0.985);
+        /* move well below viewport so only one card is visible */
+        transform: translateY(80vh) scale(0.985);
         /* eliminate opacity changes to avoid ghosting */
         opacity: 1;
         overflow: visible;
@@ -2107,7 +2107,7 @@ pre {
 
       @keyframes stack-active {
         /* Slide up from the bottom into place and hold (no opacity changes) */
-        from { transform: translateY(40vh) scale(0.985); }
+        from { transform: translateY(80vh) scale(0.985); }
         to   { transform: translateY(0)     scale(1.0);  }
       }
 
