@@ -354,7 +354,7 @@ export function HomePage() {
             />
           </div>
           {/* Big fixed spacer after deck to ensure clear separation before next content */}
-          <div aria-hidden className="h-[180vh]" />
+          <div aria-hidden className="h-[220vh]" />
         </section>
       ) : null}
 
