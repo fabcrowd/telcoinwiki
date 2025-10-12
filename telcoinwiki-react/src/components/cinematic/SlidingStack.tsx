@@ -125,13 +125,17 @@ export function SlidingStack({
   const windowSize = 100 / cardCount
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
+  const lastEndPadPct = 4 // finish last card slightly before timeline end
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
     // Ensure the first card appears on top initially (higher zIndex).
     const zIndex = undefined
     const start = Math.max(0, index * windowSize)
-    const end = Math.min(100, (index + 1) * windowSize - overlap)
+    const end = Math.min(
+      100,
+      (index + 1) * windowSize - (index === cardCount - 1 ? lastEndPadPct : overlap),
+    )
     const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
       '--stack-start': `${start}%`,
       '--stack-end': `${end}%`,
@@ -168,7 +172,7 @@ export function SlidingStack({
         ['--stack-top' as any]: '22vh',
         ['--stack-bottom' as any]: '12vh',
         // Extra tail so the final card reaches the top and holds briefly
-        ['--stack-tail' as any]: '24vh',
+        ['--stack-tail' as any]: '48vh',
         // Only one card visible at a time; remove vertical staggering
         ['--stack-step' as any]: '0px',
         ...cssVars,
