@@ -492,13 +492,7 @@ pre {
 }
 
 /* Inset the content so it clears the folder tab on larger screens */
-.sliding-stack__card .sliding-stack__content {
-  padding-left: calc(var(--tab-width, 33.333%) + var(--tab-gap, 12px));
-}
-
-@media (max-width: 62rem) {
-  .sliding-stack__card .sliding-stack__content { padding-left: var(--space-3); }
-}
+/* Content sits flush; no left inset under the tab */
 
 /* Note: no fading — tabs start peeking at right via transform and slide into place */
 
