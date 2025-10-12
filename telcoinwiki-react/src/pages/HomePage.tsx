@@ -234,6 +234,9 @@ export function HomePage() {
   const experience = useHomeExperienceScroll()
   const learnMore = useHomeLearnMoreScroll()
 
+  // Toggle for non-storyboard narrative sections (disabled per request)
+  const NON_STORYBOARD_ENABLED = false
+
   const sectionStates: Record<HomeNarrativeSection['id'], HomeStackSectionState> = {
     'broken-money': brokenMoney,
     'telcoin-model': telcoinModel,
@@ -398,7 +401,7 @@ export function HomePage() {
 
       {/* Former HorizontalRail removed per new header strategy. */}
 
-      {sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => {
+      {NON_STORYBOARD_ENABLED ? sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => {
         const activeIndex = cards.length > 1
           ? Math.min(cards.length - 1, Math.floor(state.stackProgress * cards.length))
           : 0
@@ -457,7 +460,7 @@ export function HomePage() {
           timelineDriven
         />
         )
-      })}
+      }) : null}
 
       {/* Below this point, we intentionally remove additional content to focus on the sliding cards. */}
     </>
