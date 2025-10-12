@@ -2044,8 +2044,8 @@ pre {
   @media (prefers-reduced-motion: no-preference) {
     @supports (view-timeline-name: --v) and (animation-timeline: --v) {
       [data-sliding-stack][data-scroll-story] {
-        /* Height equals cards × per-card duration to create scroll room */
-        height: calc(var(--stack-count, 4) * var(--stack-duration, 110vh));
+        /* Height equals cards × per-card duration, plus a tail so the last card fully reaches top */
+        height: calc(var(--stack-count, 4) * var(--stack-duration, 110vh) + var(--stack-tail, 0vh));
         position: relative;
         view-timeline-name: --stack;
         view-timeline-axis: block;

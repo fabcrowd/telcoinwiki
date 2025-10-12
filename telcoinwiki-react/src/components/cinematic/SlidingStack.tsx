@@ -167,6 +167,8 @@ export function SlidingStack({
         // before the next card starts.
         ['--stack-top' as any]: '22vh',
         ['--stack-bottom' as any]: '12vh',
+        // Extra tail so the final card reaches the top and holds briefly
+        ['--stack-tail' as any]: '24vh',
         // Only one card visible at a time; remove vertical staggering
         ['--stack-step' as any]: '0px',
         ...cssVars,
