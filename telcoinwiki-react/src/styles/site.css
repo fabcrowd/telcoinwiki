@@ -219,6 +219,8 @@ pre {
   width: 100%;
   /* Tighter vertical spacing around stacks */
   padding-block: var(--space-4);
+  /* Tab layout variables */
+  --tab-inset-step: clamp(10px, 1.2vw, 28px);
 }
 
 
@@ -470,7 +472,8 @@ pre {
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  height: var(--tab-height, clamp(44px, 7vh, 72px));
+  /* Slightly taller so no gap shows beneath the tab */
+  height: var(--tab-height, clamp(56px, 8.5vh, 88px));
   line-height: 1;
   padding: 0 0.75rem;
   width: var(--tab-width, 33.333%);
@@ -490,6 +493,12 @@ pre {
   text-overflow: ellipsis;
   z-index: 10;
 }
+
+/* Filing-cabinet style staggered left insets for tabs */
+[data-sliding-stack] .sliding-stack__deck > :nth-child(1) .sliding-stack__tab { left: 0; }
+[data-sliding-stack] .sliding-stack__deck > :nth-child(2) .sliding-stack__tab { left: calc(var(--tab-inset-step) * 1); }
+[data-sliding-stack] .sliding-stack__deck > :nth-child(3) .sliding-stack__tab { left: calc(var(--tab-inset-step) * 2); }
+[data-sliding-stack] .sliding-stack__deck > :nth-child(4) .sliding-stack__tab { left: calc(var(--tab-inset-step) * 3); }
 
 /* Inset the content so it clears the folder tab on larger screens */
 /* Content sits flush; no left inset under the tab */
