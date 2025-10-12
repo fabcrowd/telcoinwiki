@@ -316,6 +316,12 @@ export function HomePage() {
           <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
             <SlidingStack
               className="mt-4"
+              style={{
+                ['--stack-top' as any]: 'calc(var(--header-height) + 4vh)',
+                ['--stack-bottom' as any]: '0vh',
+                ['--stack-tail' as any]: '260vh',
+                ['--last-card-translate-end' as any]: '14vh',
+              }}
               items={[
                 {
                   id: 'story-problem',
