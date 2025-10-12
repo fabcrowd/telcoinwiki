@@ -28,7 +28,7 @@ function createFadeInStyle(prefersReducedMotion: boolean): CSSProperties | undef
   return prefersReducedMotion ? { opacity: 1, transform: 'none' } : undefined
 }
 
-function createStackSectionHook(): () => SlidingSectionState {
+function createStackSectionHook(top: string = '20vh'): () => SlidingSectionState {
   return function useHomeStackSection(): SlidingSectionState {
     const sectionRef = useRef<HTMLElement | null>(null)
     const systemPrefersReducedMotion = usePrefersReducedMotion()
@@ -46,7 +46,7 @@ function createStackSectionHook(): () => SlidingSectionState {
       stackProgress,
       introStyle,
       stackStyle,
-      stickyStyle: prefersReducedMotion ? undefined : { top: '20vh' },
+      stickyStyle: prefersReducedMotion ? undefined : { top },
       onStackProgress: prefersReducedMotion ? undefined : setStackProgress,
     }
   }
@@ -70,7 +70,9 @@ export function useHomeHeroScroll(): HeroSectionState {
   return { sectionRef, prefersReducedMotion, overlayStyle, copyStyle, stageProgress: 1 }
 }
 
-export const useHomeBrokenMoneyScroll = createStackSectionHook()
+// Start the first section a bit lower so it doesn't begin
+// scrolling until the hero has fully cleared the header.
+export const useHomeBrokenMoneyScroll = createStackSectionHook('calc(var(--header-height) + 8vh)')
 
 export const useHomeTelcoinModelScroll = createStackSectionHook()
 
