@@ -1867,7 +1867,8 @@ pre {
 
 .story-pin__viewport {
   position: relative;
-  min-height: clamp(20rem, 55vh, 30rem);
+  /* Give storyboard ample vertical room to avoid a scrunched look */
+  min-height: clamp(32rem, 72vh, 54rem);
 }
 
 .story-pin__deck {

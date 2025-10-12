@@ -252,8 +252,11 @@ export function HomePage() {
 
   const storyPinVars = {
     '--story-count': String(storyFrames.length),
-    '--story-duration': '120vh',
-  } as CSSProperties & Record<'--story-count' | '--story-duration', string>
+    '--story-duration': '160vh',
+    // Loosen vertical constraints so frames aren't scrunched
+    '--story-top': '12vh',
+    '--story-bottom': '10vh',
+  } as CSSProperties & Record<'--story-count' | '--story-duration' | '--story-top' | '--story-bottom', string>
 
   return (
     <>
