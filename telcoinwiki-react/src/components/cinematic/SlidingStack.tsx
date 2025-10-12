@@ -136,8 +136,8 @@ export function SlidingStack({
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
-    // Ensure the first card appears on top initially (higher zIndex).
-    const zIndex = undefined
+    // Ensure later cards can layer above earlier ones so headers aren't hidden.
+    const zIndex = index + 1
     const startBase = index * windowSize
     const start = Math.max(
       0,

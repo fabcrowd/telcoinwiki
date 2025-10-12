@@ -2111,6 +2111,11 @@ pre {
         overflow: visible;
       }
 
+      /* Nudge the last card slightly downward so its tab/header remains visible */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) {
+        top: var(--last-card-top, 0.8vh);
+      }
+
       /* First card is locked in place (no upward scroll-in),
          so it immediately fills the viewport below the header. */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
