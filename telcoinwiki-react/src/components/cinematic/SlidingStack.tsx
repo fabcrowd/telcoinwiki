@@ -130,6 +130,7 @@ export function SlidingStack({
   const lastEndPadPct = 0 // let the last card animate through 100% for maximum hold
   const secondEndPadPct = 8 // move 2nd card faster by shortening its range by 8%
   const thirdEndPadPct = 5  // move 3rd card faster by shortening its range by 5%
+  const fourthStartAdvancePct = 12 // start the final card earlier for longer runway
   // Start the 2nd card earlier so it appears sooner; 3rd slightly earlier as well
   const secondStartAdvancePct = 8
   const thirdStartAdvancePct = 4
@@ -139,10 +140,15 @@ export function SlidingStack({
     // Ensure later cards can layer above earlier ones so headers aren't hidden.
     const zIndex = index + 1
     const startBase = index * windowSize
-    const start = Math.max(
-      0,
-      startBase - (index === 1 ? secondStartAdvancePct : index === 2 ? thirdStartAdvancePct : 0),
-    )
+    const startAdjustment =
+      index === 1
+        ? secondStartAdvancePct
+        : index === 2
+          ? thirdStartAdvancePct
+          : index === 3
+            ? fourthStartAdvancePct
+            : 0
+    const start = Math.max(0, startBase - startAdjustment)
     const endPad =
       index === cardCount - 1
         ? lastEndPadPct
@@ -189,7 +195,7 @@ export function SlidingStack({
         ['--stack-top' as any]: 'calc(var(--header-height) + 2vh)',
         ['--stack-bottom' as any]: '0vh',
         // Extra tail so the final card reaches the top and holds fully before handoff
-        ['--stack-tail' as any]: '320vh',
+        ['--stack-tail' as any]: '480vh',
         // Ensure the last card header clears the top edge significantly
         ['--last-card-translate-end' as any]: '12vh',
         // Only one card visible at a time; remove vertical staggering
