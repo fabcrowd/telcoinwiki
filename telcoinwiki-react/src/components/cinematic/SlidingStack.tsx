@@ -100,7 +100,7 @@ export function SlidingStack({
           </span>
         ) : null}
         <div className="sliding-stack__content">
-          <h3 className="mt-0 text-6xl leading-tight font-semibold text-telcoin-ink sm:text-7xl lg:text-8xl">{item.title}</h3>
+          <h3 className="mt-0 text-5xl leading-tight font-semibold text-telcoin-ink sm:text-6xl lg:text-[4.8rem]">{item.title}</h3>
           <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">{item.body}</div>
         </div>
         {cta}
