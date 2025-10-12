@@ -98,8 +98,8 @@ export function SlidingStack({
           </span>
         ) : null}
         <div className="sliding-stack__content">
-          <h3 className="text-2xl font-semibold text-telcoin-ink sm:text-3xl lg:text-4xl">{item.title}</h3>
-          <div className="text-lg text-telcoin-ink-muted sm:text-xl lg:text-[1.35rem] leading-relaxed">{item.body}</div>
+          <h3 className="text-3xl font-semibold text-telcoin-ink sm:text-4xl lg:text-5xl">{item.title}</h3>
+          <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">{item.body}</div>
         </div>
         {cta}
       </>
@@ -140,7 +140,7 @@ export function SlidingStack({
       <ColorMorphCard
         key={item.id}
         progress={1}
-        className={cn('sliding-stack__card p-6 sm:p-8', cardClassName)}
+        className={cn('sliding-stack__card p-8 sm:p-10 lg:p-12', cardClassName)}
         style={{ zIndex, ...timingVars }}
       >
         <div className="sliding-stack__tab">
@@ -160,10 +160,11 @@ export function SlidingStack({
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       data-active-index={activeIndex}
       style={{
-        // Slightly reduce gutters on wide screens to increase visual width
-        // while keeping safe edge margins.
-        // This overrides the CSS default set in site.css.
-        ['--stack-gutter' as any]: 'clamp(10px, 1.5vw, 24px)',
+        // Near full-bleed feel like avax.network while keeping safe margins.
+        ['--stack-gutter' as any]: 'clamp(12px, 1vw, 18px)',
+        // Bring the sticky viewport closer to edges for a taller, bolder look.
+        ['--stack-top' as any]: '8vh',
+        ['--stack-bottom' as any]: '8vh',
         ...cssVars,
         ...style,
       }}
