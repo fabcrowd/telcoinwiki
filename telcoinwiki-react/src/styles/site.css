@@ -220,6 +220,7 @@ pre {
   /* Tighter vertical spacing around stacks */
   padding-block: var(--space-4);
   /* Tab layout variables */
+  --tab-base-height: clamp(56px, 8.5vh, 88px);
   --tab-inset-step: clamp(10px, 1.2vw, 28px);
 }
 
@@ -480,13 +481,12 @@ pre {
   align-items: center;
   justify-content: flex-start;
   /* Header-style full-width tab; height +5% for seamless edge */
-  --tab-base-height: clamp(56px, 8.5vh, 88px);
-  height: calc(var(--tab-base-height) * 1.05);
+  height: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05);
   line-height: 1;
   padding: 0 0.75rem;
   width: 100%;
   /* Scale label to visually fill header height */
-  font-size: clamp(1rem, calc(var(--tab-base-height) * 0.42), 2.6rem);
+  font-size: clamp(1rem, calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 0.42), 2.6rem);
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--tc-ink);
@@ -2096,7 +2096,7 @@ pre {
         max-width: 100%;
         margin-inline: auto;
         /* Larger step so stacked titles are fully visible */
-        --stack-step: 60px;
+        --stack-step: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05);
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
