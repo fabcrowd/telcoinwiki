@@ -98,7 +98,7 @@ export function SlidingStack({
           </span>
         ) : null}
         <div className="sliding-stack__content">
-          <h3 className="text-3xl font-semibold text-telcoin-ink sm:text-4xl lg:text-5xl">{item.title}</h3>
+          <h3 className="text-6xl leading-tight font-semibold text-telcoin-ink sm:text-7xl lg:text-8xl">{item.title}</h3>
           <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">{item.body}</div>
         </div>
         {cta}
@@ -145,7 +145,10 @@ export function SlidingStack({
       <ColorMorphCard
         key={item.id}
         progress={1}
-        className={cn('sliding-stack__card p-8 sm:p-10 lg:p-12', cardClassName)}
+        className={cn(
+          'sliding-stack__card px-6 sm:px-8 lg:px-10 pt-4 sm:pt-5 lg:pt-6 pb-10 sm:pb-12 lg:pb-14',
+          cardClassName,
+        )}
         style={{ zIndex, ...timingVars }}
       >
         <div className="sliding-stack__tab">

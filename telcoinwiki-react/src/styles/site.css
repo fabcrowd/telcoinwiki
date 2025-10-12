@@ -2131,8 +2131,8 @@ pre {
       @keyframes stack-body { from { max-height: none; } to { max-height: none; } }
 
       /* Bring titles closer to the top: adjust inner spacing */
-      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: clamp(8px, 1vw, 16px); }
-      .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { margin-top: var(--space-3); }
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: 4px; }
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { margin-top: var(--space-2); }
     }
   }
 }
