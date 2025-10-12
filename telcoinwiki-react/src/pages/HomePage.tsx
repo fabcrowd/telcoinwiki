@@ -320,7 +320,6 @@ export function HomePage() {
                 ['--stack-top' as any]: 'calc(var(--header-height) + 0.5vh)',
                 ['--stack-bottom' as any]: '0vh',
                 ['--stack-tail' as any]: '800vh',
-                ['--tab-base-height' as any]: '88px',
               }}
               items={[
                 {
@@ -354,7 +353,8 @@ export function HomePage() {
               ]}
             />
           </div>
-          {/* Spacer removed; using longer internal runway instead */}
+          {/* Big fixed spacer after deck to ensure clear separation before next content */}
+          <div aria-hidden className="h-[120vh]" />
         </section>
       ) : null}
 
