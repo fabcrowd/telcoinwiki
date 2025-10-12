@@ -126,16 +126,24 @@ export function SlidingStack({
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
   const lastEndPadPct = 12 // +4% more completion buffer so last card holds longer
+  const secondEndPadPct = 8 // move 2nd card faster by shortening its range by 8%
+  const thirdEndPadPct = 5  // move 3rd card faster by shortening its range by 5%
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
     // Ensure the first card appears on top initially (higher zIndex).
     const zIndex = undefined
     const start = Math.max(0, index * windowSize)
-    const end = Math.min(
-      100,
-      (index + 1) * windowSize - (index === cardCount - 1 ? lastEndPadPct : overlap),
-    )
+    const endPad =
+      index === cardCount - 1
+        ? lastEndPadPct
+        : index === 1
+          ? secondEndPadPct
+          : index === 2
+            ? thirdEndPadPct
+            : overlap
+
+    const end = Math.min(100, (index + 1) * windowSize - endPad)
     const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
       '--stack-start': `${start}%`,
       '--stack-end': `${end}%`,
