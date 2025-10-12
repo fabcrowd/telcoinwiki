@@ -125,7 +125,7 @@ export function SlidingStack({
   const windowSize = 100 / cardCount
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
-  const lastEndPadPct = 8 // finish last card a touch earlier for more hold
+  const lastEndPadPct = 12 // +4% more completion buffer so last card holds longer
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
