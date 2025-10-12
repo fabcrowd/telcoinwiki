@@ -406,7 +406,7 @@ export function HomePage() {
           ref={state.sectionRef}
           id={`home-${id}`}
           aria-labelledby={`home-${id}-heading`}
-          containerClassName="max-w-[min(1600px,96vw)]"
+          containerClassName="max-w-[min(1920px,98vw)]"
           background={
             <>
               <ColorShiftBackground

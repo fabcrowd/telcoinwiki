@@ -165,12 +165,12 @@ export function SlidingStack({
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       data-active-index={activeIndex}
       style={{
-        // Near full-bleed feel while keeping safe margins.
-        ['--stack-gutter' as any]: 'clamp(12px, 1vw, 18px)',
-        // Pin stack further down to reveal full copy and extra blank space
-        // before the next card starts.
-        ['--stack-top' as any]: '22vh',
-        ['--stack-bottom' as any]: '12vh',
+        // Reduce gutters so cards appear ~20% wider overall.
+        ['--stack-gutter' as any]: 'clamp(6px, 0.6vw, 12px)',
+        // Make cards ~50% taller by expanding the sticky viewport height.
+        // Height = 100vh - top - bottom.
+        ['--stack-top' as any]: '2vh',
+        ['--stack-bottom' as any]: '2vh',
         // Extra tail so the final card reaches the top and holds briefly
         ['--stack-tail' as any]: '72vh',
         // Only one card visible at a time; remove vertical staggering
