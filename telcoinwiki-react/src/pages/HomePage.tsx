@@ -198,7 +198,32 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
   } as CSSProperties
 }
 
-// Storyboard removed for focused card iteration.
+const storyFrames = [
+  {
+    id: 'story-problem',
+    title: "The Problem: Money Isn’t Built for People",
+    body:
+      'Most of the world’s financial infrastructure excludes the very people who need it most. Sending money costs too much, takes too long, and leaves billions behind.',
+  },
+  {
+    id: 'story-model',
+    title: 'The Telcoin Model: Financial Access, Rebuilt',
+    body:
+      'Telcoin is a new kind of system—combining telecom networks, blockchain rails, and regulatory clarity to move money like a message. It’s mobile-first, self-custodial, and built to reach anyone with a phone.',
+  },
+  {
+    id: 'story-engine',
+    title: 'The Engine: Telcoin Network + $TEL',
+    body:
+      'At the core is the Telcoin Network, a purpose-built Layer 1 blockchain secured by mobile network operators. The $TEL token powers everything—from transaction fees to staking, liquidity, and governance—through a unique burn-and-regen model.',
+  },
+  {
+    id: 'story-experience',
+    title: 'The Experience: Use It Like an App, Own It Like Crypto',
+    body:
+      'With the Telcoin App, users can send money, swap assets, and earn—all without giving up control. No middlemen, no passwords—just a secure wallet in your pocket that works like the apps you already use.',
+  },
+]
 
 export function HomePage() {
   const hero = useHomeHeroScroll()
@@ -222,7 +247,10 @@ export function HomePage() {
     state: sectionStates[section.id],
   }))
 
-  // Storyboard removed for focused card iteration.
+  const storyPinVars = {
+    '--story-count': String(storyFrames.length),
+    '--story-duration': '120vh',
+  } as CSSProperties & Record<'--story-count' | '--story-duration', string>
 
   return (
     <>
@@ -276,9 +304,97 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Storyboard card deck removed */}
+      {/* Sliding deck: four-story beats directly under the hero (feature-flagged) */}
+      {SCROLL_STORY_ENABLED ? (
+        <section id="home-story-cards" className="anchor-offset">
+          <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
+            <SlidingStack
+              className="mt-4"
+              items={[
+                {
+                  id: 'story-problem',
+                  tabLabel: 'The Problem:',
+                  title: "Money Isn’t Built for People",
+                  body:
+                    'Most of the world’s financial infrastructure excludes the very people who need it most. Sending money costs too much, takes too long, and leaves billions behind.',
+                },
+                {
+                  id: 'story-model',
+                  tabLabel: 'The Telcoin Model:',
+                  title: 'Financial Access, Rebuilt',
+                  body:
+                    'Telcoin is a new kind of system—combining telecom networks, blockchain rails, and regulatory clarity to move money like a message. It’s mobile-first, self-custodial, and built to reach anyone with a phone.',
+                },
+                {
+                  id: 'story-engine',
+                  tabLabel: 'The Engine:',
+                  title: 'Telcoin Network + $TEL',
+                  body:
+                    'At the core is the Telcoin Network, a purpose-built Layer 1 blockchain secured by mobile network operators. The $TEL token powers everything—from transaction fees to staking, liquidity, and governance—through a unique burn-and-regen model.',
+                },
+                {
+                  id: 'story-experience',
+                  tabLabel: 'The Experience:',
+                  title: 'Use It Like an App, Own It Like Crypto',
+                  body:
+                    'With the Telcoin App, users can send money, swap assets, and earn—all without giving up control. No middlemen, no passwords—just a secure wallet in your pocket that works like the apps you already use.',
+                },
+              ]}
+            />
+          </div>
+        </section>
+      ) : null}
 
-      {/* Storyboard pinned section removed */}
+      {SCROLL_STORY_ENABLED ? (
+        <StickyModule
+          id="home-story-pin"
+          className="stage-theme mt-[36vh] mb-[24vh]"
+          top="14vh"
+          aria-labelledby="home-story-pin-heading"
+          sticky={
+            <div className="story-pin__lead">
+              <p className="story-pin__eyebrow">Storyboard</p>
+              <h2 id="home-story-pin-heading" className="story-pin__heading">
+                Follow the Telcoin story as you scroll
+              </h2>
+              <p className="story-pin__copy">
+                Each panel reveals another layer—problem, model, engine, experience—mirroring how newcomers discover Telcoin.
+              </p>
+              <ol className="story-pin__list">
+                {storyFrames.map((frame, index) => (
+                  <li key={frame.id} className="story-pin__listItem">
+                    <span className="story-pin__listIndex">{index + 1}</span>
+                    <span className="story-pin__listLabel">{frame.title}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          }
+          content={
+            <div
+              className="story-pin__viewport"
+              data-story-pin={SCROLL_STORY_ENABLED && !prefersReducedMotion ? '' : undefined}
+              data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
+              style={storyPinVars}
+            >
+              <div className="story-pin__deck">
+                {storyFrames.map((frame, index) => (
+                  <figure key={frame.id} className={`story-pin__frame story-pin__frame--${frame.id}`} data-story-index={index}>
+                    <div className="story-pin__art" aria-hidden />
+                    <figcaption className="story-pin__caption">
+                      <h3>{frame.title}</h3>
+                      <p>{frame.body}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          }
+          prefersReducedMotion={prefersReducedMotion}
+          stickyStyle={{ top: '14vh' }}
+          timelineDriven
+        />
+      ) : null}
 
       {/* Former HorizontalRail removed per new header strategy. */}
 
