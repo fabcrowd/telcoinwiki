@@ -472,11 +472,12 @@ pre {
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  /* Slightly taller so no gap shows beneath the tab */
-  height: var(--tab-height, clamp(56px, 8.5vh, 88px));
+  /* Header-style full-width tab; height +5% for seamless edge */
+  --tab-base-height: clamp(56px, 8.5vh, 88px);
+  height: calc(var(--tab-base-height) * 1.05);
   line-height: 1;
   padding: 0 0.75rem;
-  width: var(--tab-width, 33.333%);
+  width: 100%;
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -494,11 +495,10 @@ pre {
   z-index: 10;
 }
 
-/* Filing-cabinet style staggered left insets for tabs */
-[data-sliding-stack] .sliding-stack__deck > :nth-child(1) .sliding-stack__tab { left: 0; }
-[data-sliding-stack] .sliding-stack__deck > :nth-child(2) .sliding-stack__tab { left: calc(var(--tab-inset-step) * 1); }
-[data-sliding-stack] .sliding-stack__deck > :nth-child(3) .sliding-stack__tab { left: calc(var(--tab-inset-step) * 2); }
-[data-sliding-stack] .sliding-stack__deck > :nth-child(4) .sliding-stack__tab { left: calc(var(--tab-inset-step) * 3); }
+/* Content clears the header tab vertically; no horizontal inset */
+.sliding-stack__card .sliding-stack__content {
+  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 + 10px);
+}
 
 /* Inset the content so it clears the folder tab on larger screens */
 /* Content sits flush; no left inset under the tab */
