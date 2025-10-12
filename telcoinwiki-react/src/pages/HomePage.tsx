@@ -348,7 +348,7 @@ export function HomePage() {
       {SCROLL_STORY_ENABLED ? (
         <StickyModule
           id="home-story-pin"
-          className="stage-theme mt-[10vh] sm:mt-[12vh] md:mt-[14vh] lg:mt-[18vh] xl:mt-[22vh]"
+          className="stage-theme mt-[32vh]"
           top="14vh"
           aria-labelledby="home-story-pin-heading"
           sticky={
@@ -461,7 +461,7 @@ export function HomePage() {
 
       {/* Extra vertical gap before the next page section to ensure
           the final card remains fully visible and not crowded. */}
-      <div aria-hidden className="h-[12vh] sm:h-[16vh] md:h-[20vh] lg:h-[24vh] xl:h-[28vh]" />
+      <div aria-hidden className="h-[44vh]" />
 
       {/* Trusted by / Ecosystem marquee */}
       <section id="home-trust" className="anchor-offset">
