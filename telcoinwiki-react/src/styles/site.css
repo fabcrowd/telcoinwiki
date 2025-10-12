@@ -220,7 +220,7 @@ pre {
   /* Tighter vertical spacing around stacks */
   padding-block: var(--space-4);
   /* Tab layout variables */
-  --tab-base-height: clamp(56px, 8.5vh, 88px);
+  --tab-base-height: clamp(50px, 7.65vh, 79.2px);
   --tab-inset-step: clamp(10px, 1.2vw, 28px);
 }
 
@@ -481,12 +481,12 @@ pre {
   align-items: center;
   justify-content: flex-start;
   /* Header-style full-width tab; height +5% for seamless edge */
-  height: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05);
+  height: calc(var(--tab-base-height, clamp(50px, 7.65vh, 79.2px)) * 1.05);
   line-height: 1;
   padding: 0 0.75rem;
   width: 100%;
   /* Scale label to visually fill header height */
-  font-size: clamp(1rem, calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 0.42), 2.6rem);
+  font-size: clamp(1rem, calc(var(--tab-base-height, clamp(50px, 7.65vh, 79.2px)) * 0.42), 2.6rem);
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--tc-ink);
@@ -508,7 +508,7 @@ pre {
 /* Content clears the header tab vertically; no horizontal inset */
 .sliding-stack__card .sliding-stack__content {
   /* Snug under header: minimal gap below tab */
-  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 - 8px);
+  padding-top: calc(var(--tab-base-height, clamp(50px, 7.65vh, 79.2px)) * 1.05 - 8px);
 }
 
 /* Inset the content so it clears the folder tab on larger screens */
@@ -2096,7 +2096,7 @@ pre {
         max-width: 100%;
         margin-inline: auto;
         /* Overlap tabs so all four labels remain visible */
-        --stack-step: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 0.58);
+        --stack-step: calc(var(--tab-base-height, clamp(50px, 7.65vh, 79.2px)) * 0.58);
       }
 
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
