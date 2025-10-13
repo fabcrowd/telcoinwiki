@@ -127,7 +127,9 @@ export function SlidingStack({
   const windowSize = 100 / cardCount
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
-  const lastEndPadPct = 0 // let the last card animate through 100% for maximum hold
+  // Finish the last card earlier so it reaches its final pin
+  // location before the container unpins, leaving time to hold.
+  const lastEndPadPct = 10
   const secondEndPadPct = 8 // move 2nd card faster by shortening its range by 8%
   const thirdEndPadPct = 5  // move 3rd card faster by shortening its range by 5%
   // Start the 2nd card earlier so it appears sooner; 3rd slightly earlier as well
