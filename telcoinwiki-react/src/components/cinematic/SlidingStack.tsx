@@ -138,9 +138,8 @@ export function SlidingStack({
   const thirdEndPadPct = 0
   // Finish the last card a bit earlier so it pins before the section unpins
   const lastEndPadPct = 10
-  // Start next cards with controlled delays/advances
-  // Card 2 should start 10% into the timeline
-  const secondStartDelayPct = 10
+  // Start next cards with a consistent delay after the previous ends
+  const startDelayPct = 5
   const secondStartAdvancePct = 0
   const thirdStartAdvancePct = 0
   const lastStartAdvancePct = 0
@@ -160,7 +159,7 @@ export function SlidingStack({
             : index === cardCount - 1
               ? lastStartAdvancePct
               : 0
-      ) + (index === 1 ? secondStartDelayPct : 0),
+      ) + (index >= 1 ? startDelayPct : 0),
     )
     const endPad =
       index === 0
