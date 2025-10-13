@@ -288,8 +288,8 @@ export function HomePage() {
               style={{
                 ['--stack-top' as any]: 'calc(var(--header-height) + 2.5vh)',
                 ['--stack-bottom' as any]: '0vh',
-                // Longer post-finish hold to extend the overall timeline
-                ['--stack-tail' as any]: '1400vh',
+                // Increase tail so the final card holds longer before unpin
+                ['--stack-tail' as any]: '800vh',
               }}
               items={[
                 {
@@ -323,8 +323,7 @@ export function HomePage() {
               ]}
             />
           </div>
-          {/* Big fixed spacer after deck to ensure clear separation before next content */}
-          <div aria-hidden className="h-[220vh]" />
+          {/* spacer removed after storyboard removal */}
         </section>
       ) : null}
 

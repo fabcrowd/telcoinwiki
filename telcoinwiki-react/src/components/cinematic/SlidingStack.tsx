@@ -100,7 +100,7 @@ export function SlidingStack({
           </span>
         ) : null}
         <div className="sliding-stack__content">
-          <h3 className="-mt-4 sm:-mt-4 lg:-mt-5 mb-3 sm:mb-4 lg:mb-6 text-5xl leading-tight font-semibold text-telcoin-ink sm:text-6xl lg:text-[4.8rem]">{item.title}</h3>
+          <h3 className="sliding-stack__title -mt-4 sm:-mt-4 lg:-mt-5 mb-3 sm:mb-4 lg:mb-6 text-5xl leading-tight font-semibold text-telcoin-ink sm:text-6xl lg:text-[4.8rem]">{item.title}</h3>
           <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">{item.body}</div>
         </div>
         {cta}
@@ -109,10 +109,13 @@ export function SlidingStack({
   }
 
   const cssVars = useMemo(() => {
+    // The first card is static (pinned immediately), so exclude it from the
+    // timeline height to avoid a blank scroll segment.
+    const animatedCount = Math.max((items.length || 1) - 1, 1)
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
-      '--stack-count': String(items.length || 1),
-      // Faster per-card travel: reduce scroll needed per card
-      '--stack-duration': '200vh',
+      '--stack-count': String(animatedCount),
+      // Per-card travel: 80vh for quicker motion
+      '--stack-duration': '80vh',
     }
     return vars
   }, [items.length])
@@ -124,37 +127,67 @@ export function SlidingStack({
   }, [items.length, progress])
 
   const cardCount = Math.max(items.length, 1)
-  const windowSize = 100 / cardCount
+  // Exclude the first (static) card from the timeline windows.
+  const animatedCount = Math.max(cardCount - 1, 1)
+  const windowSize = 100 / animatedCount
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
-  // Finish the last card earlier so it reaches its final pin
-  // location before the container unpins, leaving time to hold.
+  // No end hold for first three cards
+  const firstEndPadPct = 0
+  const secondEndPadPct = 0
+  const thirdEndPadPct = 0
+  // Finish the last card a bit earlier so it pins before the section unpins
   const lastEndPadPct = 10
-  const secondEndPadPct = 8 // move 2nd card faster by shortening its range by 8%
-  const thirdEndPadPct = 5  // move 3rd card faster by shortening its range by 5%
-  // Start the 2nd card earlier so it appears sooner; 3rd slightly earlier as well
-  const secondStartAdvancePct = 8
-  const thirdStartAdvancePct = 4
+  // Per-card start delays after the previous ends
+  const secondStartDelayPct = 5
+  const thirdStartDelayPct = 0
+  const fourthStartDelayPct = 0
+  const secondStartAdvancePct = 0
+  // Start card 3 and 4 earlier so they don't feel late
+  const thirdStartAdvancePct = 10
+  const lastStartAdvancePct = 15
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
     // Ensure later cards can layer above earlier ones so headers aren't hidden.
     const zIndex = index + 1
-    const startBase = index * windowSize
+    const startBase = index === 0 ? 0 : (index - 1) * windowSize
     const start = Math.max(
       0,
-      startBase - (index === 1 ? secondStartAdvancePct : index === 2 ? thirdStartAdvancePct : 0),
+      startBase - (
+        index === 1
+          ? secondStartAdvancePct
+          : index === 2
+            ? thirdStartAdvancePct
+            : index === cardCount - 1
+              ? lastStartAdvancePct
+              : 0
+      ) + (
+        index === 1
+          ? secondStartDelayPct
+          : index === 2
+            ? thirdStartDelayPct
+            : index === cardCount - 1
+              ? fourthStartDelayPct
+              : 0
+      ),
     )
     const endPad =
-      index === cardCount - 1
-        ? lastEndPadPct
-        : index === 1
-          ? secondEndPadPct
-          : index === 2
-            ? thirdEndPadPct
-            : overlap
+      index === 0
+        ? firstEndPadPct
+        : index === cardCount - 1
+          ? lastEndPadPct
+          : index === 1
+            ? secondEndPadPct
+            : index === 2
+              ? thirdEndPadPct
+              : overlap
 
-    const end = Math.min(100, (index + 1) * windowSize - endPad)
+    // For the first card, give it a zero-length range;
+    // for others, allocate windows across the full 0..100%.
+    const end = index === 0
+      ? 0
+      : Math.min(100, index * windowSize - endPad)
     const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
       '--stack-start': `${start}%`,
       '--stack-end': `${end}%`,
@@ -190,6 +223,8 @@ export function SlidingStack({
         // Height = 100vh - top - bottom.
         ['--stack-top' as any]: 'calc(var(--header-height) + 2vh)',
         ['--stack-bottom' as any]: '0vh',
+        // Translate distance for cards when entering (ties speed to viewport)
+        ['--stack-translate-start' as any]: 'calc(100vh - var(--stack-top) - var(--stack-bottom))',
         // Extra tail so the final card reaches the top and holds fully before handoff
         ['--stack-tail' as any]: '320vh',
         // Ensure the last card header clears the top edge significantly
