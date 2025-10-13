@@ -112,7 +112,9 @@ export function SlidingStack({
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(items.length || 1),
       // Faster per-card travel: reduce scroll needed per card
-      '--stack-duration': '200vh',
+      // Previously 200vh which required too much wheel movement per card.
+      // Tighten to 120vh so the next card appears sooner without feeling abrupt.
+      '--stack-duration': '120vh',
     }
     return vars
   }, [items.length])
