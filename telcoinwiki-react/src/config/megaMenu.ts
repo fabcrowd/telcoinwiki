@@ -10,67 +10,51 @@ export interface MegaSection {
   items: MegaItem[]
 }
 
-// Initial content mapping (no icons, light descriptions). URLs can be updated later.
+// Lean, high-signal header menu
 export const megaMenuSections: MegaSection[] = [
   {
     id: 'learn',
     label: 'Learn',
     items: [
-      { label: 'Start Here', href: '/start-here', description: 'New to Telcoin? Begin with the basics.' },
-      { label: 'FAQs', href: '/faq', description: 'Verified answers with links to sources.' },
-      { label: 'Deep Dives', href: '/deep-dives', description: 'Long-form topics and research.' },
-      { label: 'Guides', href: '/guides', description: 'Step-by-step onboarding and how-tos.' },
+      { label: 'Deep Dive', href: '/deep-dive', description: 'Long-form references across pillars.' },
+      { label: 'FAQ', href: '/faq', description: 'Verified answers with sources.' },
     ],
   },
   {
-    id: 'products',
-    label: 'Products',
+    id: 'bank',
+    label: 'Bank',
     items: [
-      { label: 'Telcoin App', href: '/bank', description: 'Wallet, swaps, remittances — mobile-first.' },
-      { label: 'Digital Cash', href: '/digital-cash', description: 'Programmable money for global rails.' },
-      { label: 'Remittances', href: '/remittances', description: 'Fast, low-cost corridors worldwide.' },
-      { label: 'On/Off-Ramps', href: '/partners', description: 'Where to fund and cash out.' },
+      { label: 'Telcoin Bank', href: '/bank' },
     ],
   },
   {
     id: 'network',
     label: 'Network',
     items: [
-      { label: 'Telcoin Network (L1)', href: '/network', description: 'Purpose-built chain secured by carriers.' },
-      { label: 'Validators & Security', href: '/network#validators', description: 'Carrier-grade finality and ops.' },
-      { label: 'Protocol Overview', href: '/network#protocol', description: 'DAG + BFT and transaction flow.' },
-      { label: 'Tokenomics ($TEL)', href: '/tokenomics', description: 'Burn & regen, fees, rewards.' },
+      { label: 'Network Overview', href: '/network' },
+      { label: 'Builders', href: '/builders' },
+    ],
+  },
+  {
+    id: 'tokenomics',
+    label: 'Tokenomics',
+    items: [
+      { label: 'Tokenomics Overview', href: '/tokenomics' },
+      { label: 'TELx Pools', href: '/pools' },
     ],
   },
   {
     id: 'governance',
     label: 'Governance',
     items: [
-      { label: 'Councils & Process', href: '/governance', description: 'Accuracy-first oversight and upgrades.' },
-      { label: 'Treasury', href: '/governance#treasury', description: 'Stewardship and allocations.' },
-      { label: 'Policy & Compliance', href: '/governance#policy', description: 'Regulatory posture and controls.' },
-      { label: 'Roadmap', href: '/roadmap', description: 'What the community is building next.' },
-    ],
-  },
-  {
-    id: 'community',
-    label: 'Community',
-    items: [
-      { label: "What’s New", href: '/news', description: 'Recent highlights and updates.' },
-      { label: 'Channels', href: '/community', description: 'Join the conversation.' },
-      { label: 'Grants', href: '/grants', description: 'Funding for ecosystem projects.' },
-      { label: 'Contribute to the Wiki', href: '/contribute', description: 'Help curate knowledge.' },
+      { label: 'Governance Overview', href: '/governance' },
     ],
   },
   {
     id: 'about',
     label: 'About',
     items: [
-      { label: 'Association', href: '/about/association', description: 'Mission and structure.' },
-      { label: 'Company', href: '/about/company', description: 'Team and operations.' },
-      { label: 'Legal & Disclosures', href: '/legal', description: 'Terms and transparency.' },
-      { label: 'Contact', href: '/contact', description: 'Get in touch.' },
+      { label: 'About this project', href: '/about' },
     ],
   },
 ]
-
