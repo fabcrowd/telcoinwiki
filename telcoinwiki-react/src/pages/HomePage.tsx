@@ -288,8 +288,8 @@ export function HomePage() {
               style={{
                 ['--stack-top' as any]: 'calc(var(--header-height) + 2.5vh)',
                 ['--stack-bottom' as any]: '0vh',
-                // Longer post-finish hold to extend the overall timeline
-                ['--stack-tail' as any]: '1400vh',
+                // Moderate tail so last card holds without slowing earlier cards
+                ['--stack-tail' as any]: '360vh',
               }}
               items={[
                 {

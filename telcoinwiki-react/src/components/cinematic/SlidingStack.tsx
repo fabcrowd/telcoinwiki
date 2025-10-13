@@ -111,8 +111,8 @@ export function SlidingStack({
   const cssVars = useMemo(() => {
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(items.length || 1),
-      // Faster per-card travel: reduce scroll needed per card
-      '--stack-duration': '200vh',
+      // Calibrate per-card travel closer to 1:1 with page scroll
+      '--stack-duration': '140vh',
     }
     return vars
   }, [items.length])
@@ -127,14 +127,16 @@ export function SlidingStack({
   const windowSize = 100 / cardCount
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
-  // Finish the last card earlier so it reaches its final pin
-  // location before the container unpins, leaving time to hold.
+  // Speed up the first 3 cards so the next one appears sooner
+  const firstEndPadPct = 12
+  const secondEndPadPct = 12
+  const thirdEndPadPct = 12
+  // Finish the last card a bit earlier so it pins before the section unpins
   const lastEndPadPct = 10
-  const secondEndPadPct = 8 // move 2nd card faster by shortening its range by 8%
-  const thirdEndPadPct = 5  // move 3rd card faster by shortening its range by 5%
-  // Start the 2nd card earlier so it appears sooner; 3rd slightly earlier as well
-  const secondStartAdvancePct = 8
-  const thirdStartAdvancePct = 4
+  // Start 2nd, 3rd, and 4th (last) earlier to tighten gaps
+  const secondStartAdvancePct = 12
+  const thirdStartAdvancePct = 12
+  const lastStartAdvancePct = 10
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
@@ -143,16 +145,26 @@ export function SlidingStack({
     const startBase = index * windowSize
     const start = Math.max(
       0,
-      startBase - (index === 1 ? secondStartAdvancePct : index === 2 ? thirdStartAdvancePct : 0),
+      startBase - (
+        index === 1
+          ? secondStartAdvancePct
+          : index === 2
+            ? thirdStartAdvancePct
+            : index === cardCount - 1
+              ? lastStartAdvancePct
+              : 0
+      ),
     )
     const endPad =
-      index === cardCount - 1
-        ? lastEndPadPct
-        : index === 1
-          ? secondEndPadPct
-          : index === 2
-            ? thirdEndPadPct
-            : overlap
+      index === 0
+        ? firstEndPadPct
+        : index === cardCount - 1
+          ? lastEndPadPct
+          : index === 1
+            ? secondEndPadPct
+            : index === 2
+              ? thirdEndPadPct
+              : overlap
 
     const end = Math.min(100, (index + 1) * windowSize - endPad)
     const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
@@ -190,6 +202,8 @@ export function SlidingStack({
         // Height = 100vh - top - bottom.
         ['--stack-top' as any]: 'calc(var(--header-height) + 2vh)',
         ['--stack-bottom' as any]: '0vh',
+        // Translate distance for cards when entering (ties speed to viewport)
+        ['--stack-translate-start' as any]: 'calc(100vh - var(--stack-top) - var(--stack-bottom))',
         // Extra tail so the final card reaches the top and holds fully before handoff
         ['--stack-tail' as any]: '320vh',
         // Ensure the last card header clears the top edge significantly

@@ -2146,8 +2146,8 @@ pre {
       }
 
       @keyframes stack-active {
-        /* Slide up from the bottom into place and hold (no opacity changes) */
-        from { transform: translateY(120vh) scale(0.985); }
+        /* Slide up from just below the sticky viewport height and hold */
+        from { transform: translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh)))) scale(0.985); }
         to   { transform: translateY(0) scale(1.0); }
       }
 
