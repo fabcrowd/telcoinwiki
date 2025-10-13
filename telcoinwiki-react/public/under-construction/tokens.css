@@ -1,0 +1,41 @@
+/* Copied from src/styles/tokens.css to keep the same color scheme on the UC page */
+:root {
+  /* Global palette (client-provided) */
+  --palette-1: #4066DE; /* blue */
+  --palette-2: #E4ECF7; /* light */
+  --palette-3: #323451; /* slate */
+  --palette-4: #45BCF1; /* cyan */
+  --palette-5: #7F86D2; /* periwinkle */
+  --palette-6: #2C2C7A; /* indigo */
+
+  /* Map existing tokens to new palette */
+  --tc-primary: var(--palette-1);
+  --tc-primary-50: var(--palette-2);
+  --tc-primary-300: var(--palette-5);
+  --tc-primary-500: var(--palette-1);
+  --tc-primary-700: var(--palette-6);
+  --tc-accent: var(--palette-4);
+  --tc-accent-strong: var(--palette-6);
+
+  /* Text on dark backgrounds */
+  --tc-ink: #FFFFFF;
+  --tc-ink-muted: rgba(255, 255, 255, 0.82);
+  --tc-ink-subtle: rgba(255, 255, 255, 0.7);
+
+  /* Backgrounds and surfaces */
+  --tc-bg: var(--palette-3);
+  --tc-bg-gradient-top: var(--palette-6);
+  --tc-surface: #2F335A;
+  --tc-surface-2: #262A4D;
+  --tc-border: rgba(228, 236, 247, 0.28);
+  --tc-border-strong: rgba(228, 236, 247, 0.5);
+
+  /* Extras used by gradients */
+  --tc-hero-linear: linear-gradient(180deg, var(--tc-bg-gradient-top) 0%, var(--tc-bg) 60%);
+  --tc-ocean-gradient: linear-gradient(256deg, var(--palette-6), var(--palette-5));
+
+  --tc-radius: 1rem;
+  --tc-radius-lg: 1.25rem;
+  --tc-shadow: 0 8px 24px rgba(5, 7, 20, 0.35);
+}
+

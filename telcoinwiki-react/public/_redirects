@@ -1,2 +1,7 @@
-# Intentionally left blank; define redirects here if needed.
+/robots.txt  /robots.txt  200
 
+# Allow UC assets to load normally
+/under-construction/*  /under-construction/:splat  200
+
+# Force all routes to the Under Construction page
+/*  /under-construction/index.html  200
