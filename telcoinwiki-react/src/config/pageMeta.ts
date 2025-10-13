@@ -30,12 +30,12 @@ export const PAGE_META: PageMetaMap = {
     navId: 'tokenomics',
     sidebar: true,
   },
-  faq: { label: 'FAQ', url: '/faq', parent: 'home', navId: 'faq', sidebar: true },
+  faq: { label: 'FAQ', url: '/faq', parent: 'home', navId: 'learn', sidebar: true },
   'deep-dive': {
     label: 'Deep Dive',
     url: '/deep-dive',
     parent: 'faq',
-    navId: 'faq',
+    navId: 'learn',
   },
   builders: {
     label: 'Builders',
@@ -48,7 +48,7 @@ export const PAGE_META: PageMetaMap = {
     label: 'Official Links',
     url: '/links',
     parent: 'faq',
-    navId: 'faq',
+    navId: 'learn',
     sidebar: true,
   },
   pools: {
@@ -67,7 +67,7 @@ export const PAGE_META: PageMetaMap = {
     label: 'About this project',
     url: '/about',
     parent: 'faq',
-    navId: null,
+    navId: 'about',
   },
   '404': {
     label: 'Page not found',
