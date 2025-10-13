@@ -288,7 +288,9 @@ export function HomePage() {
               style={{
                 ['--stack-top' as any]: 'calc(var(--header-height) + 2.5vh)',
                 ['--stack-bottom' as any]: '0vh',
-                ['--stack-tail' as any]: '800vh',
+                // Extend the runway so the final
+                // “Use It Like an App…” card stops later
+                ['--stack-tail' as any]: '1200vh',
               }}
               items={[
                 {
