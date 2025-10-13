@@ -140,8 +140,8 @@ export function SlidingStack({
   const lastEndPadPct = 10
   // Per-card start delays after the previous ends
   const secondStartDelayPct = 5
-  const thirdStartDelayPct = 3
-  const fourthStartDelayPct = 8
+  const thirdStartDelayPct = 0
+  const fourthStartDelayPct = 0
   const secondStartAdvancePct = 0
   const thirdStartAdvancePct = 0
   const lastStartAdvancePct = 0
