@@ -127,16 +127,16 @@ export function SlidingStack({
   const windowSize = 100 / cardCount
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
-  // Speed up the first 3 cards so the next one appears sooner
-  const firstEndPadPct = 12
-  const secondEndPadPct = 12
-  const thirdEndPadPct = 12
+  // No end hold for first three cards
+  const firstEndPadPct = 0
+  const secondEndPadPct = 0
+  const thirdEndPadPct = 0
   // Finish the last card a bit earlier so it pins before the section unpins
   const lastEndPadPct = 10
-  // Start 2nd, 3rd, and 4th (last) earlier to tighten gaps
-  const secondStartAdvancePct = 12
-  const thirdStartAdvancePct = 12
-  const lastStartAdvancePct = 10
+  // Start next card immediately after previous ends (no advances)
+  const secondStartAdvancePct = 0
+  const thirdStartAdvancePct = 0
+  const lastStartAdvancePct = 0
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
