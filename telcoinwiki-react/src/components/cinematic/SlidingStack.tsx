@@ -143,9 +143,9 @@ export function SlidingStack({
   const thirdStartDelayPct = 0
   const fourthStartDelayPct = 0
   const secondStartAdvancePct = 0
-  // Start card 3 and 4 slightly earlier so they don't feel late
-  const thirdStartAdvancePct = 3
-  const lastStartAdvancePct = 5
+  // Start card 3 and 4 earlier so they don't feel late
+  const thirdStartAdvancePct = 10
+  const lastStartAdvancePct = 15
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
