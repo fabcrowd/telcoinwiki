@@ -109,8 +109,11 @@ export function SlidingStack({
   }
 
   const cssVars = useMemo(() => {
+    // The first card is static (pinned immediately), so exclude it from the
+    // timeline height to avoid a blank scroll segment.
+    const animatedCount = Math.max((items.length || 1) - 1, 1)
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
-      '--stack-count': String(items.length || 1),
+      '--stack-count': String(animatedCount),
       // Per-card travel: 80vh for quicker motion
       '--stack-duration': '80vh',
     }
@@ -124,7 +127,9 @@ export function SlidingStack({
   }, [items.length, progress])
 
   const cardCount = Math.max(items.length, 1)
-  const windowSize = 100 / cardCount
+  // Exclude the first (static) card from the timeline windows.
+  const animatedCount = Math.max(cardCount - 1, 1)
+  const windowSize = 100 / animatedCount
   // No overlap: next card begins exactly when the previous finishes
   const overlap = 0
   // No end hold for first three cards
@@ -142,7 +147,7 @@ export function SlidingStack({
     const ctaLabel = item.ctaLabel ?? 'Learn more'
     // Ensure later cards can layer above earlier ones so headers aren't hidden.
     const zIndex = index + 1
-    const startBase = index * windowSize
+    const startBase = index === 0 ? 0 : (index - 1) * windowSize
     const start = Math.max(
       0,
       startBase - (
@@ -166,7 +171,11 @@ export function SlidingStack({
               ? thirdEndPadPct
               : overlap
 
-    const end = Math.min(100, (index + 1) * windowSize - endPad)
+    // For the first card, give it a zero-length range;
+    // for others, allocate windows across the full 0..100%.
+    const end = index === 0
+      ? 0
+      : Math.min(100, index * windowSize - endPad)
     const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
       '--stack-start': `${start}%`,
       '--stack-end': `${end}%`,
