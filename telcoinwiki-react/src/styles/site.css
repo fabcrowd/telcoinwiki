@@ -502,7 +502,14 @@ pre {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  z-index: 10;
+  z-index: 100;
+}
+
+/* Ensure the last card's tab always renders above neighbors */
+[data-sliding-stack] .sliding-stack__deck > :nth-child(4) .sliding-stack__tab {
+  z-index: 1000;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Content clears the header tab vertically; no horizontal inset */
@@ -2113,6 +2120,15 @@ pre {
         overflow: visible;
       }
 
+      /* Title scale-in with end bulge */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card .sliding-stack__title {
+        transform-origin: left center;
+        will-change: transform;
+        animation: stack-title-scale linear both;
+        animation-timeline: --stack;
+        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
+      }
+
       /* Last-card custom animation removed; rely on greater runway instead */
 
       /* Ensure all cards align to the same top; no per-card offset */
@@ -2149,6 +2165,13 @@ pre {
         /* Slide up from just below the sticky viewport height and hold */
         from { transform: translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh)))) scale(0.985); }
         to   { transform: translateY(0) scale(1.0); }
+      }
+
+      @keyframes stack-title-scale {
+        0%   { transform: scale(0.92); }
+        85%  { transform: scale(1.00); }
+        98%  { transform: scale(1.06); }
+        100% { transform: scale(1.02); }
       }
 
       /* Keep card body visible at all times (no collapse) */

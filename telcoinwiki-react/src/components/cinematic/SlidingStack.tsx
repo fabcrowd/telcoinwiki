@@ -100,7 +100,7 @@ export function SlidingStack({
           </span>
         ) : null}
         <div className="sliding-stack__content">
-          <h3 className="-mt-4 sm:-mt-4 lg:-mt-5 mb-3 sm:mb-4 lg:mb-6 text-5xl leading-tight font-semibold text-telcoin-ink sm:text-6xl lg:text-[4.8rem]">{item.title}</h3>
+          <h3 className="sliding-stack__title -mt-4 sm:-mt-4 lg:-mt-5 mb-3 sm:mb-4 lg:mb-6 text-5xl leading-tight font-semibold text-telcoin-ink sm:text-6xl lg:text-[4.8rem]">{item.title}</h3>
           <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">{item.body}</div>
         </div>
         {cta}
@@ -143,8 +143,9 @@ export function SlidingStack({
   const thirdStartDelayPct = 0
   const fourthStartDelayPct = 0
   const secondStartAdvancePct = 0
-  const thirdStartAdvancePct = 0
-  const lastStartAdvancePct = 0
+  // Start card 3 and 4 slightly earlier so they don't feel late
+  const thirdStartAdvancePct = 3
+  const lastStartAdvancePct = 5
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
