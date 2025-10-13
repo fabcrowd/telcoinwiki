@@ -323,8 +323,7 @@ export function HomePage() {
               ]}
             />
           </div>
-          {/* Big fixed spacer after deck to ensure clear separation before next content */}
-          <div aria-hidden className="h-[220vh]" />
+          {/* spacer removed after storyboard removal */}
         </section>
       ) : null}
 
