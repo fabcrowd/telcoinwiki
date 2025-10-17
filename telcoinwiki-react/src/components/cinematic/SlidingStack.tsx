@@ -57,7 +57,7 @@ const MIN_WINDOW_SPAN = 5
 const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
 const LAST_CARD_HOLD_PCT = 20
-const DURATION_MULTIPLIER = 55
+const DURATION_MULTIPLIER = 38
 
 type TimelineWindow = { start: number; end: number }
 
@@ -234,7 +234,6 @@ export function SlidingStack({
     const viewportHeight = window.innerHeight || document.documentElement?.clientHeight || 1
     const heights = cards.map((card) => Math.max(card.scrollHeight, card.offsetHeight))
     const animatedHeights = heights.slice(1)
-    const totalAnimated = animatedHeights.reduce((sum, value) => sum + value, 0)
 
     const tabHeights = cards.map((card) => {
       const tab = card.querySelector<HTMLElement>('.sliding-stack__tab')
@@ -255,12 +254,23 @@ export function SlidingStack({
     const availableHeight = Math.max(320, viewportHeight - stackTopPx - stackBottomPx)
     const targetHeight = Math.max(availableHeight - SAFE_PADDING_PX, availableHeight * 0.88)
 
+    const travelSamples = animatedHeights.map((height) => {
+      const extra = Math.max(0, height - targetHeight)
+      const baseTravel = targetHeight * 0.45
+      return baseTravel + extra
+    })
+    const totalTravelPx = travelSamples.reduce((sum, value) => sum + value, 0)
+    const fallbackTravelPx = targetHeight * 0.6
+
     let accumulator = 0
     const windows: TimelineWindow[] = items.map((_, index) => {
-      if (index === 0 || totalAnimated <= 0) {
+      if (index === 0) {
         return fallbackWindow(index, windowSize)
       }
-      const share = animatedHeights[index - 1] / totalAnimated
+      if (totalTravelPx <= 0) {
+        return fallbackWindow(index, windowSize)
+      }
+      const share = travelSamples[index - 1] / totalTravelPx
       const start = accumulator * 100
       accumulator += share
       const end = accumulator * 100
@@ -277,14 +287,15 @@ export function SlidingStack({
       }
     }
 
-    const avgAnimatedHeight =
-      totalAnimated > 0 ? totalAnimated / Math.max(animatedHeights.length, 1) : heights[0] || viewportHeight
-    const durationBase =
-      totalAnimated > 0 ? (avgAnimatedHeight / viewportHeight) * DURATION_MULTIPLIER : parseUnit(DEFAULT_STACK_DURATION) / 2
-    const durationVh = Math.max(48, Math.min(110, durationBase))
-    const lastHeight = heights[heights.length - 1] || avgAnimatedHeight || viewportHeight
-    const tailBase = (lastHeight / viewportHeight) * 160
-    const tailVh = Math.min(480, Math.max(durationVh * 1.6, tailBase + 40, 220))
+    const travelCount = Math.max(travelSamples.length, 1)
+    const meanTravelPx = totalTravelPx > 0 ? totalTravelPx / travelCount : fallbackTravelPx
+    const durationBase = (meanTravelPx / viewportHeight) * DURATION_MULTIPLIER
+    const fallbackDuration = parseUnit(DEFAULT_STACK_DURATION) / 2
+    const durationVh = Math.max(24, Math.min(72, durationBase || fallbackDuration))
+    const lastTravelPx = travelSamples[travelSamples.length - 1] ?? meanTravelPx
+    const tailSeed = Math.max(lastTravelPx, targetHeight)
+    const tailBase = (tailSeed / viewportHeight) * 180 + 60
+    const tailVh = Math.min(520, Math.max(durationVh * 2.6, tailBase, 260))
     const tabClearance = Math.max(baseTabHeight * 1.05, 72)
 
     const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
@@ -293,7 +304,7 @@ export function SlidingStack({
       if (index === 0) return 1
       const cardHeight = heights[index] || 0
       if (cardHeight <= 0) return 1
-      const scale = Math.min(1, Math.max(0.6, targetHeight / cardHeight))
+      const scale = Math.min(1, Math.max(0.6, targetHeight / Math.max(cardHeight, 1)))
       return Number.isFinite(scale) ? scale : 1
     })
 
