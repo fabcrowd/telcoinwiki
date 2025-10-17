@@ -57,7 +57,6 @@ const MIN_WINDOW_SPAN = 5
 const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
 const LAST_CARD_HOLD_PCT = 20
-const DURATION_MULTIPLIER = 24
 
 type TimelineWindow = { start: number; end: number }
 
@@ -217,9 +216,31 @@ export function SlidingStack({
 
   const activeIndex = useMemo(() => {
     if (items.length <= 1) return 0
-    if (progress >= 1) return items.length - 1
-    return Math.min(items.length - 1, Math.floor(progress * items.length))
-  }, [items.length, progress])
+    const windows = timelineState.windows
+    const pct = progress * 100
+
+    if (!windows.length) {
+      if (progress >= 1) return items.length - 1
+      return Math.min(items.length - 1, Math.floor(progress * items.length))
+    }
+
+    let current = 0
+    for (let i = 1; i < windows.length; i += 1) {
+      const window = windows[i]
+      if (!window) continue
+      const windowEnd = i === windows.length - 1 ? 100 : window.end
+      if (pct >= window.start - 0.001 && pct < windowEnd + 0.001) {
+        current = i
+      }
+    }
+
+    const lastWindow = windows[windows.length - 1]
+    if (lastWindow && pct >= lastWindow.end - 0.001) {
+      current = windows.length - 1
+    }
+
+    return Math.min(items.length - 1, Math.max(0, current))
+  }, [items.length, progress, timelineState.windows])
 
   const cardCount = Math.max(items.length, 1)
   const animatedCount = Math.max(cardCount - 1, 1)
@@ -254,48 +275,32 @@ export function SlidingStack({
     const availableHeight = Math.max(320, viewportHeight - stackTopPx - stackBottomPx)
     const targetHeight = Math.max(availableHeight - SAFE_PADDING_PX, availableHeight * 0.88)
 
-    const travelSamples = animatedHeights.map((height) => {
-      const extra = Math.max(0, height - targetHeight)
-      const baseTravel = targetHeight * 0.45
-      return baseTravel + extra
-    })
-    const totalTravelPx = travelSamples.reduce((sum, value) => sum + value, 0)
-    const fallbackTravelPx = targetHeight * 0.6
+    const animatedCountLocal = Math.max(items.length - 1, 1)
+    const activeTimelineSpan = Math.max(MIN_WINDOW_SPAN * animatedCountLocal, 100 - LAST_CARD_HOLD_PCT)
+    const baseWindow = activeTimelineSpan / animatedCountLocal
 
-    let accumulator = 0
     const windows: TimelineWindow[] = items.map((_, index) => {
-      if (index === 0) {
-        return fallbackWindow(index, windowSize)
-      }
-      if (totalTravelPx <= 0) {
-        return fallbackWindow(index, windowSize)
-      }
-      const share = travelSamples[index - 1] / totalTravelPx
-      const start = accumulator * 100
-      accumulator += share
-      const end = accumulator * 100
+      if (index === 0) return { start: 0, end: 0 }
+      const start = Number((baseWindow * (index - 1)).toFixed(3))
+      const end = Number((baseWindow * index).toFixed(3))
       return { start, end }
     })
 
     if (windows.length > 0) {
       const lastIndex = windows.length - 1
       const holdEnd = 100 - LAST_CARD_HOLD_PCT
-      const safeEnd = Math.max(windows[lastIndex].start + MIN_WINDOW_SPAN, holdEnd)
+      const start = windows[lastIndex].start
+      const endRaw = Math.min(holdEnd, Math.max(start + MIN_WINDOW_SPAN, holdEnd))
       windows[lastIndex] = {
-        start: windows[lastIndex].start,
-        end: Math.min(100, safeEnd),
+        start,
+        end: Number(endRaw.toFixed(3)),
       }
     }
 
-    const travelCount = Math.max(travelSamples.length, 1)
-    const meanTravelPx = totalTravelPx > 0 ? totalTravelPx / travelCount : fallbackTravelPx
-    const durationBase = (meanTravelPx / viewportHeight) * DURATION_MULTIPLIER
-    const fallbackDuration = parseUnit(DEFAULT_STACK_DURATION) / 2
-    const durationVh = Math.max(18, Math.min(48, durationBase || fallbackDuration))
-    const lastTravelPx = travelSamples[travelSamples.length - 1] ?? meanTravelPx
-    const tailSeed = Math.max(lastTravelPx, targetHeight)
-    const tailBase = (tailSeed / viewportHeight) * 180 + 60
-    const tailVh = Math.min(520, Math.max(durationVh * 2.6, tailBase, 260))
+    const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 95
+    const durationVh = Math.max(72, Math.min(96, durationBase))
+    const tailBase = durationVh * 1.35 + 60
+    const tailVh = Math.min(520, Math.max(tailBase, durationVh + 120))
     const tabClearance = Math.max(baseTabHeight * 1.05, 72)
 
     const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
