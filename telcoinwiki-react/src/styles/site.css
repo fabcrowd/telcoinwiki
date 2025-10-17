@@ -2120,10 +2120,10 @@ pre {
         /* Leave side margins via deck padding; keep card from touching edges */
         left: 0; right: 0; top: 0; bottom: 0;
         will-change: transform, opacity;
-        transform-origin: center;
+        transform-origin: top center;
         border-radius: 20px;
         /* move well below viewport so only one card is visible */
-        transform: translateY(120vh) scale(0.985);
+        transform: translateY(120vh) scale(var(--card-scale-initial, 0.985));
         /* eliminate opacity changes to avoid ghosting */
         opacity: 1;
         overflow: visible;
@@ -2172,8 +2172,16 @@ pre {
 
       @keyframes stack-active {
         /* Slide up from just below the sticky viewport height and hold */
-        from { transform: translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh)))) scale(0.985); }
-        to   { transform: translateY(0) scale(1.0); }
+        from {
+          transform:
+            translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh))))
+            scale(var(--card-scale-initial, 0.985));
+        }
+        to {
+          transform:
+            translateY(0)
+            scale(var(--card-scale-final, 1));
+        }
       }
 
       @keyframes stack-title-scale {
