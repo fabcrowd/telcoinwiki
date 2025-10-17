@@ -56,6 +56,7 @@ const DEFAULT_TAB_CLEARANCE = '72px'
 const MIN_WINDOW_SPAN = 5
 const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
+const LAST_CARD_HOLD_PCT = 8
 
 type TimelineWindow = { start: number; end: number }
 
@@ -267,9 +268,11 @@ export function SlidingStack({
 
     if (windows.length > 0) {
       const lastIndex = windows.length - 1
+      const holdEnd = 100 - LAST_CARD_HOLD_PCT
+      const safeEnd = Math.max(windows[lastIndex].start + MIN_WINDOW_SPAN, holdEnd)
       windows[lastIndex] = {
         start: windows[lastIndex].start,
-        end: 100,
+        end: Math.min(100, safeEnd),
       }
     }
 
