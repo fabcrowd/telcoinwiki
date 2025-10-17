@@ -58,7 +58,7 @@ const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
 const LAST_CARD_HOLD_PCT = 20
 const TARGET_WINDOW_PCT = 12
-const INITIAL_DELAY_PCT = 4
+const INITIAL_DELAY_PCT = 7
 const WINDOW_GAP_PCT = 1.5
 
 type TimelineWindow = { start: number; end: number }
