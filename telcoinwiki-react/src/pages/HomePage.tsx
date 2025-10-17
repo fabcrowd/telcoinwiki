@@ -199,11 +199,10 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
 
 // Storyboard content removed per request
 
-const storyDeckStyle: CSSProperties & Record<'--stack-top' | '--stack-bottom' | '--stack-tail' | '--last-card-translate-end', string> = {
+const storyDeckStyle: CSSProperties & Record<'--stack-top' | '--stack-bottom' | '--stack-tail', string> = {
   '--stack-top': 'calc(var(--header-height) + 2.5vh)',
   '--stack-bottom': '0vh',
-  '--stack-tail': '800vh',
-  '--last-card-translate-end': 'clamp(8vh, 12vh, 18vh)',
+  '--stack-tail': '1100vh',
 }
 
 export function HomePage() {

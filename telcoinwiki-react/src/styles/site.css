@@ -2135,8 +2135,6 @@ pre {
         animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
       }
 
-      /* Last card settles lower after pinning so it doesn't crowd the header */
-
       /* Ensure all cards align to the same top; no per-card offset */
 
       /* First card is locked in place (no upward scroll-in),
@@ -2171,18 +2169,6 @@ pre {
         /* Slide up from just below the sticky viewport height and hold */
         from { transform: translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh)))) scale(0.985); }
         to   { transform: translateY(0) scale(1.0); }
-      }
-
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :last-child {
-        animation: stack-active-last linear both;
-        animation-timeline: --stack;
-        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
-      }
-
-      @keyframes stack-active-last {
-        0%   { transform: translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh)))) scale(0.985); }
-        70%  { transform: translateY(0) scale(1.0); }
-        100% { transform: translateY(var(--last-card-translate-end, 12vh)) scale(1.0); }
       }
 
       @keyframes stack-title-scale {

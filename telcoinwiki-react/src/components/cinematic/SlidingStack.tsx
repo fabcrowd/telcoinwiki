@@ -36,7 +36,6 @@ const baseStackStyle = {
   '--stack-bottom': '0vh',
   '--stack-translate-start': 'calc(100vh - var(--stack-top) - var(--stack-bottom))',
   '--stack-tail': '320vh',
-  '--last-card-translate-end': '12vh',
   '--stack-step': '0px',
 } satisfies CSSProperties
 
@@ -124,8 +123,8 @@ export function SlidingStack({
     const animatedCount = Math.max((items.length || 1) - 1, 1)
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(animatedCount),
-      // Per-card travel: 80vh for quicker motion
-      '--stack-duration': '80vh',
+      // Give each animated card a longer runway so the stack feels less compressed.
+      '--stack-duration': '140vh',
     }
     return vars
   }, [items.length])
