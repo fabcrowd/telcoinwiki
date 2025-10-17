@@ -58,6 +58,8 @@ const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
 const LAST_CARD_HOLD_PCT = 20
 const TARGET_WINDOW_PCT = 12
+const INITIAL_DELAY_PCT = 4
+const WINDOW_GAP_PCT = 1.5
 
 type TimelineWindow = { start: number; end: number }
 
@@ -277,18 +279,25 @@ export function SlidingStack({
     const targetHeight = Math.max(availableHeight - SAFE_PADDING_PX, availableHeight * 0.88)
 
     const animatedCountLocal = Math.max(items.length - 1, 1)
-    const maxActiveSpan = Math.min(100 - LAST_CARD_HOLD_PCT, TARGET_WINDOW_PCT * animatedCountLocal)
-    const activeTimelineSpan = Math.max(MIN_WINDOW_SPAN * animatedCountLocal, maxActiveSpan)
-    const baseWindow = activeTimelineSpan / animatedCountLocal
+    const gapTotal = WINDOW_GAP_PCT * Math.max(animatedCountLocal - 1, 0)
+    const fixedSpan = INITIAL_DELAY_PCT + gapTotal
+    const maxActiveSpan = Math.min(100 - LAST_CARD_HOLD_PCT, TARGET_WINDOW_PCT * animatedCountLocal + fixedSpan)
+    const minActiveSpan = MIN_WINDOW_SPAN * animatedCountLocal + fixedSpan
+    const activeTimelineSpan = Math.max(minActiveSpan, maxActiveSpan)
+    const baseWindow = (activeTimelineSpan - fixedSpan) / animatedCountLocal
 
+    let cursor = INITIAL_DELAY_PCT
     const windows: TimelineWindow[] = items.map((_, index) => {
       if (index === 0) return { start: 0, end: 0 }
-      const start = Number((baseWindow * (index - 1)).toFixed(3))
-      let end = Number((baseWindow * index).toFixed(3))
+      const start = Number(cursor.toFixed(3))
       const holdEnd = 100 - LAST_CARD_HOLD_PCT
+      let end = Number((start + baseWindow).toFixed(3))
       if (index === items.length - 1) {
-        end = Math.min(holdEnd, Number((start + baseWindow).toFixed(3)))
+        const minEnd = start + MIN_WINDOW_SPAN
+        end = Math.min(holdEnd, Math.max(minEnd, end))
+        end = Number(end.toFixed(3))
       }
+      cursor = end + (index === items.length - 1 ? 0 : WINDOW_GAP_PCT)
       return { start, end }
     })
 
