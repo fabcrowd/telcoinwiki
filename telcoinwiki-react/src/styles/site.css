@@ -476,6 +476,7 @@ pre {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -514,8 +515,10 @@ pre {
 
 /* Content clears the header tab vertically; no horizontal inset */
 .sliding-stack__card .sliding-stack__content {
-  /* Snug under header: minimal gap below tab */
-  padding-top: calc(var(--tab-base-height, clamp(56px, 8.5vh, 88px)) * 1.05 - 8px);
+  /* Clearance matches the measured tab height plus a breathing gap */
+  padding-top: calc(
+    var(--card-tab-offset, var(--stack-tab-clearance, clamp(56px, 8.5vh, 88px))) + var(--space-2)
+  );
 }
 
 /* Inset the content so it clears the folder tab on larger screens */
