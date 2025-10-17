@@ -4,7 +4,7 @@ import { join } from 'node:path'
 
 const base = process.env.PERF_URL ?? 'http://localhost:4173'
 const outDir = process.env.PERF_OUT ?? 'tools/perf'
-const routes = (process.env.PERF_ROUTES ?? '/,/,/network,/bank').split(',').filter(Boolean)
+const routes = (process.env.PERF_ROUTES ?? '/,#engine-tokenomics,#engine-liquidity,#learn-more-faq').split(',').filter(Boolean)
 
 mkdirSync(outDir, { recursive: true })
 

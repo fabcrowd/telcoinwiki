@@ -30,6 +30,16 @@ const CTA_ARROW = '\\u2192'
 
 const isExternalLink = (href: string) => /^https?:\/\//i.test(href)
 
+const baseStackStyle = {
+  '--stack-gutter': 'clamp(6px, 0.6vw, 12px)',
+  '--stack-top': 'calc(var(--header-height) + 2vh)',
+  '--stack-bottom': '0vh',
+  '--stack-translate-start': 'calc(100vh - var(--stack-top) - var(--stack-bottom))',
+  '--stack-tail': '320vh',
+  '--last-card-translate-end': '12vh',
+  '--stack-step': '0px',
+} satisfies CSSProperties
+
 export function SlidingStack({
   items,
   prefersReducedMotion = false,
@@ -196,6 +206,7 @@ export function SlidingStack({
     return (
       <ColorMorphCard
         key={item.id}
+        id={item.id}
         progress={1}
         className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName)}
         style={{ zIndex, ...timingVars }}
@@ -218,19 +229,7 @@ export function SlidingStack({
       data-active-index={activeIndex}
       style={{
         // Reduce gutters so cards appear ~20% wider overall.
-        ['--stack-gutter' as any]: 'clamp(6px, 0.6vw, 12px)',
-        // Make cards ~50% taller by expanding the sticky viewport height.
-        // Height = 100vh - top - bottom.
-        ['--stack-top' as any]: 'calc(var(--header-height) + 2vh)',
-        ['--stack-bottom' as any]: '0vh',
-        // Translate distance for cards when entering (ties speed to viewport)
-        ['--stack-translate-start' as any]: 'calc(100vh - var(--stack-top) - var(--stack-bottom))',
-        // Extra tail so the final card reaches the top and holds fully before handoff
-        ['--stack-tail' as any]: '320vh',
-        // Ensure the last card header clears the top edge significantly
-        ['--last-card-translate-end' as any]: '12vh',
-        // Only one card visible at a time; remove vertical staggering
-        ['--stack-step' as any]: '0px',
+        ...baseStackStyle,
         ...cssVars,
         ...style,
       }}

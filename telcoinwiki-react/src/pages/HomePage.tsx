@@ -12,7 +12,6 @@ import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
 import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
 import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
-import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 import {
   useHomeBrokenMoneyScroll,
   useHomeEngineScroll,
@@ -46,21 +45,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Cost & delay',
         title: 'Transfers lose value in the middle',
         body: 'Traditional corridors route through multiple correspondent banks. Watch how Telcoin compresses fee stacks inside the Wallet.',
-        href: '/bank#bank-journey',
+        href: '#broken-money-fees',
       },
       {
         id: 'broken-money-access',
         eyebrow: 'Inclusion',
         title: 'Mobile-first by necessity',
         body: 'Telcoin designs the onboarding flow so mobile money users can clear compliance without a legacy bank account.',
-        href: '/bank#bank-pillars',
+        href: '#broken-money-access',
       },
       {
         id: 'broken-money-trust',
         eyebrow: 'Trust',
         title: 'Compliance needs transparency',
         body: 'Association-led policy and TAN reporting make sure fintech conveniences do not abandon telecom-grade oversight.',
-        href: '/governance#governance-structure',
+        href: '#broken-money-trust',
       },
     ],
   },
@@ -77,21 +76,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Governance',
         title: 'GSMA members steward the chain',
         body: 'Explore how the Telcoin Association, councils, and working groups approve upgrades and TEL issuance policies.',
-        href: '/governance#governance-overview',
+        href: '#telcoin-model-governance',
       },
       {
         id: 'telcoin-model-network',
         eyebrow: 'Network',
         title: 'DAG-powered consensus',
         body: 'Understand why the Telcoin Network pairs DAG execution with BFT finality and GSMA validators.',
-        href: '/network#network-consensus',
+        href: '#telcoin-model-network',
       },
       {
         id: 'telcoin-model-bank',
         eyebrow: 'Bank layer',
         title: 'Wallet + Digital Cash = familiar UX',
         body: 'Scroll into the Telcoin Bank experience to see how fiat-backed assets meet self-custody.',
-        href: '/bank#bank-overview',
+        href: '#telcoin-model-bank',
       },
     ],
   },
@@ -108,21 +107,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Interactive topology',
         title: 'Trace value flows visually',
         body: 'Use the interactive network map to follow TEL burn, liquidity routes, and TAN compliance loops.',
-        href: '/network#network-architecture',
+        href: '#engine-topology',
       },
       {
         id: 'engine-tokenomics',
         eyebrow: 'Tokenomics',
         title: 'Burn, regen, and treasuries',
         body: 'See how TEL fees burn supply while Association treasuries recycle rewards into real usage.',
-        href: '/tokenomics#tokenomics-cycle',
+        href: '#engine-tokenomics',
       },
       {
         id: 'engine-liquidity',
         eyebrow: 'Liquidity',
         title: 'TELx routes liquidity instantly',
         body: 'Learn how TELx pools pair TEL with Digital Cash so remittances and swaps stay fluid.',
-        href: '/tokenomics#tokenomics-programs',
+        href: '#engine-liquidity',
       },
     ],
   },
@@ -139,21 +138,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Onboard',
         title: 'Clear, mobile-native KYC',
         body: 'Step-by-step copy, device binding, and recovery training help non-crypto natives finish verification.',
-        href: '/bank#bank-journey',
+        href: '#experience-onboarding',
       },
       {
         id: 'experience-send',
         eyebrow: 'Send & receive',
         title: 'Transparent corridor pricing',
         body: 'Fees, FX, and timing surface before you tap send; status events mirror TAN compliance checkpoints.',
-        href: '/bank#bank-metrics',
+        href: '#experience-send',
       },
       {
         id: 'experience-security',
         eyebrow: 'Stay safe',
         title: 'Security-first guardrails',
         body: 'Notifications, two-factor prompts, and newsroom alerts keep everyday users aligned with best practice.',
-        href: '/bank#bank-resources',
+        href: '#experience-security',
       },
     ],
   },
@@ -170,21 +169,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Governance hub',
         title: 'Explore policy & councils',
         body: 'Read governance briefs, validator requirements, and how proposals advance through the Association.',
-        href: '/governance#governance-overview',
+        href: '#learn-more-governance',
       },
       {
         id: 'learn-more-faq',
         eyebrow: 'FAQ',
         title: 'Answers that cite sources',
         body: 'Filterable FAQ entries cite Telcoin docs so curious users can verify everything themselves.',
-        href: '/faq#faq-list',
+        href: '#learn-more-faq',
       },
       {
         id: 'learn-more-deep',
         eyebrow: 'Deep dives',
         title: 'Compare TEL resources',
         body: 'Use the deep-dive library to contrast TEL, Digital Cash, and TELx mechanics across the Telcoin stack.',
-        href: '/deep-dive#deep-dive-overview',
+        href: '#learn-more-deep',
       },
     ],
   },
@@ -200,9 +199,14 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
 
 // Storyboard content removed per request
 
+const storyDeckStyle: CSSProperties & Record<'--stack-top' | '--stack-bottom' | '--stack-tail', string> = {
+  '--stack-top': 'calc(var(--header-height) + 2.5vh)',
+  '--stack-bottom': '0vh',
+  '--stack-tail': '800vh',
+}
+
 export function HomePage() {
   const hero = useHomeHeroScroll()
-  const prefersReducedMotion = usePrefersReducedMotion()
   const brokenMoney = useHomeBrokenMoneyScroll()
   const telcoinModel = useHomeTelcoinModelScroll()
   const engine = useHomeEngineScroll()
@@ -285,12 +289,7 @@ export function HomePage() {
           <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
             <SlidingStack
               className="mt-4"
-              style={{
-                ['--stack-top' as any]: 'calc(var(--header-height) + 2.5vh)',
-                ['--stack-bottom' as any]: '0vh',
-                // Increase tail so the final card holds longer before unpin
-                ['--stack-tail' as any]: '800vh',
-              }}
+              style={storyDeckStyle}
               items={[
                 {
                   id: 'story-problem',
