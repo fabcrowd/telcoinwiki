@@ -1,4 +1,13 @@
-import { useEffect, useMemo, useRef, type CSSProperties, type ReactNode } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from 'react'
 import { Link } from 'react-router-dom'
 
 import { cn } from '../../utils/cn'
@@ -35,10 +44,71 @@ const baseStackStyle = {
   '--stack-top': 'calc(var(--header-height) + 2vh)',
   '--stack-bottom': '0vh',
   '--stack-translate-start': 'calc(100vh - var(--stack-top) - var(--stack-bottom))',
-  '--stack-tail': '320vh',
+  '--stack-tail': '420vh',
   '--last-card-translate-end': '12vh',
   '--stack-step': '0px',
 } satisfies CSSProperties
+
+const DEFAULT_STACK_DURATION = '80vh'
+const DEFAULT_STACK_TAIL = baseStackStyle['--stack-tail'] as string
+const DEFAULT_STACK_STEP = '60px'
+const DEFAULT_TAB_CLEARANCE = '72px'
+const MIN_WINDOW_SPAN = 5
+const EPSILON = 0.45
+const SAFE_PADDING_PX = 32
+const LAST_CARD_HOLD_PCT = 8
+
+type TimelineWindow = { start: number; end: number }
+
+interface TimelineState {
+  windows: TimelineWindow[]
+  duration: string
+  tail: string
+  step: string
+  tabOffsets: number[]
+  tabClearance: string
+  scales: number[]
+}
+
+const approx = (a: number, b: number, epsilon = EPSILON) => Math.abs(a - b) <= epsilon
+
+const parseUnit = (value: string) => Number.parseFloat(value) || 0
+
+const parsePx = (value: string | undefined | null) => {
+  if (!value) return 0
+  const parsed = Number.parseFloat(value)
+  return Number.isFinite(parsed) ? parsed : 0
+}
+
+const timelineStatesEqual = (a: TimelineState, b: TimelineState) => {
+  if (a.windows.length !== b.windows.length) return false
+  if (!approx(parseUnit(a.duration), parseUnit(b.duration))) return false
+  if (!approx(parseUnit(a.tail), parseUnit(b.tail))) return false
+  if (!approx(parseUnit(a.step), parseUnit(b.step))) return false
+  if (!approx(parseUnit(a.tabClearance), parseUnit(b.tabClearance))) return false
+  if (a.tabOffsets.length !== b.tabOffsets.length) return false
+  if (a.scales.length !== b.scales.length) return false
+  for (let i = 0; i < a.windows.length; i += 1) {
+    if (!approx(a.windows[i]?.start ?? 0, b.windows[i]?.start ?? 0)) return false
+    if (!approx(a.windows[i]?.end ?? 0, b.windows[i]?.end ?? 0)) return false
+  }
+  for (let i = 0; i < a.tabOffsets.length; i += 1) {
+    if (!approx(a.tabOffsets[i] ?? 0, b.tabOffsets[i] ?? 0)) return false
+  }
+  for (let i = 0; i < a.scales.length; i += 1) {
+    if (!approx(a.scales[i] ?? 1, b.scales[i] ?? 1)) return false
+  }
+  return true
+}
+
+const fallbackWindow = (index: number, windowSize: number): TimelineWindow => {
+  if (index === 0) return { start: 0, end: 0 }
+  const start = (index - 1) * windowSize
+  const end = Math.min(100, index * windowSize)
+  return { start, end }
+}
+
+const clampPercent = (value: number) => Math.max(0, Math.min(100, value))
 
 export function SlidingStack({
   items,
@@ -49,6 +119,7 @@ export function SlidingStack({
   onProgressChange,
 }: SlidingStackProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const cardRefs = useRef<(HTMLElement | null)[]>([])
   const effectiveDisabled = prefersReducedMotion || !SCROLL_STORY_ENABLED
   const progress = useScrollProgress(containerRef, {
     disabled: effectiveDisabled,
@@ -65,6 +136,16 @@ export function SlidingStack({
   }, [effectiveDisabled, onProgressChange, progress])
 
   const initialAnnouncement = items.length ? `Slide 1 of ${items.length}: ${items[0].title}` : ''
+
+  const [timelineState, setTimelineState] = useState<TimelineState>({
+    windows: [],
+    duration: DEFAULT_STACK_DURATION,
+    tail: DEFAULT_STACK_TAIL,
+    step: DEFAULT_STACK_STEP,
+    tabOffsets: [],
+    tabClearance: DEFAULT_TAB_CLEARANCE,
+    scales: [],
+  })
 
   const renderCardContent = (item: SlidingStackItem, ctaLabel = 'Learn more') => {
     let cta: ReactNode = null
@@ -110,7 +191,9 @@ export function SlidingStack({
           </span>
         ) : null}
         <div className="sliding-stack__content">
-          <h3 className="sliding-stack__title -mt-4 sm:-mt-4 lg:-mt-5 mb-3 sm:mb-4 lg:mb-6 text-5xl leading-tight font-semibold text-telcoin-ink sm:text-6xl lg:text-[4.8rem]">{item.title}</h3>
+          <h3 className="sliding-stack__title -mt-4 sm:-mt-4 lg:-mt-5 mb-3 sm:mb-4 lg:mb-6 text-5xl leading-tight font-semibold text-telcoin-ink sm:text-6xl lg:text-[4.8rem]">
+            {item.title}
+          </h3>
           <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">{item.body}</div>
         </div>
         {cta}
@@ -119,16 +202,17 @@ export function SlidingStack({
   }
 
   const cssVars = useMemo(() => {
-    // The first card is static (pinned immediately), so exclude it from the
-    // timeline height to avoid a blank scroll segment.
     const animatedCount = Math.max((items.length || 1) - 1, 1)
-    const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
+    const vars: CSSProperties &
+      Record<'--stack-count' | '--stack-duration' | '--stack-tail' | '--stack-step' | '--stack-tab-clearance', string> = {
       '--stack-count': String(animatedCount),
-      // Per-card travel: 80vh for quicker motion
-      '--stack-duration': '80vh',
+      '--stack-duration': timelineState.duration,
+      '--stack-tail': timelineState.tail,
+      '--stack-step': timelineState.step,
+      '--stack-tab-clearance': timelineState.tabClearance,
     }
     return vars
-  }, [items.length])
+  }, [items.length, timelineState.duration, timelineState.step, timelineState.tail, timelineState.tabClearance])
 
   const activeIndex = useMemo(() => {
     if (items.length <= 1) return 0
@@ -137,70 +221,143 @@ export function SlidingStack({
   }, [items.length, progress])
 
   const cardCount = Math.max(items.length, 1)
-  // Exclude the first (static) card from the timeline windows.
   const animatedCount = Math.max(cardCount - 1, 1)
   const windowSize = 100 / animatedCount
-  // No overlap: next card begins exactly when the previous finishes
-  const overlap = 0
-  // No end hold for first three cards
-  const firstEndPadPct = 0
-  const secondEndPadPct = 0
-  const thirdEndPadPct = 0
-  // Finish the last card a bit earlier so it pins before the section unpins
-  const lastEndPadPct = 10
-  // Per-card start delays after the previous ends
-  const secondStartDelayPct = 5
-  const thirdStartDelayPct = 0
-  const fourthStartDelayPct = 0
-  const secondStartAdvancePct = 0
-  // Start card 3 and 4 earlier so they don't feel late
-  const thirdStartAdvancePct = 10
-  const lastStartAdvancePct = 15
+
+  const computeTimeline = useCallback(() => {
+    if (typeof window === 'undefined') return
+    const cards = cardRefs.current.slice(0, items.length).filter(Boolean) as HTMLElement[]
+    if (!cards.length) return
+
+    const container = containerRef.current
+    const viewportHeight = window.innerHeight || document.documentElement?.clientHeight || 1
+    const heights = cards.map((card) => Math.max(card.scrollHeight, card.offsetHeight))
+    const animatedHeights = heights.slice(1)
+    const totalAnimated = animatedHeights.reduce((sum, value) => sum + value, 0)
+
+    const tabHeights = cards.map((card) => {
+      const tab = card.querySelector<HTMLElement>('.sliding-stack__tab')
+      return tab ? tab.offsetHeight : 0
+    })
+    const animatedTabHeights = tabHeights.slice(1)
+    const nonZeroTabs = animatedTabHeights.filter((value) => value > 0)
+    const maxTabHeight = nonZeroTabs.length ? Math.max(...nonZeroTabs) : 0
+    const avgTabHeight = animatedTabHeights.length
+      ? animatedTabHeights.reduce((sum, value) => sum + value, 0) / animatedTabHeights.length
+      : 0
+    const baseTabHeight = maxTabHeight || avgTabHeight || 70
+    const desiredStep = Math.min(96, Math.max(48, baseTabHeight * 0.9))
+
+    const computedStyles = container ? window.getComputedStyle(container) : null
+    const stackTopPx = parsePx(computedStyles?.getPropertyValue('--stack-top'))
+    const stackBottomPx = parsePx(computedStyles?.getPropertyValue('--stack-bottom'))
+    const availableHeight = Math.max(320, viewportHeight - stackTopPx - stackBottomPx)
+    const targetHeight = Math.max(availableHeight - SAFE_PADDING_PX, availableHeight * 0.88)
+
+    let accumulator = 0
+    const windows: TimelineWindow[] = items.map((_, index) => {
+      if (index === 0 || totalAnimated <= 0) {
+        return fallbackWindow(index, windowSize)
+      }
+      const share = animatedHeights[index - 1] / totalAnimated
+      const start = accumulator * 100
+      accumulator += share
+      const end = accumulator * 100
+      return { start, end }
+    })
+
+    if (windows.length > 0) {
+      const lastIndex = windows.length - 1
+      const holdEnd = 100 - LAST_CARD_HOLD_PCT
+      const safeEnd = Math.max(windows[lastIndex].start + MIN_WINDOW_SPAN, holdEnd)
+      windows[lastIndex] = {
+        start: windows[lastIndex].start,
+        end: Math.min(100, safeEnd),
+      }
+    }
+
+    const avgAnimatedHeight =
+      totalAnimated > 0 ? totalAnimated / Math.max(animatedHeights.length, 1) : heights[0] || viewportHeight
+    const durationBase =
+      totalAnimated > 0 ? (avgAnimatedHeight / viewportHeight) * 110 : parseUnit(DEFAULT_STACK_DURATION)
+    const durationVh = Math.max(90, Math.min(150, durationBase))
+    const lastHeight = heights[heights.length - 1] || avgAnimatedHeight || viewportHeight
+    const tailBase = (lastHeight / viewportHeight) * 160
+    const tailVh = Math.min(480, Math.max(durationVh * 1.6, tailBase + 40, 220))
+    const tabClearance = Math.max(baseTabHeight * 1.05, 72)
+
+    const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
+
+    const scales = cards.map((_, index) => {
+      if (index === 0) return 1
+      const cardHeight = heights[index] || 0
+      if (cardHeight <= 0) return 1
+      const scale = Math.min(1, Math.max(0.6, targetHeight / cardHeight))
+      return Number.isFinite(scale) ? scale : 1
+    })
+
+    const nextState: TimelineState = {
+      windows,
+      duration: `${durationVh.toFixed(2)}vh`,
+      tail: `${tailVh.toFixed(2)}vh`,
+      step: `${Math.round(desiredStep)}px`,
+      tabOffsets,
+      tabClearance: `${tabClearance.toFixed(2)}px`,
+      scales,
+    }
+
+    setTimelineState((prev) => (timelineStatesEqual(prev, nextState) ? prev : nextState))
+  }, [items.length, windowSize])
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return
+    computeTimeline()
+
+    const handleResize = () => computeTimeline()
+    window.addEventListener('resize', handleResize)
+
+    let observer: ResizeObserver | null = null
+    if (typeof ResizeObserver !== 'undefined') {
+      observer = new ResizeObserver(() => computeTimeline())
+      cardRefs.current.slice(0, items.length).forEach((card) => {
+        if (card) observer?.observe(card)
+      })
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      observer?.disconnect()
+    }
+  }, [computeTimeline, items.length])
+
+  cardRefs.current.length = items.length
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
-    // Ensure later cards can layer above earlier ones so headers aren't hidden.
     const zIndex = index + 1
-    const startBase = index === 0 ? 0 : (index - 1) * windowSize
-    const start = Math.max(
-      0,
-      startBase - (
-        index === 1
-          ? secondStartAdvancePct
-          : index === 2
-            ? thirdStartAdvancePct
-            : index === cardCount - 1
-              ? lastStartAdvancePct
-              : 0
-      ) + (
-        index === 1
-          ? secondStartDelayPct
-          : index === 2
-            ? thirdStartDelayPct
-            : index === cardCount - 1
-              ? fourthStartDelayPct
-              : 0
-      ),
-    )
-    const endPad =
-      index === 0
-        ? firstEndPadPct
-        : index === cardCount - 1
-          ? lastEndPadPct
-          : index === 1
-            ? secondEndPadPct
-            : index === 2
-              ? thirdEndPadPct
-              : overlap
+    const fallback = fallbackWindow(index, windowSize)
+    const window = timelineState.windows[index] ?? fallback
+    const start = clampPercent(window.start)
+    let end = clampPercent(window.end)
+    if (index !== 0 && end - start < MIN_WINDOW_SPAN) {
+      end = Math.min(100, start + MIN_WINDOW_SPAN)
+    }
+    const fallbackClearance = parseUnit(timelineState.tabClearance)
+    const tabOffsetRaw = timelineState.tabOffsets[index] ?? fallbackClearance
+    const tabOffset = Math.max(tabOffsetRaw, fallbackClearance)
+    const tabPadding = tabOffset + 12
+    const fitScale = timelineState.scales[index] ?? 1
+    const finalScale = index === 0 ? 1 : Math.min(1, Math.max(0.6, fitScale))
+    const initialScale =
+      index === 0 ? 1 : finalScale < 1 ? Math.min(1, Math.max(0.6, finalScale * 0.95)) : 0.985
 
-    // For the first card, give it a zero-length range;
-    // for others, allocate windows across the full 0..100%.
-    const end = index === 0
-      ? 0
-      : Math.min(100, index * windowSize - endPad)
-    const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
-      '--stack-start': `${start}%`,
-      '--stack-end': `${end}%`,
+    const timingVars: CSSProperties &
+      Record<'--stack-start' | '--stack-end' | '--card-scale-initial' | '--card-scale-final' | '--card-tab-offset', string | number> = {
+      '--stack-start': `${start.toFixed(3)}%`,
+      '--stack-end': `${end.toFixed(3)}%`,
+      '--card-scale-initial': initialScale,
+      '--card-scale-final': finalScale,
+      '--card-tab-offset': `${tabPadding.toFixed(2)}px`,
     }
 
     return (
@@ -209,6 +366,9 @@ export function SlidingStack({
         id={item.id}
         progress={1}
         className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName)}
+        ref={(node) => {
+          cardRefs.current[index] = node
+        }}
         style={{ zIndex, ...timingVars }}
       >
         <div className="sliding-stack__tab">
