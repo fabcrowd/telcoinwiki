@@ -284,7 +284,11 @@ export function SlidingStack({
     const windows: TimelineWindow[] = items.map((_, index) => {
       if (index === 0) return { start: 0, end: 0 }
       const start = Number((baseWindow * (index - 1)).toFixed(3))
-      const end = Number((baseWindow * index).toFixed(3))
+      let end = Number((baseWindow * index).toFixed(3))
+      const holdEnd = 100 - LAST_CARD_HOLD_PCT
+      if (index === items.length - 1) {
+        end = Math.min(holdEnd, Number((start + baseWindow).toFixed(3)))
+      }
       return { start, end }
     })
 
@@ -292,7 +296,9 @@ export function SlidingStack({
       const lastIndex = windows.length - 1
       const holdEnd = 100 - LAST_CARD_HOLD_PCT
       const start = windows[lastIndex].start
-      const endRaw = Math.min(holdEnd, Math.max(start + MIN_WINDOW_SPAN, holdEnd))
+      const plannedEnd = windows[lastIndex].end
+      const minEnd = start + MIN_WINDOW_SPAN
+      const endRaw = Math.min(holdEnd, Math.max(minEnd, plannedEnd))
       windows[lastIndex] = {
         start,
         end: Number(endRaw.toFixed(3)),
