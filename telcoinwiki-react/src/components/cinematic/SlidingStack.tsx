@@ -56,7 +56,8 @@ const DEFAULT_TAB_CLEARANCE = '72px'
 const MIN_WINDOW_SPAN = 5
 const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
-const LAST_CARD_HOLD_PCT = 8
+const LAST_CARD_HOLD_PCT = 20
+const DURATION_MULTIPLIER = 55
 
 type TimelineWindow = { start: number; end: number }
 
@@ -279,8 +280,8 @@ export function SlidingStack({
     const avgAnimatedHeight =
       totalAnimated > 0 ? totalAnimated / Math.max(animatedHeights.length, 1) : heights[0] || viewportHeight
     const durationBase =
-      totalAnimated > 0 ? (avgAnimatedHeight / viewportHeight) * 110 : parseUnit(DEFAULT_STACK_DURATION)
-    const durationVh = Math.max(90, Math.min(150, durationBase))
+      totalAnimated > 0 ? (avgAnimatedHeight / viewportHeight) * DURATION_MULTIPLIER : parseUnit(DEFAULT_STACK_DURATION) / 2
+    const durationVh = Math.max(48, Math.min(110, durationBase))
     const lastHeight = heights[heights.length - 1] || avgAnimatedHeight || viewportHeight
     const tailBase = (lastHeight / viewportHeight) * 160
     const tailVh = Math.min(480, Math.max(durationVh * 1.6, tailBase + 40, 220))
