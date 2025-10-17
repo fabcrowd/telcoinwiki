@@ -34,7 +34,8 @@ const baseStackStyle = {
   '--stack-gutter': 'clamp(6px, 0.6vw, 12px)',
   '--stack-top': 'calc(var(--header-height) + 2vh)',
   '--stack-bottom': '0vh',
-  '--stack-translate-start': 'calc(100vh - var(--stack-top) - var(--stack-bottom))',
+  '--stack-translate-base': 'calc(100vh - var(--stack-top) - var(--stack-bottom))',
+  '--stack-translate-start': 'var(--stack-translate-base)',
   '--stack-tail': '320vh',
   '--last-card-translate-end': '12vh',
   '--stack-step': '0px',
@@ -203,13 +204,25 @@ export function SlidingStack({
       '--stack-end': `${end}%`,
     }
 
+    const cardStyle: CSSProperties &
+      Record<'--stack-start' | '--stack-end', string> &
+      Partial<Record<'--stack-translate-start', string>> = {
+      zIndex,
+      ...timingVars,
+    }
+
+    if (index === 2 || index === 3) {
+      // Shorten the travel distance for cards 3 and 4 so they pin sooner.
+      cardStyle['--stack-translate-start'] = 'calc(var(--stack-translate-base) * 0.75)'
+    }
+
     return (
       <ColorMorphCard
         key={item.id}
         id={item.id}
         progress={1}
         className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName)}
-        style={{ zIndex, ...timingVars }}
+        style={cardStyle}
       >
         <div className="sliding-stack__tab">
           <span className="sliding-stack__tab-text">{item.tabLabel ?? item.title}</span>
