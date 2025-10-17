@@ -2182,7 +2182,13 @@ pre {
 
       /* Keep card body visible at all times (no collapse) */
       .sliding-stack__body { overflow: visible; max-height: none; animation: none !important; }
-      .sliding-stack__tab { position: relative; z-index: 2; }
+      .sliding-stack__tab {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+      }
 
       /* Disable body collapse animations entirely */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(n) .sliding-stack__body {
