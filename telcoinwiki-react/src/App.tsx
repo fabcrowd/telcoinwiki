@@ -1,12 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Routes, Route } from 'react-router-dom'
-import { AppLayout } from './components/layout/AppLayout'
+import { Route, Routes } from 'react-router-dom'
+
+import { CinematicLayout } from './components/layout/CinematicLayout'
 import { NAV_ITEMS } from './config/navigation'
 import { PAGE_META } from './config/pageMeta'
 import { SEARCH_CONFIG } from './config/search'
-import { APP_ROUTES } from './routes'
+import { HomePage } from './pages/HomePage'
 import { NotFoundPage } from './pages/NotFoundPage'
-import { CinematicLayout } from './components/layout/CinematicLayout'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,53 +18,37 @@ const queryClient = new QueryClient({
   },
 })
 
-const AppRoutes = () => (
-  <Routes>
-    {APP_ROUTES.map(({ path, pageId, Component, headings, layout = 'app' }) => {
-      const content =
-        layout === 'cinematic' ? (
-          <CinematicLayout
-            pageId={pageId}
-            navItems={NAV_ITEMS}
-            pageMeta={PAGE_META}
-            searchConfig={SEARCH_CONFIG}
-          >
-            <Component />
-          </CinematicLayout>
-        ) : (
-          <AppLayout
-            pageId={pageId}
-            navItems={NAV_ITEMS}
-            pageMeta={PAGE_META}
-            searchConfig={SEARCH_CONFIG}
-            headings={headings}
-          >
-            <Component />
-          </AppLayout>
-        )
-
-      return <Route key={path} path={path} element={content} />
-    })}
-    <Route
-      path="*"
-      element={
-        <AppLayout
-          pageId="404"
-          navItems={NAV_ITEMS}
-          pageMeta={PAGE_META}
-          searchConfig={SEARCH_CONFIG}
-        >
-          <NotFoundPage />
-        </AppLayout>
-      }
-    />
-  </Routes>
-)
-
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AppRoutes />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <CinematicLayout
+              pageId="home"
+              navItems={NAV_ITEMS}
+              pageMeta={PAGE_META}
+              searchConfig={SEARCH_CONFIG}
+            >
+              <HomePage />
+            </CinematicLayout>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <CinematicLayout
+              pageId="404"
+              navItems={NAV_ITEMS}
+              pageMeta={PAGE_META}
+              searchConfig={SEARCH_CONFIG}
+            >
+              <NotFoundPage />
+            </CinematicLayout>
+          }
+        />
+      </Routes>
     </QueryClientProvider>
   )
 }

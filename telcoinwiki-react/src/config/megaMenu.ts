@@ -10,51 +10,14 @@ export interface MegaSection {
   items: MegaItem[]
 }
 
-// Lean, high-signal header menu
+// Single-page mega menu sections map directly to anchor targets.
 export const megaMenuSections: MegaSection[] = [
   {
-    id: 'learn',
-    label: 'Learn',
+    id: 'discover',
+    label: 'Discover',
     items: [
-      { label: 'Deep Dive', href: '/deep-dive', description: 'Long-form references across pillars.' },
-      { label: 'FAQ', href: '/faq', description: 'Verified answers with sources.' },
-    ],
-  },
-  {
-    id: 'bank',
-    label: 'Bank',
-    items: [
-      { label: 'Telcoin Bank', href: '/bank' },
-    ],
-  },
-  {
-    id: 'network',
-    label: 'Network',
-    items: [
-      { label: 'Network Overview', href: '/network' },
-      { label: 'Builders', href: '/builders' },
-    ],
-  },
-  {
-    id: 'tokenomics',
-    label: 'Tokenomics',
-    items: [
-      { label: 'Tokenomics Overview', href: '/tokenomics' },
-      { label: 'TELx Pools', href: '/pools' },
-    ],
-  },
-  {
-    id: 'governance',
-    label: 'Governance',
-    items: [
-      { label: 'Governance Overview', href: '/governance' },
-    ],
-  },
-  {
-    id: 'about',
-    label: 'About',
-    items: [
-      { label: 'About this project', href: '/about' },
+      { label: 'Welcome', href: '/#home-hero', description: 'Start at the cinematic hero experience.' },
+      { label: 'Story highlights', href: '/#home-story-cards', description: 'Review the condensed Telcoin narrative.' },
     ],
   },
 ]
