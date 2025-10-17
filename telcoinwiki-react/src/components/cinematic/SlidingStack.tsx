@@ -297,10 +297,10 @@ export function SlidingStack({
       }
     }
 
-    const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 95
-    const durationVh = Math.max(72, Math.min(96, durationBase))
-    const tailBase = durationVh * 1.35 + 60
-    const tailVh = Math.min(520, Math.max(tailBase, durationVh + 120))
+    const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 28
+    const durationVh = Math.max(16, Math.min(28, durationBase))
+    const tailBase = durationVh * 1.2 + 36
+    const tailVh = Math.min(320, Math.max(tailBase, durationVh + 60))
     const tabClearance = Math.max(baseTabHeight * 1.05, 72)
 
     const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
