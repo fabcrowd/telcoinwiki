@@ -202,8 +202,8 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
 const storyDeckStyle: CSSProperties & Record<'--stack-top' | '--stack-bottom' | '--stack-tail', string> = {
   '--stack-top': 'calc(var(--header-height) + 2.5vh)',
   '--stack-bottom': '0vh',
-  // Shorter tail to match the faster stack duration (800vh × 4/7 ≈ 460vh)
-  '--stack-tail': '460vh',
+  // Shorter tail to match the faster stack duration (800vh × 0.8 = 640vh)
+  '--stack-tail': '640vh',
 }
 
 export function HomePage() {

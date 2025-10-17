@@ -124,8 +124,8 @@ export function SlidingStack({
     const animatedCount = Math.max((items.length || 1) - 1, 1)
     const vars: CSSProperties & Record<'--stack-count' | '--stack-duration', string> = {
       '--stack-count': String(animatedCount),
-      // Per-card travel: 46vh to run 75% faster (80vh × 4/7)
-      '--stack-duration': '46vh',
+      // Per-card travel: 64vh to run 25% faster (80vh × 0.8)
+      '--stack-duration': '64vh',
     }
     return vars
   }, [items.length])
