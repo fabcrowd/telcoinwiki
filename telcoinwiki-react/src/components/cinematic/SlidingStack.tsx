@@ -57,7 +57,7 @@ const MIN_WINDOW_SPAN = 5
 const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
 const LAST_CARD_HOLD_PCT = 20
-const DURATION_MULTIPLIER = 38
+const DURATION_MULTIPLIER = 24
 
 type TimelineWindow = { start: number; end: number }
 
@@ -291,7 +291,7 @@ export function SlidingStack({
     const meanTravelPx = totalTravelPx > 0 ? totalTravelPx / travelCount : fallbackTravelPx
     const durationBase = (meanTravelPx / viewportHeight) * DURATION_MULTIPLIER
     const fallbackDuration = parseUnit(DEFAULT_STACK_DURATION) / 2
-    const durationVh = Math.max(24, Math.min(72, durationBase || fallbackDuration))
+    const durationVh = Math.max(18, Math.min(48, durationBase || fallbackDuration))
     const lastTravelPx = travelSamples[travelSamples.length - 1] ?? meanTravelPx
     const tailSeed = Math.max(lastTravelPx, targetHeight)
     const tailBase = (tailSeed / viewportHeight) * 180 + 60
