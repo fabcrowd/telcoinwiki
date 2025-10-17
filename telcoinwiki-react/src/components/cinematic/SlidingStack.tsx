@@ -57,6 +57,7 @@ const MIN_WINDOW_SPAN = 5
 const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
 const LAST_CARD_HOLD_PCT = 20
+const TARGET_WINDOW_PCT = 12
 
 type TimelineWindow = { start: number; end: number }
 
@@ -276,7 +277,8 @@ export function SlidingStack({
     const targetHeight = Math.max(availableHeight - SAFE_PADDING_PX, availableHeight * 0.88)
 
     const animatedCountLocal = Math.max(items.length - 1, 1)
-    const activeTimelineSpan = Math.max(MIN_WINDOW_SPAN * animatedCountLocal, 100 - LAST_CARD_HOLD_PCT)
+    const maxActiveSpan = Math.min(100 - LAST_CARD_HOLD_PCT, TARGET_WINDOW_PCT * animatedCountLocal)
+    const activeTimelineSpan = Math.max(MIN_WINDOW_SPAN * animatedCountLocal, maxActiveSpan)
     const baseWindow = activeTimelineSpan / animatedCountLocal
 
     const windows: TimelineWindow[] = items.map((_, index) => {
@@ -297,10 +299,10 @@ export function SlidingStack({
       }
     }
 
-    const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 28
-    const durationVh = Math.max(16, Math.min(28, durationBase))
-    const tailBase = durationVh * 1.2 + 36
-    const tailVh = Math.min(320, Math.max(tailBase, durationVh + 60))
+    const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 18
+    const durationVh = Math.max(12, Math.min(20, durationBase))
+    const tailBase = durationVh * 1.15 + 32
+    const tailVh = Math.min(260, Math.max(tailBase, durationVh + 48))
     const tabClearance = Math.max(baseTabHeight * 1.05, 72)
 
     const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
