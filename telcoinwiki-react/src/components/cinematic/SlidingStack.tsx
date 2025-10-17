@@ -198,9 +198,18 @@ export function SlidingStack({
     const end = index === 0
       ? 0
       : Math.min(100, index * windowSize - endPad)
+    const range = Math.max(end - start, 0)
+    const speedMultiplier = index === 1
+      ? 0.85 // card 2 → 15% faster
+      : index === 2 || index === 3
+        ? 0.75 // cards 3 & 4 → 25% faster
+        : 1
+    const adjustedEnd = range > 0 && speedMultiplier < 1
+      ? Math.min(100, start + range * speedMultiplier)
+      : end
     const timingVars: CSSProperties & Record<'--stack-start' | '--stack-end', string> = {
       '--stack-start': `${start}%`,
-      '--stack-end': `${end}%`,
+      '--stack-end': `${adjustedEnd}%`,
     }
 
     return (
