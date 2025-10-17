@@ -54,9 +54,11 @@ export function LogoMarquee({ items: propItems, speedSec, reverse, pauseOnHover,
 
   const list = useMemo(() => (items.length < 6 ? [...items, ...items, ...items] : [...items, ...items]), [items])
 
-  // Increase scroll speed by 50% by reducing duration to 2/3.
+  // Increase scroll speed another 75% relative to current (already 50% faster).
+  // Current duration factor is 2/3 of base; applying an additional 1.75× speed means
+  // dividing duration by 1.75 -> multiply by 4/7. Net factor = (2/3) * (4/7) = 8/21 ≈ 0.38095.
   const style = {
-    '--marquee-duration': `${(cfg.speedSec * (2 / 3)).toFixed(3)}s`,
+    '--marquee-duration': `${(cfg.speedSec * (8 / 21)).toFixed(3)}s`,
   } as CSSProperties
 
   const paused = prefersReducedMotion || userPaused || (cfg.pauseOnHover && hovering)

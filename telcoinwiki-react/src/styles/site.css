@@ -585,8 +585,8 @@ pre {
   display: inline-flex;
   gap: 8px;
   align-items: center;
-  /* 50% faster by default: duration reduced to 2/3 of 32s */
-  animation: marquee var(--marquee-duration, 21.333s) linear infinite;
+  /* Net: +50% then +75% speed => duration 32s * (8/21) ≈ 12.190s */
+  animation: marquee var(--marquee-duration, 12.190s) linear infinite;
   will-change: transform;
 }
 .logo-marquee__track--reverse { animation-direction: reverse; }
