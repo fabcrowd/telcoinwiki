@@ -385,8 +385,15 @@ export function SlidingStack({
     const tabPadding = tabOffset + 12
     const fitScale = timelineState.scales[index] ?? 1
     const finalScale = index === 0 ? 1 : Math.min(1, Math.max(0.6, fitScale))
+    // Make the card grow effect 25% more pronounced by starting a bit smaller.
+    // For cards that end below 1.0, reduce the pre-scale multiplier from 0.95 → 0.9375.
+    // For cards that end at 1.0, lower the starting scale from 0.985 → 0.98125.
     const initialScale =
-      index === 0 ? 1 : finalScale < 1 ? Math.min(1, Math.max(0.6, finalScale * 0.95)) : 0.985
+      index === 0
+        ? 1
+        : finalScale < 1
+          ? Math.min(1, Math.max(0.6, finalScale * 0.9375))
+          : 0.98125
 
     const timingVars: CSSProperties &
       Record<'--stack-start' | '--stack-end' | '--card-scale-initial' | '--card-scale-final' | '--card-tab-offset', string | number> = {
