@@ -56,7 +56,10 @@ const DEFAULT_TAB_CLEARANCE = '72px'
 const MIN_WINDOW_SPAN = 5
 const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
-const LAST_CARD_HOLD_PCT = 8
+const LAST_CARD_HOLD_PCT = 20
+const TARGET_WINDOW_PCT = 12
+const INITIAL_DELAY_PCT = 7
+const WINDOW_GAP_PCT = 1.5
 
 type TimelineWindow = { start: number; end: number }
 
@@ -216,9 +219,31 @@ export function SlidingStack({
 
   const activeIndex = useMemo(() => {
     if (items.length <= 1) return 0
-    if (progress >= 1) return items.length - 1
-    return Math.min(items.length - 1, Math.floor(progress * items.length))
-  }, [items.length, progress])
+    const windows = timelineState.windows
+    const pct = progress * 100
+
+    if (!windows.length) {
+      if (progress >= 1) return items.length - 1
+      return Math.min(items.length - 1, Math.floor(progress * items.length))
+    }
+
+    let current = 0
+    for (let i = 1; i < windows.length; i += 1) {
+      const window = windows[i]
+      if (!window) continue
+      const windowEnd = i === windows.length - 1 ? 100 : window.end
+      if (pct >= window.start - 0.001 && pct < windowEnd + 0.001) {
+        current = i
+      }
+    }
+
+    const lastWindow = windows[windows.length - 1]
+    if (lastWindow && pct >= lastWindow.end - 0.001) {
+      current = windows.length - 1
+    }
+
+    return Math.min(items.length - 1, Math.max(0, current))
+  }, [items.length, progress, timelineState.windows])
 
   const cardCount = Math.max(items.length, 1)
   const animatedCount = Math.max(cardCount - 1, 1)
@@ -233,7 +258,6 @@ export function SlidingStack({
     const viewportHeight = window.innerHeight || document.documentElement?.clientHeight || 1
     const heights = cards.map((card) => Math.max(card.scrollHeight, card.offsetHeight))
     const animatedHeights = heights.slice(1)
-    const totalAnimated = animatedHeights.reduce((sum, value) => sum + value, 0)
 
     const tabHeights = cards.map((card) => {
       const tab = card.querySelector<HTMLElement>('.sliding-stack__tab')
@@ -254,36 +278,49 @@ export function SlidingStack({
     const availableHeight = Math.max(320, viewportHeight - stackTopPx - stackBottomPx)
     const targetHeight = Math.max(availableHeight - SAFE_PADDING_PX, availableHeight * 0.88)
 
-    let accumulator = 0
+    const animatedCountLocal = Math.max(items.length - 1, 1)
+    const gapTotal = WINDOW_GAP_PCT * Math.max(animatedCountLocal - 1, 0)
+    const fixedSpan = INITIAL_DELAY_PCT + gapTotal
+    const maxActiveSpan = Math.min(100 - LAST_CARD_HOLD_PCT, TARGET_WINDOW_PCT * animatedCountLocal + fixedSpan)
+    const minActiveSpan = MIN_WINDOW_SPAN * animatedCountLocal + fixedSpan
+    const activeTimelineSpan = Math.max(minActiveSpan, maxActiveSpan)
+    const baseWindow = (activeTimelineSpan - fixedSpan) / animatedCountLocal
+
+    let cursor = INITIAL_DELAY_PCT
     const windows: TimelineWindow[] = items.map((_, index) => {
-      if (index === 0 || totalAnimated <= 0) {
-        return fallbackWindow(index, windowSize)
+      if (index === 0) return { start: 0, end: 0 }
+      const start = Number(cursor.toFixed(3))
+      const holdEnd = 100 - LAST_CARD_HOLD_PCT
+      let end = Number((start + baseWindow).toFixed(3))
+      if (index === items.length - 1) {
+        const minEnd = start + MIN_WINDOW_SPAN
+        end = Math.min(holdEnd, Math.max(minEnd, end))
+        end = Number(end.toFixed(3))
       }
-      const share = animatedHeights[index - 1] / totalAnimated
-      const start = accumulator * 100
-      accumulator += share
-      const end = accumulator * 100
+      cursor = end + (index === items.length - 1 ? 0 : WINDOW_GAP_PCT)
       return { start, end }
     })
 
     if (windows.length > 0) {
       const lastIndex = windows.length - 1
       const holdEnd = 100 - LAST_CARD_HOLD_PCT
-      const safeEnd = Math.max(windows[lastIndex].start + MIN_WINDOW_SPAN, holdEnd)
+      const start = windows[lastIndex].start
+      const plannedEnd = windows[lastIndex].end
+      const minEnd = start + MIN_WINDOW_SPAN
+      const endRaw = Math.min(holdEnd, Math.max(minEnd, plannedEnd))
       windows[lastIndex] = {
-        start: windows[lastIndex].start,
-        end: Math.min(100, safeEnd),
+        start,
+        end: Number(endRaw.toFixed(3)),
       }
     }
 
-    const avgAnimatedHeight =
-      totalAnimated > 0 ? totalAnimated / Math.max(animatedHeights.length, 1) : heights[0] || viewportHeight
-    const durationBase =
-      totalAnimated > 0 ? (avgAnimatedHeight / viewportHeight) * 110 : parseUnit(DEFAULT_STACK_DURATION)
-    const durationVh = Math.max(90, Math.min(150, durationBase))
-    const lastHeight = heights[heights.length - 1] || avgAnimatedHeight || viewportHeight
-    const tailBase = (lastHeight / viewportHeight) * 160
-    const tailVh = Math.min(480, Math.max(durationVh * 1.6, tailBase + 40, 220))
+    const speedFactor = 0.8
+    const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 18
+    const durationClamp = Math.max(12, Math.min(20, durationBase))
+    const durationVh = Math.max(9.6, Math.min(16, durationClamp * speedFactor))
+    const tailBase = durationVh * 0.35 + 4 * speedFactor
+    const tailRaw = Math.max(tailBase, durationVh + 4 * speedFactor)
+    const tailVh = Math.min(120, tailRaw)
     const tabClearance = Math.max(baseTabHeight * 1.05, 72)
 
     const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
@@ -292,7 +329,7 @@ export function SlidingStack({
       if (index === 0) return 1
       const cardHeight = heights[index] || 0
       if (cardHeight <= 0) return 1
-      const scale = Math.min(1, Math.max(0.6, targetHeight / cardHeight))
+      const scale = Math.min(1, Math.max(0.6, targetHeight / Math.max(cardHeight, 1)))
       return Number.isFinite(scale) ? scale : 1
     })
 
