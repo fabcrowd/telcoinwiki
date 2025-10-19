@@ -255,11 +255,11 @@ export function HomePage() {
         >
           <HeroFloatingChips />
         </HeroOverlay>
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
+        <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-10 px-6 py-24 sm:px-8 lg:px-12">
           <div className="flex flex-col gap-5">
             <h1
               id="home-hero-heading"
-              className="text-balance text-5xl font-semibold leading-tight text-telcoin-ink sm:text-6xl lg:text-[4.8rem]"
+              className="text-left text-balance text-5xl font-semibold leading-tight text-telcoin-ink sm:text-6xl lg:text-[4.8rem]"
               data-hero-copy
               style={hero.copyStyle}
             >
@@ -268,12 +268,12 @@ export function HomePage() {
                 Clear answers. Fast learning. Community-powered.
               </span>
             </h1>
-            <p className="max-w-[70ch] text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
+            <p className="max-w-[70ch] text-left text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours.
             </p>
           </div>
           <div className="flex flex-col gap-3 lg:gap-4" data-hero-copy style={hero.copyStyle}>
-            <div className="flex w-full">
+            <div className="flex w-full justify-start">
               <div
                 className="flex max-w-full items-center gap-2.5 whitespace-nowrap rounded-full bg-telcoin-surface/80 px-4 py-2 text-[13px] text-telcoin-ink shadow-glass ring-1 ring-telcoin-border backdrop-blur-card sm:text-sm"
                 role="note"
