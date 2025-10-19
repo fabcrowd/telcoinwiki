@@ -13,16 +13,19 @@
   display: grid;
   place-items: center;
   isolation: isolate;
-  pointer-events: none; /* block clicks implicitly because we cover viewport */
+  pointer-events: auto; /* block underlying interactions during intro */
 }
 
-.intro-reveal__bg {
+.intro-reveal__veil {
   position: absolute;
   inset: 0;
   background: var(--intro-gradient);
   background-size: 220% 220%, 100% 100%;
   background-position: 0% 50%, center;
   animation: introBgPulse 18s ease-in-out infinite;
+  transform: scale(1);
+  will-change: transform, opacity;
+  transition: transform 1300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 750ms ease 550ms;
 }
 
 @keyframes introBgPulse {
@@ -50,13 +53,13 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  /* Brand-only flash: cyan/periwinkle glow */
+  /* Brand-only flash: cyan → periwinkle → transparent */
   background: radial-gradient(
     ellipse at center,
-    color-mix(in oklab, var(--palette-4), white 28%) 0%,
-    color-mix(in oklab, var(--palette-4), var(--palette-5) 40%) 22%,
-    color-mix(in oklab, var(--palette-5), transparent 60%) 42%,
-    transparent 60%
+    var(--palette-4) 0%,
+    var(--palette-4) 18%,
+    var(--palette-5) 36%,
+    transparent 62%
   );
   pointer-events: none;
 }
@@ -74,18 +77,27 @@
   100% { transform: translate3d(0, 0, 0) scale(14); filter: blur(2px); opacity: 0.6; }
 }
 
-.intro-reveal.is-flying .intro-reveal__bg {
-  animation-play-state: paused;
-  animation: introOverlayFade 750ms ease 550ms forwards; /* fade during fly */
+.intro-reveal.is-flying .intro-reveal__veil {
+  /* Activate mask during the fly-through */
+  -webkit-mask-image: url('/logo.svg'), linear-gradient(#fff, #fff);
+  -webkit-mask-repeat: no-repeat, no-repeat;
+  -webkit-mask-position: center, center;
+  -webkit-mask-size: min(52vw, 380px) auto, 100% 100%;
+  -webkit-mask-composite: xor;
+  mask-image: url('/logo.svg'), linear-gradient(#fff, #fff);
+  mask-repeat: no-repeat, no-repeat;
+  mask-position: center, center;
+  mask-size: min(52vw, 380px) auto, 100% 100%;
+  mask-composite: exclude;
+  transform: scale(14);
+  opacity: 0;
 }
 
 .intro-reveal.is-flying .intro-reveal__flash {
   animation: introFlash 680ms ease 420ms forwards;
 }
 
-@keyframes introOverlayFade {
-  to { opacity: 0; }
-}
+/* no explicit keyframes: handled via transition */
 
 @keyframes introFlash {
   0% { opacity: 0; }

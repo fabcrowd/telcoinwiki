@@ -93,7 +93,7 @@ export function IntroReveal({ logoSrc = '/logo.svg' }: IntroRevealProps) {
       aria-label="Loading Telcoin Wiki"
       aria-modal="true"
     >
-      <div className="intro-reveal__bg" aria-hidden="true" />
+      <div className="intro-reveal__veil" aria-hidden="true" />
       <img
         src={logoSrc}
         alt="Telcoin Wiki logo"
@@ -107,4 +107,3 @@ export function IntroReveal({ logoSrc = '/logo.svg' }: IntroRevealProps) {
 }
 
 export default IntroReveal
-
