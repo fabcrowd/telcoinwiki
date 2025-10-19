@@ -311,8 +311,9 @@ pre {
   [data-sliding-stack] .sliding-stack__deck {
     position: relative;
     display: grid;
+    justify-items: center;
     gap: var(--stack-mobile-gap);
-    padding-inline: clamp(8px, 4vw, 20px);
+    padding-inline: clamp(12px, 6vw, 32px);
     padding-bottom: max(16vh, 112px);
   }
 
@@ -323,7 +324,7 @@ pre {
   }
 
   [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card {
-    width: min(94vw, 560px);
+    width: min(100%, clamp(320px, 92vw, 620px));
     margin-inline: auto;
   }
 
@@ -355,6 +356,7 @@ pre {
     opacity: 1;
     transform: translateY(0) scale(0.9);
     filter: none;
+    box-shadow: 0 18px 32px rgba(5, 12, 32, 0.26);
   }
 
   [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card:not(:first-child) {
@@ -379,6 +381,11 @@ pre {
     filter: none;
   }
 }
+
+[data-sliding-stack] .sliding-stack__deck > :nth-child(4n+1) { --card-bg: var(--palette-1); }
+[data-sliding-stack] .sliding-stack__deck > :nth-child(4n+2) { --card-bg: var(--palette-6); }
+[data-sliding-stack] .sliding-stack__deck > :nth-child(4n+3) { --card-bg: var(--palette-5); }
+[data-sliding-stack] .sliding-stack__deck > :nth-child(4n+4) { --card-bg: var(--palette-4); }
 
 @media (prefers-reduced-motion: reduce) {
   .stage-backdrop,
