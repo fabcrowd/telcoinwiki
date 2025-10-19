@@ -352,9 +352,9 @@ pre {
       transform 0.4s var(--transition-smooth),
       opacity 0.4s var(--transition-smooth),
       filter 0.4s var(--transition-smooth);
-    opacity: 0.55;
+    opacity: 1;
     transform: translateY(0) scale(0.9);
-    filter: saturate(92%);
+    filter: none;
   }
 
   [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card:not(:first-child) {
@@ -362,20 +362,21 @@ pre {
   }
 
   [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card[data-card-state='past'] {
-    opacity: 0.75;
+    opacity: 1;
     transform: translateY(-4px) scale(0.94);
-    filter: saturate(100%);
+    filter: none;
   }
 
   [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card[data-card-state='active'] {
     opacity: 1;
     transform: translateY(0) scale(1);
-    filter: saturate(110%);
+    filter: none;
   }
 
   [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card[data-card-state='future'] {
-    opacity: 0.55;
+    opacity: 1;
     transform: translateY(2px) scale(0.9);
+    filter: none;
   }
 }
 
