@@ -276,18 +276,22 @@ export function HomePage() {
             </p>
           </div>
           <div className="flex flex-col gap-3 lg:gap-4" data-hero-copy style={hero.copyStyle}>
-            <div
-              className="flex w-full items-center gap-3 rounded-full border border-telcoin-border bg-telcoin-surface px-4 py-2 text-sm text-telcoin-ink"
-              role="note"
-            >
-              <span className="relative inline-flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-telcoin-accent blur-[2px]" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-telcoin-accent" />
-              </span>
-              <p className="inline-flex items-center gap-2 text-sm leading-relaxed text-telcoin-ink">
-                <span className="font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Live</span>:
-                Community-maintained. Always improving. Confirm critical details via the official Telcoin Wallet or Telcoin Association documentation.
-              </p>
+            <div className="flex w-full justify-center">
+              <div
+                className="flex max-w-[80ch] items-center gap-2.5 rounded-full bg-telcoin-surface/80 px-4 py-2 text-[13px] text-telcoin-ink shadow-glass ring-1 ring-telcoin-border backdrop-blur-card sm:text-sm"
+                role="note"
+                aria-live="polite"
+              >
+                <span className="relative inline-flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-telcoin-accent blur-[2px]" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-telcoin-accent" />
+                </span>
+                <span className="font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Live</span>
+                <span className="text-telcoin-ink/70">•</span>
+                <p className="inline-flex items-center leading-relaxed text-telcoin-ink">
+                  Community-maintained. Always improving. Confirm critical details via the official Telcoin Wallet or Telcoin Association documentation.
+                </p>
+              </div>
             </div>
           </div>
         </div>
