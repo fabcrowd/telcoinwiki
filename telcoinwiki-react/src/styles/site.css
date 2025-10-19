@@ -2184,10 +2184,10 @@ pre {
         }
       }
 
-      /* Smooth grow-in for slide titles: start smaller, no end bump */
+      /* Smooth grow-in for slide titles: start at 50% size, no overshoot */
       @keyframes stack-title-scale {
-        0%   { transform: scale(0.85); }
-        60%  { transform: scale(0.97); }
+        0%   { transform: scale(0.50); }
+        70%  { transform: scale(0.96); }
         100% { transform: scale(1.00); }
       }
 
