@@ -268,16 +268,16 @@ export function HomePage() {
             </div>
             <h1
               id="home-hero-heading"
-              className="text-balance text-4xl font-semibold leading-tight text-telcoin-ink sm:text-5xl lg:text-6xl"
+              className="text-balance text-5xl font-semibold leading-tight text-telcoin-ink sm:text-6xl lg:text-[4.8rem]"
               data-hero-copy
               style={hero.copyStyle}
             >
               The Telcoin Wiki
-              <span className="mt-3 block text-balance text-2xl font-medium text-telcoin-ink-muted sm:text-3xl">
+              <span className="mt-4 block text-balance text-3xl font-medium text-telcoin-ink-muted sm:text-4xl">
                 Clear answers. Fast learning. Community-powered.
               </span>
             </h1>
-            <p className="max-w-[70ch] text-base text-telcoin-ink-muted sm:text-lg" data-hero-copy style={hero.copyStyle}>
+            <p className="max-w-[70ch] text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours.
             </p>
           </div>
