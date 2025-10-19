@@ -257,6 +257,15 @@ export function HomePage() {
         </HeroOverlay>
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
           <div className="flex flex-col gap-5">
+            <div
+              className="flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-telcoin-ink-subtle"
+              data-hero-copy
+              style={hero.copyStyle}
+            >
+              <span>Community Q&amp;A</span>
+              <span aria-hidden>→</span>
+              <span>Guides</span>
+            </div>
             <h1
               id="home-hero-heading"
               className="text-balance text-4xl font-semibold leading-tight text-telcoin-ink sm:text-5xl lg:text-6xl"
@@ -275,7 +284,7 @@ export function HomePage() {
           <div className="flex flex-col gap-3 lg:gap-4" data-hero-copy style={hero.copyStyle}>
             <div className="flex w-full justify-center">
               <div
-                className="flex max-w-[80ch] items-center gap-2.5 rounded-full bg-telcoin-surface/80 px-4 py-2 text-[13px] text-telcoin-ink shadow-glass ring-1 ring-telcoin-border backdrop-blur-card sm:text-sm"
+                className="flex items-center gap-2.5 whitespace-nowrap overflow-x-auto rounded-full bg-telcoin-surface/80 px-4 py-2 text-[13px] text-telcoin-ink shadow-glass ring-1 ring-telcoin-border backdrop-blur-card sm:text-sm"
                 role="note"
                 aria-live="polite"
               >
@@ -285,9 +294,9 @@ export function HomePage() {
                 </span>
                 <span className="font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">Live</span>
                 <span className="text-telcoin-ink/70">•</span>
-                <p className="inline-flex items-center leading-relaxed text-telcoin-ink">
+                <span className="leading-relaxed text-telcoin-ink">
                   Community-maintained. Always improving. Confirm critical details via the official Telcoin Wallet or Telcoin Association documentation.
-                </p>
+                </span>
               </div>
             </div>
           </div>
