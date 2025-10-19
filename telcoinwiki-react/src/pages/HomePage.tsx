@@ -7,7 +7,6 @@ import { StageBackdrop } from '../components/cinematic/StageBackdrop'
 import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
-import { HeroTicker } from '../components/home/HeroTicker'
 import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
 import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
@@ -276,8 +275,7 @@ export function HomePage() {
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours.
             </p>
           </div>
-          <div className="flex flex-col gap-4 lg:gap-6" data-hero-copy style={hero.copyStyle}>
-            <HeroTicker />
+          <div className="flex flex-col gap-3 lg:gap-4" data-hero-copy style={hero.copyStyle}>
             <p className="text-sm text-telcoin-ink/70">
               🟢 LIVE: Community-maintained. Always improving. Confirm critical details via the official Telcoin Wallet or Telcoin Association documentation.
             </p>
