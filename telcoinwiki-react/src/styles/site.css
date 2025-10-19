@@ -340,11 +340,11 @@ pre {
 }
 
 @media (max-width: 47.99rem) and (prefers-reduced-motion: no-preference) {
-  [data-sliding-stack] .sliding-stack__deck {
+  [data-sliding-stack][data-scroll-story] .sliding-stack__deck {
     scroll-padding-top: var(--stack-mobile-top);
   }
 
-  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card {
+  [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
     position: sticky;
     top: var(--stack-mobile-top);
     transform-origin: center top;
@@ -357,23 +357,23 @@ pre {
     filter: saturate(92%);
   }
 
-  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card:not(:first-child) {
+  [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card:not(:first-child) {
     margin-top: calc(var(--stack-mobile-gap) * -0.55);
   }
 
-  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card[data-card-state='past'] {
+  [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card[data-card-state='past'] {
     opacity: 0.75;
     transform: translateY(-4px) scale(0.94);
     filter: saturate(100%);
   }
 
-  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card[data-card-state='active'] {
+  [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card[data-card-state='active'] {
     opacity: 1;
     transform: translateY(0) scale(1);
     filter: saturate(110%);
   }
 
-  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card[data-card-state='future'] {
+  [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card[data-card-state='future'] {
     opacity: 0.55;
     transform: translateY(2px) scale(0.9);
   }

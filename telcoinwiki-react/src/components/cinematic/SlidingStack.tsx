@@ -218,6 +218,7 @@ export function SlidingStack({
   }, [items.length, timelineState.duration, timelineState.step, timelineState.tail, timelineState.tabClearance])
 
   const activeIndex = useMemo(() => {
+    if (effectiveDisabled) return 0
     if (items.length <= 1) return 0
     const windows = timelineState.windows
     const pct = progress * 100
@@ -243,7 +244,7 @@ export function SlidingStack({
     }
 
     return Math.min(items.length - 1, Math.max(0, current))
-  }, [items.length, progress, timelineState.windows])
+  }, [effectiveDisabled, items.length, progress, timelineState.windows])
 
   const cardCount = Math.max(items.length, 1)
   const animatedCount = Math.max(cardCount - 1, 1)
