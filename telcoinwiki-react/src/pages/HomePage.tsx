@@ -273,7 +273,7 @@ export function HomePage() {
               </span>
             </h1>
             <p className="max-w-3xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
-              This unofficial wiki curates accurate FAQs, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours.
+              This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours.
             </p>
           </div>
           <div className="flex flex-col gap-4 lg:gap-6" data-hero-copy style={hero.copyStyle}>
