@@ -268,7 +268,7 @@ export function HomePage() {
                 Clear answers. Fast learning. Community-powered.
               </span>
             </h1>
-            <p className="max-w-[85ch] text-left text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
+            <p className="text-balance max-w-[110ch] lg:max-w-[120ch] text-left text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you're just getting started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you'll find fast, reliable guidance grounded in official documentation and field-tested by active users.
             </p>
             <p className="max-w-[85ch] text-left text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
