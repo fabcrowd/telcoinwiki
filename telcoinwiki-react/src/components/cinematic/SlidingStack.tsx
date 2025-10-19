@@ -397,6 +397,8 @@ export function SlidingStack({
       '--card-tab-offset': `${tabPadding.toFixed(2)}px`,
     }
 
+    const relativeState = index === activeIndex ? 'active' : index < activeIndex ? 'past' : 'future'
+
     return (
       <ColorMorphCard
         key={item.id}
@@ -407,6 +409,7 @@ export function SlidingStack({
           cardRefs.current[index] = node
         }}
         style={{ zIndex, ...timingVars }}
+        data-card-state={relativeState}
       >
         <div className="sliding-stack__tab">
           <span className="sliding-stack__tab-text">{item.tabLabel ?? item.title}</span>

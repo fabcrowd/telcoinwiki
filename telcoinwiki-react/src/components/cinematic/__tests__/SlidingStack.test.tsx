@@ -42,6 +42,8 @@ describe('SlidingStack', () => {
     cards.forEach((card) => {
       expect(card.classList.contains('is-active')).toBe(false)
     })
+    expect(cards[0]?.getAttribute('data-card-state')).toBe('active')
+    expect(cards[1]?.getAttribute('data-card-state')).toBe('future')
     expect(handleProgress).toHaveBeenCalledWith(1)
   })
 
@@ -55,5 +57,8 @@ describe('SlidingStack', () => {
 
     const container = document.querySelector('[data-sliding-stack]') as HTMLDivElement
     expect(container.classList.contains('sliding-stack--static')).toBe(true)
+    const cards = Array.from(document.querySelectorAll('.sliding-stack__card')) as HTMLElement[]
+    expect(cards[0]?.getAttribute('data-card-state')).toBe('active')
+    expect(cards.slice(1).every((card) => card.getAttribute('data-card-state') === 'future')).toBe(true)
   })
 })

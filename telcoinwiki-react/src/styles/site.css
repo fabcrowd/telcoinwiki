@@ -297,6 +297,88 @@ pre {
   .sliding-stack__body { grid-template-columns: 1fr; }
 }
 
+@media (max-width: 47.99rem) {
+  [data-sliding-stack] {
+    --stack-mobile-gap: clamp(18px, 7vw, 32px);
+    --stack-mobile-top: calc(var(--header-height, 64px) + clamp(12px, 4vw, 24px));
+  }
+
+  [data-sliding-stack] .sliding-stack__viewport {
+    position: relative;
+    padding-inline: 0;
+  }
+
+  [data-sliding-stack] .sliding-stack__deck {
+    position: relative;
+    display: grid;
+    gap: var(--stack-mobile-gap);
+    padding-inline: clamp(8px, 4vw, 20px);
+    padding-bottom: max(16vh, 112px);
+  }
+
+  [data-sliding-stack] .sliding-stack__deck::after {
+    content: '';
+    display: block;
+    height: max(12vh, 96px);
+  }
+
+  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card {
+    width: min(94vw, 560px);
+    margin-inline: auto;
+  }
+
+  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab {
+    height: clamp(48px, 12vw, 68px);
+    font-size: clamp(0.95rem, 4.4vw, 1.35rem);
+    padding-inline: clamp(12px, 4vw, 20px);
+    box-shadow: 0 4px 12px rgba(5, 12, 32, 0.2);
+  }
+
+  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card .sliding-stack__body {
+    padding-inline: clamp(16px, 5vw, 24px);
+  }
+}
+
+@media (max-width: 47.99rem) and (prefers-reduced-motion: no-preference) {
+  [data-sliding-stack] .sliding-stack__deck {
+    scroll-padding-top: var(--stack-mobile-top);
+  }
+
+  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card {
+    position: sticky;
+    top: var(--stack-mobile-top);
+    transform-origin: center top;
+    transition:
+      transform 0.4s var(--transition-smooth),
+      opacity 0.4s var(--transition-smooth),
+      filter 0.4s var(--transition-smooth);
+    opacity: 0.55;
+    transform: translateY(0) scale(0.9);
+    filter: saturate(92%);
+  }
+
+  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card:not(:first-child) {
+    margin-top: calc(var(--stack-mobile-gap) * -0.55);
+  }
+
+  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card[data-card-state='past'] {
+    opacity: 0.75;
+    transform: translateY(-4px) scale(0.94);
+    filter: saturate(100%);
+  }
+
+  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card[data-card-state='active'] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: saturate(110%);
+  }
+
+  [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card[data-card-state='future'] {
+    opacity: 0.55;
+    transform: translateY(2px) scale(0.9);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .stage-backdrop,
   .color-morph-card {
