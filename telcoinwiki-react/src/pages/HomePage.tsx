@@ -256,8 +256,8 @@ export function HomePage() {
         >
           <HeroFloatingChips />
         </HeroOverlay>
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
-          <div className="flex flex-col gap-6">
+        <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:gap-10">
+          <div className="flex flex-col gap-5 sm:gap-6">
             <div data-hero-copy style={hero.copyStyle}>
               <HeroTypingLoop />
             </div>

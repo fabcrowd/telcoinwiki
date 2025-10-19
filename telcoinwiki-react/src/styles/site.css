@@ -9,6 +9,7 @@
 /* Use a defined scroll behavior to avoid cross-browser inconsistencies. */
 html {
   scroll-behavior: auto;
+  overflow-x: hidden;
 }
 
 body {
@@ -20,6 +21,7 @@ body {
     var(--tc-hero-radial),
     var(--tc-hero-linear);
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .app-layer--cinematic {
@@ -300,7 +302,8 @@ pre {
 @media (max-width: 47.99rem) {
   [data-sliding-stack] {
     --stack-mobile-gap: clamp(18px, 7vw, 32px);
-    --stack-mobile-top: calc(var(--header-height, 64px) + clamp(12px, 4vw, 24px));
+    --stack-mobile-top: calc(var(--header-height, 64px) + env(safe-area-inset-top, 0px) + clamp(8px, 3vw, 18px));
+    --stack-mobile-frame: clamp(8px, 3vw, 16px);
   }
 
   [data-sliding-stack] .sliding-stack__viewport {
@@ -311,10 +314,17 @@ pre {
   [data-sliding-stack] .sliding-stack__deck {
     position: relative;
     display: grid;
-    justify-items: center;
     gap: var(--stack-mobile-gap);
-    padding-inline: clamp(12px, 6vw, 32px);
+    padding-block: 0;
+    padding-inline: 0;
+    padding-inline-start: var(--stack-mobile-frame);
+    padding-inline-end: var(--stack-mobile-frame);
+    padding-inline-start: calc(env(safe-area-inset-left, 0px) + var(--stack-mobile-frame));
+    padding-inline-end: calc(env(safe-area-inset-right, 0px) + var(--stack-mobile-frame));
     padding-bottom: max(16vh, 112px);
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
   }
 
   [data-sliding-stack] .sliding-stack__deck::after {
@@ -324,8 +334,10 @@ pre {
   }
 
   [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card {
-    width: min(100%, clamp(320px, 92vw, 620px));
-    margin-inline: auto;
+    width: 100%;
+    margin-inline: 0;
+    min-height: calc(100vh - var(--stack-mobile-top));
+    min-height: calc(100svh - var(--stack-mobile-top) - env(safe-area-inset-bottom, 0px));
   }
 
   [data-sliding-stack] .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab {
