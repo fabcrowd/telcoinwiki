@@ -49,21 +49,6 @@
   100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
 
-.intro-reveal__flash {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  /* Brand-only flash: cyan → periwinkle → transparent */
-  background: radial-gradient(
-    ellipse at center,
-    var(--palette-4) 0%,
-    var(--palette-4) 18%,
-    var(--palette-5) 36%,
-    transparent 62%
-  );
-  pointer-events: none;
-}
-
 /* Fly-through phase */
 .intro-reveal.is-flying .intro-reveal__logo {
   animation: introLogoFly 1300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -93,17 +78,7 @@
   opacity: 0;
 }
 
-.intro-reveal.is-flying .intro-reveal__flash {
-  animation: introFlash 680ms ease 420ms forwards;
-}
-
-/* no explicit keyframes: handled via transition */
-
-@keyframes introFlash {
-  0% { opacity: 0; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0; }
-}
+/* no explicit keyframes: overlay fade handled via transition */
 
 /* Reduced motion: keep minimal and quick */
 @media (prefers-reduced-motion: reduce) {

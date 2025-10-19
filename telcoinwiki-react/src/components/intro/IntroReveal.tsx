@@ -125,7 +125,6 @@ export function IntroReveal({ logoSrc = '/logo.svg' }: IntroRevealProps) {
         decoding="async"
         fetchPriority="high"
       />
-      <div className="intro-reveal__flash" aria-hidden="true" />
     </div>
   )
 }
