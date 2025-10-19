@@ -107,7 +107,7 @@
 
 /* Reduced motion: keep minimal and quick */
 @media (prefers-reduced-motion: reduce) {
-  .intro-reveal__bg { animation: none; }
+  .intro-reveal__veil { animation: none; }
   .intro-reveal__logo { animation-duration: 400ms; }
   .intro-reveal.is-flying .intro-reveal__logo { animation-duration: 500ms; }
 }

@@ -31,6 +31,7 @@ export function IntroReveal({ logoSrc = '/logo.svg' }: IntroRevealProps) {
   const [isActive, setActive] = useState(shouldShow)
   const [fly, setFly] = useState(false)
   const timeouts = useRef<number[]>([])
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   // Body scroll lock while active
   useEffect(() => {
@@ -38,8 +39,29 @@ export function IntroReveal({ logoSrc = '/logo.svg' }: IntroRevealProps) {
     const body = document.body
     const prevOverflow = body.style.overflow
     body.style.overflow = 'hidden'
+    // Focus the overlay container to prevent accidental keyboard activation underneath
+    containerRef.current?.focus()
+
+    // Make underlying chrome inert to keyboard/screen-reader focus
+    const toInert = Array.from(
+      document.querySelectorAll<HTMLElement>('header.site-header, main.site-main, footer')
+    )
+    const prevInert = new Map<HTMLElement, boolean>()
+    const prevAriaHidden = new Map<HTMLElement, string | null>()
+    toInert.forEach((el) => {
+      prevInert.set(el, el.hasAttribute('inert'))
+      prevAriaHidden.set(el, el.getAttribute('aria-hidden'))
+      el.setAttribute('inert', '')
+      el.setAttribute('aria-hidden', 'true')
+    })
     return () => {
       body.style.overflow = prevOverflow
+      toInert.forEach((el) => {
+        if (!prevInert.get(el)) el.removeAttribute('inert')
+        const prev = prevAriaHidden.get(el)
+        if (prev === null) el.removeAttribute('aria-hidden')
+        else el.setAttribute('aria-hidden', prev)
+      })
     }
   }, [isActive])
 
@@ -92,6 +114,8 @@ export function IntroReveal({ logoSrc = '/logo.svg' }: IntroRevealProps) {
       role="dialog"
       aria-label="Loading Telcoin Wiki"
       aria-modal="true"
+      tabIndex={-1}
+      ref={containerRef}
     >
       <div className="intro-reveal__veil" aria-hidden="true" />
       <img
