@@ -6,6 +6,7 @@
 @import './critical.css';
 @import './site.css';
 @import './brand.css';
+@import './intro.css';
 
 @tailwind base;
 @tailwind components;

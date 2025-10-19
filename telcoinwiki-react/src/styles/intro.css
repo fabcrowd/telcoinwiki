@@ -1,0 +1,95 @@
+/* Intro loading animation — gradient + logo fly-through */
+
+:root {
+  /* Gradient uses only Telcoin brand palette tokens */
+  --intro-gradient: radial-gradient(1200px 600px at 50% -10%, rgba(69, 188, 241, 0.35) 0%, rgba(69, 188, 241, 0) 55%),
+    linear-gradient(135deg, var(--palette-4) 0%, var(--palette-5) 48%, var(--palette-6) 100%);
+}
+
+.intro-reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  pointer-events: none; /* block clicks implicitly because we cover viewport */
+}
+
+.intro-reveal__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--intro-gradient);
+  background-size: 220% 220%, 100% 100%;
+  background-position: 0% 50%, center;
+  animation: introBgPulse 18s ease-in-out infinite;
+}
+
+@keyframes introBgPulse {
+  0%, 100% { background-position: 0% 50%, center; }
+  50% { background-position: 100% 50%, center; }
+}
+
+.intro-reveal__logo {
+  position: relative;
+  width: min(52vw, 380px);
+  height: auto;
+  opacity: 0;
+  transform: translate3d(0, 6px, 0) scale(0.985);
+  filter: drop-shadow(0 8px 22px rgba(5, 11, 31, 0.4));
+  animation: introLogoFade 1000ms cubic-bezier(.22,.61,.36,1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes introLogoFade {
+  0% { opacity: 0; transform: translate3d(0, 12px, 0) scale(0.985); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+.intro-reveal__flash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.35) 24%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0) 60%);
+  pointer-events: none;
+}
+
+/* Fly-through phase */
+.intro-reveal.is-flying .intro-reveal__logo {
+  animation: introLogoFly 1300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes introLogoFly {
+  0% { transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); opacity: 1; }
+  30% { transform: translate3d(0, 0, 0) scale(1.6); filter: blur(0.6px); }
+  55% { transform: translate3d(0, 0, 0) scale(3.2); filter: blur(1px); }
+  80% { transform: translate3d(0, 0, 0) scale(8); filter: blur(1.5px); }
+  100% { transform: translate3d(0, 0, 0) scale(14); filter: blur(2px); opacity: 0.6; }
+}
+
+.intro-reveal.is-flying .intro-reveal__bg {
+  animation-play-state: paused;
+  animation: introOverlayFade 750ms ease 550ms forwards; /* fade during fly */
+}
+
+.intro-reveal.is-flying .intro-reveal__flash {
+  animation: introFlash 680ms ease 420ms forwards;
+}
+
+@keyframes introOverlayFade {
+  to { opacity: 0; }
+}
+
+@keyframes introFlash {
+  0% { opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+/* Reduced motion: keep minimal and quick */
+@media (prefers-reduced-motion: reduce) {
+  .intro-reveal__bg { animation: none; }
+  .intro-reveal__logo { animation-duration: 400ms; }
+  .intro-reveal.is-flying .intro-reveal__logo { animation-duration: 500ms; }
+}
+
