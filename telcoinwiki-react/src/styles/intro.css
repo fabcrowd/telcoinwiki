@@ -50,7 +50,14 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  background: radial-gradient(ellipse at center, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.35) 24%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0) 60%);
+  /* Brand-only flash: cyan/periwinkle glow */
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in oklab, var(--palette-4), white 28%) 0%,
+    color-mix(in oklab, var(--palette-4), var(--palette-5) 40%) 22%,
+    color-mix(in oklab, var(--palette-5), transparent 60%) 42%,
+    transparent 60%
+  );
   pointer-events: none;
 }
 
@@ -92,4 +99,3 @@
   .intro-reveal__logo { animation-duration: 400ms; }
   .intro-reveal.is-flying .intro-reveal__logo { animation-duration: 500ms; }
 }
-
