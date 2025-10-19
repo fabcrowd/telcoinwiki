@@ -275,7 +275,7 @@ export function HomePage() {
           <div className="flex flex-col gap-3 lg:gap-4" data-hero-copy style={hero.copyStyle}>
             <div className="flex w-full">
               <div
-                className="flex max-w-[80ch] items-center gap-2.5 whitespace-nowrap overflow-x-auto rounded-full bg-telcoin-surface/80 px-4 py-2 text-[13px] text-telcoin-ink shadow-glass ring-1 ring-telcoin-border backdrop-blur-card sm:text-sm"
+                className="flex max-w-full items-center gap-2.5 whitespace-nowrap rounded-full bg-telcoin-surface/80 px-4 py-2 text-[13px] text-telcoin-ink shadow-glass ring-1 ring-telcoin-border backdrop-blur-card sm:text-sm"
                 role="note"
                 aria-live="polite"
               >
