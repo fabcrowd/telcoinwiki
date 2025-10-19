@@ -256,7 +256,7 @@ export function HomePage() {
           <HeroFloatingChips />
         </HeroOverlay>
         <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-10 px-6 py-24 sm:px-8 lg:px-12">
-          <div className="flex w-full max-w-4xl flex-col items-start gap-5 self-center">
+          <div className="flex flex-col gap-5">
             <h1
               id="home-hero-heading"
               className="text-left text-balance text-5xl font-semibold leading-tight text-telcoin-ink sm:text-6xl lg:text-[4.8rem]"
@@ -268,11 +268,14 @@ export function HomePage() {
                 Clear answers. Fast learning. Community-powered.
               </span>
             </h1>
-            <p className="max-w-[70ch] text-left text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
-              This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours.
+            <p className="max-w-[85ch] text-left text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
+              This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you're just getting started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you'll find fast, reliable guidance grounded in official documentation and field-tested by active users.
+            </p>
+            <p className="max-w-[85ch] text-left text-lg text-telcoin-ink-muted sm:text-xl" data-hero-copy style={hero.copyStyle}>
+              All content is kept current by contributors, with live reference points and connected resources across the Telcoin platform.
             </p>
           </div>
-          <div className="flex w-full max-w-4xl flex-col gap-3 self-center lg:gap-4" data-hero-copy style={hero.copyStyle}>
+          <div className="flex flex-col gap-3 lg:gap-4" data-hero-copy style={hero.copyStyle}>
             <div className="flex w-full justify-start">
               <div
                 className="flex max-w-full items-center gap-2.5 whitespace-nowrap rounded-full bg-telcoin-surface/80 px-4 py-2 text-[13px] text-telcoin-ink shadow-glass ring-1 ring-telcoin-border backdrop-blur-card sm:text-sm"
