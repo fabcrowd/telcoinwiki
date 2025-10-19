@@ -256,22 +256,19 @@ export function HomePage() {
           <HeroFloatingChips />
         </HeroOverlay>
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
-          <div className="flex flex-col gap-6">
-            <div data-hero-copy style={hero.copyStyle}>
-              <HeroTypingLoop />
-            </div>
+          <div className="flex flex-col gap-5">
             <h1
               id="home-hero-heading"
-              className="text-3xl font-semibold text-telcoin-ink lg:text-5xl"
+              className="text-balance text-4xl font-semibold leading-tight text-telcoin-ink sm:text-5xl lg:text-6xl"
               data-hero-copy
               style={hero.copyStyle}
             >
               The Telcoin Wiki
-              <span className="mt-2 block text-balance text-xl font-normal text-telcoin-ink-muted sm:text-2xl">
+              <span className="mt-3 block text-balance text-2xl font-medium text-telcoin-ink-muted sm:text-3xl">
                 Clear answers. Fast learning. Community-powered.
               </span>
             </h1>
-            <p className="max-w-3xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
+            <p className="max-w-[70ch] text-base text-telcoin-ink-muted sm:text-lg" data-hero-copy style={hero.copyStyle}>
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours.
             </p>
           </div>
