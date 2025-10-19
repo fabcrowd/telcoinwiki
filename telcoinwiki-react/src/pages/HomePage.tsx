@@ -276,9 +276,14 @@ export function HomePage() {
             </p>
           </div>
           <div className="flex flex-col gap-3 lg:gap-4" data-hero-copy style={hero.copyStyle}>
-            <p className="text-sm text-telcoin-ink/70">
-              🟢 LIVE: Community-maintained. Always improving. Confirm critical details via the official Telcoin Wallet or Telcoin Association documentation.
-            </p>
+            <div
+              className="flex w-full items-center rounded-full border border-telcoin-border bg-telcoin-surface px-4 py-2 text-sm text-telcoin-ink"
+              role="note"
+            >
+              <p className="inline-flex items-center gap-2 text-sm leading-relaxed text-telcoin-ink">
+                🟢 LIVE: Community-maintained. Always improving. Confirm critical details via the official Telcoin Wallet or Telcoin Association documentation.
+              </p>
+            </div>
           </div>
         </div>
       </section>
