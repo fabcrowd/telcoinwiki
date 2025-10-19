@@ -267,17 +267,19 @@ export function HomePage() {
               data-hero-copy
               style={hero.copyStyle}
             >
-              Understand the Telcoin platform in minutes
+              The Telcoin Wiki
+              <span className="mt-2 block text-balance text-xl font-normal text-telcoin-ink-muted sm:text-2xl">
+                Clear answers. Fast learning. Community-powered.
+              </span>
             </h1>
             <p className="max-w-3xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
-              This unofficial wiki curates verified answers, onboarding checklists, and direct links to Telcoin Association and
-              Telcoin company resources so newcomers can get started with confidence.
+              This unofficial wiki curates accurate FAQs, explainers, and direct links to Telcoin Association and ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours.
             </p>
           </div>
           <div className="flex flex-col gap-4 lg:gap-6" data-hero-copy style={hero.copyStyle}>
             <HeroTicker />
             <p className="text-sm text-telcoin-ink/70">
-              Community-maintained reference. Confirm details inside the Telcoin Wallet or official Association releases.
+              🟢 LIVE: Community-maintained. Always improving. Confirm critical details via the official Telcoin Wallet or Telcoin Association documentation.
             </p>
           </div>
         </div>
