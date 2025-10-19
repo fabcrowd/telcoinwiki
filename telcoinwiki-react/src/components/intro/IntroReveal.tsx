@@ -5,9 +5,10 @@ const INTRO_SESSION_KEY = 'tw_intro_shown'
 
 // Timings (ms)
 const LOGO_FADE_MS = 1000
-const HOLD_BEFORE_FLY_MS = 3000 // from mount
-const FLY_MS = 1300
-const FADE_OUT_OVERLAY_MS = 750 // starts during fly
+// Start fly immediately after fade completes so total ≈ 3s
+const HOLD_BEFORE_FLY_MS = LOGO_FADE_MS // 1000ms
+const FLY_MS = 2000
+const FADE_OUT_OVERLAY_MS = 600 // overlaps tail of fly
 
 export interface IntroRevealProps {
   /** Path to the logo SVG used for the reveal. Default: "/logo.svg" */
