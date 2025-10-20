@@ -273,7 +273,7 @@ export function HomePage() {
             >
               Clear answers. Fast learning. Community-powered.
             </p>
-            <p className="max-w-4xl text-xl text-telcoin-ink-muted mt-6" data-hero-copy style={hero.copyStyle}>
+            <p className="max-w-6xl text-xl text-telcoin-ink-muted mt-6" data-hero-copy style={hero.copyStyle}>
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and
               ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you're just getting
               started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you'll find fast, reliable guidance
