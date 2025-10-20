@@ -10,10 +10,12 @@
 .intro-reveal {
   /* Size the mask consistently across viewports */
   --intro-logo-size: min(62vw, 460px);
-  /* Normalized x-position (0..1) of the Wiki “W” inside logo.svg (viewBox width 260, W center ≈ 161/260 ≈ 0.62) */
-  --intro-w-center: 0.62;
-  /* Offset needed to center the W relative to the viewport */
-  --intro-mask-offset-x: calc((var(--intro-w-center) - 0.5) * var(--intro-logo-size));
+  /* Normalized x-position (0..1) of the focal point (right leg of the “n” in Telcoin) */
+  --intro-focus-center: 0.523;
+  /* Offset needed to center the focal point relative to the viewport */
+  --intro-mask-offset-x: calc((var(--intro-focus-center) - 0.5) * var(--intro-logo-size));
+  /* Translation paired with scaling to create the pan during the fly-through */
+  --intro-pan-translate: calc(var(--intro-mask-offset-x) * -1);
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
   --intro-fly-ms: 1400ms;
   --intro-fade-ms: 420ms;
@@ -135,18 +137,18 @@
   /* Activate mask during the fly-through */
   -webkit-mask-image: url('/logo.svg'), linear-gradient(#fff, #fff);
   -webkit-mask-repeat: no-repeat, no-repeat;
-  /* Center the Wiki “W” by shifting mask X position */
-  -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
+  /* Begin aligned with the static logo; mask animation handles the pan */
+  -webkit-mask-position: 50% center, center;
   -webkit-mask-size: var(--intro-logo-size) auto, 100% 100%;
   -webkit-mask-composite: xor;
   mask-image: url('/logo.svg'), linear-gradient(#fff, #fff);
   mask-repeat: no-repeat, no-repeat;
-  /* Same shift for the standard mask */
-  mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
+  /* Same alignment for the standard mask */
+  mask-position: 50% center, center;
   mask-size: var(--intro-logo-size) auto, 100% 100%;
   mask-composite: exclude;
-  /* Pivot the scale toward the W for a true fly-through */
-  transform-origin: calc(50% - var(--intro-mask-offset-x)) center;
+  /* Keep initial pivot centered; translation animates toward the focal point */
+  transform-origin: center;
   /* Slightly longer fly, fade begins very near the end for more “hang-time” */
   animation:
     veilFly var(--intro-fly-ms) cubic-bezier(0.98, 0.02, 1, 1) forwards,
@@ -158,8 +160,16 @@
 
 /* no explicit keyframes: overlay fade handled via transition */
 @keyframes veilFly {
-  from { transform: translate3d(0,0,0) scale(1); }
-  to   { transform: translate3d(0,0,0) scale(12); }
+  0% {
+    transform: translate3d(0,0,0) scale(1);
+    -webkit-mask-position: 50% center, center;
+    mask-position: 50% center, center;
+  }
+  100% {
+    transform: translate3d(var(--intro-pan-translate), 0, 0) scale(12);
+    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
+    mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
+  }
 }
 
 @keyframes veilFade { to { opacity: 0; } }
