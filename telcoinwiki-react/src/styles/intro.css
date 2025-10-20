@@ -9,7 +9,7 @@
 /* Tunables for the intro sequence; scoped so they can be adjusted from JS later if needed */
 .intro-reveal {
   /* Size the mask consistently across viewports */
-  --intro-logo-size: min(62vw, 460px);
+  --intro-logo-size: min(72vw, 560px);
   /* Normalized x-position (0..1) of the Wiki “W” inside logo.svg (viewBox width 260, W center ≈ 161/260 ≈ 0.62) */
   --intro-w-center: 0.62;
   /* Offset needed to center the W relative to the viewport */
@@ -123,13 +123,22 @@
   position: relative;
   width: var(--intro-logo-size);
   height: auto;
-  opacity: 1;
+  opacity: 0;
+  transform: translate3d(0, 12px, 0) scale(0.985);
+  animation: introStaticFade 600ms cubic-bezier(.22,.61,.36,1) 120ms forwards;
   transition: opacity 180ms ease;
 }
 .intro-reveal.is-prelude .intro-logo-static,
 .intro-reveal.is-flying .intro-logo-static { opacity: 0; }
 
 /* Removed logo scale animation — fly effect handled by veil mask */
+
+@keyframes introStaticFade {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
 
 .intro-reveal.is-flying .intro-reveal__veil {
   /* Activate mask during the fly-through */
@@ -170,4 +179,9 @@
   .intro-reveal.is-flying .intro-reveal__veil { animation: none; opacity: 0; }
   .intro-prelude { opacity: 0; }
   .intro-prelude__glint { animation: none; }
+  .intro-logo-static {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
