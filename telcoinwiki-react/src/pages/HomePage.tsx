@@ -267,7 +267,7 @@ export function HomePage() {
               The Telcoin Wiki
             </h1>
             <p
-              className="max-w-none text-6xl font-medium text-telcoin-ink sm:text-8xl lg:text-9xl"
+              className="max-w-none whitespace-normal sm:whitespace-nowrap font-medium text-telcoin-ink leading-[0.95] text-[clamp(2rem,8vw,12rem)]"
               data-hero-copy
               style={hero.copyStyle}
             >
