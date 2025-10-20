@@ -1,6 +1,6 @@
 [build]
-  # Base directory is set in the Netlify UI to "telcoinwiki-react".
-  # With baseRelDir=true, publish is relative to that base.
+  # Build the app from the React workspace directly (monorepo-safe)
+  base = "telcoinwiki-react"
   publish = "dist"
   command = "npm run build"
   ignore = "bash tools/netlify-skip-non-main.sh"
@@ -27,3 +27,15 @@
   VITE_APP_ENV = "preview"
   VITE_SCROLL_STORY_ENABLED = "true"
   VITE_MEGA_MENU_ENABLED = "true"
+
+# Harden headers in production only; allow previews to render in Netlify UI
+[context.production]
+  [[headers]]
+  for = "/*"
+    [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    # Enforce no embedding in production (Netlify previews keep Report-Only from public/_headers)
+    Content-Security-Policy = "frame-ancestors 'none'; default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://telco.in https://www.telcoinnetwork.org https://www.telcoinassociation.org https://cdn.jsdelivr.net; font-src 'self'; connect-src 'self' https://www.telx.network https://telx.network https://api.telx.network;"

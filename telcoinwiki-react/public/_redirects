@@ -1,2 +1,2 @@
-# Intentionally left blank; define redirects here if needed.
-
+# SPA fallback so client routes work on refresh and deep links
+/*   /index.html   200
