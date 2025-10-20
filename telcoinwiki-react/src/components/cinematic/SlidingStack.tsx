@@ -111,7 +111,7 @@ const timelineStatesEqual = (a: TimelineState, b: TimelineState) => {
 }
 
 const fallbackWindow = (index: number, windowSize: number): TimelineWindow => {
-  if (index === 0) return { start: 0, end: 0 }
+  if (index === 0) return { start: 0, end: INITIAL_DELAY_PCT }
   const start = (index - 1) * windowSize
   const end = Math.min(100, index * windowSize)
   return { start, end }
@@ -353,7 +353,7 @@ export function SlidingStack({
 
     let cursor = INITIAL_DELAY_PCT
     const windows: TimelineWindow[] = items.map((_, index) => {
-      if (index === 0) return { start: 0, end: 0 }
+      if (index === 0) return { start: 0, end: INITIAL_DELAY_PCT }
       const start = Number(cursor.toFixed(3))
       const holdEnd = 100 - LAST_CARD_HOLD_PCT
       let end = Number((start + baseWindow).toFixed(3))
@@ -477,8 +477,7 @@ export function SlidingStack({
     const windowSpan = Math.max(0, end - start)
     let cardProgressValue = 1
     if (index === 0) {
-      const clampedProgress = Math.min(progressPct, INITIAL_DELAY_PCT)
-      cardProgressValue = INITIAL_DELAY_PCT <= 0 ? 1 : clampedProgress / INITIAL_DELAY_PCT
+      cardProgressValue = Math.max(0, Math.min(1, progressPct / Math.max(1, INITIAL_DELAY_PCT)))
     } else if (windowSpan <= 0.001) {
       cardProgressValue = progressPct >= start ? 1 : 0
     } else {
@@ -510,7 +509,8 @@ export function SlidingStack({
 
     if (useJsFallback) {
       const translateStart = timelineState.translateStart || 0
-      const translateY = translateStart * (1 - cardProgressValue)
+      const translateY =
+        index === 0 ? 0 : translateStart * Math.max(0, 1 - Math.min(1, cardProgressValue))
       const scaleRange = finalScale - initialScale
       const fallbackScale = initialScale + scaleRange * cardProgressValue
       cardStyle.transform = `translateY(${translateY.toFixed(3)}px) scale(${fallbackScale.toFixed(4)})`
