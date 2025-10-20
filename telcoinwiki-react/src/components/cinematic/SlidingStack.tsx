@@ -490,7 +490,8 @@ export function SlidingStack({
       cardProgressValue = Math.max(0, Math.min(1, raw))
     }
 
-    const easedProgress = smoothstep(cardProgressValue)
+    // Keep transforms linear to mirror desktop view‑timeline animations.
+    const easedProgress = cardProgressValue
 
     // Defer body copy reveal so only the tab + title are visible at the start.
     // For the first (hero) card, hold a bit longer.
@@ -513,9 +514,9 @@ export function SlidingStack({
 
     if (useJsFallback) {
       const translateStart = timelineState.translateStart || 0
-      const translateY = translateStart * (1 - easedProgress)
+      const translateY = translateStart * (1 - cardProgressValue)
       const scaleRange = finalScale - initialScale
-      const fallbackScale = initialScale + scaleRange * easedProgress
+      const fallbackScale = initialScale + scaleRange * cardProgressValue
       cardStyle.transform = `translateY(${translateY.toFixed(3)}px) scale(${fallbackScale.toFixed(4)})`
       cardStyle.opacity = 1
       cardStyle.pointerEvents = isActive ? 'auto' : 'none'
@@ -525,7 +526,7 @@ export function SlidingStack({
       <ColorMorphCard
         key={item.id}
         id={item.id}
-        progress={useJsFallback ? easedProgress : 1}
+        progress={useJsFallback ? cardProgressValue : 1}
         className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName, {
           'is-active': isActive,
         })}
