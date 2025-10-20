@@ -69,8 +69,10 @@
   background-size: 220% 220%, 100% 100%;
   background-position: 0% 50%, center;
   animation: introBgPulse 18s ease-in-out infinite;
-  transform: scale(1);
+  transform: translate3d(0,0,0) scale(1);
   will-change: transform, opacity;
+  backface-visibility: hidden;
+  contain: paint;
 }
 
 @keyframes introBgPulse {
@@ -126,9 +128,9 @@
   mask-position: center, center;
   mask-size: min(52vw, 380px) auto, 100% 100%;
   mask-composite: exclude;
-  /* 1.0s very-late-accel fly + quick fade near end */
+  /* 1.0s smooth late-accel fly + quick fade near end */
   animation:
-    veilFly 1000ms cubic-bezier(0.95, 0.02, 1, 1) forwards,
+    veilFly 1000ms cubic-bezier(0.7, 0.0, 1, 1) forwards,
     veilFade 300ms ease 700ms forwards;
 }
 
@@ -137,13 +139,8 @@
 
 /* no explicit keyframes: overlay fade handled via transition */
 @keyframes veilFly {
-  0%   { transform: scale(1); }
-  20%  { transform: scale(1.08); }
-  40%  { transform: scale(1.35); }
-  60%  { transform: scale(2.2); }
-  80%  { transform: scale(6.8); }
-  95%  { transform: scale(12.2); }
-  100% { transform: scale(14); }
+  from { transform: translate3d(0,0,0) scale(1); }
+  to   { transform: translate3d(0,0,0) scale(12); }
 }
 
 @keyframes veilFade { to { opacity: 0; } }
