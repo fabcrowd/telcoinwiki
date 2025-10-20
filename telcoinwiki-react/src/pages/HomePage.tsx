@@ -256,7 +256,7 @@ export function HomePage() {
           <HeroFloatingChips />
         </HeroOverlay>
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-32 pb-24 sm:px-8 lg:px-12 lg:pt-44">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 -mt-12 sm:-mt-16 lg:-mt-20">
             {/* Keep same positioning; replace copy with requested text and sizing */}
             <h1
               id="home-hero-heading"
@@ -273,7 +273,7 @@ export function HomePage() {
             >
               Clear answers. Fast learning. Community-powered.
             </p>
-            <p className="max-w-4xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
+            <p className="max-w-4xl text-lg text-telcoin-ink-muted mt-6" data-hero-copy style={hero.copyStyle}>
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and
               ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you're just getting
               started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you'll find fast, reliable guidance
