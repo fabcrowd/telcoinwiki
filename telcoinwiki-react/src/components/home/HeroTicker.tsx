@@ -1,6 +1,9 @@
 export function HeroTicker() {
   return (
-    <div className="flex w-full flex-wrap items-center gap-4 rounded-full border border-telcoin-border bg-telcoin-surface px-4 py-3 text-sm text-telcoin-ink">
+    <div
+      className="flex w-full flex-wrap items-center gap-4 rounded-full border border-telcoin-border bg-telcoin-surface px-4 py-3 text-sm text-telcoin-ink"
+      data-hero-live
+    >
       <span className="relative inline-flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-telcoin-accent blur-[2px]" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-telcoin-accent" />

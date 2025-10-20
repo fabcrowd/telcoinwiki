@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { useEffect, type CSSProperties } from 'react'
 import { SCROLL_STORY_ENABLED } from '../config/featureFlags'
 
 import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
@@ -189,6 +189,28 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
   },
 ]
 
+const HERO_MASK_MS = 1200
+const HERO_TITLE_DELAY_MS = HERO_MASK_MS
+const HERO_TITLE_DURATION_MS = 900
+const HERO_SUBTITLE_DELAY_MS = HERO_MASK_MS + HERO_TITLE_DURATION_MS / 2
+const HERO_COPY_DELAY_MS = HERO_MASK_MS + HERO_TITLE_DURATION_MS + HERO_TITLE_DURATION_MS / 2 + 150
+const HERO_COPY_DURATION_MS = 1000
+const HERO_HEADER_DELAY_MS = HERO_COPY_DELAY_MS + HERO_COPY_DURATION_MS + 150
+const HERO_HEADER_DURATION_MS = 800
+const HERO_TOTAL_MS = HERO_HEADER_DELAY_MS + HERO_HEADER_DURATION_MS + 200
+const HERO_EASE = 'cubic-bezier(0.13, 0.78, 0.2, 1)'
+
+const HERO_TIMING_PROPS: Array<[string, string]> = [
+  ['--hero-mask-duration', `${HERO_MASK_MS}ms`],
+  ['--hero-title-delay', `${HERO_TITLE_DELAY_MS}ms`],
+  ['--hero-title-duration', `${HERO_TITLE_DURATION_MS}ms`],
+  ['--hero-subtitle-delay', `${HERO_SUBTITLE_DELAY_MS}ms`],
+  ['--hero-copy-delay', `${HERO_COPY_DELAY_MS}ms`],
+  ['--hero-copy-duration', `${HERO_COPY_DURATION_MS}ms`],
+  ['--hero-header-delay', `${HERO_HEADER_DELAY_MS}ms`],
+  ['--hero-header-duration', `${HERO_HEADER_DURATION_MS}ms`],
+]
+
 type HomeStackSectionState = ReturnType<typeof useHomeBrokenMoneyScroll>
 
 function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProperties {
@@ -213,6 +235,44 @@ export function HomePage() {
   const experience = useHomeExperienceScroll()
   const learnMore = useHomeLearnMoreScroll()
   const viewportHeight = useViewportHeight()
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+
+    const root = document.documentElement
+
+    if (hero.prefersReducedMotion) {
+      root.classList.add('hero-intro-complete')
+      return () => {
+        root.classList.remove('hero-intro-complete')
+      }
+    }
+
+    HERO_TIMING_PROPS.forEach(([key, value]) => {
+      root.style.setProperty(key, value)
+    })
+    root.style.setProperty('--hero-intro-ease', HERO_EASE)
+    root.classList.add('hero-intro-active')
+
+    const playFrame = window.requestAnimationFrame(() => {
+      root.classList.add('hero-intro-play')
+    })
+
+    const doneTimer = window.setTimeout(() => {
+      root.classList.remove('hero-intro-active', 'hero-intro-play')
+      root.classList.add('hero-intro-complete')
+    }, HERO_TOTAL_MS)
+
+    return () => {
+      window.cancelAnimationFrame(playFrame)
+      window.clearTimeout(doneTimer)
+      root.classList.remove('hero-intro-active', 'hero-intro-play', 'hero-intro-complete')
+      HERO_TIMING_PROPS.forEach(([key]) => {
+        root.style.removeProperty(key)
+      })
+      root.style.removeProperty('--hero-intro-ease')
+    }
+  }, [hero.prefersReducedMotion])
 
   // Toggle for non-storyboard narrative sections (disabled per request)
   const NON_STORYBOARD_ENABLED = false

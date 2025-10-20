@@ -582,6 +582,151 @@ pre {
   opacity: 0.6;
 }
 
+/* Hero intro choreography */
+html.hero-intro-active,
+html.hero-intro-active body {
+  overflow: hidden;
+}
+
+html.hero-intro-active main.site-main {
+  pointer-events: none;
+}
+
+html.hero-intro-active main.site-main > *:not(#home-hero) {
+  visibility: hidden;
+}
+
+html.hero-intro-active #home-hero {
+  pointer-events: auto;
+}
+
+#home-hero [data-hero-title],
+#home-hero [data-hero-subtitle],
+#home-hero [data-hero-body],
+#home-hero [data-hero-live] {
+  transition: none;
+}
+
+html.hero-intro-active #home-hero [data-hero-title] {
+  opacity: 0;
+  transform: translate3d(32%, 0, 0);
+}
+
+html.hero-intro-active #home-hero [data-hero-subtitle] {
+  opacity: 0;
+  transform: translate3d(-28%, 0, 0);
+}
+
+html.hero-intro-active #home-hero [data-hero-body],
+html.hero-intro-active #home-hero [data-hero-live] {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+
+html.hero-intro-play #home-hero [data-hero-title] {
+  animation: heroTitleIn var(--hero-title-duration, 900ms) var(--hero-intro-ease, cubic-bezier(0.13, 0.78, 0.2, 1)) forwards;
+  animation-delay: var(--hero-title-delay, 1200ms);
+}
+
+html.hero-intro-play #home-hero [data-hero-subtitle] {
+  animation: heroSubtitleIn var(--hero-title-duration, 900ms) var(--hero-intro-ease, cubic-bezier(0.13, 0.78, 0.2, 1)) forwards;
+  animation-delay: var(--hero-subtitle-delay, 1650ms);
+}
+
+html.hero-intro-play #home-hero [data-hero-body],
+html.hero-intro-play #home-hero [data-hero-live] {
+  animation: heroCopyFade var(--hero-copy-duration, 1000ms) var(--hero-intro-ease, cubic-bezier(0.13, 0.78, 0.2, 1)) forwards;
+  animation-delay: var(--hero-copy-delay, 2700ms);
+}
+
+html.hero-intro-active .site-header {
+  opacity: 0;
+  transform: translate3d(0, -120%, 0);
+  animation: heroHeaderDrop var(--hero-header-duration, 800ms) var(--hero-intro-ease, cubic-bezier(0.13, 0.78, 0.2, 1)) both;
+  animation-delay: var(--hero-header-delay, 3850ms);
+  animation-play-state: paused;
+  will-change: transform;
+}
+
+html.hero-intro-play .site-header {
+  animation-play-state: running;
+}
+
+@keyframes heroTitleIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(32%, 0, 0);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes heroSubtitleIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(-28%, 0, 0);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes heroCopyFade {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes heroHeaderDrop {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -120%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.hero-intro-active,
+  html.hero-intro-active body {
+    overflow: auto;
+  }
+
+  html.hero-intro-active main.site-main {
+    pointer-events: auto;
+  }
+
+  html.hero-intro-active main.site-main > *:not(#home-hero) {
+    visibility: visible;
+  }
+
+  html.hero-intro-active #home-hero [data-hero-title],
+  html.hero-intro-active #home-hero [data-hero-subtitle],
+  html.hero-intro-active #home-hero [data-hero-body],
+  html.hero-intro-active #home-hero [data-hero-live],
+  html.hero-intro-active .site-header {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Logo marquee */
 .logo-marquee { position: relative; overflow: hidden; }
 .logo-marquee__track {
