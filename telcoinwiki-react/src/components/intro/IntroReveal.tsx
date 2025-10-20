@@ -9,9 +9,6 @@ const STATIC_LOGO_MS = 3000
 const PRELUDE_MS = 300
 // Slightly longer fly for more travel through the logo
 const FLY_MS = 1400
-// Start overlay fade very near the end of the fly for more hang-time
-const FADE_OUT_OVERLAY_MS = 420
-const FADE_HOLD_MS = 120 // delay after fly end before fade starts
 
 export interface IntroRevealProps {}
 
@@ -76,7 +73,7 @@ export function IntroReveal({}: IntroRevealProps) {
     } catch {}
 
     if (prefersReducedMotion) {
-      // Minimal: short static, short fly, quick fade
+      // Minimal: short static, short fly, quick exit
       const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
       const tFly = window.setTimeout(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
       const tDone = window.setTimeout(
@@ -90,11 +87,9 @@ export function IntroReveal({}: IntroRevealProps) {
     // Normal choreography: 3.0s static logo, 0.3s prelude, longer fly
     const tPreludeStart = window.setTimeout(() => setPrelude(true), STATIC_LOGO_MS)
     const tFly = window.setTimeout(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
-    // Remove overlay shortly after the CSS fade completes (fly + hold + fade)
-    const cssFadeTail = FADE_HOLD_MS + FADE_OUT_OVERLAY_MS
     const tDone = window.setTimeout(
       () => setActive(false),
-      STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + cssFadeTail + 100,
+      STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + 100,
     )
     timeouts.current.push(tPreludeStart, tFly, tDone)
     return () => {
