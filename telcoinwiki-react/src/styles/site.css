@@ -2083,8 +2083,106 @@ pre {
    Scroll Story: Sliding Stack (overlapping deck, pinned)
    - CSS-only via view-timeline
    - Gated by [data-sliding-stack][data-scroll-story]
-   - Mobile: falls back to static (no pin)
+   - Mobile now mirrors the desktop pinned timeline
 */
+@media (max-width: 47.99rem) {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (view-timeline-name: --v) and (animation-timeline: --v) {
+      [data-sliding-stack][data-scroll-story] {
+        /* Keep enough scroll distance so the stack can pin and animate */
+        height: calc(var(--stack-count, 4) * var(--stack-duration, 110vh) + var(--stack-tail, 0vh));
+        position: relative;
+        view-timeline-name: --stack;
+        view-timeline-axis: block;
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__viewport {
+        position: sticky;
+        top: var(--stack-top, 12vh);
+        height: calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh));
+        /* Slightly wider gutters on compact screens to match desktop framing */
+        --stack-gutter: clamp(12px, 6vw, 24px);
+        padding-inline: var(--stack-gutter);
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck {
+        position: relative;
+        height: 100%;
+        max-width: min(520px, 100%);
+        margin-inline: auto;
+        --stack-step: 60px;
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        will-change: transform, opacity;
+        transform-origin: top center;
+        border-radius: 20px;
+        transform: translateY(120vh) scale(var(--card-scale-initial, 0.985));
+        opacity: 1;
+        overflow: visible;
+        animation: stack-active linear both;
+        animation-timeline: --stack;
+        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
+        transform: translateY(0) scale(1);
+        animation: none !important;
+      }
+
+      /* Solid contrasting backgrounds per card */
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { --card-bg: var(--palette-1); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { --card-bg: var(--palette-6); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) { --card-bg: var(--palette-5); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { --card-bg: var(--palette-4); }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { top: calc(var(--stack-step) * 0); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { top: calc(var(--stack-step) * 1); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) { top: calc(var(--stack-step) * 2); }
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { top: calc(var(--stack-step) * 3); }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card .sliding-stack__title {
+        transform-origin: left center;
+        will-change: transform;
+        animation: stack-title-scale linear both;
+        animation-timeline: --stack;
+        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
+      }
+
+      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(n) .sliding-stack__body {
+        animation: none !important;
+        max-height: none !important;
+      }
+
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: 0; }
+      .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { margin-top: var(--space-2); }
+
+      @keyframes stack-active {
+        from {
+          transform:
+            translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh))))
+            scale(var(--card-scale-initial, 0.985));
+        }
+        to {
+          transform:
+            translateY(0)
+            scale(var(--card-scale-final, 1));
+        }
+      }
+
+      @keyframes stack-title-scale {
+        0%   { transform: scale(0.50); }
+        70%  { transform: scale(0.96); }
+        100% { transform: scale(1.00); }
+      }
+    }
+  }
+}
 @media (min-width: 48rem) {
   @media (prefers-reduced-motion: no-preference) {
     @supports (view-timeline-name: --v) and (animation-timeline: --v) {
