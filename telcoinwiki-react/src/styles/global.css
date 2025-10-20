@@ -116,7 +116,7 @@
 
   .home-hero-typography {
     --hero-title-size: 2.25rem;
-    --hero-body-size: calc(1.25rem + 2pt);
+    --hero-body-size: 1.05rem;
   }
 
   .home-hero-typography [data-hero-title] {
@@ -139,6 +139,7 @@
 @media (min-width: 640px) {
   .home-hero-typography {
     --hero-title-size: 3.75rem;
+    --hero-body-size: calc(1.25rem + 2pt);
   }
 }
 
