@@ -60,6 +60,7 @@ const LAST_CARD_HOLD_PCT = 20
 const TARGET_WINDOW_PCT = 12
 const INITIAL_DELAY_PCT = 7
 const WINDOW_GAP_PCT = 1.5
+const CARD_PALETTES = ['var(--palette-1)', 'var(--palette-6)', 'var(--palette-5)', 'var(--palette-4)'] as const
 
 type TimelineWindow = { start: number; end: number }
 
@@ -71,6 +72,7 @@ interface TimelineState {
   tabOffsets: number[]
   tabClearance: string
   scales: number[]
+  translateStart: number
 }
 
 const approx = (a: number, b: number, epsilon = EPSILON) => Math.abs(a - b) <= epsilon
@@ -101,6 +103,7 @@ const timelineStatesEqual = (a: TimelineState, b: TimelineState) => {
   for (let i = 0; i < a.scales.length; i += 1) {
     if (!approx(a.scales[i] ?? 1, b.scales[i] ?? 1)) return false
   }
+  if (!approx(a.translateStart, b.translateStart)) return false
   return true
 }
 
@@ -112,6 +115,16 @@ const fallbackWindow = (index: number, windowSize: number): TimelineWindow => {
 }
 
 const clampPercent = (value: number) => Math.max(0, Math.min(100, value))
+
+const detectScrollTimelineSupport = () => {
+  if (typeof window === 'undefined') return false
+  if (typeof CSS === 'undefined' || typeof CSS.supports !== 'function') return false
+  try {
+    return CSS.supports('animation-timeline: scroll()') || CSS.supports('view-timeline-name: --stack')
+  } catch {
+    return false
+  }
+}
 
 export function SlidingStack({
   items,
@@ -138,6 +151,16 @@ export function SlidingStack({
     onProgressChange(progress)
   }, [effectiveDisabled, onProgressChange, progress])
 
+  const [supportsScrollTimeline, setSupportsScrollTimeline] = useState(() => detectScrollTimelineSupport())
+
+  useEffect(() => {
+    setSupportsScrollTimeline(detectScrollTimelineSupport())
+  }, [])
+
+  const canAnimate = !effectiveDisabled
+  const useJsFallback = canAnimate && !supportsScrollTimeline
+  const stackModeClass = canAnimate ? 'sliding-stack--interactive' : 'sliding-stack--static'
+
   const initialAnnouncement = items.length ? `Slide 1 of ${items.length}: ${items[0].title}` : ''
 
   const [timelineState, setTimelineState] = useState<TimelineState>({
@@ -148,6 +171,7 @@ export function SlidingStack({
     tabOffsets: [],
     tabClearance: DEFAULT_TAB_CLEARANCE,
     scales: [],
+    translateStart: 0,
   })
 
   const renderCardContent = (item: SlidingStackItem, ctaLabel = 'Learn more') => {
@@ -207,15 +231,26 @@ export function SlidingStack({
   const cssVars = useMemo(() => {
     const animatedCount = Math.max((items.length || 1) - 1, 1)
     const vars: CSSProperties &
-      Record<'--stack-count' | '--stack-duration' | '--stack-tail' | '--stack-step' | '--stack-tab-clearance', string> = {
+      Record<
+        '--stack-count' | '--stack-duration' | '--stack-tail' | '--stack-step' | '--stack-tab-clearance' | '--stack-translate-start',
+        string
+      > = {
       '--stack-count': String(animatedCount),
       '--stack-duration': timelineState.duration,
       '--stack-tail': timelineState.tail,
       '--stack-step': timelineState.step,
       '--stack-tab-clearance': timelineState.tabClearance,
+      '--stack-translate-start': `${timelineState.translateStart.toFixed(2)}px`,
     }
     return vars
-  }, [items.length, timelineState.duration, timelineState.step, timelineState.tail, timelineState.tabClearance])
+  }, [
+    items.length,
+    timelineState.duration,
+    timelineState.step,
+    timelineState.tail,
+    timelineState.tabClearance,
+    timelineState.translateStart,
+  ])
 
   const activeIndex = useMemo(() => {
     if (items.length <= 1) return 0
@@ -277,6 +312,7 @@ export function SlidingStack({
     const stackBottomPx = parsePx(computedStyles?.getPropertyValue('--stack-bottom'))
     const availableHeight = Math.max(320, viewportHeight - stackTopPx - stackBottomPx)
     const targetHeight = Math.max(availableHeight - SAFE_PADDING_PX, availableHeight * 0.88)
+    const translateStartPx = Math.max(0, viewportHeight - stackTopPx - stackBottomPx)
 
     const animatedCountLocal = Math.max(items.length - 1, 1)
     const gapTotal = WINDOW_GAP_PCT * Math.max(animatedCountLocal - 1, 0)
@@ -341,6 +377,7 @@ export function SlidingStack({
       tabOffsets,
       tabClearance: `${tabClearance.toFixed(2)}px`,
       scales,
+      translateStart: translateStartPx,
     }
 
     setTimelineState((prev) => (timelineStatesEqual(prev, nextState) ? prev : nextState))
@@ -368,6 +405,8 @@ export function SlidingStack({
   }, [computeTimeline, items.length])
 
   cardRefs.current.length = items.length
+
+  const progressPct = progress * 100
 
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
@@ -404,16 +443,51 @@ export function SlidingStack({
       '--card-tab-offset': `${tabPadding.toFixed(2)}px`,
     }
 
+    const windowSpan = Math.max(0, end - start)
+    let cardProgressValue = 1
+    if (index === 0) {
+      cardProgressValue = 1
+    } else if (windowSpan <= 0.001) {
+      cardProgressValue = progressPct >= start ? 1 : 0
+    } else {
+      const raw = (progressPct - start) / windowSpan
+      cardProgressValue = Math.max(0, Math.min(1, raw))
+    }
+
+    const palette = CARD_PALETTES[index % CARD_PALETTES.length]
+    const isActive = index === activeIndex
+
+    const cardStyle: CSSProperties = {
+      zIndex,
+      ...timingVars,
+      top: `calc(var(--stack-step) * ${index})`,
+      '--card-bg': palette,
+    }
+
+    if (useJsFallback) {
+      const translateStart = timelineState.translateStart || 0
+      const translateY = translateStart * (1 - cardProgressValue)
+      const scaleRange = finalScale - initialScale
+      const fallbackScale = initialScale + scaleRange * cardProgressValue
+      cardStyle.transform = `translateY(${translateY.toFixed(3)}px) scale(${fallbackScale.toFixed(4)})`
+      cardStyle.opacity = 1
+      cardStyle.pointerEvents = isActive ? 'auto' : 'none'
+    }
+
     return (
       <ColorMorphCard
         key={item.id}
         id={item.id}
-        progress={1}
-        className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName)}
+        progress={useJsFallback ? cardProgressValue : 1}
+        className={cn(
+          'sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14',
+          cardClassName,
+          { 'is-active': isActive },
+        )}
         ref={(node) => {
           cardRefs.current[index] = node
         }}
-        style={{ zIndex, ...timingVars }}
+        style={cardStyle}
       >
         <div className="sliding-stack__tab">
           <span className="sliding-stack__tab-text">{item.tabLabel ?? item.title}</span>
@@ -426,9 +500,9 @@ export function SlidingStack({
   return (
     <div
       ref={containerRef}
-      className={cn('sliding-stack sliding-stack--static', className)}
+      className={cn('sliding-stack', stackModeClass, className)}
       data-sliding-stack=""
-      data-scroll-story={SCROLL_STORY_ENABLED && !prefersReducedMotion ? '' : undefined}
+      data-scroll-story={canAnimate ? '' : undefined}
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       data-active-index={activeIndex}
       style={{
