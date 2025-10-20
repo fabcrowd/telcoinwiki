@@ -2129,7 +2129,7 @@ pre {
         overflow: visible;
       }
 
-      /* Title scale-in with end bulge */
+      /* Title scale-in: smooth grow (no overshoot) */
       [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card .sliding-stack__title {
         transform-origin: left center;
         will-change: transform;
@@ -2184,11 +2184,11 @@ pre {
         }
       }
 
+      /* Smooth grow-in for slide titles: start at 50% size, no overshoot */
       @keyframes stack-title-scale {
-        0%   { transform: scale(0.92); }
-        85%  { transform: scale(1.00); }
-        98%  { transform: scale(1.06); }
-        100% { transform: scale(1.02); }
+        0%   { transform: scale(0.50); }
+        70%  { transform: scale(0.96); }
+        100% { transform: scale(1.00); }
       }
 
       /* Keep card body visible at all times (no collapse) */
