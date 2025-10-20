@@ -62,7 +62,8 @@ const INITIAL_DELAY_PCT = 7
 const WINDOW_GAP_PCT = 1.5
 const CARD_PALETTES = ['var(--palette-1)', 'var(--palette-6)', 'var(--palette-5)', 'var(--palette-4)'] as const
 const COMPACT_VIEWPORT_QUERY = '(max-width: 48rem)'
-const SCROLL_SLOWDOWN_MULTIPLIER = 1.5
+// Mobile-only fallback pacing multiplier (no effect on desktop view‑timeline)
+const MOBILE_FALLBACK_SLOWDOWN = 2.0
 
 type TimelineWindow = { start: number; end: number }
 
@@ -386,11 +387,12 @@ export function SlidingStack({
     const speedFactor = 0.8
     const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 18
     const durationClamp = Math.max(12, Math.min(20, durationBase))
-    const durationVhBase = Math.max(9.6, Math.min(16, durationClamp * speedFactor))
-    const durationVh = Math.min(24, durationVhBase * SCROLL_SLOWDOWN_MULTIPLIER)
+    let durationVh = Math.max(9.6, Math.min(16, durationClamp * speedFactor))
+    // Mobile fallback needs a longer runway to feel right
+    if (isCompactViewport) durationVh = Math.min(32, durationVh * MOBILE_FALLBACK_SLOWDOWN)
     const tailBase = durationVh * 0.35 + 4 * speedFactor
     const tailRaw = Math.max(tailBase, durationVh + 4 * speedFactor)
-    const tailVh = Math.min(180, tailRaw)
+    const tailVh = isCompactViewport ? Math.min(200, tailRaw * 1.25) : Math.min(120, tailRaw)
     const tabClearance = Math.max(baseTabHeight * 1.05, 72)
 
     const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
@@ -415,7 +417,7 @@ export function SlidingStack({
     }
 
     setTimelineState((prev) => (timelineStatesEqual(prev, nextState) ? prev : nextState))
-  }, [items.length, windowSize])
+  }, [items.length, windowSize, isCompactViewport])
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return
@@ -490,6 +492,12 @@ export function SlidingStack({
 
     const easedProgress = smoothstep(cardProgressValue)
 
+    // Defer body copy reveal so only the tab + title are visible at the start.
+    // For the first (hero) card, hold a bit longer.
+    const appearStart = index === 0 ? 0.55 : 0.35
+    const appearEnd = 0.85
+    const bodyProgress = Math.max(0, Math.min(1, (easedProgress - appearStart) / Math.max(0.0001, appearEnd - appearStart)))
+
     const palette = CARD_PALETTES[index % CARD_PALETTES.length]
     const isActive = canAnimate && index === activeIndex
 
@@ -529,7 +537,12 @@ export function SlidingStack({
         <div className="sliding-stack__tab">
           <span className="sliding-stack__tab-text">{item.tabLabel ?? item.title}</span>
         </div>
-        <div className="sliding-stack__body px-6 sm:px-8 lg:px-10">{renderCardContent(item, ctaLabel)}</div>
+        <div
+          className="sliding-stack__body px-6 sm:px-8 lg:px-10"
+          style={useJsFallback ? { opacity: bodyProgress, transform: `translateY(${(1 - bodyProgress) * 12}px)`, transition: 'opacity 120ms linear, transform 180ms ease-out' } : undefined}
+        >
+          {renderCardContent(item, ctaLabel)}
+        </div>
       </ColorMorphCard>
     )
   })
