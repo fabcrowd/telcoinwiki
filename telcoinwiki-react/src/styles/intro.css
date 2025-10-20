@@ -151,7 +151,7 @@
   transform-origin: center;
   /* Slightly longer fly, fade begins very near the end for more “hang-time” */
   animation:
-    veilFly var(--intro-fly-ms) linear forwards,
+    veilFly var(--intro-fly-ms) forwards,
     veilFade var(--intro-fade-ms) ease calc(var(--intro-fly-ms) + var(--intro-fade-hold)) forwards;
 }
 
@@ -164,16 +164,25 @@
     transform: translate3d(0,0,0) scale(1);
     -webkit-mask-position: 50% center, center;
     mask-position: 50% center, center;
+    animation-timing-function: cubic-bezier(.6, .02, .4, .6);
   }
-  30% {
-    transform: translate3d(calc(var(--intro-pan-translate) * 0.18), 0, 0) scale(1.6);
-    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x) * 0.18) center, center;
-    mask-position: calc(50% - var(--intro-mask-offset-x) * 0.18) center, center;
+  18% {
+    transform: translate3d(calc(var(--intro-pan-translate) * 0.06), 0, 0) scale(1.24);
+    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x) * 0.06) center, center;
+    mask-position: calc(50% - var(--intro-mask-offset-x) * 0.06) center, center;
+    animation-timing-function: cubic-bezier(.3, .7, .4, 1);
   }
-  68% {
-    transform: translate3d(calc(var(--intro-pan-translate) * 0.66), 0, 0) scale(4.8);
-    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x) * 0.66) center, center;
-    mask-position: calc(50% - var(--intro-mask-offset-x) * 0.66) center, center;
+  42% {
+    transform: translate3d(calc(var(--intro-pan-translate) * 0.32), 0, 0) scale(2.8);
+    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x) * 0.32) center, center;
+    mask-position: calc(50% - var(--intro-mask-offset-x) * 0.32) center, center;
+    animation-timing-function: cubic-bezier(.35, .85, .55, 1);
+  }
+  72% {
+    transform: translate3d(calc(var(--intro-pan-translate) * 0.7), 0, 0) scale(6.6);
+    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x) * 0.7) center, center;
+    mask-position: calc(50% - var(--intro-mask-offset-x) * 0.7) center, center;
+    animation-timing-function: cubic-bezier(.4, .9, .64, 1);
   }
   100% {
     transform: translate3d(var(--intro-pan-translate), 0, 0) scale(12);
