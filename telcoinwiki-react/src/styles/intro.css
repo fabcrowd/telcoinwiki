@@ -16,6 +16,44 @@
   pointer-events: auto; /* block underlying interactions during intro */
 }
 
+/* Prelude: outline draw + subtle glint */
+.intro-prelude {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.intro-prelude__svg {
+  width: min(52vw, 380px);
+  height: auto;
+}
+
+.intro-prelude__telcoin,
+.intro-prelude__wiki {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: preludeDraw 700ms cubic-bezier(.22,.61,.36,1) forwards;
+}
+.intro-prelude__wiki { animation-delay: 80ms; }
+
+@keyframes preludeDraw { to { stroke-dashoffset: 0; } }
+
+.intro-prelude__glint {
+  stroke-dasharray: 0.18 0.82;
+  stroke-dashoffset: 1.2;
+  opacity: 0.0;
+  animation:
+    glintAppear 50ms ease 640ms forwards,
+    glintTravel 350ms cubic-bezier(.22,.61,.36,1) 650ms forwards,
+    glintFade 120ms ease 940ms forwards;
+}
+.intro-prelude__glint--wiki { animation-delay: 700ms, 710ms, 980ms; }
+
+@keyframes glintAppear { to { opacity: 0.8; } }
+@keyframes glintTravel { to { stroke-dashoffset: -1.2; } }
+@keyframes glintFade   { to { opacity: 0.0; } }
+
 .intro-reveal__veil {
   position: absolute;
   inset: 0;
@@ -75,6 +113,9 @@
     veilFade 600ms ease 1500ms forwards;
 }
 
+/* Hide prelude once fly starts */
+.intro-reveal.is-flying .intro-prelude { opacity: 0; transition: opacity 150ms ease; }
+
 /* no explicit keyframes: overlay fade handled via transition */
 @keyframes veilFly {
   0%   { transform: scale(1); }
@@ -90,7 +131,8 @@
 /* Reduced motion: keep minimal and quick */
 @media (prefers-reduced-motion: reduce) {
   .intro-reveal__veil { animation: none; }
-  .intro-reveal__logo { animation-duration: 250ms; }
-  .intro-reveal.is-flying .intro-reveal__logo { animation-duration: 350ms; }
   .intro-reveal.is-flying .intro-reveal__veil { animation: none; opacity: 0; }
+  .intro-prelude__telcoin,
+  .intro-prelude__wiki { animation-duration: 200ms; }
+  .intro-prelude__glint { animation: none; }
 }
