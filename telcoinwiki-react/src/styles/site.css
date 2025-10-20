@@ -544,22 +544,26 @@ pre {
 .hero-layer.mask-sweep { --hero-clip: 10%; }
 .hero-layer.mask-hud { --hero-clip: 12%; }
 .animate-hero-mask .hero-layer {
-  animation: heroMask 1.2s var(--transition-overshoot) forwards;
+  /* Slightly longer to allow for an end fade */
+  animation: heroMask 1.35s var(--transition-overshoot) forwards;
 }
 @keyframes heroMask {
-  from { --hero-clip: 12%; opacity: 0.85; }
-  to { --hero-clip: 0%; opacity: 1; }
+  0%   { --hero-clip: 12%; opacity: 0.85; }
+  85%  { --hero-clip: 1.5%; opacity: 0.9; }
+  100% { --hero-clip: 0%; opacity: 0; }
 }
 /* Subtle alternates for layer variety */
 .animate-hero-mask .hero-layer.mask-diagonal { animation-name: heroMaskDiagonal; }
 .animate-hero-mask .hero-layer.mask-sweep { animation-name: heroMaskSweep; }
 @keyframes heroMaskDiagonal {
-  0% { clip-path: polygon(0% 0%, 100% 0%, 100% 18%, 0% 32%); opacity: .85 }
-  100% { clip-path: inset(0% 0 0 0); opacity: 1 }
+  0%  { clip-path: polygon(0% 0%, 100% 0%, 100% 18%, 0% 32%); opacity: .85 }
+  85% { clip-path: inset(1.5% 0 0 0); opacity: .9 }
+  100%{ clip-path: inset(0% 0 0 0); opacity: 0 }
 }
 @keyframes heroMaskSweep {
-  0% { clip-path: inset(18% 0 0 0); opacity: .85 }
-  100% { clip-path: inset(0% 0 0 0); opacity: 1 }
+  0%  { clip-path: inset(18% 0 0 0); opacity: .85 }
+  85% { clip-path: inset(1.5% 0 0 0); opacity: .9 }
+  100%{ clip-path: inset(0% 0 0 0); opacity: 0 }
 }
 .hero-video {
   width: 100%;
