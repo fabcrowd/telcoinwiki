@@ -19,8 +19,9 @@
   --intro-fade-ms: 420ms;
   /* Start fade slightly AFTER the fly completes to emphasize the travel */
   --intro-fade-hold: 120ms;
-  /* Render the mask at native vector size; transform handles the zoom */
-  --intro-mask-scale: 1;
+  /* Render the mask at high resolution but pre-scale to avoid a pop */
+  --intro-mask-scale: 10;
+  --intro-mask-initial-scale: 0.1;
   --intro-zoom-scale: 12;
 }
 
@@ -151,6 +152,7 @@
   /* Pivot the scale toward the W for a true fly-through */
   transform-origin: calc(50% - var(--intro-mask-offset-x)) center;
   /* Slightly longer fly, fade begins very near the end for more “hang-time” */
+  transform: translate3d(0, 0, 0) scale(var(--intro-mask-initial-scale));
   animation:
     veilFly var(--intro-fly-ms) cubic-bezier(0.98, 0.02, 1, 1) forwards,
     veilFade var(--intro-fade-ms) ease calc(var(--intro-fly-ms) + var(--intro-fade-hold)) forwards;
@@ -161,7 +163,7 @@
 
 /* no explicit keyframes: overlay fade handled via transition */
 @keyframes veilFly {
-  from { transform: translate3d(0,0,0) scale(1); }
+  from { transform: translate3d(0,0,0) scale(var(--intro-mask-initial-scale)); }
   to   { transform: translate3d(0,0,0) scale(var(--intro-zoom-scale)); }
 }
 
