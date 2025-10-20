@@ -6,27 +6,16 @@
     linear-gradient(135deg, var(--palette-4) 0%, var(--palette-5) 48%, var(--palette-6) 100%);
 }
 
-@property --intro-mask-offset-current {
-  syntax: '<length-percentage>';
-  inherits: true;
-  initial-value: 0px;
-}
+/* no CSS custom property registration needed with fixed path */
 
 /* Tunables for the intro sequence; scoped so they can be adjusted from JS later if needed */
 .intro-reveal {
   /* Size the mask consistently across viewports */
   --intro-logo-size: min(62vw, 460px);
-  /* Starting center (hold on overall logo before moving) */
-  --intro-mask-center-start: 0.5;
-  /* Mid trajectory as we nudge toward the pathway */
-  --intro-mask-center-mid: 0.56;
-  /* Target glyph center (aim into the “N” as we fly) */
-  --intro-mask-center-end: 0.62;
-  /* Derived offsets for mask positioning */
-  --intro-mask-offset-start: calc((var(--intro-mask-center-start) - 0.5) * var(--intro-logo-size));
-  --intro-mask-offset-mid: calc((var(--intro-mask-center-mid) - 0.5) * var(--intro-logo-size));
-  --intro-mask-offset-end: calc((var(--intro-mask-center-end) - 0.5) * var(--intro-logo-size));
-  --intro-mask-offset-current: var(--intro-mask-offset-start);
+  /* Fixed aim point: shift left so we fly through the “N”.
+     0.56 empirically centers the mask on the N in our viewBox. */
+  --intro-mask-center: 0.56;
+  --intro-mask-offset: calc((var(--intro-mask-center) - 0.5) * var(--intro-logo-size));
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
   --intro-fly-ms: 1400ms;
   --intro-fade-ms: 420ms;
@@ -102,11 +91,11 @@
   background-position: 0% 50%, center;
   animation: introBgPulse 18s ease-in-out infinite;
   transform: translate3d(0,0,0) scale(1);
-  transform-origin: calc(50% - var(--intro-mask-offset-current)) center;
+  transform-origin: calc(50% - var(--intro-mask-offset)) center;
   will-change: transform, opacity;
   backface-visibility: hidden;
   contain: paint;
-  --intro-mask-offset-current: var(--intro-mask-offset-start);
+  /* lock mask offset for this sequence */
 }
 
 @keyframes introBgPulse {
@@ -155,23 +144,22 @@
   -webkit-mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   -webkit-mask-repeat: no-repeat, no-repeat;
   /* Center the Wiki “W” by shifting mask X position */
-  -webkit-mask-position: calc(50% - var(--intro-mask-offset-current)) center, center;
+  -webkit-mask-position: calc(50% - var(--intro-mask-offset)) center, center;
   -webkit-mask-size: calc(var(--intro-logo-size) * var(--intro-mask-scale)) auto, 100% 100%;
   -webkit-mask-composite: xor;
   mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   mask-repeat: no-repeat, no-repeat;
   /* Same shift for the standard mask */
-  mask-position: calc(50% - var(--intro-mask-offset-current)) center, center;
+  mask-position: calc(50% - var(--intro-mask-offset)) center, center;
   mask-size: calc(var(--intro-logo-size) * var(--intro-mask-scale)) auto, 100% 100%;
   mask-composite: exclude;
   /* Pivot the scale toward the W for a true fly-through */
-  transform-origin: calc(50% - var(--intro-mask-offset-current)) center;
+  transform-origin: calc(50% - var(--intro-mask-offset)) center;
   /* Slightly longer fly, fade begins very near the end for more “hang-time” */
   transform: translate3d(0, 0, 0) scale(var(--intro-mask-initial-scale));
   animation:
     veilFly var(--intro-fly-ms) cubic-bezier(0.98, 0.02, 1, 1) forwards,
-    veilFade var(--intro-fade-ms) ease calc(var(--intro-fly-ms) + var(--intro-fade-hold)) forwards,
-    veilAim var(--intro-fly-ms) cubic-bezier(.22,.61,.36,1) forwards;
+    veilFade var(--intro-fade-ms) ease calc(var(--intro-fly-ms) + var(--intro-fade-hold)) forwards;
 }
 
 /* Hide prelude once fly starts */
@@ -185,12 +173,7 @@
 
 @keyframes veilFade { to { opacity: 0; } }
 
-@keyframes veilAim {
-  0% { --intro-mask-offset-current: var(--intro-mask-offset-start); }
-  25% { --intro-mask-offset-current: var(--intro-mask-offset-start); }
-  70% { --intro-mask-offset-current: var(--intro-mask-offset-mid); }
-  100% { --intro-mask-offset-current: var(--intro-mask-offset-end); }
-}
+/* no aim-slide: we apply a single global left shift */
 
 /* Reduced motion: keep minimal and quick */
 @media (prefers-reduced-motion: reduce) {
