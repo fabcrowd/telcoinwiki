@@ -267,9 +267,9 @@ export function HomePage() {
               The Telcoin Wiki
             </h1>
             <p
-              className="max-w-none whitespace-normal sm:whitespace-nowrap font-medium text-telcoin-ink leading-[0.95] text-[clamp(2rem,8vw,12rem)]"
+              className="max-w-none whitespace-normal sm:whitespace-nowrap font-medium text-telcoin-ink leading-[0.9]"
               data-hero-copy
-              style={hero.copyStyle}
+              style={hero.copyStyle ? { ...hero.copyStyle, fontSize: 'clamp(4rem, 10vw, 14rem)' } : { fontSize: 'clamp(4rem, 10vw, 14rem)' }}
             >
               Clear answers. Fast learning. Community-powered.
             </p>
