@@ -270,19 +270,27 @@ export function HomePage() {
               The Telcoin Wiki
             </h1>
             <p
-              className="max-w-none whitespace-normal sm:whitespace-nowrap font-medium text-telcoin-ink leading-tight text-[calc(var(--hero-title-size)*0.5)]"
+              className="max-w-none whitespace-normal sm:whitespace-nowrap font-medium text-telcoin-ink leading-tight text-[calc(var(--hero-title-size)/2)]"
               data-hero-copy
               style={hero.copyStyle}
             >
               Clear answers. Fast learning. Community-powered.
             </p>
-            <p className="max-w-6xl text-xl text-telcoin-ink-muted mt-6" data-hero-copy style={hero.copyStyle}>
+            <p
+              className="max-w-6xl text-[calc(theme(fontSize.xl)+2pt)] text-telcoin-ink-muted mt-6"
+              data-hero-copy
+              style={hero.copyStyle}
+            >
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and
               ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you're just getting
               started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you'll find fast, reliable guidance
               grounded in official documentation and field-tested by active users.
             </p>
-            <p className="max-w-4xl text-xl text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
+            <p
+              className="max-w-4xl text-[calc(theme(fontSize.xl)+2pt)] text-telcoin-ink-muted"
+              data-hero-copy
+              style={hero.copyStyle}
+            >
               All content is kept current by contributors, with live reference points and connected resources across the
               Telcoin platform.
             </p>
