@@ -19,9 +19,9 @@
   --intro-fade-ms: 420ms;
   /* Start fade slightly AFTER the fly completes to emphasize the travel */
   --intro-fade-hold: 120ms;
-  /* Render the mask at a higher resolution to avoid aliasing during the zoom */
-  --intro-mask-scale: 12;
-  --intro-zoom-scale: 11;
+  /* Render the mask at native vector size; transform handles the zoom */
+  --intro-mask-scale: 1;
+  --intro-zoom-scale: 12;
 }
 
 .intro-reveal {
