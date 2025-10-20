@@ -482,7 +482,8 @@ export function SlidingStack({
     const windowSpan = Math.max(0, end - start)
     let cardProgressValue = 1
     if (index === 0) {
-      cardProgressValue = 1
+      const clampedProgress = Math.min(progressPct, INITIAL_DELAY_PCT)
+      cardProgressValue = INITIAL_DELAY_PCT <= 0 ? 1 : clampedProgress / INITIAL_DELAY_PCT
     } else if (windowSpan <= 0.001) {
       cardProgressValue = progressPct >= start ? 1 : 0
     } else {
