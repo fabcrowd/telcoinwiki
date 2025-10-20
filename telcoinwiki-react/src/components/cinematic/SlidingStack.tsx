@@ -62,6 +62,7 @@ const INITIAL_DELAY_PCT = 7
 const WINDOW_GAP_PCT = 1.5
 const CARD_PALETTES = ['var(--palette-1)', 'var(--palette-6)', 'var(--palette-5)', 'var(--palette-4)'] as const
 const COMPACT_VIEWPORT_QUERY = '(max-width: 48rem)'
+const SCROLL_SLOWDOWN_MULTIPLIER = 1.5
 
 type TimelineWindow = { start: number; end: number }
 
@@ -130,6 +131,11 @@ const detectScrollTimelineSupport = () => {
 const detectCompactViewport = () => {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false
   return window.matchMedia(COMPACT_VIEWPORT_QUERY).matches
+}
+
+const smoothstep = (value: number) => {
+  const clamped = Math.max(0, Math.min(1, value))
+  return clamped * clamped * (3 - 2 * clamped)
 }
 
 export function SlidingStack({
@@ -380,10 +386,11 @@ export function SlidingStack({
     const speedFactor = 0.8
     const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 18
     const durationClamp = Math.max(12, Math.min(20, durationBase))
-    const durationVh = Math.max(9.6, Math.min(16, durationClamp * speedFactor))
+    const durationVhBase = Math.max(9.6, Math.min(16, durationClamp * speedFactor))
+    const durationVh = Math.min(24, durationVhBase * SCROLL_SLOWDOWN_MULTIPLIER)
     const tailBase = durationVh * 0.35 + 4 * speedFactor
     const tailRaw = Math.max(tailBase, durationVh + 4 * speedFactor)
-    const tailVh = Math.min(120, tailRaw)
+    const tailVh = Math.min(180, tailRaw)
     const tabClearance = Math.max(baseTabHeight * 1.05, 72)
 
     const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
@@ -481,6 +488,8 @@ export function SlidingStack({
       cardProgressValue = Math.max(0, Math.min(1, raw))
     }
 
+    const easedProgress = smoothstep(cardProgressValue)
+
     const palette = CARD_PALETTES[index % CARD_PALETTES.length]
     const isActive = canAnimate && index === activeIndex
 
@@ -496,9 +505,9 @@ export function SlidingStack({
 
     if (useJsFallback) {
       const translateStart = timelineState.translateStart || 0
-      const translateY = translateStart * (1 - cardProgressValue)
+      const translateY = translateStart * (1 - easedProgress)
       const scaleRange = finalScale - initialScale
-      const fallbackScale = initialScale + scaleRange * cardProgressValue
+      const fallbackScale = initialScale + scaleRange * easedProgress
       cardStyle.transform = `translateY(${translateY.toFixed(3)}px) scale(${fallbackScale.toFixed(4)})`
       cardStyle.opacity = 1
       cardStyle.pointerEvents = isActive ? 'auto' : 'none'
@@ -508,7 +517,7 @@ export function SlidingStack({
       <ColorMorphCard
         key={item.id}
         id={item.id}
-        progress={useJsFallback ? cardProgressValue : 1}
+        progress={useJsFallback ? easedProgress : 1}
         className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName, {
           'is-active': isActive,
         })}
