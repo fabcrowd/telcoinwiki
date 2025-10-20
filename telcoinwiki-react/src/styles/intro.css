@@ -16,12 +16,15 @@
 .intro-reveal {
   /* Size the mask consistently across viewports */
   --intro-logo-size: min(62vw, 460px);
-  /* Center of the starting glyph (Telcoin “O”) in viewBox space */
-  --intro-mask-center-start: 0.48;
+  /* Starting center (hold on overall logo before moving) */
+  --intro-mask-center-start: 0.5;
+  /* Mid trajectory as we nudge toward the pathway */
+  --intro-mask-center-mid: 0.56;
   /* Target glyph center (aim into the “N” as we fly) */
   --intro-mask-center-end: 0.62;
   /* Derived offsets for mask positioning */
   --intro-mask-offset-start: calc((var(--intro-mask-center-start) - 0.5) * var(--intro-logo-size));
+  --intro-mask-offset-mid: calc((var(--intro-mask-center-mid) - 0.5) * var(--intro-logo-size));
   --intro-mask-offset-end: calc((var(--intro-mask-center-end) - 0.5) * var(--intro-logo-size));
   --intro-mask-offset-current: var(--intro-mask-offset-start);
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
@@ -184,7 +187,8 @@
 
 @keyframes veilAim {
   0% { --intro-mask-offset-current: var(--intro-mask-offset-start); }
-  35% { --intro-mask-offset-current: var(--intro-mask-offset-start); }
+  25% { --intro-mask-offset-current: var(--intro-mask-offset-start); }
+  70% { --intro-mask-offset-current: var(--intro-mask-offset-mid); }
   100% { --intro-mask-offset-current: var(--intro-mask-offset-end); }
 }
 
