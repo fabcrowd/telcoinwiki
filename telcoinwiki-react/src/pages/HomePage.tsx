@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { CSSProperties } from 'react'
 import { SCROLL_STORY_ENABLED } from '../config/featureFlags'
 
@@ -21,6 +22,12 @@ import {
 } from '../hooks/useHomeScrollSections'
 import { cn } from '../utils/cn'
 import { useViewportHeight } from '../hooks/useViewportHeight'
+
+const HERO_MASK_TOTAL_MS = 1200 + 160
+const HERO_TITLE_DURATION_MS = 900
+const HERO_SUBTITLE_DURATION_MS = 900
+const HERO_COPY_FADE_MS = 1000
+const HERO_HEADER_DURATION_MS = 800
 
 interface HomeNarrativeSection {
   id: 'broken-money' | 'telcoin-model' | 'engine' | 'experience' | 'learn-more'
@@ -230,6 +237,106 @@ export function HomePage() {
     state: sectionStates[section.id],
   }))
 
+  useEffect(() => {
+    if (hero.prefersReducedMotion) return
+    const body = document.body
+    if (!body) return
+
+    const classes = {
+      base: 'home-intro',
+      scrollLock: 'home-intro-scroll-lock',
+      title: 'home-intro-stage-title',
+      subtitle: 'home-intro-stage-subtitle',
+      copy: 'home-intro-stage-copy',
+      header: 'home-intro-stage-header',
+      complete: 'home-intro-complete',
+    }
+
+    body.classList.add(classes.base, classes.scrollLock)
+
+    const timeouts: number[] = []
+    const schedule = (delay: number, className: string) => {
+      const id = window.setTimeout(() => body.classList.add(className), delay)
+      timeouts.push(id)
+    }
+
+    const titleStart = HERO_MASK_TOTAL_MS
+    const subtitleStart = HERO_MASK_TOTAL_MS + HERO_TITLE_DURATION_MS / 2
+    const copyStart = Math.max(titleStart + HERO_TITLE_DURATION_MS, subtitleStart + HERO_SUBTITLE_DURATION_MS) + 120
+    const headerStart = copyStart + HERO_COPY_FADE_MS
+    const completion = headerStart + HERO_HEADER_DURATION_MS
+
+    let allowScrollRelease = false
+    let pendingScrollRelease = false
+
+    schedule(titleStart, classes.title)
+    schedule(subtitleStart, classes.subtitle)
+    schedule(copyStart, classes.copy)
+    schedule(headerStart, classes.header)
+    const completionTimer = window.setTimeout(() => {
+      body.classList.add(classes.complete)
+      body.classList.remove(classes.base)
+      allowScrollRelease = true
+      if (pendingScrollRelease) {
+        pendingScrollRelease = false
+        finalizeScrollLock()
+      }
+    }, completion)
+    timeouts.push(completionTimer)
+
+    const finalizeScrollLock = () => {
+      if (!body.classList.contains(classes.scrollLock)) return
+      body.classList.remove(classes.scrollLock)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('wheel', onWheel)
+      window.removeEventListener('touchmove', onTouchIntent)
+      window.removeEventListener('keydown', onKeyIntent)
+    }
+
+    const requestScrollRelease = () => {
+      if (!allowScrollRelease) {
+        pendingScrollRelease = true
+        return
+      }
+      finalizeScrollLock()
+    }
+
+    const onScroll = () => {
+      if (window.scrollY > 2) {
+        requestScrollRelease()
+      }
+    }
+
+    const onWheel = () => {
+      requestScrollRelease()
+    }
+
+    const onTouchIntent = () => {
+      requestScrollRelease()
+    }
+
+    const scrollKeys = new Set(['PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft', 'End', 'Home', ' ', 'Spacebar'])
+    const onKeyIntent = (event: KeyboardEvent) => {
+      if (scrollKeys.has(event.key)) {
+        requestScrollRelease()
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('wheel', onWheel, { passive: true })
+    window.addEventListener('touchmove', onTouchIntent, { passive: true })
+    window.addEventListener('keydown', onKeyIntent)
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('wheel', onWheel)
+      window.removeEventListener('touchmove', onTouchIntent)
+      window.removeEventListener('keydown', onKeyIntent)
+      timeouts.forEach((id) => window.clearTimeout(id))
+      Object.values(classes).forEach((className) => body.classList.remove(className))
+    }
+  }, [hero.prefersReducedMotion])
+
   // Removed story pin variables along with storyboard
 
   return (
@@ -304,6 +411,7 @@ export function HomePage() {
         <div
           className="pointer-events-auto absolute inset-x-6 bottom-24 sm:inset-x-8 sm:bottom-28 lg:inset-x-12 lg:bottom-32"
           data-hero-copy
+          data-hero-ticker
           style={hero.copyStyle}
         >
           <div className="mx-auto max-w-6xl">
