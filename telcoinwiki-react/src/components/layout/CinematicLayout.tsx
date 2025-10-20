@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import type { NavItem, PageMetaMap, SearchConfig } from '../../config/types'
 import { Header } from './Header'
 import { MAIN_CONTENT_ID, useHashScroll, useLayoutChrome } from './layoutShared'
+import { IntroReveal } from '../intro/IntroReveal'
 
 interface CinematicLayoutProps {
   pageId: string
@@ -34,6 +35,8 @@ export function CinematicLayout({
   return (
     <>
       <div className="app-layer app-layer--cinematic" data-stage-host>
+        {/* First-load intro overlay (session-scoped) */}
+        <IntroReveal />
         <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           Skip to content
         </a>
