@@ -582,6 +582,42 @@ pre {
   opacity: 0.6;
 }
 
+/* Home hero entrance — initial hidden state + keyframes */
+html.intro-pending .site-header {
+  transform: translateY(-110%);
+  opacity: 0;
+}
+html.intro-show-header .site-header {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 700ms var(--transition-overshoot), opacity 300ms ease-out;
+}
+
+/* Hide other sections until user scrolls */
+html.intro-lock-sections .site-main > :not(#home-hero) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Hide hero copy while pending; set starting offsets for title/subtitle */
+html.intro-pending #home-hero [data-hero-copy] { opacity: 0; }
+html.intro-pending #home-hero [data-hero-title] { transform: translateX(50vw); }
+html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(-50vw); }
+
+@keyframes introSlideInRight {
+  0% { transform: translateX(50vw); }
+  100% { transform: translateX(0); }
+}
+@keyframes introSlideInLeft {
+  0% { transform: translateX(-50vw); }
+  100% { transform: translateX(0); }
+}
+@keyframes introFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* Logo marquee */
 .logo-marquee { position: relative; overflow: hidden; }
 .logo-marquee__track {
