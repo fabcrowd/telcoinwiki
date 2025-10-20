@@ -4,12 +4,11 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 const INTRO_SESSION_KEY = 'tw_intro_shown'
 
 // Timings (ms)
-// Show original filled logo first
-const STATIC_LOGO_MS = 2000
-// Prelude (outline draw + light sweep), then fly for the remainder of 2s total
-const PRELUDE_MS = 600
-const FLY_MS = 1400
-const FADE_OUT_OVERLAY_MS = 400 // overlaps tail of fly
+// Total target ≈ 1500ms: 300ms static, 200ms prelude, 1000ms fly
+const STATIC_LOGO_MS = 300
+const PRELUDE_MS = 200
+const FLY_MS = 1000
+const FADE_OUT_OVERLAY_MS = 300 // overlaps tail of fly
 
 export interface IntroRevealProps {}
 
@@ -74,24 +73,18 @@ export function IntroReveal({}: IntroRevealProps) {
     } catch {}
 
     if (prefersReducedMotion) {
-      // Minimal: brief static logo, short fly, quick fade out
-      const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
-      const tFly = window.setTimeout(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
-      const tDone = window.setTimeout(
-        () => setActive(false),
-        Math.min(1400, STATIC_LOGO_MS + PRELUDE_MS + Math.max(FLY_MS, FADE_OUT_OVERLAY_MS) + 100),
-      )
+      // Minimal: super short sequence
+      const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(120, STATIC_LOGO_MS))
+      const tFly = window.setTimeout(() => setFly(true), Math.min(240, STATIC_LOGO_MS + PRELUDE_MS))
+      const tDone = window.setTimeout(() => setActive(false), Math.min(800, STATIC_LOGO_MS + PRELUDE_MS + FLY_MS))
       timeouts.current.push(tPreludeStart, tFly, tDone)
       return () => timeouts.current.forEach((id) => window.clearTimeout(id))
     }
 
-    // Normal choreography: 2s static logo, 0.6s prelude, 1.4s fly
+    // Normal choreography: 0.3s static logo, 0.2s prelude, 1.0s fly
     const tPreludeStart = window.setTimeout(() => setPrelude(true), STATIC_LOGO_MS)
     const tFly = window.setTimeout(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
-    const tDone = window.setTimeout(
-      () => setActive(false),
-      STATIC_LOGO_MS + PRELUDE_MS + Math.max(FLY_MS, FADE_OUT_OVERLAY_MS) + 100,
-    )
+    const tDone = window.setTimeout(() => setActive(false), STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + 80)
     timeouts.current.push(tPreludeStart, tFly, tDone)
     return () => {
       timeouts.current.forEach((id) => window.clearTimeout(id))
