@@ -608,11 +608,18 @@ html.intro-show-header .site-header {
 #home-hero [data-hero-card] {
   --hero-card-top-base: 5rem;
   padding-top: var(--hero-card-top-base);
-  transition: padding-top 700ms var(--transition-overshoot);
+  opacity: 1;
+  transition:
+    padding-top 700ms var(--transition-overshoot),
+    opacity 420ms var(--transition-smooth);
 }
 html.intro-pending #home-hero [data-hero-card],
 html.intro-show-header #home-hero [data-hero-card] {
   padding-top: calc(var(--hero-card-top-base) + var(--header-height));
+}
+html.intro-pending #home-hero [data-hero-card] {
+  opacity: 0;
+  pointer-events: none;
 }
 @media (min-width: 640px) {
   #home-hero [data-hero-card] {

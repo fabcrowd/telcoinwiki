@@ -41,14 +41,14 @@ export function HeroEntrance() {
       if (started || !overlayDone || !maskDone) return
       started = true
 
-      // Reduced motion: skip animations, reveal immediately
+      // Reduced motion: keep the header glide but reveal copy only after it settles
       if (prefersReduced) {
-        remove('intro-pending')
         add('intro-show-header')
         window.setTimeout(() => {
-          remove('intro-show-header')
+          remove('intro-pending')
           try { window.sessionStorage.setItem(INTRO_SESSION_KEY, '1') } catch {}
-        }, 50)
+          window.setTimeout(() => remove('intro-show-header'), 60)
+        }, HEADER_MS + 60)
         return
       }
 
@@ -58,42 +58,42 @@ export function HeroEntrance() {
       const bodies = Array.from(hero.querySelectorAll<HTMLElement>('[data-hero-body]'))
       const live = hero.querySelector<HTMLElement>('[data-hero-live]')
 
-      // Title slide-in from right
-      if (title) {
-        title.style.animation = `introSlideInRight ${TITLE_MS}ms var(--transition-overshoot) forwards`
-        title.style.opacity = '1'
+      const kickOffHeroCopy = () => {
+        remove('intro-pending')
+        try { window.sessionStorage.setItem(INTRO_SESSION_KEY, '1') } catch {}
+
+        // Title slide-in from right
+        if (title) {
+          title.style.animation = `introSlideInRight ${TITLE_MS}ms var(--transition-overshoot) forwards`
+          title.style.opacity = '1'
+        }
+
+        // Subtitle starts when title is halfway to destination
+        window.setTimeout(() => {
+          if (subtitle) {
+            subtitle.style.animation = `introSlideInLeft ${SUBTITLE_MS}ms var(--transition-overshoot) forwards`
+            subtitle.style.opacity = '1'
+          }
+        }, Math.round(TITLE_MS * 0.5))
+
+        // When both are in place, fade in remaining hero text + live pill
+        const tailWait = Math.max(TITLE_MS, Math.round(TITLE_MS * 0.5) + SUBTITLE_MS)
+        window.setTimeout(() => {
+          ;[...bodies, live].filter(Boolean).forEach((el) => {
+            const node = el as HTMLElement
+            node.style.animation = `introFadeIn ${FADE_MS}ms var(--transition-smooth) forwards`
+            node.style.opacity = '1'
+          })
+
+          // Allow the header overlay to settle before returning to sticky positioning
+          window.setTimeout(() => {
+            window.setTimeout(() => remove('intro-show-header'), 60)
+          }, FADE_MS + 40)
+        }, tailWait + 40)
       }
 
-      // Subtitle starts when title is halfway to destination
-      window.setTimeout(() => {
-        if (subtitle) {
-          subtitle.style.animation = `introSlideInLeft ${SUBTITLE_MS}ms var(--transition-overshoot) forwards`
-          subtitle.style.opacity = '1'
-        }
-      }, Math.round(TITLE_MS * 0.5))
-
-      // When both are in place, fade in remaining hero text + live pill
-      const tailWait = Math.max(TITLE_MS, Math.round(TITLE_MS * 0.5) + SUBTITLE_MS)
-      window.setTimeout(() => {
-        ;[...bodies, live].filter(Boolean).forEach((el) => {
-          const node = el as HTMLElement
-          node.style.animation = `introFadeIn ${FADE_MS}ms var(--transition-smooth) forwards`
-          node.style.opacity = '1'
-        })
-
-        // Slide header down from the top right after copy fades in
-        window.setTimeout(() => {
-          add('intro-show-header')
-          // After header settles, clear the intro-pending state
-          window.setTimeout(() => {
-            remove('intro-pending')
-            // Mark session done
-            try { window.sessionStorage.setItem(INTRO_SESSION_KEY, '1') } catch {}
-            // Allow header rule to clean up
-            window.setTimeout(() => remove('intro-show-header'), 60)
-          }, HEADER_MS + 60)
-        }, FADE_MS + 40)
-      }, tailWait + 40)
+      add('intro-show-header')
+      window.setTimeout(kickOffHeroCopy, HEADER_MS + 80)
     }
 
     // 1) Watch the hero mask animation end on all layers
