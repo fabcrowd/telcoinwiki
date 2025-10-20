@@ -6,22 +6,32 @@
     linear-gradient(135deg, var(--palette-4) 0%, var(--palette-5) 48%, var(--palette-6) 100%);
 }
 
+@property --intro-mask-offset-current {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0px;
+}
+
 /* Tunables for the intro sequence; scoped so they can be adjusted from JS later if needed */
 .intro-reveal {
   /* Size the mask consistently across viewports */
   --intro-logo-size: min(62vw, 460px);
-  /* Normalized x-position (0..1) of the Wiki “W” inside the logo mask (viewBox width 260, W center ≈ 158/260 ≈ 0.61) */
-  --intro-w-center: 0.605;
-  /* Offset needed to center the W relative to the viewport */
-  --intro-mask-offset-x: calc((var(--intro-w-center) - 0.5) * var(--intro-logo-size));
+  /* Center of the starting glyph (Telcoin “O”) in viewBox space */
+  --intro-mask-center-start: 0.48;
+  /* Target glyph center (aim into the “N” as we fly) */
+  --intro-mask-center-end: 0.62;
+  /* Derived offsets for mask positioning */
+  --intro-mask-offset-start: calc((var(--intro-mask-center-start) - 0.5) * var(--intro-logo-size));
+  --intro-mask-offset-end: calc((var(--intro-mask-center-end) - 0.5) * var(--intro-logo-size));
+  --intro-mask-offset-current: var(--intro-mask-offset-start);
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
   --intro-fly-ms: 1400ms;
   --intro-fade-ms: 420ms;
   /* Start fade slightly AFTER the fly completes to emphasize the travel */
   --intro-fade-hold: 120ms;
-  /* Render the mask at high resolution but pre-scale to avoid a pop */
-  --intro-mask-scale: 10;
-  --intro-mask-initial-scale: 0.1;
+  /* Render the mask at high resolution to keep edges crisp */
+  --intro-mask-scale: 14;
+  --intro-mask-initial-scale: 1;
   --intro-zoom-scale: 12;
 }
 
@@ -89,9 +99,11 @@
   background-position: 0% 50%, center;
   animation: introBgPulse 18s ease-in-out infinite;
   transform: translate3d(0,0,0) scale(1);
+  transform-origin: calc(50% - var(--intro-mask-offset-current)) center;
   will-change: transform, opacity;
   backface-visibility: hidden;
   contain: paint;
+  --intro-mask-offset-current: var(--intro-mask-offset-start);
 }
 
 @keyframes introBgPulse {
@@ -140,22 +152,23 @@
   -webkit-mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   -webkit-mask-repeat: no-repeat, no-repeat;
   /* Center the Wiki “W” by shifting mask X position */
-  -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
+  -webkit-mask-position: calc(50% - var(--intro-mask-offset-current)) center, center;
   -webkit-mask-size: calc(var(--intro-logo-size) * var(--intro-mask-scale)) auto, 100% 100%;
   -webkit-mask-composite: xor;
   mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   mask-repeat: no-repeat, no-repeat;
   /* Same shift for the standard mask */
-  mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
+  mask-position: calc(50% - var(--intro-mask-offset-current)) center, center;
   mask-size: calc(var(--intro-logo-size) * var(--intro-mask-scale)) auto, 100% 100%;
   mask-composite: exclude;
   /* Pivot the scale toward the W for a true fly-through */
-  transform-origin: calc(50% - var(--intro-mask-offset-x)) center;
+  transform-origin: calc(50% - var(--intro-mask-offset-current)) center;
   /* Slightly longer fly, fade begins very near the end for more “hang-time” */
   transform: translate3d(0, 0, 0) scale(var(--intro-mask-initial-scale));
   animation:
     veilFly var(--intro-fly-ms) cubic-bezier(0.98, 0.02, 1, 1) forwards,
-    veilFade var(--intro-fade-ms) ease calc(var(--intro-fly-ms) + var(--intro-fade-hold)) forwards;
+    veilFade var(--intro-fade-ms) ease calc(var(--intro-fly-ms) + var(--intro-fade-hold)) forwards,
+    veilAim var(--intro-fly-ms) cubic-bezier(.22,.61,.36,1) forwards;
 }
 
 /* Hide prelude once fly starts */
@@ -168,6 +181,12 @@
 }
 
 @keyframes veilFade { to { opacity: 0; } }
+
+@keyframes veilAim {
+  0% { --intro-mask-offset-current: var(--intro-mask-offset-start); }
+  35% { --intro-mask-offset-current: var(--intro-mask-offset-start); }
+  100% { --intro-mask-offset-current: var(--intro-mask-offset-end); }
+}
 
 /* Reduced motion: keep minimal and quick */
 @media (prefers-reduced-motion: reduce) {
