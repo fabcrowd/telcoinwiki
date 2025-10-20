@@ -25,7 +25,6 @@
   animation: introBgPulse 18s ease-in-out infinite;
   transform: scale(1);
   will-change: transform, opacity;
-  transition: transform 1300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 750ms ease 550ms;
 }
 
 @keyframes introBgPulse {
@@ -70,17 +69,28 @@
   mask-position: center, center;
   mask-size: min(52vw, 380px) auto, 100% 100%;
   mask-composite: exclude;
-  transform: scale(14);
-  /* Ramp to full reveal over ~2s, then fade overlay near the end */
-  transition: transform 2000ms cubic-bezier(0.5, 0.02, 1, 1), opacity 600ms ease 1400ms;
-  opacity: 0;
+  /* 2s accelerated fly + late fade */
+  animation:
+    veilFly 2000ms cubic-bezier(0.6, 0.04, 1, 1) forwards,
+    veilFade 600ms ease 1500ms forwards;
 }
 
 /* no explicit keyframes: overlay fade handled via transition */
+@keyframes veilFly {
+  0%   { transform: scale(1); }
+  10%  { transform: scale(1.6); }
+  25%  { transform: scale(2.6); }
+  50%  { transform: scale(5.8); }
+  75%  { transform: scale(10.8); }
+  100% { transform: scale(14); }
+}
+
+@keyframes veilFade { to { opacity: 0; } }
 
 /* Reduced motion: keep minimal and quick */
 @media (prefers-reduced-motion: reduce) {
   .intro-reveal__veil { animation: none; }
   .intro-reveal__logo { animation-duration: 250ms; }
   .intro-reveal.is-flying .intro-reveal__logo { animation-duration: 350ms; }
+  .intro-reveal.is-flying .intro-reveal__veil { animation: none; opacity: 0; }
 }
