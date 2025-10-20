@@ -259,30 +259,42 @@ export function HomePage() {
           <HeroFloatingChips />
         </HeroOverlay>
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-32 pb-24 sm:px-8 lg:px-12 lg:pt-44 lg:pb-28">
-          <div className="flex flex-col gap-6 -mt-12 mb-16 sm:-mt-16 sm:mb-20 lg:-mt-20 lg:mb-24">
+          <div className="home-hero-typography flex flex-col gap-6 -mt-12 mb-16 sm:-mt-16 sm:mb-20 lg:-mt-20 lg:mb-24">
             {/* Keep same positioning; replace copy with requested text and sizing */}
             <h1
               id="home-hero-heading"
-              className="text-4xl font-semibold text-telcoin-ink sm:text-6xl lg:text-8xl"
+              className="font-semibold text-telcoin-ink"
               data-hero-copy
+              data-hero-title
               style={hero.copyStyle}
             >
               The Telcoin Wiki
             </h1>
             <p
-              className="max-w-none whitespace-normal sm:whitespace-nowrap text-2xl font-medium text-telcoin-ink leading-tight sm:text-4xl lg:text-5xl"
+              className="max-w-none whitespace-normal sm:whitespace-nowrap font-medium text-telcoin-ink leading-tight"
               data-hero-copy
+              data-hero-subtitle
               style={hero.copyStyle}
             >
               Clear answers. Fast learning. Community-powered.
             </p>
-            <p className="max-w-6xl text-xl text-telcoin-ink-muted mt-6" data-hero-copy style={hero.copyStyle}>
+            <p
+              className="max-w-6xl text-telcoin-ink-muted mt-6"
+              data-hero-copy
+              data-hero-body
+              style={hero.copyStyle}
+            >
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and
               ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you're just getting
               started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you'll find fast, reliable guidance
               grounded in official documentation and field-tested by active users.
             </p>
-            <p className="max-w-4xl text-xl text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
+            <p
+              className="max-w-4xl text-telcoin-ink-muted"
+              data-hero-copy
+              data-hero-body
+              style={hero.copyStyle}
+            >
               All content is kept current by contributors, with live reference points and connected resources across the
               Telcoin platform.
             </p>

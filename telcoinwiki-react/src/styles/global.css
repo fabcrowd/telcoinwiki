@@ -113,6 +113,39 @@
   .tc-link {
     @apply text-telcoin-accent transition hover:underline;
   }
+
+  .home-hero-typography {
+    --hero-title-size: 2.25rem;
+    --hero-body-size: calc(1.25rem + 2pt);
+  }
+
+  .home-hero-typography [data-hero-title] {
+    font-size: var(--hero-title-size);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .home-hero-typography [data-hero-subtitle] {
+    font-size: calc(var(--hero-title-size) / 2);
+    line-height: 1.2;
+  }
+
+  .home-hero-typography [data-hero-body] {
+    font-size: var(--hero-body-size);
+    line-height: 1.85;
+  }
+}
+
+@media (min-width: 640px) {
+  .home-hero-typography {
+    --hero-title-size: 3.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-hero-typography {
+    --hero-title-size: 6rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
