@@ -16,6 +16,24 @@
   --logo-max: 64px;
 }
 
+@media (max-width: 80rem) {
+  :root {
+    --container: min(100vw, 80rem);
+  }
+}
+
+@media (max-width: 60rem) {
+  :root {
+    --container: min(100vw, 60rem);
+  }
+}
+
+@media (max-width: 48rem) {
+  :root {
+    --container: 100vw;
+  }
+}
+
 html,
 body {
   padding-top: 0;

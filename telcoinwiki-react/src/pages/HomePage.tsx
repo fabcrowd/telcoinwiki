@@ -286,7 +286,7 @@ export function HomePage() {
       {/* Sliding deck: four-story beats directly under the hero (feature-flagged) */}
       {SCROLL_STORY_ENABLED ? (
         <section id="home-story-cards" className="anchor-offset">
-          <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
+          <div className="mx-auto w-full max-w-full sm:max-w-[min(1440px,90vw)] px-0 sm:px-8 lg:px-12 xl:px-16">
             <SlidingStack
               className="mt-4"
               style={storyDeckStyle}
