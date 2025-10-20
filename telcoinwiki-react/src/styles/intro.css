@@ -14,7 +14,8 @@
   --intro-logo-size: min(62vw, 460px);
   /* Fixed aim point: shift left so we fly through the “N”.
      0.56 empirically centers the mask on the N in our viewBox. */
-  --intro-mask-center: 0.56;
+  /* Empirically measured center for the “N” fly-through */
+  --intro-mask-center: 0.675;
   --intro-mask-offset: calc((var(--intro-mask-center) - 0.5) * var(--intro-logo-size));
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
   --intro-fly-ms: 1400ms;
