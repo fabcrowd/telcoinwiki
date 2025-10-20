@@ -148,6 +148,11 @@ export function HeroEntrance() {
       sequencer?.removeEventListener('animationend', onAnimEnd, true)
       if (maskFallback) window.clearTimeout(maskFallback)
       window.removeEventListener('scroll', onFirstScroll)
+      // Safety: never leave global intro classes behind on unmount/navigation
+      const root = document.documentElement
+      root.classList.remove('intro-lock-sections')
+      root.classList.remove('intro-pending')
+      root.classList.remove('intro-show-header')
     }
   }, [prefersReduced])
 
@@ -155,4 +160,3 @@ export function HeroEntrance() {
 }
 
 export default HeroEntrance
-
