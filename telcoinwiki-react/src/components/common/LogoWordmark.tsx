@@ -27,6 +27,7 @@ export const LogoWordmark = forwardRef<SVGSVGElement, LogoWordmarkProps>(functio
       role="img"
       aria-labelledby={rest['aria-labelledby'] ?? titleId}
       aria-describedby={rest['aria-describedby'] ?? descId}
+      shapeRendering="geometricPrecision"
       {...rest}
     >
       {!rest['aria-labelledby'] && <title id={titleId}>{title}</title>}

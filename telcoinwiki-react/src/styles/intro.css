@@ -15,10 +15,12 @@
   /* Offset needed to center the W relative to the viewport */
   --intro-mask-offset-x: calc((var(--intro-w-center) - 0.5) * var(--intro-logo-size));
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
-  --intro-fly-ms: 1400ms;
-  --intro-fade-ms: 420ms;
+  --intro-fly-ms: 1200ms;
+  --intro-fade-ms: 360ms;
   /* Start fade slightly AFTER the fly completes to emphasize the travel */
-  --intro-fade-hold: 120ms;
+  --intro-fade-hold: 60ms;
+  /* Render the mask at a higher resolution to avoid aliasing during the zoom */
+  --intro-mask-scale: 14;
 }
 
 .intro-reveal {
@@ -137,13 +139,13 @@
   -webkit-mask-repeat: no-repeat, no-repeat;
   /* Center the Wiki “W” by shifting mask X position */
   -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
-  -webkit-mask-size: var(--intro-logo-size) auto, 100% 100%;
+  -webkit-mask-size: calc(var(--intro-logo-size) * var(--intro-mask-scale)) auto, 100% 100%;
   -webkit-mask-composite: xor;
   mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   mask-repeat: no-repeat, no-repeat;
   /* Same shift for the standard mask */
   mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
-  mask-size: var(--intro-logo-size) auto, 100% 100%;
+  mask-size: calc(var(--intro-logo-size) * var(--intro-mask-scale)) auto, 100% 100%;
   mask-composite: exclude;
   /* Pivot the scale toward the W for a true fly-through */
   transform-origin: calc(50% - var(--intro-mask-offset-x)) center;
