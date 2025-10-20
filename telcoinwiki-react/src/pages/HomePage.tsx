@@ -255,7 +255,7 @@ export function HomePage() {
         >
           <HeroFloatingChips />
         </HeroOverlay>
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-40 pb-24 sm:px-8 lg:px-12 lg:pt-56">
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-32 pb-24 sm:px-8 lg:px-12 lg:pt-44">
           <div className="flex flex-col gap-6">
             {/* Keep same positioning; replace copy with requested text and sizing */}
             <h1
@@ -267,7 +267,7 @@ export function HomePage() {
               The Telcoin Wiki
             </h1>
             <p
-              className="max-w-5xl lg:max-w-6xl text-3xl font-medium text-telcoin-ink sm:text-4xl lg:text-6xl xl:text-7xl"
+              className="max-w-none text-6xl font-medium text-telcoin-ink sm:text-8xl lg:text-9xl"
               data-hero-copy
               style={hero.copyStyle}
             >
