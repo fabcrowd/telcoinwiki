@@ -269,7 +269,7 @@ export function HomePage() {
             <p
               className="max-w-none whitespace-normal sm:whitespace-nowrap font-medium text-telcoin-ink"
               data-hero-copy
-              style={hero.copyStyle ? { ...hero.copyStyle, fontSize: 'clamp(2.5rem, 5vw, 6rem)', lineHeight: '1' } : { fontSize: 'clamp(2.5rem, 5vw, 6rem)', lineHeight: '1' }}
+              style={hero.copyStyle ? { ...hero.copyStyle, fontSize: 'clamp(1.25rem, 2.5vw, 3rem)', lineHeight: '1.05' } : { fontSize: 'clamp(1.25rem, 2.5vw, 3rem)', lineHeight: '1.05' }}
             >
               Clear answers. Fast learning. Community-powered.
             </p>
