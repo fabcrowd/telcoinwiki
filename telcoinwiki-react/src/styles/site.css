@@ -615,7 +615,9 @@ html.intro-show-header .site-header {
 }
 html.intro-pending #home-hero [data-hero-card],
 html.intro-show-header #home-hero [data-hero-card] {
-  padding-top: calc(var(--hero-card-top-base) + var(--header-height));
+  /* Keep hero card position consistent; do not offset for header height
+     so the header overlays the hero instead of pushing it down. */
+  padding-top: var(--hero-card-top-base);
 }
 html.intro-pending #home-hero [data-hero-card] {
   opacity: 0;
@@ -834,6 +836,17 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(-50vw
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--tc-border);
   box-shadow: var(--shadow-glass);
+}
+
+/* On cinematic pages (home/hero), keep the header fixed so it layers above
+   the hero card instead of affecting layout flow. */
+.app-layer--cinematic .site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 160;
 }
 
 .site-header__inner {
