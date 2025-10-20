@@ -291,11 +291,6 @@ export function SlidingStack({
     const windows = timelineState.windows
     const pct = progress * 100
 
-    if (!windows.length) {
-      if (progress >= 1) return items.length - 1
-      return Math.min(items.length - 1, Math.floor(progress * items.length))
-    }
-
     let current = 0
     for (let i = 1; i < windows.length; i += 1) {
       const window = windows[i]
