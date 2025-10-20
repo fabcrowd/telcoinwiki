@@ -255,7 +255,7 @@ export function HomePage() {
         >
           <HeroFloatingChips />
         </HeroOverlay>
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-40 pb-24 sm:px-8 lg:px-12 lg:pt-56">
           <div className="flex flex-col gap-6">
             {/* Keep same positioning; replace copy with requested text and sizing */}
             <h1
@@ -284,11 +284,15 @@ export function HomePage() {
               Telcoin platform.
             </p>
           </div>
-          <div className="flex flex-col gap-4 lg:gap-6" data-hero-copy style={hero.copyStyle}>
+          {/* Ticker moved to bottom of hero for requested placement */}
+        </div>
+        <div
+          className="pointer-events-auto absolute inset-x-6 bottom-6 sm:inset-x-8 lg:inset-x-12"
+          data-hero-copy
+          style={hero.copyStyle}
+        >
+          <div className="mx-auto max-w-6xl">
             <HeroTicker />
-            <p className="text-sm text-telcoin-ink/70">
-              Community-maintained reference. Confirm details inside the Telcoin Wallet or official Association releases.
-            </p>
           </div>
         </div>
       </section>
