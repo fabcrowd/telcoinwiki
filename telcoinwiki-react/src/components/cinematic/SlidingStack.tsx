@@ -61,6 +61,7 @@ const TARGET_WINDOW_PCT = 12
 const INITIAL_DELAY_PCT = 7
 const WINDOW_GAP_PCT = 1.5
 const CARD_PALETTES = ['var(--palette-1)', 'var(--palette-6)', 'var(--palette-5)', 'var(--palette-4)'] as const
+const COMPACT_VIEWPORT_QUERY = '(max-width: 48rem)'
 
 type TimelineWindow = { start: number; end: number }
 
@@ -126,6 +127,11 @@ const detectScrollTimelineSupport = () => {
   }
 }
 
+const detectCompactViewport = () => {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false
+  return window.matchMedia(COMPACT_VIEWPORT_QUERY).matches
+}
+
 export function SlidingStack({
   items,
   prefersReducedMotion = false,
@@ -157,8 +163,29 @@ export function SlidingStack({
     setSupportsScrollTimeline(detectScrollTimelineSupport())
   }, [])
 
+  const [isCompactViewport, setIsCompactViewport] = useState(() => detectCompactViewport())
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return
+    const mediaQueryList = window.matchMedia(COMPACT_VIEWPORT_QUERY)
+    const update = (event: MediaQueryListEvent | MediaQueryList) => {
+      setIsCompactViewport(event.matches)
+    }
+    update(mediaQueryList)
+    const listener = (event: MediaQueryListEvent) => update(event)
+    if (typeof mediaQueryList.addEventListener === 'function') {
+      mediaQueryList.addEventListener('change', listener)
+      return () => mediaQueryList.removeEventListener('change', listener)
+    }
+    if (typeof mediaQueryList.addListener === 'function') {
+      mediaQueryList.addListener(listener)
+      return () => mediaQueryList.removeListener(listener)
+    }
+    return undefined
+  }, [])
+
   const canAnimate = !effectiveDisabled
-  const useJsFallback = canAnimate && !supportsScrollTimeline
+  const useJsFallback = canAnimate && !supportsScrollTimeline && isCompactViewport
   const stackModeClass = canAnimate ? 'sliding-stack--interactive' : 'sliding-stack--static'
 
   const initialAnnouncement = items.length ? `Slide 1 of ${items.length}: ${items[0].title}` : ''
@@ -455,13 +482,16 @@ export function SlidingStack({
     }
 
     const palette = CARD_PALETTES[index % CARD_PALETTES.length]
-    const isActive = index === activeIndex
+    const isActive = canAnimate && index === activeIndex
 
     const cardStyle: CSSProperties = {
       zIndex,
       ...timingVars,
-      top: `calc(var(--stack-step) * ${index})`,
       '--card-bg': palette,
+    }
+
+    if (canAnimate) {
+      cardStyle.top = `calc(var(--stack-step) * ${index})`
     }
 
     if (useJsFallback) {
@@ -479,11 +509,9 @@ export function SlidingStack({
         key={item.id}
         id={item.id}
         progress={useJsFallback ? cardProgressValue : 1}
-        className={cn(
-          'sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14',
-          cardClassName,
-          { 'is-active': isActive },
-        )}
+        className={cn('sliding-stack__card pt-0 pb-10 sm:pb-12 lg:pb-14', cardClassName, {
+          'is-active': isActive,
+        })}
         ref={(node) => {
           cardRefs.current[index] = node
         }}
@@ -503,6 +531,7 @@ export function SlidingStack({
       className={cn('sliding-stack', stackModeClass, className)}
       data-sliding-stack=""
       data-scroll-story={canAnimate ? '' : undefined}
+      data-js-fallback={useJsFallback ? '' : undefined}
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       data-active-index={activeIndex}
       style={{

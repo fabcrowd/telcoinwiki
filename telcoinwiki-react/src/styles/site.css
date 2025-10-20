@@ -289,7 +289,7 @@ pre {
     min-height: auto !important;
   }
 
-  .sliding-stack--interactive .sliding-stack__card {
+  .sliding-stack--interactive:not([data-scroll-story]) .sliding-stack__card {
     position: relative;
   }
 
@@ -2121,6 +2121,45 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(-50vw
    - Gated by [data-sliding-stack][data-scroll-story]
    - Mobile now mirrors the desktop pinned timeline
 */
+
+@media (max-width: 47.99rem) {
+  [data-sliding-stack][data-js-fallback] {
+    position: relative;
+    min-height: calc(var(--stack-count, 3) * var(--stack-duration, 80vh) + var(--stack-tail, 40vh));
+  }
+
+  [data-sliding-stack][data-js-fallback] .sliding-stack__viewport {
+    position: sticky;
+    top: var(--stack-top, 12vh);
+    height: calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh));
+    --stack-gutter: clamp(12px, 6vw, 24px);
+    padding-inline: var(--stack-gutter);
+  }
+
+  [data-sliding-stack][data-js-fallback] .sliding-stack__deck {
+    position: relative;
+    height: 100%;
+    max-width: min(520px, 100%);
+    margin-inline: auto;
+  }
+
+  [data-sliding-stack][data-js-fallback] .sliding-stack__deck > .sliding-stack__card {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    will-change: transform;
+    transform-origin: top center;
+    border-radius: 20px;
+    opacity: 1;
+    overflow: visible;
+  }
+
+  [data-sliding-stack][data-js-fallback] .sliding-stack__deck > .sliding-stack__card:first-child {
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (max-width: 47.99rem) {
   @media (prefers-reduced-motion: no-preference) {
     @supports (view-timeline-name: --v) and (animation-timeline: --v) {
