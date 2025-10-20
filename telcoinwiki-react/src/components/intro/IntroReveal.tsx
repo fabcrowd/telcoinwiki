@@ -12,7 +12,7 @@ const PRELUDE_MS = 300
 const FLY_MS = 1400
 // Start overlay fade very near the end of the fly for more hang-time
 const FADE_OUT_OVERLAY_MS = 420
-const FADE_HOLD_MS = 120 // delay after fly end before fade starts
+const FADE_HOLD_MS = 60 // shorter hold so the page beneath returns a bit sooner
 
 export function IntroReveal() {
   const prefersReducedMotion = usePrefersReducedMotion()
