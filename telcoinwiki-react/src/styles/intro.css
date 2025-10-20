@@ -10,17 +10,18 @@
 .intro-reveal {
   /* Size the mask consistently across viewports */
   --intro-logo-size: min(62vw, 460px);
-  /* Normalized x-position (0..1) of the Wiki “W” inside the logo mask (viewBox width 260, W center ≈ 161/260 ≈ 0.62) */
-  --intro-w-center: 0.62;
+  /* Normalized x-position (0..1) of the Wiki “W” inside the logo mask (viewBox width 260, W center ≈ 158/260 ≈ 0.61) */
+  --intro-w-center: 0.605;
   /* Offset needed to center the W relative to the viewport */
   --intro-mask-offset-x: calc((var(--intro-w-center) - 0.5) * var(--intro-logo-size));
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
-  --intro-fly-ms: 1200ms;
-  --intro-fade-ms: 360ms;
+  --intro-fly-ms: 1100ms;
+  --intro-fade-ms: 320ms;
   /* Start fade slightly AFTER the fly completes to emphasize the travel */
-  --intro-fade-hold: 60ms;
+  --intro-fade-hold: 30ms;
   /* Render the mask at a higher resolution to avoid aliasing during the zoom */
-  --intro-mask-scale: 14;
+  --intro-mask-scale: 12;
+  --intro-zoom-scale: 11;
 }
 
 .intro-reveal {
@@ -161,7 +162,7 @@
 /* no explicit keyframes: overlay fade handled via transition */
 @keyframes veilFly {
   from { transform: translate3d(0,0,0) scale(1); }
-  to   { transform: translate3d(0,0,0) scale(12); }
+  to   { transform: translate3d(0,0,0) scale(var(--intro-zoom-scale)); }
 }
 
 @keyframes veilFade { to { opacity: 0; } }
