@@ -592,6 +592,38 @@ html.intro-show-header .site-header {
   opacity: 1;
   transition: transform 700ms var(--transition-overshoot), opacity 300ms ease-out;
 }
+html.intro-pending .site-header,
+html.intro-show-header .site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 160;
+}
+html.intro-show-header .site-header {
+  box-shadow: 0 18px 48px rgba(10, 16, 36, 0.45);
+}
+
+#home-hero [data-hero-card] {
+  --hero-card-top-base: 5rem;
+  padding-top: var(--hero-card-top-base);
+  transition: padding-top 700ms var(--transition-overshoot);
+}
+html.intro-pending #home-hero [data-hero-card],
+html.intro-show-header #home-hero [data-hero-card] {
+  padding-top: calc(var(--hero-card-top-base) + var(--header-height));
+}
+@media (min-width: 640px) {
+  #home-hero [data-hero-card] {
+    --hero-card-top-base: 4rem;
+  }
+}
+@media (min-width: 1024px) {
+  #home-hero [data-hero-card] {
+    --hero-card-top-base: 6rem;
+  }
+}
 
 /* Hide other sections until user scrolls */
 html.intro-lock-sections .site-main > :not(#home-hero) {
