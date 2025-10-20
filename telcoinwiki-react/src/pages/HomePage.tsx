@@ -20,6 +20,7 @@ import {
   useHomeTelcoinModelScroll,
 } from '../hooks/useHomeScrollSections'
 import { cn } from '../utils/cn'
+import { useViewportHeight } from '../hooks/useViewportHeight'
 
 interface HomeNarrativeSection {
   id: 'broken-money' | 'telcoin-model' | 'engine' | 'experience' | 'learn-more'
@@ -211,6 +212,7 @@ export function HomePage() {
   const engine = useHomeEngineScroll()
   const experience = useHomeExperienceScroll()
   const learnMore = useHomeLearnMoreScroll()
+  const viewportHeight = useViewportHeight()
 
   // Toggle for non-storyboard narrative sections (disabled per request)
   const NON_STORYBOARD_ENABLED = false
@@ -237,6 +239,7 @@ export function HomePage() {
         ref={hero.sectionRef}
         aria-labelledby="home-hero-heading"
         className="stage-theme relative isolate min-h-screen overflow-hidden bg-hero-linear animate-gradient [background-size:180%_180%]"
+        style={viewportHeight ? { minHeight: `${viewportHeight}px` } : undefined}
         data-scroll-story={SCROLL_STORY_ENABLED ? '' : undefined}
       >
         <ColorShiftBackground
@@ -287,7 +290,7 @@ export function HomePage() {
           {/* Ticker moved to bottom of hero for requested placement */}
         </div>
         <div
-          className="pointer-events-auto absolute inset-x-6 bottom-6 sm:inset-x-8 lg:inset-x-12"
+          className="pointer-events-auto absolute inset-x-6 bottom-14 sm:inset-x-8 sm:bottom-16 lg:inset-x-12 lg:bottom-20"
           data-hero-copy
           style={hero.copyStyle}
         >
