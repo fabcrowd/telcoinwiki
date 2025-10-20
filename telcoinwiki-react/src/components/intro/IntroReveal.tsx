@@ -9,10 +9,10 @@ const INTRO_SESSION_KEY = 'tw_intro_shown'
 const STATIC_LOGO_MS = 3000
 const PRELUDE_MS = 300
 // Slightly longer fly for more travel through the logo
-const FLY_MS = 1100
+const FLY_MS = 1400
 // Start overlay fade very near the end of the fly for more hang-time
-const FADE_OUT_OVERLAY_MS = 320
-const FADE_HOLD_MS = 30 // shorter hold so the page beneath returns a bit sooner
+const FADE_OUT_OVERLAY_MS = 420
+const FADE_HOLD_MS = 120 // delay after fly end before fade starts
 
 export function IntroReveal() {
   const prefersReducedMotion = usePrefersReducedMotion()

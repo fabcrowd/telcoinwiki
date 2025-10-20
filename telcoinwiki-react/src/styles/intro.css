@@ -15,10 +15,10 @@
   /* Offset needed to center the W relative to the viewport */
   --intro-mask-offset-x: calc((var(--intro-w-center) - 0.5) * var(--intro-logo-size));
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
-  --intro-fly-ms: 1100ms;
-  --intro-fade-ms: 320ms;
+  --intro-fly-ms: 1400ms;
+  --intro-fade-ms: 420ms;
   /* Start fade slightly AFTER the fly completes to emphasize the travel */
-  --intro-fade-hold: 30ms;
+  --intro-fade-hold: 120ms;
   /* Render the mask at a higher resolution to avoid aliasing during the zoom */
   --intro-mask-scale: 12;
   --intro-zoom-scale: 11;
