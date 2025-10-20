@@ -261,8 +261,11 @@ export function HomePage() {
         >
           <HeroFloatingChips />
         </HeroOverlay>
-        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-32 pb-24 sm:px-8 lg:px-12 lg:pt-44 lg:pb-28">
-          <div className="home-hero-typography flex flex-col gap-6 -mt-12 mb-16 sm:-mt-16 sm:mb-20 lg:-mt-20 lg:mb-24">
+        <div
+          className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pb-24 sm:px-8 lg:px-12 lg:pb-28"
+          data-hero-card=""
+        >
+          <div className="home-hero-typography flex flex-col gap-6 mb-16 sm:mb-20 lg:mb-24">
             {/* Keep same positioning; replace copy with requested text and sizing */}
             <h1
               id="home-hero-heading"
