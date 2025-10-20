@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 const INTRO_SESSION_KEY = 'tw_intro_shown'
@@ -34,6 +34,7 @@ export function IntroReveal({}: IntroRevealProps) {
   const [fly, setFly] = useState(false)
   const timeouts = useRef<number[]>([])
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const staticLogoRef = useRef<HTMLImageElement | null>(null)
 
   // Body scroll lock while active
   useEffect(() => {
@@ -134,6 +135,7 @@ export function IntroReveal({}: IntroRevealProps) {
         className="intro-logo-static"
         src="/logo.svg"
         alt="Telcoin Wiki logo"
+        ref={staticLogoRef}
         decoding="async"
         fetchPriority="high"
       />
@@ -200,3 +202,24 @@ export function IntroReveal({}: IntroRevealProps) {
 }
 
 export default IntroReveal
+  useLayoutEffect(() => {
+    if (!isActive) return
+    if (typeof window === 'undefined') return
+    const logoEl = staticLogoRef.current
+    const containerEl = containerRef.current
+    if (!logoEl || !containerEl) return
+
+    const applyLogoSize = () => {
+      const width = logoEl.getBoundingClientRect().width
+      if (width > 0) {
+        containerEl.style.setProperty('--intro-logo-size-px', `${Math.round(width)}px`)
+      }
+    }
+
+    applyLogoSize()
+    window.addEventListener('resize', applyLogoSize)
+    return () => {
+      window.removeEventListener('resize', applyLogoSize)
+      containerEl.style.removeProperty('--intro-logo-size-px')
+    }
+  }, [isActive])
