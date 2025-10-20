@@ -109,6 +109,7 @@ body {
   text-decoration: none;
 }
 .site-brand .site-logo,
+.site-logo__mark,
 img.site-logo {
   display: block;
   height: clamp(var(--logo-min), 7.5vw, var(--logo-max));
@@ -503,6 +504,7 @@ img.site-logo {
 
 /* ===== Header cleanup / dropdowns ===== */
 .site-brand .site-logo,
+.site-logo__mark,
 img.site-logo { height: clamp(28px, 6.5vw, 52px); }
 
 .nav-item { position: relative; }

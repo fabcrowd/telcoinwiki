@@ -710,7 +710,7 @@ ol {
 }
 
 /* --- Logo ~2× (responsive), keep proportions --- */
-.site-logo img { height: clamp(36px, 7.5vw, 64px); }
+.site-logo__mark { height: clamp(36px, 7.5vw, 64px); }
 
 /* --- Dropdown nav scaffolding --- */
 .nav-item { position: relative; }

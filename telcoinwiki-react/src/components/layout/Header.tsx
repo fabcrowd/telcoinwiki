@@ -4,6 +4,7 @@ import { MEGA_MENU_ENABLED } from '../../config/featureFlags';
 import { megaMenuSections } from '../../config/megaMenu';
 import { MegaMenu } from './MegaMenu';
 import type { NavItem } from '../../config/types';
+import { LogoWordmark } from '../common/LogoWordmark';
 
 interface HeaderProps {
   navItems: NavItem[];
@@ -69,19 +70,13 @@ export function Header({
 
   const dropdownId = 'header-nav-dropdown';
 
-  const logoSrc = '/logo.svg';
-
   return (
     <header className="site-header">
       <div className="site-header__inner container">
         <Link className="site-brand" to="/">
-          <img
-            className="site-logo"
-            src={logoSrc}
-            alt="Telcoin Wiki logo"
-            loading="eager"
-            decoding="async"
-          />
+          <span className="site-logo">
+            <LogoWordmark className="site-logo__mark" />
+          </span>
         </Link>
 
         <div className="site-header__actions">

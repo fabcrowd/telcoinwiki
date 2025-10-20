@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { LogoWordmark } from '../common/LogoWordmark'
 
 const INTRO_SESSION_KEY = 'tw_intro_shown'
 
@@ -130,13 +131,7 @@ export function IntroReveal({}: IntroRevealProps) {
     >
       <div className="intro-reveal__veil" aria-hidden="true" />
       {/* 1) Static filled logo hold (2s) */}
-      <img
-        className="intro-logo-static"
-        src="/logo.svg"
-        alt="Telcoin Wiki logo"
-        decoding="async"
-        fetchPriority="high"
-      />
+      <LogoWordmark className="intro-logo-static" />
       {/* Prelude: outline draw + subtle glint (no filled letters) */}
       <div className="intro-prelude" aria-hidden="true">
         <svg

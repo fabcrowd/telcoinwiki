@@ -10,7 +10,7 @@
 .intro-reveal {
   /* Size the mask consistently across viewports */
   --intro-logo-size: min(62vw, 460px);
-  /* Normalized x-position (0..1) of the Wiki “W” inside logo.svg (viewBox width 260, W center ≈ 161/260 ≈ 0.62) */
+  /* Normalized x-position (0..1) of the Wiki “W” inside the logo mask (viewBox width 260, W center ≈ 161/260 ≈ 0.62) */
   --intro-w-center: 0.62;
   /* Offset needed to center the W relative to the viewport */
   --intro-mask-offset-x: calc((var(--intro-w-center) - 0.5) * var(--intro-logo-size));
@@ -133,13 +133,13 @@
 
 .intro-reveal.is-flying .intro-reveal__veil {
   /* Activate mask during the fly-through */
-  -webkit-mask-image: url('/logo.svg'), linear-gradient(#fff, #fff);
+  -webkit-mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   -webkit-mask-repeat: no-repeat, no-repeat;
   /* Center the Wiki “W” by shifting mask X position */
   -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
   -webkit-mask-size: var(--intro-logo-size) auto, 100% 100%;
   -webkit-mask-composite: xor;
-  mask-image: url('/logo.svg'), linear-gradient(#fff, #fff);
+  mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   mask-repeat: no-repeat, no-repeat;
   /* Same shift for the standard mask */
   mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
