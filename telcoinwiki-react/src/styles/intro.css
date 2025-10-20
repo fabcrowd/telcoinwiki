@@ -17,10 +17,10 @@
   /* Translation paired with scaling to create the pan during the fly-through */
   --intro-pan-translate: calc(var(--intro-mask-offset-x) * -1);
   /* Timing controls: slightly longer fly; start fade very late for more hang-time */
-  --intro-fly-ms: 1400ms;
+  --intro-fly-ms: 1500ms;
   --intro-fade-ms: 420ms;
-  /* Start fade slightly AFTER the fly completes to emphasize the travel */
-  --intro-fade-hold: 120ms;
+  /* Start fade noticeably AFTER the fly completes to emphasize the travel */
+  --intro-fade-hold: 260ms;
 }
 
 .intro-reveal {
@@ -151,7 +151,7 @@
   transform-origin: center;
   /* Slightly longer fly, fade begins very near the end for more “hang-time” */
   animation:
-    veilFly var(--intro-fly-ms) cubic-bezier(0.98, 0.02, 1, 1) forwards,
+    veilFly var(--intro-fly-ms) linear forwards,
     veilFade var(--intro-fade-ms) ease calc(var(--intro-fly-ms) + var(--intro-fade-hold)) forwards;
 }
 
@@ -164,6 +164,16 @@
     transform: translate3d(0,0,0) scale(1);
     -webkit-mask-position: 50% center, center;
     mask-position: 50% center, center;
+  }
+  30% {
+    transform: translate3d(calc(var(--intro-pan-translate) * 0.18), 0, 0) scale(1.6);
+    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x) * 0.18) center, center;
+    mask-position: calc(50% - var(--intro-mask-offset-x) * 0.18) center, center;
+  }
+  68% {
+    transform: translate3d(calc(var(--intro-pan-translate) * 0.66), 0, 0) scale(4.8);
+    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x) * 0.66) center, center;
+    mask-position: calc(50% - var(--intro-mask-offset-x) * 0.66) center, center;
   }
   100% {
     transform: translate3d(var(--intro-pan-translate), 0, 0) scale(12);
