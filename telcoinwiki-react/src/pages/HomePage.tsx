@@ -262,10 +262,11 @@ export function HomePage() {
           <HeroFloatingChips />
         </HeroOverlay>
         <div
-          className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pb-24 sm:px-8 lg:px-12 lg:pb-28"
+          className="relative mx-auto flex w-full max-w-none flex-col items-center justify-center gap-10 px-6 pb-24 text-center sm:px-8 lg:px-12 lg:pb-28"
           data-hero-card=""
+          style={{ minHeight: 'calc(100vh - var(--header-height))', paddingTop: 0 }}
         >
-          <div className="home-hero-typography flex flex-col gap-6 mb-16 sm:mb-20 lg:mb-24">
+          <div className="home-hero-typography flex flex-col items-center gap-6 mb-16 sm:mb-20 lg:mb-24">
             {/* Keep same positioning; replace copy with requested text and sizing */}
             <h1
               id="home-hero-heading"
@@ -285,7 +286,7 @@ export function HomePage() {
               Clear answers. Fast learning. Community-powered.
             </p>
             <p
-              className="max-w-6xl text-telcoin-ink-muted mt-6"
+              className="w-full max-w-5xl text-telcoin-ink-muted mt-6"
               data-hero-copy
               data-hero-body
               style={hero.copyStyle}
@@ -296,7 +297,7 @@ export function HomePage() {
               grounded in official documentation and field-tested by active users.
             </p>
             <p
-              className="max-w-4xl text-telcoin-ink-muted"
+              className="w-full max-w-3xl text-telcoin-ink-muted"
               data-hero-copy
               data-hero-body
               style={hero.copyStyle}

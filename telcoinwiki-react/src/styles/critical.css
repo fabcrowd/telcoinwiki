@@ -314,8 +314,8 @@ ol {
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--tc-border);
   box-shadow: var(--shadow-glass);
-  --header-action-height: 2.5rem;
-  --header-pill-min-width: 8.5rem;
+  --header-action-height: 3.5rem;
+  --header-pill-min-width: 9.5rem;
 }
 
 .site-header__inner {

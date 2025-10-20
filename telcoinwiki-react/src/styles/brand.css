@@ -11,9 +11,10 @@
   --gap-4: 1rem;
   --gap-5: 1.5rem;
   --gap-6: 2rem;
-  --header-pad-y: clamp(10px, 1.2vw, 18px);
-  --logo-min: 36px;
-  --logo-max: 64px;
+  /* Double header vertical rhythm and logo scale, remain responsive */
+  --header-pad-y: clamp(20px, 2.4vw, 36px);
+  --logo-min: 72px;
+  --logo-max: 128px;
 }
 
 html,
