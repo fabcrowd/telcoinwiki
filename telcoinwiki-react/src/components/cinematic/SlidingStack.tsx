@@ -57,6 +57,10 @@ const MIN_WINDOW_SPAN = 5
 const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
 const LAST_CARD_HOLD_PCT = 20
+const EXPERIENCE_LAST_CARD_ID = 'story-experience'
+const EXPERIENCE_LAST_CARD_END_TRIM_PCT = 2.8
+const EXPERIENCE_TAIL_TRIM_VH = 9
+const EXPERIENCE_TAIL_MIN_VH = 6
 const TARGET_WINDOW_PCT = 12
 const INITIAL_DELAY_PCT = 7
 const WINDOW_GAP_PCT = 1.5
@@ -248,6 +252,10 @@ export function SlidingStack({
   const cardCount = Math.max(items.length, 1)
   const animatedCount = Math.max(cardCount - 1, 1)
   const windowSize = 100 / animatedCount
+  const isExperienceDeck = useMemo(
+    () => items[items.length - 1]?.id === EXPERIENCE_LAST_CARD_ID,
+    [items],
+  )
 
   const computeTimeline = useCallback(() => {
     if (typeof window === 'undefined') return
@@ -312,6 +320,17 @@ export function SlidingStack({
         start,
         end: Number(endRaw.toFixed(3)),
       }
+
+      if (isExperienceDeck) {
+        const trimmedEnd = Math.max(
+          start + MIN_WINDOW_SPAN,
+          endRaw - EXPERIENCE_LAST_CARD_END_TRIM_PCT,
+        )
+        windows[lastIndex] = {
+          start,
+          end: Number(trimmedEnd.toFixed(3)),
+        }
+      }
     }
 
     const speedFactor = 0.8
@@ -320,7 +339,14 @@ export function SlidingStack({
     const durationVh = Math.max(9.6, Math.min(16, durationClamp * speedFactor))
     const tailBase = durationVh * 0.35 + 4 * speedFactor
     const tailRaw = Math.max(tailBase, durationVh + 4 * speedFactor)
-    const tailVh = Math.min(120, tailRaw)
+    let tailVh = Math.min(120, tailRaw)
+    if (isExperienceDeck) {
+      const trim = Math.min(
+        EXPERIENCE_TAIL_TRIM_VH,
+        Math.max(0, tailVh - EXPERIENCE_TAIL_MIN_VH),
+      )
+      tailVh = Math.max(EXPERIENCE_TAIL_MIN_VH, tailVh - trim)
+    }
     const tabClearance = Math.max(baseTabHeight * 1.05, 72)
 
     const tabOffsets = tabHeights.map((value) => (value > 0 ? value : tabClearance))
@@ -344,7 +370,7 @@ export function SlidingStack({
     }
 
     setTimelineState((prev) => (timelineStatesEqual(prev, nextState) ? prev : nextState))
-  }, [items.length, windowSize])
+  }, [isExperienceDeck, items.length, windowSize])
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return
