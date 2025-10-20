@@ -77,7 +77,12 @@ export function IntroReveal({}: IntroRevealProps) {
       const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
       const tFly = window.setTimeout(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
       const tDone = window.setTimeout(
-        () => setActive(false),
+        () => {
+          setActive(false)
+          try {
+            window.dispatchEvent(new CustomEvent('intro:complete'))
+          } catch {}
+        },
         Math.min(1600, STATIC_LOGO_MS + PRELUDE_MS + FLY_MS),
       )
       timeouts.current.push(tPreludeStart, tFly, tDone)
@@ -87,7 +92,12 @@ export function IntroReveal({}: IntroRevealProps) {
     // Normal choreography: 0.3s static logo, 0.2s prelude, 1.0s fly
     const tPreludeStart = window.setTimeout(() => setPrelude(true), STATIC_LOGO_MS)
     const tFly = window.setTimeout(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
-    const tDone = window.setTimeout(() => setActive(false), STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + 80)
+    const tDone = window.setTimeout(() => {
+      setActive(false)
+      try {
+        window.dispatchEvent(new CustomEvent('intro:complete'))
+      } catch {}
+    }, STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + 80)
     timeouts.current.push(tPreludeStart, tFly, tDone)
     return () => {
       timeouts.current.forEach((id) => window.clearTimeout(id))

@@ -258,23 +258,22 @@ export function HomePage() {
         </HeroOverlay>
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
           <div className="flex flex-col gap-6">
-            <div data-hero-copy style={hero.copyStyle}>
-              <HeroTypingLoop />
-            </div>
             <h1
               id="home-hero-heading"
               className="text-3xl font-semibold text-telcoin-ink lg:text-5xl"
-              data-hero-copy
-              style={hero.copyStyle}
+              data-hero-title
             >
               Understand the Telcoin platform in minutes
             </h1>
-            <p className="max-w-3xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
+            <p className="max-w-3xl text-lg text-telcoin-ink-muted" data-hero-subtitle>
               This unofficial wiki curates verified answers, onboarding checklists, and direct links to Telcoin Association and
               Telcoin company resources so newcomers can get started with confidence.
             </p>
           </div>
-          <div className="flex flex-col gap-4 lg:gap-6" data-hero-copy style={hero.copyStyle}>
+          <div className="flex flex-col gap-4 lg:gap-6" data-hero-rest>
+            <div>
+              <HeroTypingLoop />
+            </div>
             <HeroTicker />
             <p className="text-sm text-telcoin-ink/70">
               Community-maintained reference. Confirm details inside the Telcoin Wallet or official Association releases.

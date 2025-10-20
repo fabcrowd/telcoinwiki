@@ -582,6 +582,78 @@ pre {
   opacity: 0.6;
 }
 
+/* Hero Entrance Sequence */
+/* When the intro mask finishes, orchestrate hero copy entrance,
+   keep the rest of the page hidden, then slide header in. */
+@keyframes heroTitleIn {
+  from { transform: translateX(12vw); opacity: 0; }
+  80%  { transform: translateX(0.8vw); opacity: 1; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes heroSubtitleIn {
+  from { transform: translateX(-12vw); opacity: 0; }
+  80%  { transform: translateX(-0.8vw); opacity: 1; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes headerSlideIn {
+  from { transform: translateY(-22px); opacity: 0; }
+  80%  { transform: translateY(-2px); opacity: 1; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* Hide everything but the hero until user scrolls */
+[data-hero-gate] main.site-main > :not(#home-hero),
+[data-hero-gate] footer { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* No hero words visible at the start */
+[data-hero-intro] #home-hero [data-hero-title],
+[data-hero-intro] #home-hero [data-hero-subtitle],
+[data-hero-intro] #home-hero [data-hero-rest] { opacity: 0; }
+
+/* Title slides in from right */
+[data-hero-intro] #home-hero [data-hero-title] {
+  animation: heroTitleIn 0.8s var(--transition-overshoot) forwards;
+}
+
+/* Subtitle from left, when title is halfway (0.4s) */
+[data-hero-intro] #home-hero [data-hero-subtitle] {
+  animation: heroSubtitleIn 0.8s var(--transition-overshoot) 0.4s forwards;
+}
+
+/* Rest of hero text and "Live" pill fade in over 1s after both are in place (~1.2s) */
+[data-hero-intro] #home-hero [data-hero-rest],
+[data-hero-intro] #home-hero [data-hero-overlay] {
+  animation: heroFadeIn 1s var(--transition-smooth) 1.2s forwards;
+}
+
+/* Header slides down after rest fades (~2.2s total) */
+[data-hero-intro] header.site-header {
+  transform: translateY(-22px);
+  opacity: 0;
+  animation: headerSlideIn 0.6s var(--transition-overshoot) 2.2s forwards;
+}
+
+/* Respect reduced motion: reveal instantly without travel */
+@media (prefers-reduced-motion: reduce) {
+  [data-hero-intro] #home-hero [data-hero-title],
+  [data-hero-intro] #home-hero [data-hero-subtitle],
+  [data-hero-intro] #home-hero [data-hero-rest],
+  [data-hero-intro] #home-hero [data-hero-overlay] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-hero-intro] header.site-header {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Logo marquee */
 .logo-marquee { position: relative; overflow: hidden; }
 .logo-marquee__track {
