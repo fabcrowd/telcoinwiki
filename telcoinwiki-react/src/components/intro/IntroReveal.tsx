@@ -7,8 +7,11 @@ const INTRO_SESSION_KEY = 'tw_intro_shown'
 // Hold the filled logo for 3s, then short prelude and a longer, smoother fly
 const STATIC_LOGO_MS = 3000
 const PRELUDE_MS = 300
-const FLY_MS = 1200
-const FADE_OUT_OVERLAY_MS = 350 // overlaps tail of fly
+// Slightly longer fly for more travel through the logo
+const FLY_MS = 1400
+// Start overlay fade very near the end of the fly for more hang-time
+const FADE_OUT_OVERLAY_MS = 420
+const FADE_HOLD_MS = 120 // delay after fly end before fade starts
 
 export interface IntroRevealProps {}
 
@@ -84,10 +87,15 @@ export function IntroReveal({}: IntroRevealProps) {
       return () => timeouts.current.forEach((id) => window.clearTimeout(id))
     }
 
-    // Normal choreography: 0.3s static logo, 0.2s prelude, 1.0s fly
+    // Normal choreography: 3.0s static logo, 0.3s prelude, longer fly
     const tPreludeStart = window.setTimeout(() => setPrelude(true), STATIC_LOGO_MS)
     const tFly = window.setTimeout(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
-    const tDone = window.setTimeout(() => setActive(false), STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + 80)
+    // Remove overlay shortly after the CSS fade completes (fly + hold + fade)
+    const cssFadeTail = FADE_HOLD_MS + FADE_OUT_OVERLAY_MS
+    const tDone = window.setTimeout(
+      () => setActive(false),
+      STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + cssFadeTail + 100,
+    )
     timeouts.current.push(tPreludeStart, tFly, tDone)
     return () => {
       timeouts.current.forEach((id) => window.clearTimeout(id))
