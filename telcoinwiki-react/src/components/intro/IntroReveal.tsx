@@ -4,11 +4,11 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 const INTRO_SESSION_KEY = 'tw_intro_shown'
 
 // Timings (ms)
-// Total target ≈ 1500ms: 300ms static, 200ms prelude, 1000ms fly
-const STATIC_LOGO_MS = 300
-const PRELUDE_MS = 200
-const FLY_MS = 1000
-const FADE_OUT_OVERLAY_MS = 300 // overlaps tail of fly
+// Hold the filled logo for 3s, then short prelude and a longer, smoother fly
+const STATIC_LOGO_MS = 3000
+const PRELUDE_MS = 300
+const FLY_MS = 1200
+const FADE_OUT_OVERLAY_MS = 350 // overlaps tail of fly
 
 export interface IntroRevealProps {}
 
@@ -73,10 +73,13 @@ export function IntroReveal({}: IntroRevealProps) {
     } catch {}
 
     if (prefersReducedMotion) {
-      // Minimal: super short sequence
-      const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(120, STATIC_LOGO_MS))
-      const tFly = window.setTimeout(() => setFly(true), Math.min(240, STATIC_LOGO_MS + PRELUDE_MS))
-      const tDone = window.setTimeout(() => setActive(false), Math.min(800, STATIC_LOGO_MS + PRELUDE_MS + FLY_MS))
+      // Minimal: short static, short fly, quick fade
+      const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
+      const tFly = window.setTimeout(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
+      const tDone = window.setTimeout(
+        () => setActive(false),
+        Math.min(1600, STATIC_LOGO_MS + PRELUDE_MS + FLY_MS),
+      )
       timeouts.current.push(tPreludeStart, tFly, tDone)
       return () => timeouts.current.forEach((id) => window.clearTimeout(id))
     }

@@ -128,10 +128,10 @@
   mask-position: center, center;
   mask-size: min(52vw, 380px) auto, 100% 100%;
   mask-composite: exclude;
-  /* 1.0s smooth late-accel fly + quick fade near end */
+  /* 1.2s very-late-accel fly + quick fade near end */
   animation:
-    veilFly 1000ms cubic-bezier(0.7, 0.0, 1, 1) forwards,
-    veilFade 300ms ease 700ms forwards;
+    veilFly 1200ms cubic-bezier(0.98, 0.02, 1, 1) forwards,
+    veilFade 350ms ease 900ms forwards;
 }
 
 /* Hide prelude once fly starts */
