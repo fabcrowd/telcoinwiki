@@ -14,9 +14,7 @@ const FLY_MS = 1400
 const FADE_OUT_OVERLAY_MS = 420
 const FADE_HOLD_MS = 120 // delay after fly end before fade starts
 
-export interface IntroRevealProps {}
-
-export function IntroReveal({}: IntroRevealProps) {
+export function IntroReveal() {
   const prefersReducedMotion = usePrefersReducedMotion()
 
   // Show only once per session
@@ -74,32 +72,54 @@ export function IntroReveal({}: IntroRevealProps) {
     // Mark as shown for this session immediately to avoid replays on SPA nav/back
     try {
       window.sessionStorage.setItem(INTRO_SESSION_KEY, '1')
-    } catch {}
+    } catch {
+      // Ignore storage errors (e.g., Safari private mode)
+      return
+    }
 
     if (prefersReducedMotion) {
       // Minimal: short static, short fly, quick fade
-      const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
-      const tFly = window.setTimeout(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
-      const tDone = window.setTimeout(
+      const scheduledTimeouts: number[] = []
+      const schedule = (cb: () => void, delay: number) => {
+        const id = window.setTimeout(cb, delay)
+        timeouts.current.push(id)
+        scheduledTimeouts.push(id)
+        return id
+      }
+
+      schedule(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
+      schedule(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
+      schedule(
         () => setActive(false),
         Math.min(1600, STATIC_LOGO_MS + PRELUDE_MS + FLY_MS),
       )
-      timeouts.current.push(tPreludeStart, tFly, tDone)
-      return () => timeouts.current.forEach((id) => window.clearTimeout(id))
+      return () => {
+        scheduledTimeouts.forEach((id) => window.clearTimeout(id))
+        if (scheduledTimeouts.length) {
+          timeouts.current = timeouts.current.filter((id) => !scheduledTimeouts.includes(id))
+        }
+      }
     }
 
     // Normal choreography: 3.0s static logo, 0.3s prelude, longer fly
-    const tPreludeStart = window.setTimeout(() => setPrelude(true), STATIC_LOGO_MS)
-    const tFly = window.setTimeout(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
+    const scheduledTimeouts: number[] = []
+    const schedule = (cb: () => void, delay: number) => {
+      const id = window.setTimeout(cb, delay)
+      timeouts.current.push(id)
+      scheduledTimeouts.push(id)
+      return id
+    }
+
+    schedule(() => setPrelude(true), STATIC_LOGO_MS)
+    schedule(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
     // Remove overlay shortly after the CSS fade completes (fly + hold + fade)
     const cssFadeTail = FADE_HOLD_MS + FADE_OUT_OVERLAY_MS
-    const tDone = window.setTimeout(
-      () => setActive(false),
-      STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + cssFadeTail + 100,
-    )
-    timeouts.current.push(tPreludeStart, tFly, tDone)
+    schedule(() => setActive(false), STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + cssFadeTail + 100)
     return () => {
-      timeouts.current.forEach((id) => window.clearTimeout(id))
+      scheduledTimeouts.forEach((id) => window.clearTimeout(id))
+      if (scheduledTimeouts.length) {
+        timeouts.current = timeouts.current.filter((id) => !scheduledTimeouts.includes(id))
+      }
     }
   }, [isActive, prefersReducedMotion])
 

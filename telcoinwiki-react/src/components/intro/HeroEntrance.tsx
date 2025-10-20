@@ -18,10 +18,26 @@ export function HeroEntrance() {
     const hero = document.getElementById('home-hero')
     if (!hero) return
 
+    // Storage helpers guard against private/incognito modes where sessionStorage might throw
+    const hasShownIntro = () => {
+      try {
+        return Boolean(window.sessionStorage.getItem(INTRO_SESSION_KEY))
+      } catch {
+        return false
+      }
+    }
+
+    const markIntroShown = () => {
+      try {
+        window.sessionStorage.setItem(INTRO_SESSION_KEY, '1')
+      } catch {
+        // Ignore storage errors (e.g., private browsing)
+        return
+      }
+    }
+
     // Do not repeat within this session
-    try {
-      if (window.sessionStorage.getItem(INTRO_SESSION_KEY)) return
-    } catch {}
+    if (hasShownIntro()) return
 
     const root = document.documentElement
     const add = (cls: string) => root.classList.add(cls)
@@ -47,7 +63,7 @@ export function HeroEntrance() {
         add('intro-show-header')
         window.setTimeout(() => {
           remove('intro-show-header')
-          try { window.sessionStorage.setItem(INTRO_SESSION_KEY, '1') } catch {}
+          markIntroShown()
         }, 50)
         return
       }
@@ -88,7 +104,7 @@ export function HeroEntrance() {
           window.setTimeout(() => {
             remove('intro-pending')
             // Mark session done
-            try { window.sessionStorage.setItem(INTRO_SESSION_KEY, '1') } catch {}
+            markIntroShown()
             // Allow header rule to clean up
             window.setTimeout(() => remove('intro-show-header'), 60)
           }, HEADER_MS + 60)
@@ -98,8 +114,7 @@ export function HeroEntrance() {
 
     // 1) Watch the hero mask animation end on all layers
     const sequencer = document.querySelector('.hero-sequencer')
-    let ended = new Set<EventTarget>()
-    let maskFallback: number | undefined
+    const ended = new Set<EventTarget>()
     const onAnimEnd = (e: Event) => {
       const evt = e as AnimationEvent
       const target = evt.target as Element
@@ -116,7 +131,7 @@ export function HeroEntrance() {
     }
     sequencer?.addEventListener('animationend', onAnimEnd, true)
     // Fallback in case mask animations are disabled or reduced
-    maskFallback = window.setTimeout(() => {
+    const maskFallback = window.setTimeout(() => {
       maskDone = true
       maybeStart()
     }, 1600)
@@ -146,7 +161,7 @@ export function HeroEntrance() {
 
     return () => {
       sequencer?.removeEventListener('animationend', onAnimEnd, true)
-      if (maskFallback) window.clearTimeout(maskFallback)
+      window.clearTimeout(maskFallback)
       window.removeEventListener('scroll', onFirstScroll)
       // Safety: never leave global intro classes behind on unmount/navigation
       const root = document.documentElement
