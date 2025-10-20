@@ -8,6 +8,7 @@ import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
 import { HeroTicker } from '../components/home/HeroTicker'
+import { HeroEntrance } from '../components/intro/HeroEntrance'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
 import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
 import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
@@ -250,6 +251,8 @@ export function HomePage() {
         />
         {/* Cinematic hero sequencer (uses CSS fallbacks until videos are provided) */}
         <HeroSequencer className="pointer-events-none absolute inset-0" />
+        {/* Orchestrate the requested entrance sequence once mask & intro end */}
+        <HeroEntrance />
         <StageBackdrop progress={hero.stageProgress} />
         <HeroOverlay
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-telcoin-surface/0 via-telcoin-surface/20 to-telcoin-surface/0"
@@ -305,6 +308,7 @@ export function HomePage() {
           className="pointer-events-auto absolute inset-x-6 bottom-24 sm:inset-x-8 sm:bottom-28 lg:inset-x-12 lg:bottom-32"
           data-hero-copy
           style={hero.copyStyle}
+          data-hero-live
         >
           <div className="mx-auto max-w-6xl">
             <HeroTicker />
