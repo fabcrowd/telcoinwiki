@@ -290,7 +290,7 @@ export function HomePage() {
           {/* Ticker moved to bottom of hero for requested placement */}
         </div>
         <div
-          className="pointer-events-auto absolute inset-x-6 bottom-14 sm:inset-x-8 sm:bottom-16 lg:inset-x-12 lg:bottom-20"
+          className="pointer-events-auto absolute inset-x-6 bottom-24 sm:inset-x-8 sm:bottom-28 lg:inset-x-12 lg:bottom-32"
           data-hero-copy
           style={hero.copyStyle}
         >
