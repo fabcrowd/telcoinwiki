@@ -4,12 +4,12 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 const INTRO_SESSION_KEY = 'tw_intro_shown'
 
 // Timings (ms)
-// Prelude: outline draw + light sweep (no solid fill)
-const PRELUDE_MS = 900
-// Start fly right after prelude so total ≈ 3s
-const HOLD_BEFORE_FLY_MS = PRELUDE_MS
-const FLY_MS = 2000
-const FADE_OUT_OVERLAY_MS = 600 // overlaps tail of fly
+// Show original filled logo first
+const STATIC_LOGO_MS = 2000
+// Prelude (outline draw + light sweep), then fly for the remainder of 2s total
+const PRELUDE_MS = 600
+const FLY_MS = 1400
+const FADE_OUT_OVERLAY_MS = 400 // overlaps tail of fly
 
 export interface IntroRevealProps {}
 
@@ -28,6 +28,7 @@ export function IntroReveal({}: IntroRevealProps) {
   }, [])
 
   const [isActive, setActive] = useState(shouldShow)
+  const [prelude, setPrelude] = useState(false)
   const [fly, setFly] = useState(false)
   const timeouts = useRef<number[]>([])
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -73,19 +74,25 @@ export function IntroReveal({}: IntroRevealProps) {
     } catch {}
 
     if (prefersReducedMotion) {
-      // Minimal: quick fade-in then out
-      const t1 = window.setTimeout(() => setFly(true), Math.min(500, HOLD_BEFORE_FLY_MS))
-      const t2 = window.setTimeout(() => setActive(false), Math.min(1200, HOLD_BEFORE_FLY_MS + FLY_MS))
-      timeouts.current.push(t1, t2)
-      return () => {
-        timeouts.current.forEach((id) => window.clearTimeout(id))
-      }
+      // Minimal: brief static logo, short fly, quick fade out
+      const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
+      const tFly = window.setTimeout(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
+      const tDone = window.setTimeout(
+        () => setActive(false),
+        Math.min(1400, STATIC_LOGO_MS + PRELUDE_MS + Math.max(FLY_MS, FADE_OUT_OVERLAY_MS) + 100),
+      )
+      timeouts.current.push(tPreludeStart, tFly, tDone)
+      return () => timeouts.current.forEach((id) => window.clearTimeout(id))
     }
 
-    // Normal choreography
-    const tFly = window.setTimeout(() => setFly(true), HOLD_BEFORE_FLY_MS)
-    const tDone = window.setTimeout(() => setActive(false), HOLD_BEFORE_FLY_MS + Math.max(FLY_MS, FADE_OUT_OVERLAY_MS) + 100)
-    timeouts.current.push(tFly, tDone)
+    // Normal choreography: 2s static logo, 0.6s prelude, 1.4s fly
+    const tPreludeStart = window.setTimeout(() => setPrelude(true), STATIC_LOGO_MS)
+    const tFly = window.setTimeout(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
+    const tDone = window.setTimeout(
+      () => setActive(false),
+      STATIC_LOGO_MS + PRELUDE_MS + Math.max(FLY_MS, FADE_OUT_OVERLAY_MS) + 100,
+    )
+    timeouts.current.push(tPreludeStart, tFly, tDone)
     return () => {
       timeouts.current.forEach((id) => window.clearTimeout(id))
     }
@@ -108,6 +115,7 @@ export function IntroReveal({}: IntroRevealProps) {
       className={[
         'intro-reveal',
         prefersReducedMotion ? 'intro-reveal--reduced' : '',
+        prelude ? 'is-prelude' : '',
         fly ? 'is-flying' : '',
       ].join(' ')}
       role="dialog"
@@ -117,6 +125,14 @@ export function IntroReveal({}: IntroRevealProps) {
       ref={containerRef}
     >
       <div className="intro-reveal__veil" aria-hidden="true" />
+      {/* 1) Static filled logo hold (2s) */}
+      <img
+        className="intro-logo-static"
+        src="/logo.svg"
+        alt="Telcoin Wiki logo"
+        decoding="async"
+        fetchPriority="high"
+      />
       {/* Prelude: outline draw + subtle glint (no filled letters) */}
       <div className="intro-prelude" aria-hidden="true">
         <svg
