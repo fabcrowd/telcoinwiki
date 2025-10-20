@@ -8,7 +8,6 @@ import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
 import { HeroTicker } from '../components/home/HeroTicker'
-import { HeroTypingLoop } from '../components/home/HeroTypingLoop'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
 import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
 import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
@@ -258,20 +257,31 @@ export function HomePage() {
         </HeroOverlay>
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 sm:px-8 lg:px-12">
           <div className="flex flex-col gap-6">
-            <div data-hero-copy style={hero.copyStyle}>
-              <HeroTypingLoop />
-            </div>
+            {/* Keep same positioning; replace copy with requested text and sizing */}
             <h1
               id="home-hero-heading"
-              className="text-3xl font-semibold text-telcoin-ink lg:text-5xl"
+              className="text-4xl font-semibold text-telcoin-ink sm:text-6xl lg:text-8xl"
               data-hero-copy
               style={hero.copyStyle}
             >
-              Understand the Telcoin platform in minutes
+              The Telcoin Wiki
             </h1>
-            <p className="max-w-3xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
-              This unofficial wiki curates verified answers, onboarding checklists, and direct links to Telcoin Association and
-              Telcoin company resources so newcomers can get started with confidence.
+            <p
+              className="max-w-4xl text-2xl font-medium text-telcoin-ink sm:text-3xl lg:text-5xl"
+              data-hero-copy
+              style={hero.copyStyle}
+            >
+              Clear answers. Fast learning. Community-powered.
+            </p>
+            <p className="max-w-4xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
+              This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and
+              ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you're just getting
+              started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you'll find fast, reliable guidance
+              grounded in official documentation and field-tested by active users.
+            </p>
+            <p className="max-w-4xl text-lg text-telcoin-ink-muted" data-hero-copy style={hero.copyStyle}>
+              All content is kept current by contributors, with live reference points and connected resources across the
+              Telcoin platform.
             </p>
           </div>
           <div className="flex flex-col gap-4 lg:gap-6" data-hero-copy style={hero.copyStyle}>
