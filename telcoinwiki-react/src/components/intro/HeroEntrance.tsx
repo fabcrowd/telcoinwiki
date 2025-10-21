@@ -18,19 +18,39 @@ export function HeroEntrance() {
 
   useIsomorphicLayoutEffect(() => {
     // Only run on the Home page if the hero exists
-    const hero = document.getElementById('home-hero')
-    if (!hero) return
-
-    // Do not repeat within this session
-    try {
-      if (window.sessionStorage.getItem(INTRO_SESSION_KEY)) return
-    } catch {
-      /* ignore sessionStorage access failures, e.g., Safari private mode */
-    }
-
     const root = document.documentElement
     const add = (cls: string) => root.classList.add(cls)
     const remove = (cls: string) => root.classList.remove(cls)
+    const cleanupRootState = () => {
+      remove('intro-lock-sections')
+      remove('intro-pending')
+      remove('intro-header-hold')
+      remove('intro-show-header')
+      remove('intro-preload')
+    }
+    const hero = document.getElementById('home-hero')
+    add('intro-preload')
+    if (!hero) {
+      cleanupRootState()
+      return () => {
+        cleanupRootState()
+      }
+    }
+
+    // Do not repeat within this session
+    let hasPlayed = false
+    try {
+      hasPlayed = Boolean(window.sessionStorage.getItem(INTRO_SESSION_KEY))
+    } catch {
+      /* ignore sessionStorage access failures, e.g., Safari private mode */
+      hasPlayed = false
+    }
+    if (hasPlayed) {
+      cleanupRootState()
+      return () => {
+        cleanupRootState()
+      }
+    }
 
     // Lock non-hero content until first scroll
     add('intro-lock-sections')
@@ -67,6 +87,7 @@ export function HeroEntrance() {
       const headerStartDelay = bodyStartDelay + FADE_MS + 160
 
       const kickOffHeroCopy = () => {
+        remove('intro-preload')
         remove('intro-pending')
         try {
           window.sessionStorage.setItem(INTRO_SESSION_KEY, '1')
@@ -175,11 +196,7 @@ export function HeroEntrance() {
       window.clearTimeout(maskFallback)
       window.removeEventListener('scroll', onFirstScroll)
       // Safety: never leave global intro classes behind on unmount/navigation
-      const root = document.documentElement
-      root.classList.remove('intro-lock-sections')
-      root.classList.remove('intro-pending')
-      root.classList.remove('intro-header-hold')
-      root.classList.remove('intro-show-header')
+      cleanupRootState()
     }
   }, [prefersReduced])
 

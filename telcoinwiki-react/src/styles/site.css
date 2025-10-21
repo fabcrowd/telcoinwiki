@@ -587,6 +587,7 @@ pre {
 }
 
 /* Home hero entrance — initial hidden state + keyframes */
+html.intro-preload .site-header,
 html.intro-pending .site-header,
 html.intro-header-hold .site-header {
   transform: translateY(-110%);
@@ -597,6 +598,7 @@ html.intro-show-header .site-header {
   opacity: 1;
   transition: transform 700ms var(--transition-overshoot), opacity 300ms ease-out;
 }
+html.intro-preload .site-header,
 html.intro-pending .site-header,
 html.intro-show-header .site-header,
 html.intro-header-hold .site-header {
@@ -619,12 +621,14 @@ html.intro-show-header .site-header {
     padding-top 700ms var(--transition-overshoot),
     opacity 420ms var(--transition-smooth);
 }
+html.intro-preload #home-hero [data-hero-card],
 html.intro-pending #home-hero [data-hero-card],
 html.intro-show-header #home-hero [data-hero-card] {
   /* Keep hero card position consistent; do not offset for header height
      so the header overlays the hero instead of pushing it down. */
   padding-top: var(--hero-card-top-base);
 }
+html.intro-preload #home-hero [data-hero-card],
 html.intro-pending #home-hero [data-hero-card] {
   opacity: 0;
   pointer-events: none;
@@ -648,8 +652,11 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
 }
 
 /* Hide hero copy while pending; set starting offsets for title/subtitle */
+html.intro-preload #home-hero [data-hero-copy],
 html.intro-pending #home-hero [data-hero-copy] { opacity: 0; }
+html.intro-preload #home-hero [data-hero-title],
 html.intro-pending #home-hero [data-hero-title] { transform: translateX(-50vw); }
+html.intro-preload #home-hero [data-hero-subtitle],
 html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw); }
 
 @keyframes introSlideInRight {
