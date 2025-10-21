@@ -162,6 +162,8 @@
   0% {
     transform: translate3d(0,0,0) scale(1);
     opacity: 1;
+    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
+    mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
     -webkit-mask-size: var(--intro-logo-size) auto, 100% 100%;
     mask-size: var(--intro-logo-size) auto, 100% 100%;
   }
@@ -171,6 +173,8 @@
   100% {
     transform: translate3d(0,0,0) scale(18);
     opacity: 0;
+    -webkit-mask-position: calc(50% - (var(--intro-mask-offset-x) * 18)) center, center;
+    mask-position: calc(50% - (var(--intro-mask-offset-x) * 18)) center, center;
     -webkit-mask-size: calc(var(--intro-logo-size) * 18) auto, 100% 100%;
     mask-size: calc(var(--intro-logo-size) * 18) auto, 100% 100%;
   }
