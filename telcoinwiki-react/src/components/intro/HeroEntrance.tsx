@@ -87,6 +87,13 @@ export function HeroEntrance() {
       const headerStartDelay = bodyStartDelay + FADE_MS + 160
 
       const kickOffHeroCopy = () => {
+        if (prefersReduced) {
+          ;[title, subtitle, ...bodies, live].filter(Boolean).forEach((el) => {
+            const node = el as HTMLElement
+            node.style.opacity = '0'
+          })
+        }
+
         remove('intro-preload')
         remove('intro-pending')
         try {
