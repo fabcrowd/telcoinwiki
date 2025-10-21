@@ -134,11 +134,6 @@ const detectCompactViewport = () => {
   return window.matchMedia(COMPACT_VIEWPORT_QUERY).matches
 }
 
-const smoothstep = (value: number) => {
-  const clamped = Math.max(0, Math.min(1, value))
-  return clamped * clamped * (3 - 2 * clamped)
-}
-
 export function SlidingStack({
   items,
   prefersReducedMotion = false,
@@ -321,7 +316,6 @@ export function SlidingStack({
     const container = containerRef.current
     const viewportHeight = window.innerHeight || document.documentElement?.clientHeight || 1
     const heights = cards.map((card) => Math.max(card.scrollHeight, card.offsetHeight))
-    const animatedHeights = heights.slice(1)
 
     const tabHeights = cards.map((card) => {
       const tab = card.querySelector<HTMLElement>('.sliding-stack__tab')
@@ -412,7 +406,7 @@ export function SlidingStack({
     }
 
     setTimelineState((prev) => (timelineStatesEqual(prev, nextState) ? prev : nextState))
-  }, [items.length, windowSize, isCompactViewport])
+  }, [items, isCompactViewport])
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return

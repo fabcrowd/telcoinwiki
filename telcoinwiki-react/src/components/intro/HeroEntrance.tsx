@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 // Session flag to avoid replaying in a single SPA session
@@ -11,10 +11,12 @@ const SUBTITLE_DELAY_MS = 1000
 const HEADER_MS = 700
 const FADE_MS = 3000
 
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
+
 export function HeroEntrance() {
   const prefersReduced = usePrefersReducedMotion()
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     // Only run on the Home page if the hero exists
     const hero = document.getElementById('home-hero')
     if (!hero) return
