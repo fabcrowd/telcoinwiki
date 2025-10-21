@@ -10,9 +10,7 @@ const PRELUDE_MS = 300
 // Slightly longer fly for more travel through the logo
 const FLY_MS = 1400
 
-export interface IntroRevealProps {}
-
-export function IntroReveal({}: IntroRevealProps) {
+export function IntroReveal() {
   const prefersReducedMotion = usePrefersReducedMotion()
 
   // Show only once per session
@@ -29,7 +27,6 @@ export function IntroReveal({}: IntroRevealProps) {
   const [isActive, setActive] = useState(shouldShow)
   const [prelude, setPrelude] = useState(false)
   const [fly, setFly] = useState(false)
-  const timeouts = useRef<number[]>([])
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   // Body scroll lock while active
@@ -70,31 +67,41 @@ export function IntroReveal({}: IntroRevealProps) {
     // Mark as shown for this session immediately to avoid replays on SPA nav/back
     try {
       window.sessionStorage.setItem(INTRO_SESSION_KEY, '1')
-    } catch {}
+    } catch {
+      // Ignore sessionStorage persistence issues (e.g., Safari private mode)
+    }
 
     if (prefersReducedMotion) {
       // Minimal: short static, short fly, quick exit
-      const tPreludeStart = window.setTimeout(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
-      const tFly = window.setTimeout(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
-      const tDone = window.setTimeout(
+      const ids: number[] = []
+      const trackTimeout = (cb: () => void, delay: number) => {
+        const id = window.setTimeout(cb, delay)
+        ids.push(id)
+        return id
+      }
+      trackTimeout(() => setPrelude(true), Math.min(500, STATIC_LOGO_MS))
+      trackTimeout(() => setFly(true), Math.min(900, STATIC_LOGO_MS + PRELUDE_MS))
+      trackTimeout(
         () => setActive(false),
         Math.min(1600, STATIC_LOGO_MS + PRELUDE_MS + FLY_MS),
       )
-      timeouts.current.push(tPreludeStart, tFly, tDone)
-      return () => timeouts.current.forEach((id) => window.clearTimeout(id))
+      return () => ids.forEach((id) => window.clearTimeout(id))
     }
 
     // Normal choreography: 3.0s static logo, 0.3s prelude, longer fly
-    const tPreludeStart = window.setTimeout(() => setPrelude(true), STATIC_LOGO_MS)
-    const tFly = window.setTimeout(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
-    const tDone = window.setTimeout(
+    const ids: number[] = []
+    const trackTimeout = (cb: () => void, delay: number) => {
+      const id = window.setTimeout(cb, delay)
+      ids.push(id)
+      return id
+    }
+    trackTimeout(() => setPrelude(true), STATIC_LOGO_MS)
+    trackTimeout(() => setFly(true), STATIC_LOGO_MS + PRELUDE_MS)
+    trackTimeout(
       () => setActive(false),
       STATIC_LOGO_MS + PRELUDE_MS + FLY_MS + 100,
     )
-    timeouts.current.push(tPreludeStart, tFly, tDone)
-    return () => {
-      timeouts.current.forEach((id) => window.clearTimeout(id))
-    }
+    return () => ids.forEach((id) => window.clearTimeout(id))
   }, [isActive, prefersReducedMotion])
 
   // Accessibility: allow ESC to skip

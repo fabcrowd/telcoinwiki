@@ -292,8 +292,8 @@ export function HomePage() {
               style={hero.copyStyle}
             >
               This community-curated wiki offers verified answers, explainers, and direct links to Telcoin Association and
-              ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you're just getting
-              started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you'll find fast, reliable guidance
+              ecosystem tools—designed to help anyone learn how Telcoin works in minutes, not hours. Whether you&rsquo;re just getting
+              started or diving deep into the Telcoin Network, TELx, or the Telcoin App, you&rsquo;ll find fast, reliable guidance
               grounded in official documentation and field-tested by active users.
             </p>
             <p
