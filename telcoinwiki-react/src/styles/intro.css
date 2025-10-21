@@ -144,8 +144,8 @@
   mask-composite: exclude;
   /* Pivot the scale around the screen center while the mask reveals the focus point */
   transform-origin: center;
-  /* Smooth ramping handled via a dedicated easing curve */
-  animation: veilFly var(--intro-fly-ms) cubic-bezier(0.32, 0, 0.68, 1) forwards;
+  /* Smooth ramping handled via a single bezier curve */
+  animation: veilFly var(--intro-fly-ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Hide prelude once fly starts */
@@ -153,35 +153,16 @@
 
 /* Keyframes driving the zoom fly-through */
 @keyframes veilFly {
-  /* Start steady, then accelerate smoothly into the zoom */
+  /* Bezier easing handles acceleration; keep intermediate values implicit for continuity */
   0% {
     transform: translate3d(0,0,0) scale(1);
     opacity: 1;
   }
-  18% {
-    transform: translate3d(0,0,0) scale(1.01);
-  }
-  36% {
-    transform: translate3d(0,0,0) scale(1.07);
-  }
-  54% {
-    transform: translate3d(0,0,0) scale(1.4);
-  }
-  70% {
-    transform: translate3d(0,0,0) scale(2.25);
-  }
   82% {
-    transform: translate3d(0,0,0) scale(3.4);
-  }
-  92% {
-    transform: translate3d(0,0,0) scale(5.2);
-  }
-  98% {
-    transform: translate3d(0,0,0) scale(7.5);
-    opacity: 0.18;
+    opacity: 1;
   }
   100% {
-    transform: translate3d(0,0,0) scale(10);
+    transform: translate3d(0,0,0) scale(12);
     opacity: 0;
   }
 }
