@@ -14,6 +14,8 @@
   --intro-focus-x: 0.523;
   /* Offset needed to align the focus point with the viewport center */
   --intro-mask-offset-x: calc((var(--intro-focus-x) - 0.5) * var(--intro-logo-size));
+  /* Scale multiplier applied to the offset once the mask has fully expanded */
+  --intro-mask-offset-factor-final: 9.5;
   /* Timing controls for the fly-through */
   --intro-fly-ms: 1400ms;
 }
@@ -173,8 +175,8 @@
   100% {
     transform: translate3d(0,0,0) scale(18);
     opacity: 0;
-    -webkit-mask-position: calc(50% - (var(--intro-mask-offset-x) * 18)) center, center;
-    mask-position: calc(50% - (var(--intro-mask-offset-x) * 18)) center, center;
+    -webkit-mask-position: calc(50% - (var(--intro-mask-offset-x) * var(--intro-mask-offset-factor-final))) center, center;
+    mask-position: calc(50% - (var(--intro-mask-offset-x) * var(--intro-mask-offset-factor-final))) center, center;
     -webkit-mask-size: calc(var(--intro-logo-size) * 18) auto, 100% 100%;
     mask-size: calc(var(--intro-logo-size) * 18) auto, 100% 100%;
   }
