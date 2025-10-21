@@ -87,12 +87,22 @@ export function HeroEntrance() {
       const headerStartDelay = bodyStartDelay + FADE_MS + 160
 
       const kickOffHeroCopy = () => {
-        if (prefersReduced) {
-          ;[title, subtitle, ...bodies, live].filter(Boolean).forEach((el) => {
+        const setInitialHiddenState = () => {
+          if (title) {
+            title.style.opacity = '0'
+            title.style.transform = 'translateX(-50vw)'
+          }
+          if (subtitle) {
+            subtitle.style.opacity = '0'
+            subtitle.style.transform = 'translateX(50vw)'
+          }
+          ;[...bodies, live].filter(Boolean).forEach((el) => {
             const node = el as HTMLElement
             node.style.opacity = '0'
           })
         }
+
+        setInitialHiddenState()
 
         remove('intro-preload')
         remove('intro-pending')
