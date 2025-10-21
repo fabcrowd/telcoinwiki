@@ -5,10 +5,11 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 const INTRO_SESSION_KEY = 'tw_hero_entrance_done'
 
 // Timings (ms)
-const TITLE_MS = 900
-const SUBTITLE_MS = 900
+const TITLE_MS = 1125
+const SUBTITLE_MS = 1125
+const SUBTITLE_DELAY_MS = 1000
 const HEADER_MS = 700
-const FADE_MS = 1000
+const FADE_MS = 3000
 
 export function HeroEntrance() {
   const prefersReduced = usePrefersReducedMotion()
@@ -21,7 +22,9 @@ export function HeroEntrance() {
     // Do not repeat within this session
     try {
       if (window.sessionStorage.getItem(INTRO_SESSION_KEY)) return
-    } catch {}
+    } catch {
+      /* ignore sessionStorage access failures, e.g., Safari private mode */
+    }
 
     const root = document.documentElement
     const add = (cls: string) => root.classList.add(cls)
@@ -31,6 +34,7 @@ export function HeroEntrance() {
     add('intro-lock-sections')
     // Keep header offscreen and hero text hidden until we sequence
     add('intro-pending')
+    add('intro-header-hold')
 
     // Helper: start the sequence when both overlay is gone and mask finished
     let overlayDone = false
@@ -41,65 +45,89 @@ export function HeroEntrance() {
       if (started || !overlayDone || !maskDone) return
       started = true
 
-      // Reduced motion: keep the header glide but reveal copy only after it settles
-      if (prefersReduced) {
-        add('intro-show-header')
-        window.setTimeout(() => {
-          remove('intro-pending')
-          try { window.sessionStorage.setItem(INTRO_SESSION_KEY, '1') } catch {}
-          window.setTimeout(() => remove('intro-show-header'), 60)
-        }, HEADER_MS + 60)
-        return
-      }
-
-      // Elements
       const title = hero.querySelector<HTMLElement>('[data-hero-title]')
       const subtitle = hero.querySelector<HTMLElement>('[data-hero-subtitle]')
       const bodies = Array.from(hero.querySelectorAll<HTMLElement>('[data-hero-body]'))
       const live = hero.querySelector<HTMLElement>('[data-hero-live]')
 
+      let headerReleased = false
+
+      const releaseHeader = () => {
+        if (headerReleased) return
+        headerReleased = true
+        add('intro-show-header')
+        remove('intro-header-hold')
+        window.setTimeout(() => remove('intro-show-header'), HEADER_MS + 120)
+      }
+
+      const subtitleStartDelay = TITLE_MS + SUBTITLE_DELAY_MS
+      const bodyStartDelay = subtitleStartDelay + SUBTITLE_MS
+      const headerStartDelay = bodyStartDelay + FADE_MS + 160
+
       const kickOffHeroCopy = () => {
         remove('intro-pending')
-        try { window.sessionStorage.setItem(INTRO_SESSION_KEY, '1') } catch {}
+        try {
+          window.sessionStorage.setItem(INTRO_SESSION_KEY, '1')
+        } catch {
+          /* ignore sessionStorage persistence issues */
+        }
 
-        // Title slide-in from right
+        if (prefersReduced) {
+          if (title) {
+            title.style.opacity = '1'
+            title.style.transform = 'translateX(0)'
+          }
+          window.setTimeout(() => {
+            if (subtitle) {
+              subtitle.style.opacity = '1'
+              subtitle.style.transform = 'translateX(0)'
+            }
+          }, subtitleStartDelay)
+
+          window.setTimeout(() => {
+            ;[...bodies, live].filter(Boolean).forEach((el) => {
+              const node = el as HTMLElement
+              node.style.opacity = '1'
+            })
+          }, bodyStartDelay)
+
+          window.setTimeout(releaseHeader, headerStartDelay)
+          return
+        }
+
         if (title) {
-          title.style.animation = `introSlideInRight ${TITLE_MS}ms var(--transition-overshoot) forwards`
+          title.style.animation = `introSlideInLeft ${TITLE_MS}ms var(--transition-overshoot) forwards`
           title.style.opacity = '1'
         }
 
-        // Subtitle starts when title is halfway to destination
         window.setTimeout(() => {
           if (subtitle) {
-            subtitle.style.animation = `introSlideInLeft ${SUBTITLE_MS}ms var(--transition-overshoot) forwards`
+            subtitle.style.animation = `introSlideInRight ${SUBTITLE_MS}ms var(--transition-overshoot) forwards`
             subtitle.style.opacity = '1'
           }
-        }, Math.round(TITLE_MS * 0.5))
+        }, subtitleStartDelay)
 
-        // When both are in place, fade in remaining hero text + live pill
-        const tailWait = Math.max(TITLE_MS, Math.round(TITLE_MS * 0.5) + SUBTITLE_MS)
         window.setTimeout(() => {
           ;[...bodies, live].filter(Boolean).forEach((el) => {
             const node = el as HTMLElement
             node.style.animation = `introFadeIn ${FADE_MS}ms var(--transition-smooth) forwards`
             node.style.opacity = '1'
           })
+        }, bodyStartDelay)
 
-          // Allow the header overlay to settle before returning to sticky positioning
-          window.setTimeout(() => {
-            window.setTimeout(() => remove('intro-show-header'), 60)
-          }, FADE_MS + 40)
-        }, tailWait + 40)
+        window.setTimeout(releaseHeader, headerStartDelay)
       }
 
-      add('intro-show-header')
-      window.setTimeout(kickOffHeroCopy, HEADER_MS + 80)
+      window.setTimeout(kickOffHeroCopy, 80)
     }
 
     // 1) Watch the hero mask animation end on all layers
     const sequencer = document.querySelector('.hero-sequencer')
-    let ended = new Set<EventTarget>()
-    let maskFallback: number | undefined
+    const ended = new Set<EventTarget>()
+    const maskFallback = window.setTimeout(() => {
+      maskDone = true
+      maybeStart()
+    }, 1600)
     const onAnimEnd = (e: Event) => {
       const evt = e as AnimationEvent
       const target = evt.target as Element
@@ -116,10 +144,6 @@ export function HeroEntrance() {
     }
     sequencer?.addEventListener('animationend', onAnimEnd, true)
     // Fallback in case mask animations are disabled or reduced
-    maskFallback = window.setTimeout(() => {
-      maskDone = true
-      maybeStart()
-    }, 1600)
 
     // 2) Wait for the intro veil overlay to be removed (if present)
     const overlay = document.querySelector('.intro-reveal')
@@ -146,12 +170,13 @@ export function HeroEntrance() {
 
     return () => {
       sequencer?.removeEventListener('animationend', onAnimEnd, true)
-      if (maskFallback) window.clearTimeout(maskFallback)
+      window.clearTimeout(maskFallback)
       window.removeEventListener('scroll', onFirstScroll)
       // Safety: never leave global intro classes behind on unmount/navigation
       const root = document.documentElement
       root.classList.remove('intro-lock-sections')
       root.classList.remove('intro-pending')
+      root.classList.remove('intro-header-hold')
       root.classList.remove('intro-show-header')
     }
   }, [prefersReduced])

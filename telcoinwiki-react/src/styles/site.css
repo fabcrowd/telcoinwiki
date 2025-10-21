@@ -587,7 +587,8 @@ pre {
 }
 
 /* Home hero entrance — initial hidden state + keyframes */
-html.intro-pending .site-header {
+html.intro-pending .site-header,
+html.intro-header-hold .site-header {
   transform: translateY(-110%);
   opacity: 0;
 }
@@ -597,7 +598,8 @@ html.intro-show-header .site-header {
   transition: transform 700ms var(--transition-overshoot), opacity 300ms ease-out;
 }
 html.intro-pending .site-header,
-html.intro-show-header .site-header {
+html.intro-show-header .site-header,
+html.intro-header-hold .site-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -647,8 +649,8 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
 
 /* Hide hero copy while pending; set starting offsets for title/subtitle */
 html.intro-pending #home-hero [data-hero-copy] { opacity: 0; }
-html.intro-pending #home-hero [data-hero-title] { transform: translateX(50vw); }
-html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(-50vw); }
+html.intro-pending #home-hero [data-hero-title] { transform: translateX(-50vw); }
+html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw); }
 
 @keyframes introSlideInRight {
   0% { transform: translateX(50vw); }
