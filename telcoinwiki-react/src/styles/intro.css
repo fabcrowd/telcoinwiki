@@ -130,18 +130,23 @@
 
 .intro-reveal.is-flying .intro-reveal__veil {
   /* Activate mask during the fly-through */
-  -webkit-mask-image: url('/logo.svg'), linear-gradient(#fff, #fff);
+  -webkit-mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   -webkit-mask-repeat: no-repeat, no-repeat;
   /* Position the mask so the focus point aligns with the viewport center */
   -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
   -webkit-mask-size: var(--intro-logo-size) auto, 100% 100%;
   -webkit-mask-composite: xor;
-  mask-image: url('/logo.svg'), linear-gradient(#fff, #fff);
+  mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
   mask-repeat: no-repeat, no-repeat;
   /* Same shift for the standard mask */
   mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
   mask-size: var(--intro-logo-size) auto, 100% 100%;
   mask-composite: exclude;
+  -webkit-mask-mode: luminance, alpha;
+  mask-mode: luminance, alpha;
+  -webkit-mask-origin: content-box;
+  mask-origin: content-box;
+  -webkit-mask-smoothing: antialiased;
   /* Pivot the scale around the screen center while the mask reveals the focus point */
   transform-origin: center;
   /* Keep accelerating through the mask with an ease-in curve */
@@ -157,6 +162,8 @@
   0% {
     transform: translate3d(0,0,0) scale(1);
     opacity: 1;
+    -webkit-mask-size: var(--intro-logo-size) auto, 100% 100%;
+    mask-size: var(--intro-logo-size) auto, 100% 100%;
   }
   82% {
     opacity: 1;
@@ -164,6 +171,8 @@
   100% {
     transform: translate3d(0,0,0) scale(18);
     opacity: 0;
+    -webkit-mask-size: calc(var(--intro-logo-size) * 18) auto, 100% 100%;
+    mask-size: calc(var(--intro-logo-size) * 18) auto, 100% 100%;
   }
 }
 
