@@ -285,7 +285,7 @@ export function HomePage() {
               Clear answers. Fast learning. Community-powered.
             </p>
             <p
-              className="w-full max-w-5xl text-telcoin-ink-muted mt-6 text-left self-start"
+              className="w-full max-w-5xl text-telcoin-ink-muted mt-6 mx-auto text-center"
               data-hero-copy
               data-hero-body
               style={hero.copyStyle}
@@ -296,7 +296,7 @@ export function HomePage() {
               grounded in official documentation and field-tested by active users.
             </p>
             <p
-              className="w-full max-w-3xl text-telcoin-ink-muted text-left self-start"
+              className="w-full max-w-3xl text-telcoin-ink-muted mx-auto text-center"
               data-hero-copy
               data-hero-body
               style={hero.copyStyle}
