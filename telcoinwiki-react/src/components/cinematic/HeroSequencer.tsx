@@ -4,6 +4,7 @@ import { preferCodecs, pickResolutionVariant } from '../../lib/videoSupport'
 
 import { cn } from '../../utils/cn'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { getSaveDataPreference, getEffectiveConnectionType } from '../../utils/browserSupport'
 
 type VideoSource = { src: string; type: string } | { supabase: { bucket: string; path: string; expiresIn?: number }; type: string }
 
@@ -24,6 +25,14 @@ interface HeroSequencerProps {
   className?: string
 }
 
+interface IdleCallbackOptions {
+  timeout?: number
+}
+
+interface WindowWithIdleCallback extends Window {
+  requestIdleCallback?: (callback: () => void, options?: IdleCallbackOptions) => number
+}
+
 function useIdleStart(active: boolean, cb: () => void) {
   useEffect(() => {
     if (!active) return
@@ -33,12 +42,9 @@ function useIdleStart(active: boolean, cb: () => void) {
       done = true
       cb()
     }
-    // Prefer idle callback; fall back to a short timeout
-    if ('requestIdleCallback' in window) {
-      ;(window as unknown as { requestIdleCallback: (fn: () => void, opts?: { timeout?: number }) => number }).requestIdleCallback(
-        run,
-        { timeout: 800 },
-      )
+    const win = window as WindowWithIdleCallback
+    if (win.requestIdleCallback) {
+      win.requestIdleCallback(run, { timeout: 800 })
     } else {
       const t = window.setTimeout(run, 500)
       return () => window.clearTimeout(t)
@@ -159,13 +165,8 @@ export function HeroSequencer({ layers: propLayers, className }: HeroSequencerPr
         { id: 'mid', label: 'Flow field', poster: null, sources: null },
         { id: 'hud', label: 'HUD accents', poster: null, sources: null },
       ]).map((layer, index) => {
-        const saveData = (navigator as unknown as { connection?: { saveData?: boolean } }).connection?.saveData === true
-        const effectiveType = (navigator as unknown as { connection?: { effectiveType?: string } }).connection?.effectiveType as
-          | 'slow-2g'
-          | '2g'
-          | '3g'
-          | '4g'
-          | undefined
+        const saveData = getSaveDataPreference()
+        const effectiveType = getEffectiveConnectionType()
 
         const rank: Record<'slow-2g'|'2g'|'3g'|'4g', number> = { 'slow-2g': 0, '2g': 1, '3g': 2, '4g': 3 }
         const meetsConnection = effectiveType ? rank[effectiveType] >= rank[policy.minEffectiveType] : true

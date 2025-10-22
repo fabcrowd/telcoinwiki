@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { PageMetaMap } from '../config/types'
 
+const buildSidebarItems = (pageMeta: PageMetaMap) =>
+  Object.entries(pageMeta)
+    .filter(([, meta]) => meta.sidebar)
+    .map(([id, meta]) => ({ id, label: meta.label, href: meta.url }))
+
 type SidebarItem = {
   id: string
   label: string
@@ -26,16 +31,10 @@ export const useLayoutState = ({ pageId, pageMeta }: LayoutStateOptions): Layout
   const focusReturnRef = useRef<HTMLElement | null>(null)
   const wasOpenRef = useRef(false)
 
-  const currentMeta = pageMeta[pageId] ?? pageMeta.home
+  const currentMeta = useMemo(() => pageMeta[pageId] ?? pageMeta.home, [pageMeta, pageId])
   const activeNavId = currentMeta?.navId ?? pageId ?? null
 
-  const sidebarItems = useMemo<SidebarItem[]>(
-    () =>
-      Object.entries(pageMeta)
-        .filter(([, meta]) => meta.sidebar)
-        .map(([id, meta]) => ({ id, label: meta.label, href: meta.url })),
-    [pageMeta],
-  )
+  const sidebarItems = useMemo<SidebarItem[]>(() => buildSidebarItems(pageMeta), [pageMeta])
 
   const openSidebar = useCallback((origin?: HTMLElement | null) => {
     if (origin instanceof HTMLElement) {
@@ -94,10 +93,9 @@ export const useLayoutState = ({ pageId, pageMeta }: LayoutStateOptions): Layout
   }, [isSidebarOpen])
 
   useEffect(() => {
-    if (!isSidebarOpen) {
-      return
+    if (isSidebarOpen) {
+      closeSidebar()
     }
-    closeSidebar()
   }, [pageId, closeSidebar, isSidebarOpen])
 
   return {

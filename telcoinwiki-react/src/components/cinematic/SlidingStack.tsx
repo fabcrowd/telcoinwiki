@@ -14,6 +14,21 @@ import { cn } from '../../utils/cn'
 import { ColorMorphCard } from './ColorMorphCard'
 import { SCROLL_STORY_ENABLED } from '../../config/featureFlags'
 import { useScrollProgress } from '../../hooks/useScrollProgress'
+import { parseUnit, parsePx, clampPercent, approx } from '../../utils/cssUtils'
+import {
+  detectScrollTimelineSupport,
+  detectCompactViewport as detectCompactViewportUtil,
+  createMediaQueryListener,
+  getSaveDataPreference,
+  getEffectiveConnectionType,
+} from '../../utils/browserSupport'
+import {
+  calculateTimelineWindows,
+  calculateFallbackWindow,
+  calculateActiveIndex,
+  calculateCardProgress,
+  type TimelineWindow,
+} from '../../utils/timelineCalculations'
 
 export interface SlidingStackItem {
   id: string
@@ -54,7 +69,6 @@ const DEFAULT_STACK_TAIL = baseStackStyle['--stack-tail'] as string
 const DEFAULT_STACK_STEP = '60px'
 const DEFAULT_TAB_CLEARANCE = '72px'
 const MIN_WINDOW_SPAN = 5
-const EPSILON = 0.45
 const SAFE_PADDING_PX = 32
 const LAST_CARD_HOLD_PCT = 20
 const TARGET_WINDOW_PCT = 12
@@ -62,10 +76,7 @@ const INITIAL_DELAY_PCT = 7
 const WINDOW_GAP_PCT = 1.5
 const CARD_PALETTES = ['var(--palette-1)', 'var(--palette-6)', 'var(--palette-5)', 'var(--palette-4)'] as const
 const COMPACT_VIEWPORT_QUERY = '(max-width: 48rem)'
-// Mobile-only fallback pacing multiplier (no effect on desktop view‑timeline)
 const MOBILE_FALLBACK_SLOWDOWN = 2.0
-
-type TimelineWindow = { start: number; end: number }
 
 interface TimelineState {
   windows: TimelineWindow[]
@@ -76,16 +87,6 @@ interface TimelineState {
   tabClearance: string
   scales: number[]
   translateStart: number
-}
-
-const approx = (a: number, b: number, epsilon = EPSILON) => Math.abs(a - b) <= epsilon
-
-const parseUnit = (value: string) => Number.parseFloat(value) || 0
-
-const parsePx = (value: string | undefined | null) => {
-  if (!value) return 0
-  const parsed = Number.parseFloat(value)
-  return Number.isFinite(parsed) ? parsed : 0
 }
 
 const timelineStatesEqual = (a: TimelineState, b: TimelineState) => {
@@ -110,29 +111,7 @@ const timelineStatesEqual = (a: TimelineState, b: TimelineState) => {
   return true
 }
 
-const fallbackWindow = (index: number, windowSize: number): TimelineWindow => {
-  if (index === 0) return { start: 0, end: INITIAL_DELAY_PCT }
-  const start = (index - 1) * windowSize
-  const end = Math.min(100, index * windowSize)
-  return { start, end }
-}
-
-const clampPercent = (value: number) => Math.max(0, Math.min(100, value))
-
-const detectScrollTimelineSupport = () => {
-  if (typeof window === 'undefined') return false
-  if (typeof CSS === 'undefined' || typeof CSS.supports !== 'function') return false
-  try {
-    return CSS.supports('animation-timeline: scroll()') || CSS.supports('view-timeline-name: --stack')
-  } catch {
-    return false
-  }
-}
-
-const detectCompactViewport = () => {
-  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false
-  return window.matchMedia(COMPACT_VIEWPORT_QUERY).matches
-}
+const detectCompactViewport = () => detectCompactViewportUtil(COMPACT_VIEWPORT_QUERY)
 
 export function SlidingStack({
   items,
@@ -168,22 +147,7 @@ export function SlidingStack({
   const [isCompactViewport, setIsCompactViewport] = useState(() => detectCompactViewport())
 
   useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return
-    const mediaQueryList = window.matchMedia(COMPACT_VIEWPORT_QUERY)
-    const update = (event: MediaQueryListEvent | MediaQueryList) => {
-      setIsCompactViewport(event.matches)
-    }
-    update(mediaQueryList)
-    const listener = (event: MediaQueryListEvent) => update(event)
-    if (typeof mediaQueryList.addEventListener === 'function') {
-      mediaQueryList.addEventListener('change', listener)
-      return () => mediaQueryList.removeEventListener('change', listener)
-    }
-    if (typeof mediaQueryList.addListener === 'function') {
-      mediaQueryList.addListener(listener)
-      return () => mediaQueryList.removeListener(listener)
-    }
-    return undefined
+    return createMediaQueryListener(COMPACT_VIEWPORT_QUERY, setIsCompactViewport)
   }, [])
 
   const canAnimate = !effectiveDisabled
@@ -281,28 +245,10 @@ export function SlidingStack({
     timelineState.translateStart,
   ])
 
-  const activeIndex = useMemo(() => {
-    if (items.length <= 1) return 0
-    const windows = timelineState.windows
-    const pct = progress * 100
-
-    let current = 0
-    for (let i = 1; i < windows.length; i += 1) {
-      const window = windows[i]
-      if (!window) continue
-      const windowEnd = i === windows.length - 1 ? 100 : window.end
-      if (pct >= window.start - 0.001 && pct < windowEnd + 0.001) {
-        current = i
-      }
-    }
-
-    const lastWindow = windows[windows.length - 1]
-    if (lastWindow && pct >= lastWindow.end - 0.001) {
-      current = windows.length - 1
-    }
-
-    return Math.min(items.length - 1, Math.max(0, current))
-  }, [items.length, progress, timelineState.windows])
+  const activeIndex = useMemo(
+    () => calculateActiveIndex(progress, timelineState.windows, items.length),
+    [items.length, progress, timelineState.windows]
+  )
 
   const cardCount = Math.max(items.length, 1)
   const animatedCount = Math.max(cardCount - 1, 1)
@@ -345,33 +291,14 @@ export function SlidingStack({
     const activeTimelineSpan = Math.max(minActiveSpan, maxActiveSpan)
     const baseWindow = (activeTimelineSpan - fixedSpan) / animatedCountLocal
 
-    let cursor = INITIAL_DELAY_PCT
-    const windows: TimelineWindow[] = items.map((_, index) => {
-      if (index === 0) return { start: 0, end: INITIAL_DELAY_PCT }
-      const start = Number(cursor.toFixed(3))
-      const holdEnd = 100 - LAST_CARD_HOLD_PCT
-      let end = Number((start + baseWindow).toFixed(3))
-      if (index === items.length - 1) {
-        const minEnd = start + MIN_WINDOW_SPAN
-        end = Math.min(holdEnd, Math.max(minEnd, end))
-        end = Number(end.toFixed(3))
-      }
-      cursor = end + (index === items.length - 1 ? 0 : WINDOW_GAP_PCT)
-      return { start, end }
+    const windows = calculateTimelineWindows({
+      itemCount: items.length,
+      minWindowSpan: MIN_WINDOW_SPAN,
+      initialDelayPct: INITIAL_DELAY_PCT,
+      windowGapPct: WINDOW_GAP_PCT,
+      lastCardHoldPct: LAST_CARD_HOLD_PCT,
+      targetWindowPct: TARGET_WINDOW_PCT,
     })
-
-    if (windows.length > 0) {
-      const lastIndex = windows.length - 1
-      const holdEnd = 100 - LAST_CARD_HOLD_PCT
-      const start = windows[lastIndex].start
-      const plannedEnd = windows[lastIndex].end
-      const minEnd = start + MIN_WINDOW_SPAN
-      const endRaw = Math.min(holdEnd, Math.max(minEnd, plannedEnd))
-      windows[lastIndex] = {
-        start,
-        end: Number(endRaw.toFixed(3)),
-      }
-    }
 
     const speedFactor = 0.8
     const durationBase = (targetHeight / Math.max(viewportHeight, 1)) * 18
@@ -436,7 +363,7 @@ export function SlidingStack({
   const cards = items.map((item, index) => {
     const ctaLabel = item.ctaLabel ?? 'Learn more'
     const zIndex = index + 1
-    const fallback = fallbackWindow(index, windowSize)
+    const fallback = calculateFallbackWindow(index, windowSize, INITIAL_DELAY_PCT)
     const window = timelineState.windows[index] ?? fallback
     const start = clampPercent(window.start)
     let end = clampPercent(window.end)
@@ -449,9 +376,6 @@ export function SlidingStack({
     const tabPadding = tabOffset + 12
     const fitScale = timelineState.scales[index] ?? 1
     const finalScale = index === 0 ? 1 : Math.min(1, Math.max(0.6, fitScale))
-    // Make the card grow effect 25% more pronounced by starting a bit smaller.
-    // For cards that end below 1.0, reduce the pre-scale multiplier from 0.95 → 0.9375.
-    // For cards that end at 1.0, lower the starting scale from 0.985 → 0.98125.
     const initialScale =
       index === 0
         ? 1
@@ -468,16 +392,7 @@ export function SlidingStack({
       '--card-tab-offset': `${tabPadding.toFixed(2)}px`,
     }
 
-    const windowSpan = Math.max(0, end - start)
-    let cardProgressValue = 1
-    if (index === 0) {
-      cardProgressValue = Math.max(0, Math.min(1, progressPct / Math.max(1, INITIAL_DELAY_PCT)))
-    } else if (windowSpan <= 0.001) {
-      cardProgressValue = progressPct >= start ? 1 : 0
-    } else {
-      const raw = (progressPct - start) / windowSpan
-      cardProgressValue = Math.max(0, Math.min(1, raw))
-    }
+    const cardProgressValue = calculateCardProgress(index, progressPct, { start, end }, INITIAL_DELAY_PCT)
 
     // Keep transforms linear to mirror desktop view‑timeline animations.
     const easedProgress = cardProgressValue
