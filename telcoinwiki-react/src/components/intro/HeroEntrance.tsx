@@ -5,11 +5,12 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 const INTRO_SESSION_KEY = 'tw_hero_entrance_done'
 
 // Timings (ms)
-const TITLE_MS = 1125
-const SUBTITLE_MS = 1125
-const SUBTITLE_DELAY_MS = 1000
+// Shortened to keep the hero copy reveal feeling snappy, even when the intro overlay runs.
+const TITLE_MS = 780
+const SUBTITLE_MS = 720
+const SUBTITLE_DELAY_MS = 140
 const HEADER_MS = 700
-const FADE_MS = 3000
+const FADE_MS = 800
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
@@ -21,6 +22,12 @@ export function HeroEntrance() {
     const root = document.documentElement
     const add = (cls: string) => root.classList.add(cls)
     const remove = (cls: string) => root.classList.remove(cls)
+    const timeouts: number[] = []
+    const trackTimeout = (cb: () => void, delay: number) => {
+      const id = window.setTimeout(cb, delay)
+      timeouts.push(id)
+      return id
+    }
     const cleanupRootState = () => {
       remove('intro-lock-sections')
       remove('intro-pending')
@@ -117,21 +124,21 @@ export function HeroEntrance() {
             title.style.opacity = '1'
             title.style.transform = 'translateX(0)'
           }
-          window.setTimeout(() => {
+          trackTimeout(() => {
             if (subtitle) {
               subtitle.style.opacity = '1'
               subtitle.style.transform = 'translateX(0)'
             }
           }, subtitleStartDelay)
 
-          window.setTimeout(() => {
+          trackTimeout(() => {
             ;[...bodies, live].filter(Boolean).forEach((el) => {
               const node = el as HTMLElement
               node.style.opacity = '1'
             })
           }, bodyStartDelay)
 
-          window.setTimeout(releaseHeader, headerStartDelay)
+          trackTimeout(releaseHeader, headerStartDelay)
           return
         }
 
@@ -140,14 +147,14 @@ export function HeroEntrance() {
           title.style.opacity = '1'
         }
 
-        window.setTimeout(() => {
+        trackTimeout(() => {
           if (subtitle) {
             subtitle.style.animation = `introSlideInRight ${SUBTITLE_MS}ms var(--transition-overshoot) forwards`
             subtitle.style.opacity = '1'
           }
         }, subtitleStartDelay)
 
-        window.setTimeout(() => {
+        trackTimeout(() => {
           ;[...bodies, live].filter(Boolean).forEach((el) => {
             const node = el as HTMLElement
             node.style.animation = `introFadeIn ${FADE_MS}ms var(--transition-smooth) forwards`
@@ -155,16 +162,16 @@ export function HeroEntrance() {
           })
         }, bodyStartDelay)
 
-        window.setTimeout(releaseHeader, headerStartDelay)
+        trackTimeout(releaseHeader, headerStartDelay)
       }
 
-      window.setTimeout(kickOffHeroCopy, 80)
+      trackTimeout(kickOffHeroCopy, 80)
     }
 
     // 1) Watch the hero mask animation end on all layers
     const sequencer = document.querySelector('.hero-sequencer')
     const ended = new Set<EventTarget>()
-    const maskFallback = window.setTimeout(() => {
+    const maskFallback = trackTimeout(() => {
       maskDone = true
       maybeStart()
     }, 1600)
@@ -212,6 +219,7 @@ export function HeroEntrance() {
       sequencer?.removeEventListener('animationend', onAnimEnd, true)
       window.clearTimeout(maskFallback)
       window.removeEventListener('scroll', onFirstScroll)
+      timeouts.forEach((id) => window.clearTimeout(id))
       // Safety: never leave global intro classes behind on unmount/navigation
       cleanupRootState()
     }
