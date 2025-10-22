@@ -615,18 +615,35 @@ html.intro-show-header .site-header {
 
 #home-hero [data-hero-card] {
   --hero-card-top-base: 5rem;
+  --hero-card-offset: 0px;
+  --hero-card-padding-bottom: clamp(5rem, 9vw, 7rem);
+  margin-top: var(--hero-card-offset);
+  min-height: calc(100vh - var(--hero-card-offset));
   padding-top: var(--hero-card-top-base);
+  padding-bottom: var(--hero-card-padding-bottom);
   opacity: 1;
   transition:
+    margin-top 420ms var(--transition-overshoot),
+    min-height 420ms var(--transition-overshoot),
     padding-top 700ms var(--transition-overshoot),
+    padding-bottom 700ms var(--transition-overshoot),
     opacity 420ms var(--transition-smooth);
 }
 html.intro-preload #home-hero [data-hero-card],
 html.intro-pending #home-hero [data-hero-card],
-html.intro-show-header #home-hero [data-hero-card] {
+html.intro-show-header #home-hero [data-hero-card],
+html.intro-header-hold #home-hero [data-hero-card] {
   /* Keep hero card position consistent; do not offset for header height
-     so the header overlays the hero instead of pushing it down. */
+     while the intro sequence runs so the header can overlay the hero. */
+  --hero-card-offset: 0px;
+  --hero-card-padding-bottom: clamp(5rem, 9vw, 7rem);
   padding-top: var(--hero-card-top-base);
+}
+html:not(.intro-preload):not(.intro-pending):not(.intro-show-header):not(.intro-header-hold)
+  #home-hero [data-hero-card] {
+  --hero-card-offset: var(--header-height);
+  --hero-card-padding-bottom: max(var(--hero-card-top-base), clamp(3.5rem, 5vw, 5.5rem));
+  padding-top: max(var(--hero-card-top-base), clamp(3.5rem, 5vw, 5.5rem));
 }
 html.intro-preload #home-hero [data-hero-card],
 html.intro-pending #home-hero [data-hero-card] {

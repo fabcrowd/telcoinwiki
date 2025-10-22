@@ -263,7 +263,6 @@ export function HomePage() {
         <div
           className="relative mx-auto flex w-full max-w-none flex-col items-center justify-center gap-10 px-6 pb-24 text-center sm:px-8 lg:px-12 lg:pb-28"
           data-hero-card=""
-          style={{ minHeight: 'calc(100vh - var(--header-height))', paddingTop: 0 }}
         >
           <div className="home-hero-typography flex flex-col items-center gap-6 mb-16 sm:mb-20 lg:mb-24">
             {/* Keep same positioning; replace copy with requested text and sizing */}
