@@ -7,7 +7,6 @@ import { StageBackdrop } from '../components/cinematic/StageBackdrop'
 import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
-import { HeroTicker } from '../components/home/HeroTicker'
 import { HeroEntrance } from '../components/intro/HeroEntrance'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
 import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
@@ -305,17 +304,6 @@ export function HomePage() {
               All content is kept current by contributors, with live reference points and connected resources across the
               Telcoin platform.
             </p>
-          </div>
-          {/* Ticker moved to bottom of hero for requested placement */}
-        </div>
-        <div
-          className="pointer-events-auto absolute inset-x-6 bottom-24 sm:inset-x-8 sm:bottom-28 lg:inset-x-12 lg:bottom-32"
-          data-hero-copy
-          style={hero.copyStyle}
-          data-hero-live
-        >
-          <div className="mx-auto max-w-6xl">
-            <HeroTicker />
           </div>
         </div>
       </section>
