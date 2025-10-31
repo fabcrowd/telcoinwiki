@@ -8,12 +8,13 @@ interface SearchModalProps {
   isOpen: boolean
   onClose: () => void
   searchConfig: SearchConfig
+  initialQuery?: string
 }
 
 const FOCUSABLE_SELECTORS =
   'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
-export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps) {
+export function SearchModal({ isOpen, onClose, searchConfig, initialQuery = '' }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const panelRef = useRef<HTMLDivElement | null>(null)
   const resultRefs = useRef<Array<HTMLAnchorElement | null>>([])
@@ -26,9 +27,9 @@ export function SearchModal({ isOpen, onClose, searchConfig }: SearchModalProps)
 
   useEffect(() => {
     if (isOpen) {
-      setQuery('')
+      setQuery(initialQuery ?? '')
     }
-  }, [isOpen])
+  }, [isOpen, initialQuery])
 
   useEffect(() => {
     if (typeof document === 'undefined') {

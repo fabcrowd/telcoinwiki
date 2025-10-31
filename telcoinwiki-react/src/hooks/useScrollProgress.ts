@@ -13,6 +13,8 @@ export interface ScrollProgressOptions {
   startOffset?: number
   /** Offset in pixels to treat the end sooner/later (positive = later). */
   endOffset?: number
+  /** Optional smoothing factor 0..1 for low‑pass filtering of progress (0 = none). */
+  smoothing?: number
 }
 
 /**
@@ -22,10 +24,13 @@ export interface ScrollProgressOptions {
  */
 export function useScrollProgress(
   targetRef: RefObject<HTMLElement | null>,
-  { axis = 'y', clamp = true, disabled = false, startOffset = 0, endOffset = 0 }: ScrollProgressOptions = {},
+  { axis = 'y', clamp = true, disabled = false, startOffset = 0, endOffset = 0, smoothing = 0.12 }: ScrollProgressOptions = {},
 ): number {
   const prefersReducedMotion = usePrefersReducedMotion()
   const [progress, setProgress] = useState(0)
+  const progressRef = useRef(0)
+  const targetRefValue = useRef(0)
+  const rafIdRef = useRef<number | null>(null)
   const mountedRef = useRef(false)
 
   const compute = useMemo(() => {
@@ -44,9 +49,35 @@ export function useScrollProgress(
       const travelled = viewportEnd - lead
       const raw = travelled / total
       const next = clamp ? clamp01(raw) : raw
-      setProgress(next)
+
+      if (smoothing <= 0) {
+        progressRef.current = next
+        setProgress(next)
+        return
+      }
+
+      targetRefValue.current = next
+
+      if (rafIdRef.current == null) {
+        const step = () => {
+          if (!mountedRef.current) { rafIdRef.current = null; return }
+          const current = progressRef.current
+          const target = targetRefValue.current
+          const delta = target - current
+          const alpha = Math.min(1, Math.max(0.01, smoothing))
+          const nextValue = Math.abs(delta) < 0.001 ? target : current + delta * alpha
+          progressRef.current = nextValue
+          setProgress(nextValue)
+          if (Math.abs(target - nextValue) >= 0.001) {
+            rafIdRef.current = requestAnimationFrame(step)
+          } else {
+            rafIdRef.current = null
+          }
+        }
+        rafIdRef.current = requestAnimationFrame(step)
+      }
     }
-  }, [axis, clamp, endOffset, startOffset, targetRef])
+  }, [axis, clamp, endOffset, startOffset, targetRef, smoothing])
 
   useEffect(() => {
     if (disabled || prefersReducedMotion) {
@@ -65,6 +96,10 @@ export function useScrollProgress(
       mountedRef.current = false
       window.removeEventListener('scroll', onChange)
       window.removeEventListener('resize', onChange)
+      if (rafIdRef.current != null) {
+        cancelAnimationFrame(rafIdRef.current)
+        rafIdRef.current = null
+      }
     }
   }, [compute, disabled, prefersReducedMotion])
 

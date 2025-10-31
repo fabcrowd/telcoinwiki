@@ -1,0 +1,131 @@
+*** Begin Patch
+*** Add File: telcoinwiki-react/src/components/faq/FAQ.tsx
++import { useEffect, useMemo, useState, useRef } from 'react'
++
++export interface FAQItemData {
++  id?: string
++  question: string
++  answer: React.ReactNode
++}
++
++function slugify(input: string) {
++  return input
++    .toLowerCase()
++    .replace(/[^a-z0-9\s-]/g, '')
++    .trim()
++    .replace(/\s+/g, '-')
++}
++
++interface AccordionItemProps {
++  item: FAQItemData
++  open: boolean
++  onToggle: () => void
++}
++
++function AccordionItem({ item, open, onToggle }: AccordionItemProps) {
++  const contentRef = useRef<HTMLDivElement | null>(null)
++  const id = useMemo(() => item.id ?? slugify(item.question), [item.id, item.question])
++  const panelId = ${id}-panel
++  const buttonId = ${id}-button
++
++  const [height, setHeight] = useState<number>(0)
++
++  useEffect(() => {
++    if (!contentRef.current) return
++    setHeight(open ? contentRef.current.scrollHeight : 0)
++  }, [open, item.answer])
++
++  return (
++    <article id={aq-} className="tc-card-glass overflow-hidden">
++      <h3 className="m-0">
++        <button
++          id={buttonId}
++          type="button"
++          aria-controls={panelId}
++          aria-expanded={open}
++          onClick={onToggle}
++          className="glass-header w-full text-left px-6 py-4 sm:px-8 flex items-center justify-between"
++        >
++          <span className="font-semibold text-telcoin-ink">{item.question}</span>
++          <svg
++            className={ml-4 transition-transform }
++            width="18"
++            height="18"
++            viewBox="0 0 24 24"
++            fill="none"
++            aria-hidden
++          >
++            <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
++          </svg>
++        </button>
++      </h3>
++      <div
++        id={panelId}
++        role="region"
++        aria-labelledby={buttonId}
++        className="px-6 sm:px-8 text-telcoin-ink-muted"
++        style={{
++          overflow: 'hidden',
++          maxHeight: height,
++          transition: 'max-height 260ms ease',
++        }}
++        ref={contentRef}
++      >
++        <div className="pb-6 pt-3 leading-relaxed">{item.answer}</div>
++      </div>
++    </article>
++  )
++}
++
++interface FAQSectionProps {
++  title?: string
++  items: FAQItemData[]
++  singleOpen?: boolean
++}
++
++export function FAQSection({ title = 'Frequently Asked Questions', items, singleOpen = true }: FAQSectionProps) {
++  const [openIndex, setOpenIndex] = useState<number | null>(0)
++  const containerRef = useRef<HTMLElement | null>(null)
++
++  // Open item from hash (e.g., #faq-some-question)
++  useEffect(() => {
++    const hash = window.location.hash.replace(/^#/, '')
++    if (!hash) return
++    if (hash === 'faq') {
++      containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
++      return
++    }
++    const matchIndex = items.findIndex((i) => aq- === hash)
++    if (matchIndex >= 0) {
++      setOpenIndex(matchIndex)
++      const el = document.getElementById(hash)
++      el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
++    }
++  }, [items])
++
++  const onToggle = (idx: number) => () => {
++    if (singleOpen) {
++      setOpenIndex((cur) => (cur === idx ? null : idx))
++    } else {
++      setOpenIndex((cur) => (cur === idx ? null : idx))
++    }
++  }
++
++  return (
++    <section id="home-faq" ref={containerRef} className="anchor-offset">
++      <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
++        <div className="mb-6 sm:mb-8">
++          <h2 className="text-2xl sm:text-3xl font-semibold text-telcoin-ink">{title}</h2>
++          <p className="text-telcoin-ink-muted">Answers for newcomers and power users alike.</p>
++        </div>
++        <div className="grid gap-4 sm:gap-5">
++          {items.map((item, idx) => (
++            <AccordionItem key={item.id ?? item.question} item={item} open={openIndex === idx} onToggle={onToggle(idx)} />
++          ))}
++        </div>
++      </div>
++    </section>
++  )
++}
++
+*** End Patch

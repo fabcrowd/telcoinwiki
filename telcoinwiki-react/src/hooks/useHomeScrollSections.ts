@@ -70,9 +70,9 @@ export function useHomeHeroScroll(): HeroSectionState {
   return { sectionRef, prefersReducedMotion, overlayStyle, copyStyle, stageProgress: 1 }
 }
 
-// Start the first section a bit lower so it doesn't begin
-// scrolling until the hero has fully cleared the header.
-export const useHomeBrokenMoneyScroll = createStackSectionHook('calc(var(--header-height) + 8vh)')
+// Start the first section just below the header so the card is visible
+// as soon as the hero scrolls out of view.
+export const useHomeBrokenMoneyScroll = createStackSectionHook('calc(var(--header-height) + 0.75rem)')
 
 export const useHomeTelcoinModelScroll = createStackSectionHook()
 

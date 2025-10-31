@@ -1,3 +1,4 @@
+import type { FormEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { MEGA_MENU_ENABLED } from '../../config/featureFlags';
@@ -8,7 +9,7 @@ import type { NavItem } from '../../config/types';
 interface HeaderProps {
   navItems: NavItem[];
   activeNavId?: string | null;
-  onSearchOpen: () => void;
+  onSearchOpen: (prefill?: string) => void;
   isSearchOpen?: boolean;
 }
 
@@ -20,6 +21,7 @@ export function Header({
 }: HeaderProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -53,6 +55,13 @@ export function Header({
   function toggleMobileNav() {
     setMobileNavOpen((current) => !current);
     setIsDropdownOpen(false);
+  }
+
+  function handleSearchSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const trimmedQuery = searchValue.trim();
+    onSearchOpen(trimmedQuery);
+    setSearchValue('');
   }
 
   function handleMobileLinkClick() {
@@ -101,17 +110,6 @@ export function Header({
               <MegaMenu sections={megaMenuSections} />
             ) : (
               <>
-                <button
-                  type="button"
-                  className={`nav-dropdown__trigger${isDropdownOpen ? ' is-open' : ''}`}
-                  aria-haspopup="true"
-                  aria-expanded={isDropdownOpen}
-                  aria-controls={dropdownId}
-                  onClick={toggleDropdown}
-                >
-                  Resources
-                  <span aria-hidden="true" className="nav-dropdown__caret">▾</span>
-                </button>
                 <div id={dropdownId} className={`nav-dropdown${isDropdownOpen ? ' is-open' : ''}`} role="menu">
                   <nav aria-label="Primary navigation">
                     <ul className="nav-dropdown__list">
@@ -147,29 +145,47 @@ export function Header({
             )}
           </div>
 
-          <div className="header-search">
-            <button
-              type="button"
-              className="search-trigger"
-              onClick={onSearchOpen}
-              aria-haspopup="dialog"
-              aria-expanded={isSearchOpen}
+        <div className="header-search">
+            <form
+              className="header-search__form"
+              role="search"
+              aria-label="Search Telcoin Wiki"
+              onSubmit={handleSearchSubmit}
             >
-              <span className="visually-hidden">Open search</span>
-              <svg
-                aria-hidden="true"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+              <label htmlFor="site-header-search" className="visually-hidden">
+                Search Telcoin Wiki
+              </label>
+              <input
+                id="site-header-search"
+                className="search-input"
+                type="search"
+                placeholder="Search Telcoin Wiki"
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
+                autoComplete="off"
+              />
+              <button
+                type="submit"
+                className="search-submit"
+                aria-label="Open search dialog"
+                aria-haspopup="dialog"
+                aria-expanded={isSearchOpen}
               >
-                <path
-                  d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm0-2C6.582 2 3 5.582 3 10s3.582 8 8 8a7.95 7.95 0 0 0 4.9-1.635l4.368 4.367a1 1 0 0 0 1.414-1.414l-4.367-4.368A7.95 7.95 0 0 0 19 10c0-4.418-3.582-8-8-8z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+                <svg
+                  aria-hidden="true"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm0-2C6.582 2 3 5.582 3 10s3.582 8 8 8a7.95 7.95 0 0 0 4.9-1.635l4.368 4.367a1 1 0 0 0 1.414-1.414l-4.367-4.368A7.95 7.95 0 0 0 19 10c0-4.418-3.582-8-8-8z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+            </form>
           </div>
         </div>
       </div>

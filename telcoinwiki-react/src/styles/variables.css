@@ -51,7 +51,8 @@
   --max-width-content: 72rem;
   --max-width-wide: 90rem;
   --sidebar-width: clamp(16rem, 18vw, 20rem);
-  --header-height: 8.5rem;
+  /* Reduce header height by ~25% */
+  --header-height: 6.375rem;
   --transition-base: 0.25s ease;
   --transition-smooth: cubic-bezier(.22, .61, .36, 1);
   --transition-overshoot: cubic-bezier(0.16, 1, 0.3, 1);

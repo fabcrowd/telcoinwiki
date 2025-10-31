@@ -21,7 +21,8 @@ import {
 } from '../hooks/useHomeScrollSections'
 import { cn } from '../utils/cn'
 import { useViewportHeight } from '../hooks/useViewportHeight'
-
+import { FAQSection } from '../components/faq/FAQ'
+import { faqGroups } from '../components/faq/data'
 interface HomeNarrativeSection {
   id: 'broken-money' | 'telcoin-model' | 'engine' | 'experience' | 'learn-more'
   label: string
@@ -200,9 +201,9 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
 // Storyboard content removed per request
 
 const storyDeckStyle: CSSProperties & Record<'--stack-top' | '--stack-bottom' | '--stack-tail', string> = {
-  '--stack-top': 'calc(var(--header-height) + 2.5vh)',
-  '--stack-bottom': '0vh',
-  '--stack-tail': '800vh',
+  '--stack-top': 'calc(var(--header-height) + 7rem)',
+  '--stack-bottom': '-7rem',
+  '--stack-tail': '0vh',
 }
 
 export function HomePage() {
@@ -254,7 +255,7 @@ export function HomePage() {
         <HeroEntrance />
         <StageBackdrop progress={hero.stageProgress} />
         <HeroOverlay
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-telcoin-surface/0 via-telcoin-surface/20 to-telcoin-surface/0"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-telcoin-surface/20 to-telcoin-surface/40"
           style={hero.overlayStyle}
           data-hero-overlay=""
         >
@@ -309,7 +310,11 @@ export function HomePage() {
 
       {/* Sliding deck: four-story beats directly under the hero (feature-flagged) */}
       {SCROLL_STORY_ENABLED ? (
-        <section id="home-story-cards" className="anchor-offset">
+        <section
+          id="home-story-cards"
+          className="anchor-offset"
+          style={{ scrollMarginTop: 'calc(var(--header-height) + 1rem)' }}
+        >
           <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
             <SlidingStack
               className="mt-4"
@@ -350,23 +355,33 @@ export function HomePage() {
         </section>
       ) : null}
 
+      {/* FAQ section */}
+      <div className="-mt-[80vh] sm:-mt-[85vh] lg:-mt-[90vh]">
+        <FAQSection groups={faqGroups} singleOpen={false} trackHash={false} />
+      </div>
+
       {/* Removed Storyboard sticky section per request */}
 
       {/* Former HorizontalRail removed per new header strategy. */}
 
-      {NON_STORYBOARD_ENABLED ? sections.map(({ id, label, heading, description, backgroundClip, cards, state }) => {
+      {NON_STORYBOARD_ENABLED ? sections.map((section, index) => {
+        const { id, label, heading, description, backgroundClip, cards, state } = section
         const activeIndex = cards.length > 1
           ? Math.min(cards.length - 1, Math.floor(state.stackProgress * cards.length))
           : 0
+        const isFirstSection = index === 0
 
         return (
           <StickyModule
-          key={id}
-          className="stage-theme"
-          ref={state.sectionRef}
-          id={`home-${id}`}
-          aria-labelledby={`home-${id}-heading`}
-          containerClassName="max-w-[min(1920px,98vw)]"
+            key={id}
+            className="stage-theme"
+            ref={state.sectionRef}
+            id={`home-${id}`}
+            aria-labelledby={`home-${id}-heading`}
+            containerClassName={cn(
+              'max-w-[min(1920px,98vw)] pt-16 pb-16 lg:pt-20 lg:pb-20',
+              isFirstSection && 'pt-4 lg:pt-6',
+            )}
           background={
             <>
               <ColorShiftBackground
@@ -420,4 +435,8 @@ export function HomePage() {
   )
 }
 
-// import { LogoMarquee } from '../components/cinematic/LogoMarquee'
+
+
+
+
+

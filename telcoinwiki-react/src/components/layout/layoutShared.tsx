@@ -26,9 +26,16 @@ export function useLayoutChrome({
   activeNavId = null,
 }: UseLayoutChromeOptions): LayoutChrome {
   const [isSearchOpen, setSearchOpen] = useState(false)
+  const [initialSearchQuery, setInitialSearchQuery] = useState('')
 
-  const openSearch = () => setSearchOpen(true)
-  const closeSearch = () => setSearchOpen(false)
+  const openSearch = (prefill = '') => {
+    setInitialSearchQuery(prefill)
+    setSearchOpen(true)
+  }
+  const closeSearch = () => {
+    setSearchOpen(false)
+    setInitialSearchQuery('')
+  }
 
   const headerProps = useMemo<ComponentProps<typeof Header>>(
     () => ({
@@ -43,7 +50,12 @@ export function useLayoutChrome({
   const footer = useMemo(() => <Footer />, [])
 
   const searchModal = (
-    <SearchModal isOpen={isSearchOpen} onClose={closeSearch} searchConfig={searchConfig} />
+    <SearchModal
+      isOpen={isSearchOpen}
+      onClose={closeSearch}
+      searchConfig={searchConfig}
+      initialQuery={initialSearchQuery}
+    />
   )
 
   return { headerProps, footer, searchModal }
