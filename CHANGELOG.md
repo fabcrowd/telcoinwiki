@@ -1,5 +1,10 @@
 # Changelog
 
+## 2025-10-11 – Maintenance deploy trigger
+
+- Recorded a lightweight maintenance entry to ensure Netlify picks up the
+  latest repository state and redeploys today’s updates.
+
 ## 2025-10-10 – Performance remediation (scrolling fixed)
 
 - Removed Lenis + GSAP smooth-scrolling and ScrollTrigger timelines.
