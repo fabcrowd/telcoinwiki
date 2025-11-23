@@ -112,8 +112,20 @@
 /* Keep scroll behavior explicit while managing overscroll rubber-banding. */
 html {
   scroll-behavior: auto;
-  /* Reduce rubber-band effects and scroll chaining on root */
+  /* Reduce rubber-band effects and scroll chaining on root (desktop) */
   overscroll-behavior-y: none;
+}
+
+/* Mobile scrolling optimizations */
+@media (max-width: 1024px) {
+  html {
+    /* Enable smooth native scrolling on mobile */
+    scroll-behavior: smooth;
+    /* Allow overscroll bounce on mobile for better UX */
+    overscroll-behavior-y: auto;
+    /* Enable momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 body {

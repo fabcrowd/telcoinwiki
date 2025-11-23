@@ -5,10 +5,10 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 const INTRO_SESSION_KEY = 'tw_hero_entrance_done'
 
 // Timings (ms)
-// Shortened to keep the hero copy reveal feeling snappy, even when the intro overlay runs.
+// Increased delays to allow readers time to read each section before the next animation begins
 const TITLE_MS = 780
 const SUBTITLE_MS = 720
-const SUBTITLE_DELAY_MS = 140
+const SUBTITLE_DELAY_MS = 3000
 const HEADER_MS = 700
 const FADE_MS = 800
 
@@ -90,8 +90,10 @@ export function HeroEntrance() {
       }
 
       const subtitleStartDelay = TITLE_MS + SUBTITLE_DELAY_MS
-      const bodyStartDelay = subtitleStartDelay + SUBTITLE_MS
-      const headerStartDelay = bodyStartDelay + FADE_MS + 160
+      // Body starts 6000ms after title starts (allows ~3s to read subtitle)
+      const bodyStartDelay = 6000
+      // Header starts 10000ms after title starts (allows ~4s to read body text)
+      const headerStartDelay = 10000
 
       const kickOffHeroCopy = () => {
         const setInitialHiddenState = () => {

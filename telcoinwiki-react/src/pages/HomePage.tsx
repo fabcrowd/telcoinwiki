@@ -48,21 +48,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Cost & Delay',
         title: 'Transfers lose value midstream',
         body: 'Traditional payments move through middlemen and fee layers. Telcoin compresses those inside the wallet.',
-        href: '#broken-money-fees',
+        href: '/deep-dive#deep-problem',
       },
       {
         id: 'broken-money-access',
         eyebrow: 'Inclusion',
         title: 'Mobile-first by necessity',
         body: 'Telcoin designs onboarding so users can access services without needing a bank account.',
-        href: '#broken-money-access',
+        href: '/deep-dive#deep-problem',
       },
       {
         id: 'broken-money-trust',
         eyebrow: 'Trust',
         title: 'Compliance needs transparency',
         body: 'TAN reporting and Association-led policy keep telecom-grade oversight at the heart of the system.',
-        href: '#broken-money-trust',
+        href: '/deep-dive#deep-problem',
       },
     ],
   },
@@ -79,21 +79,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Governance',
         title: 'GSMA members help secure the chain',
         body: 'Telcoin Association stewards the protocol with validator input, open proposals, and TEL issuance policy.',
-        href: '/governance#governance-overview',
+        href: '/deep-dive#deep-governance',
       },
       {
         id: 'telcoin-model-network',
         eyebrow: 'Network',
         title: 'Modular by design',
         body: 'Unlike monolithic chains, Telcoin separates execution, consensus, and settlement—improving scale and resilience.',
-        href: '/network#network-consensus',
+        href: '/deep-dive#deep-network',
       },
       {
         id: 'telcoin-model-bank',
         eyebrow: 'Bank Layer',
         title: 'Wallet + Digital Cash = everyday UX',
         body: 'The Telcoin Bank experience bridges fiat-backed assets with self-custodial wallets that feel familiar.',
-        href: '/bank#bank-overview',
+        href: '/deep-dive#deep-bank',
       },
     ],
   },
@@ -110,21 +110,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Network Infrastructure',
         title: 'Modular stack, optimized consensus',
         body: 'Telcoin uses Narwhal for mempool ordering, Bullshark for BFT finality, and the EVM for execution—all modular, all optimized.',
-        href: '/network#network-architecture',
+        href: '/deep-dive#deep-network',
       },
       {
         id: 'engine-tokenomics',
         eyebrow: 'Tokenomics',
         title: 'Burn, regenerate, recycle',
         body: 'TEL fees are burned every block and regenerated into Telcoin Association treasuries—funding growth and governance.',
-        href: '/tokenomics#tokenomics-cycle',
+        href: '/deep-dive#deep-tokenomics',
       },
       {
         id: 'engine-liquidity',
         eyebrow: 'Liquidity',
         title: 'TELx keeps flows instant',
         body: 'TELx liquidity pools pair TEL with Digital Cash so users can swap, send, and settle without bottlenecks.',
-        href: '/tokenomics#tokenomics-programs',
+        href: '/deep-dive#deep-tokenomics',
       },
     ],
   },
@@ -141,21 +141,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Onboard',
         title: 'KYC that fits your phone',
         body: 'Mobile-native verification with recovery flows helps anyone onboard without needing a desktop or seed phrase.',
-        href: '/bank#bank-journey',
+        href: '/deep-dive#deep-bank',
       },
       {
         id: 'experience-send',
         eyebrow: 'Send & Receive',
         title: 'Transparent before you tap',
         body: 'Corridor pricing shows fees, FX, and timing up front—aligned with TAN compliance tracking.',
-        href: '/bank#bank-metrics',
+        href: '/deep-dive#deep-bank',
       },
       {
         id: 'experience-security',
         eyebrow: 'Stay Safe',
         title: 'Security built-in',
         body: 'Notifications, 2FA prompts, and alerts give users confidence without slowing them down.',
-        href: '/bank#bank-resources',
+        href: '/deep-dive#deep-bank',
       },
     ],
   },
@@ -172,21 +172,21 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         eyebrow: 'Governance Hub',
         title: 'See how proposals move',
         body: 'Review Association roles, validator expectations, and how policy evolves in public.',
-        href: '/governance#governance-overview',
+        href: '/deep-dive#deep-governance',
       },
       {
         id: 'learn-more-faq',
         eyebrow: 'FAQ',
         title: 'Questions tied to sources',
         body: 'Filterable answers cite Telcoin documentation directly—no guessing, no fluff.',
-        href: '/faq#faq-list',
+        href: '/deep-dive#deep-faq',
       },
       {
         id: 'learn-more-deep',
         eyebrow: 'Deep Dives',
         title: 'Learn by comparing',
         body: 'Explore TEL, TELx, and Digital Cash across use cases—from liquidity to treasury flows.',
-        href: '/deep-dive#deep-dive-overview',
+        href: '/deep-dive#deep-dive-hero',
       },
     ],
   },
@@ -201,12 +201,6 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
 }
 
 // Storyboard content removed per request
-
-const storyDeckStyle: CSSProperties & Record<'--stack-top' | '--stack-bottom' | '--stack-tail', string> = {
-  '--stack-top': 'calc(var(--header-height) + 7rem)',
-  '--stack-bottom': '-7rem',
-  '--stack-tail': '0vh',
-}
 
 export function HomePage() {
   const hero = useHomeHeroScroll()
@@ -327,53 +321,6 @@ export function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Sliding deck: four-story beats directly under the hero (feature-flagged) */}
-      {SCROLL_STORY_ENABLED ? (
-        <section
-          id="home-story-cards"
-          className="anchor-offset"
-          style={{ scrollMarginTop: 'calc(var(--header-height) + 1rem)' }}
-        >
-          <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
-            <SlidingStack
-              className="mt-4"
-              style={storyDeckStyle}
-              items={[
-                {
-                  id: 'story-problem',
-                  tabLabel: 'The Problem:',
-                  title: "Money Isn’t Built for People",
-                  body:
-                    'Most of the world’s financial infrastructure excludes the very people who need it most. Sending money costs too much, takes too long, and leaves billions behind.',
-                },
-                {
-                  id: 'story-model',
-                  tabLabel: 'The Telcoin Model:',
-                  title: 'Financial Access, Rebuilt',
-                  body:
-                    'Telcoin is a new kind of system—combining telecom networks, blockchain rails, and regulatory clarity to move money like a message. It’s mobile-first, self-custodial, and built to reach anyone with a phone.',
-                },
-                {
-                  id: 'story-engine',
-                  tabLabel: 'The Engine:',
-                  title: 'Telcoin Network + $TEL',
-                  body:
-                    'At the core is the Telcoin Network, a purpose-built Layer 1 blockchain secured by mobile network operators. The $TEL token powers everything—from transaction fees to staking, liquidity, and governance—through a unique burn-and-regen model.',
-                },
-                {
-                  id: 'story-experience',
-                  tabLabel: 'The Experience:',
-                  title: 'Use It Like an App, Own It Like Crypto',
-                  body:
-                    'With the Telcoin App, users can send money, swap assets, and earn—all without giving up control. No middlemen, no passwords—just a secure wallet in your pocket that works like the apps you already use.',
-                },
-              ]}
-            />
-          </div>
-          {/* spacer removed after storyboard removal */}
-        </section>
-      ) : null}
 
       {/* Removed Storyboard sticky section per request */}
 

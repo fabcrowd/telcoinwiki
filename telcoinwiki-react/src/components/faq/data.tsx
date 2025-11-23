@@ -6,7 +6,7 @@ export const faqItems: FAQItemData[] = [
     question: 'What is Telcoin?',
     answer: (
       <Fragment>
-        <p>Telcoin blends blockchain with the global reach of mobile telecoms to deliver fast, affordable, and compliant financial services to anyone with a phone?especially the underserved.</p>
+        <p>Telcoin blends blockchain with the global reach of mobile telecoms to deliver fast, affordable, and compliant financial services to anyone with a phone—especially the underserved.</p>
         <p>By partnering with mobile network operators and financial institutions, Telcoin brings remittances, savings, and payments into existing telecom infrastructure to reach billions of users.</p>
       </Fragment>
     ),
@@ -19,6 +19,7 @@ export const faqItems: FAQItemData[] = [
         <p>Through a constitution and council-based model, it keeps development decentralized and aligned with regulatory expectations.</p>
       </Fragment>
     ),
+    learnMoreHref: '/deep-dive#deep-governance',
   },
   {
     question: 'What are the Telcoin Association Councils and what does each one do?',
@@ -34,23 +35,26 @@ export const faqItems: FAQItemData[] = [
         </ul>
       </Fragment>
     ),
+    learnMoreHref: '/deep-dive#deep-governance',
   },
   {
-    question: "What?s the difference between Telcoin Holdings and the Telcoin Association?",
+    question: "What's the difference between Telcoin Holdings and the Telcoin Association?",
     answer: (
       <Fragment>
         <p><strong>Telcoin Holdings</strong> builds consumer products (Wallet, Digital Cash, Bank) and integrations.</p>
         <p><strong>The Telcoin Association</strong> governs the protocol and maintains neutral, community-aligned stewardship of the blockchain.</p>
       </Fragment>
     ),
+    learnMoreHref: '/deep-dive#deep-governance',
   },
   {
     question: 'What is the Telcoin token (TEL), and why is it important?',
     answer: (
       <Fragment>
-        <p>TEL is the native utility token for gas, staking and rewards, referral incentives, liquidity incentives, and as collateral for Digital Cash issuance?aligning incentives across the ecosystem.</p>
+        <p>TEL is the native utility token for gas, staking and rewards, referral incentives, liquidity incentives, and as collateral for Digital Cash issuance—aligning incentives across the ecosystem.</p>
       </Fragment>
     ),
+    learnMoreHref: '/deep-dive#deep-tokenomics',
   },
   {
     question: 'What is TANIP-1?',
@@ -80,20 +84,22 @@ export const faqItems: FAQItemData[] = [
         </ul>
       </Fragment>
     ),
+    learnMoreHref: '/deep-dive#deep-network',
   },
   {
-    question: 'What is ?Digital Cash??',
+    question: 'What is "Digital Cash"?',
     answer: (
       <Fragment>
-        <p>Telcoin?s suite of fiat-backed stablecoins issued by licensed entities with full reserves, enabling remittances, merchant payments, payroll, and savings.</p>
+        <p>Telcoin's suite of fiat-backed stablecoins issued by licensed entities with full reserves, enabling remittances, merchant payments, payroll, and savings.</p>
       </Fragment>
     ),
+    learnMoreHref: '/deep-dive#deep-bank',
   },
   {
-    question: 'What is ?RegFi??',
+    question: 'What is "RegFi"?',
     answer: (
       <Fragment>
-        <p>RegFi is regulated finance?self-custody speed and cost efficiency combined with KYC/AML, consumer protection, and reporting requirements.</p>
+        <p>RegFi is regulated finance—self-custody speed and cost efficiency combined with KYC/AML, consumer protection, and reporting requirements.</p>
       </Fragment>
     ),
   },
@@ -104,6 +110,7 @@ export const faqItems: FAQItemData[] = [
         <p>GSMA-certified telecom operators and licensed financial institutions can run validators after KYB, staking TEL, and meeting uptime/compliance/technical standards to earn network rewards.</p>
       </Fragment>
     ),
+    learnMoreHref: '/deep-dive#deep-network',
   },
   {
     question: 'What is the Telcoin Improvement Proposal (TIP) process?',
@@ -148,7 +155,7 @@ export const faqItems: FAQItemData[] = [
     ),
   },
   {
-    question: 'What?s Telcoin?s value proposition?',
+    question: "What's Telcoin's value proposition?",
     answer: (
       <Fragment>
         <p>Telcoin connects mobile networks with blockchain to lower costs, speed cross-border payments, expand access to savings/tools, and align incentives between users, operators, and developers.</p>
@@ -180,7 +187,7 @@ export const faqItems: FAQItemData[] = [
     ),
   },
   {
-    question: 'What?s next for Telcoin?',
+    question: "What's next for Telcoin?",
     answer: (
       <Fragment>
         <ul>
@@ -200,6 +207,7 @@ export const faqItems: FAQItemData[] = [
         <p>Base fees are burned each transaction while an equal amount is regenerated to Treasury each block. Net deflation depends on Treasury policy and issuance vs. spending.</p>
       </Fragment>
     ),
+    learnMoreHref: '/deep-dive#deep-tokenomics',
   },
   {
     question: 'What chains support TEL?',

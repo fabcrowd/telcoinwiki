@@ -4,6 +4,7 @@ export interface FAQItemData {
   id?: string
   question: string
   answer: React.ReactNode
+  learnMoreHref?: string
 }
 
 export interface FAQGroup {
@@ -74,7 +75,16 @@ function AccordionItem({ item, open, onToggle }: AccordionItemProps) {
         }}
         ref={contentRef}
       >
-        <div className="pb-6 pt-3 leading-relaxed">{item.answer}</div>
+        <div className="pb-6 pt-3 leading-relaxed">
+          {item.answer}
+          {item.learnMoreHref && (
+            <p className="mt-4 mb-0">
+              <a href={item.learnMoreHref} className="text-telcoin-primary font-medium hover:text-telcoin-primary-strong hover:underline">
+                Learn more →
+              </a>
+            </p>
+          )}
+        </div>
       </div>
     </article>
   )

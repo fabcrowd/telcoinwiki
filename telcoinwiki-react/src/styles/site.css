@@ -19,6 +19,35 @@ html {
   scroll-behavior: auto;
 }
 
+/* Mobile scrolling optimizations - similar to avax.network */
+@media (max-width: 1024px) {
+  html {
+    /* Enable smooth native scrolling on mobile */
+    scroll-behavior: smooth;
+    /* Allow overscroll bounce on mobile for better UX */
+    overscroll-behavior-y: auto;
+    /* Enable momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  body {
+    /* Enable touch scrolling optimizations */
+    touch-action: pan-y;
+    /* Use safe viewport height for mobile */
+    min-height: 100svh;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
+    /* Fix background attachment for mobile performance */
+    background-attachment: scroll;
+  }
+  
+  /* Ensure main content scrolls smoothly on mobile */
+  main {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 body {
   margin: 0;
   font-family: var(--font-family-base);
@@ -649,13 +678,141 @@ pre {
 
 @media (max-width: 639px) {
   .workspace-card__inner {
-    /* Match px-6 container padding = 1.5rem * 2 = 3rem */
-    width: calc(100% - 3rem);
-    max-width: calc(100% - 3rem);
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+    /* Full width on small screens with minimal padding */
+    width: calc(100% - 1.5rem) !important;
+    max-width: calc(100% - 1.5rem) !important;
+    margin-left: 0.75rem !important;
+    margin-right: 0.75rem !important;
+    /* Reduce internal padding even more on very small screens */
+    padding-left: clamp(0.5rem, 2vw, 1rem) !important;
+    padding-right: clamp(0.5rem, 2vw, 1rem) !important;
     /* Keep some presence on mobile but still shorter than full */
     min-height: 88svh;
+    /* Ensure padding doesn't cause overflow */
+    box-sizing: border-box;
+  }
+  
+  /* Even more aggressive text sizing on very small screens */
+  .workspace-card [data-section-intro] h2 {
+    font-size: clamp(1.25rem, 4vw, 2rem) !important;
+  }
+  
+  .workspace-card [data-section-intro] p.max-w-xl {
+    font-size: clamp(0.875rem, 3.5vw, 1.5rem) !important;
+  }
+  
+  .workspace-pin__listLabel {
+    font-size: clamp(0.875rem, 3.5vw, 1.4rem) !important;
+  }
+}
+
+/* Mobile: optimize section cards to shrink dynamically */
+@media (max-width: 1024px) {
+  /* Ensure sticky module containers shrink properly on mobile */
+  [data-sticky-module] {
+    width: 100%;
+    max-width: 100% !important;
+    overflow-x: hidden;
+  }
+  
+  /* Override container max-width on mobile - make it responsive with minimal padding */
+  [data-sticky-module] > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: clamp(0.75rem, 3vw, 1.25rem) !important;
+    padding-right: clamp(0.75rem, 3vw, 1.25rem) !important;
+  }
+  
+  /* Ensure grid layout collapses to single column on mobile */
+  [data-sticky-module] > div > div {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: clamp(1rem, 4vw, 2rem) !important;
+  }
+  
+  /* Make sticky and content sections full width on mobile */
+  [data-sticky-module-lead],
+  [data-sticky-module-content] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Adjust section card widths for mobile - ensure they shrink aggressively */
+  [data-sticky-module] .workspace-card__inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: clamp(0.75rem, 3vw, 1.25rem) !important;
+    padding-right: clamp(0.75rem, 3vw, 1.25rem) !important;
+    padding-top: clamp(1rem, 4vw, 1.5rem) !important;
+    padding-bottom: clamp(1rem, 4vw, 1.5rem) !important;
+  }
+  
+  /* Make sliding stack cards responsive on mobile */
+  .sliding-stack {
+    width: 100%;
+    max-width: 100%;
+    padding-left: clamp(0.5rem, 2vw, 0.75rem);
+    padding-right: clamp(0.5rem, 2vw, 0.75rem);
+    box-sizing: border-box;
+  }
+  
+  /* Ensure card content doesn't overflow */
+  .workspace-card [data-section-intro] {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  /* Make text content responsive - remove max-width constraints */
+  .workspace-card [data-section-intro] h2 {
+    max-width: 100% !important;
+    width: 100% !important;
+    font-size: clamp(1.5rem, 5vw, 2.5rem) !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.2;
+  }
+  
+  .workspace-card [data-section-intro] p {
+    max-width: 100% !important;
+    width: 100% !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Override max-w-xl on description paragraph */
+  .workspace-card [data-section-intro] p.max-w-xl {
+    max-width: 100% !important;
+    font-size: clamp(1rem, 4vw, 1.75rem) !important;
+  }
+  
+  /* Ensure workspace pin list items don't overflow - make them wrap */
+  .workspace-pin__listItem {
+    flex-wrap: wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    min-width: 0;
+  }
+  
+  .workspace-pin__listLabel {
+    flex: 1 1 auto;
+    min-width: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: clamp(1rem, 4vw, 1.575rem) !important;
+    line-height: 1.3;
+  }
+  
+  /* Reduce list index size on mobile */
+  .workspace-pin__listIndex {
+    flex-shrink: 0;
+    width: clamp(1.5rem, 5vw, 2.125rem) !important;
+    height: clamp(1.5rem, 5vw, 2.125rem) !important;
+    font-size: clamp(0.875rem, 3vw, 1.445rem) !important;
   }
 }
 
@@ -878,11 +1035,10 @@ html.intro-preload #home-hero [data-hero-card],
 html.intro-pending #home-hero [data-hero-card],
 html.intro-show-header #home-hero [data-hero-card],
 html.intro-header-hold #home-hero [data-hero-card] {
-  /* Keep hero card position consistent; do not offset for header height
-     while the intro sequence runs so the header can overlay the hero. */
+  /* Offset for header height + 20px to prevent content from being hidden under header */
   --hero-card-offset: 0px;
   --hero-card-padding-bottom: clamp(5rem, 9vw, 7rem);
-  padding-top: var(--hero-card-top-base);
+  padding-top: calc(var(--header-height) + var(--hero-card-top-base) + 1.25rem);
 }
 html:not(.intro-preload):not(.intro-pending):not(.intro-show-header):not(.intro-header-hold)
   #home-hero [data-hero-card] {
@@ -928,6 +1084,39 @@ html.intro-pending #home-hero [data-hero-card] {
   }
 }
 
+/* Mobile: optimize hero card horizontal layout - stretch and shrink dynamically */
+@media (max-width: 1024px) {
+  #home-hero [data-hero-card] {
+    /* Override Tailwind padding for better mobile spacing */
+    padding-left: clamp(1rem, 4vw, 1.5rem) !important;
+    padding-right: clamp(1rem, 4vw, 1.5rem) !important;
+    /* Ensure card uses full available width with minimal side margins */
+    width: calc(100% - clamp(1rem, 3vw, 2rem));
+    max-width: none !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Make text content stretch to container width on mobile */
+  #home-hero [data-hero-card] .home-hero-typography {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Remove max-width constraints on mobile for better text flow */
+  #home-hero [data-hero-card] [data-hero-body] {
+    max-width: 100% !important;
+    width: 100%;
+  }
+  
+  /* Ensure title and subtitle also use full width on mobile */
+  #home-hero [data-hero-card] [data-hero-title],
+  #home-hero [data-hero-card] [data-hero-subtitle] {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 /* Hide other sections until user scrolls */
 html.intro-lock-sections .site-main > :not(#home-hero) {
   opacity: 0;
@@ -935,7 +1124,7 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
   pointer-events: none;
 }
 
-/* Hide hero copy while pending; set starting offsets for title/subtitle */
+/* Hide hero copy while pending; set starting horizontal offsets for slide-in animations */
 html.intro-preload #home-hero [data-hero-copy],
 html.intro-pending #home-hero [data-hero-copy] { opacity: 0; }
 html.intro-preload #home-hero [data-hero-title],
@@ -954,6 +1143,14 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
 @keyframes introFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* Lock final positions after animation completes to prevent post-animation shifts */
+/* The forwards fill-mode maintains the final keyframe state, but we add explicit rules as a safeguard */
+html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-title],
+html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
+  /* Ensure final transform state is maintained - matches keyframe 100% state */
+  transform: translateX(0);
 }
 
 /* Logo marquee */
@@ -2210,22 +2407,121 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
 }
 
 .toc-chip {
-  --tc-pill-local-gradient: linear-gradient(140deg, rgba(55, 174, 255, 0.28), rgba(85, 51, 255, 0.18));
-  --tc-pill-local-surface: rgba(6, 20, 48, 0.7);
-  --tc-pill-local-border: rgba(124, 200, 255, 0.26);
-  --tc-pill-local-border-strong: rgba(124, 200, 255, 0.38);
-  --tc-pill-font-size: 0.85rem;
-  --tc-pill-padding-y: 0.45rem;
-  --tc-pill-padding-x: 0.9rem;
-  --tc-pill-gap: 0.4rem;
+  --tc-pill-local-gradient: linear-gradient(140deg, rgba(55, 174, 255, 0.35), rgba(85, 51, 255, 0.25));
+  --tc-pill-local-surface: rgba(6, 20, 48, 0.85);
+  --tc-pill-local-border: rgba(124, 200, 255, 0.4);
+  --tc-pill-local-border-strong: rgba(124, 200, 255, 0.5);
+  --tc-pill-font-size: 1rem;
+  --tc-pill-padding-y: 0.65rem;
+  --tc-pill-padding-x: 1.25rem;
+  --tc-pill-gap: 0.5rem;
   --tc-pill-min-width: 0;
-  --tc-pill-shadow-base: inset 0 0 0 1px rgba(124, 200, 255, 0.16), 0 10px 20px rgba(5, 13, 31, 0.34);
-  --tc-pill-shadow-hover: inset 0 0 0 1px rgba(124, 200, 255, 0.28), 0 16px 26px rgba(5, 13, 31, 0.45);
+  --tc-pill-shadow-base: inset 0 0 0 1px rgba(124, 200, 255, 0.25), 0 12px 24px rgba(5, 13, 31, 0.4);
+  --tc-pill-shadow-hover: inset 0 0 0 1px rgba(124, 200, 255, 0.45), 0 16px 32px rgba(5, 13, 31, 0.5);
+  font-weight: 600;
 }
 
 .toc-chip:hover,
 .toc-chip:focus-visible {
-  --tc-pill-local-border: rgba(124, 200, 255, 0.4);
+  --tc-pill-local-border: rgba(124, 200, 255, 0.6);
+  --tc-pill-local-border-strong: rgba(124, 200, 255, 0.7);
+  transform: translateY(-2px);
+}
+
+/* Deep Dive Sections */
+.deep-dive-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: min(1440px, 90vw);
+  margin: 0 auto;
+  padding: 0 var(--space-4) var(--space-12);
+  margin-top: 0;
+}
+
+@media (min-width: 640px) {
+  .deep-dive-grid {
+    padding: 0 var(--space-8) var(--space-16);
+  }
+}
+
+@media (min-width: 1024px) {
+  .deep-dive-grid {
+    padding: 0 var(--space-12) var(--space-20);
+    gap: var(--space-12);
+  }
+}
+
+.deep-dive-section {
+  scroll-margin-top: calc(var(--header-height) + 2rem);
+}
+
+.deep-dive-section h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  color: var(--tc-ink);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--tc-border);
+}
+
+.deep-dive-faqs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.deep-dive-faq {
+  background: var(--tc-surface);
+  border: 1px solid var(--tc-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deep-dive-faq:hover {
+  border-color: var(--tc-border-strong);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.deep-dive-faq h3 {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 600;
+  color: var(--tc-ink);
+  margin-bottom: var(--space-4);
+  line-height: 1.4;
+}
+
+.deep-dive-faq p {
+  color: var(--tc-ink-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-3);
+}
+
+.deep-dive-faq p:last-of-type {
+  margin-top: var(--space-4);
+  margin-bottom: 0;
+}
+
+.deep-dive-faq a {
+  color: var(--tc-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.deep-dive-faq a:hover,
+.deep-dive-faq a:focus-visible {
+  color: var(--tc-primary-strong);
+  text-decoration: underline;
+}
+
+.deep-dive-faq a[href^="http"] {
+  color: var(--tc-accent);
+}
+
+.deep-dive-faq a[href^="http"]:hover {
+  color: var(--tc-accent-strong);
 }
 
 .faq-controls {
