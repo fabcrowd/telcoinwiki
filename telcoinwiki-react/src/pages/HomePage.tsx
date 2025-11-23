@@ -325,6 +325,7 @@ export function HomePage() {
       {/* Removed Storyboard sticky section per request */}
 
       {/* Former HorizontalRail removed per new header strategy. */}
+      {/* Removed legacy sliding deck cards from previous build */}
 
       {NON_STORYBOARD_ENABLED ? sections.map((section, index) => {
         const { id, label, heading, description, backgroundClip, cards, state } = section
