@@ -5,6 +5,7 @@ import { Header } from './Header'
 import { Footer } from './Footer'
 import { SearchModal } from '../search/SearchModal'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { getLenisInstance, scrollTo } from '../../utils/lenisScroll'
 
 export const MAIN_CONTENT_ID = 'main-content'
 
@@ -69,19 +70,30 @@ export function useHashScroll(hash: string, pathname: string) {
       return
     }
 
-    const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth'
+    // Try to use Lenis if available, otherwise fall back to native scroll
+    const lenis = getLenisInstance()
 
     if (hash) {
       const targetId = hash.slice(1)
       const target = targetId ? document.getElementById(targetId) : null
 
       if (target) {
-        target.scrollIntoView({ behavior, block: 'start' })
+        if (lenis) {
+          scrollTo(target, { offset: 0 })
+        } else {
+          const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth'
+          target.scrollIntoView({ behavior, block: 'start' })
+        }
         return
       }
     }
 
     const atTop = (window.scrollY ?? window.pageYOffset ?? 0) <= 2
-    window.scrollTo({ top: 0, behavior: atTop ? 'auto' : behavior })
+    if (lenis) {
+      scrollTo(0, { immediate: atTop })
+    } else {
+      const behavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth'
+      window.scrollTo({ top: 0, behavior: atTop ? 'auto' : behavior })
+    }
   }, [hash, pathname, prefersReducedMotion])
 }

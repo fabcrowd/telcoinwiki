@@ -24,9 +24,25 @@ body {
   font-family: var(--font-family-base);
   line-height: var(--line-height-base);
   color: var(--tc-ink);
-  background:
-    var(--tc-hero-radial),
-    var(--tc-hero-linear);
+  /* Liquid Glass fluid background - lighter with more contrast */
+  background: 
+    radial-gradient(110% 70% at 12% -10%, rgba(69, 188, 241, 0.28), transparent 55%),
+    radial-gradient(120% 80% at 88% 8%, rgba(127, 134, 210, 0.22), transparent 55%),
+    radial-gradient(140% 100% at 50% 100%, rgba(85, 51, 255, 0.18), transparent 60%),
+    radial-gradient(160% 120% at -20% 60%, rgba(55, 174, 255, 0.16), transparent 65%),
+    radial-gradient(130% 90% at 60% 40%, rgba(64, 102, 222, 0.12), transparent 70%),
+    linear-gradient(180deg, 
+      #1a2a4a 0%, 
+      #1e3560 18%, 
+      #1a2d52 38%, 
+      #223d70 58%, 
+      #1b2f56 78%, 
+      #16294a 100%
+    );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  background-position: center;
   min-height: 100vh;
 }
 
@@ -73,6 +89,8 @@ h6 {
   letter-spacing: -0.01em;
   color: var(--color-text);
   margin: 0 0 var(--space-3);
+  /* Subtle drop shadow for depth */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
@@ -153,6 +171,7 @@ pre {
 .stage-theme {
   position: relative;
   isolation: isolate;
+  /* For scroll-story sections, remove isolate to prevent stacking context */
   --stage-hue: var(--tc-stage-hue, 220);
   --stage-accent-hue: var(--tc-stage-accent-hue, 268);
   --stage-overlay-alpha: var(--tc-stage-overlay-opacity, 0.38);
@@ -166,60 +185,64 @@ pre {
   --stage-backdrop-opacity: 1;
 }
 
-.stage-backdrop {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  border-radius: inherit;
-  background-image:
-    radial-gradient(
-      120% 120% at var(--stage-spot-x, 50%) var(--stage-spot-y, 35%),
-      hsla(var(--stage-accent-hue, var(--tc-stage-accent-hue, 268)) 92% 62% / var(--stage-spot-alpha, 0.28)),
-      transparent 72%
-    ),
-    linear-gradient(
-      130deg,
-      hsla(var(--stage-hue, var(--tc-stage-hue, 220)) 92% 58% / var(--stage-overlay-alpha, 0.38)),
-      hsla(
-        calc(var(--stage-accent-hue, var(--tc-stage-accent-hue, 268)) + 14)
-        88% 54% /
-        calc(var(--stage-overlay-alpha, 0.38) * 0.65)
-      )
-    );
-  clip-path: inset(var(--stage-backdrop-clip, 0%) 0 0 0 round var(--radius-lg));
-  opacity: var(--stage-backdrop-opacity, 1);
-  filter: saturate(115%);
-  transform: scale(var(--stage-backdrop-scale, 1));
-  transition:
-    clip-path 0.6s var(--transition-smooth),
-    opacity 0.6s var(--transition-smooth),
-    background-position 0.6s var(--transition-smooth),
-    background-size 0.6s var(--transition-smooth),
-    filter 0.6s var(--transition-smooth),
-    transform 0.8s var(--transition-overshoot);
-}
+.stage-backdrop { display: none !important; }
 
 .color-morph-card {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  border-radius: var(--radius-big);
-  border: 1px solid var(--tc-border-strong);
-  /* Solid card background — no transparency */
-  background-image: none;
-  background-color: var(--card-bg, var(--tc-surface));
-  box-shadow: 0 12px 24px rgba(5, 7, 20, calc(var(--stage-card-shadow-alpha, 0.22) * 1));
+  border-radius: var(--glass-radius);
+  /* Liquid Glass border */
+  border: 1px solid var(--glass-border);
+  outline: 1px solid var(--glass-border-strong);
+  outline-offset: -1px;
+  /* Liquid Glass background */
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(69, 188, 241, 0.14), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(127, 134, 210, 0.10), transparent 65%),
+    linear-gradient(135deg, 
+      rgba(45, 98, 240, 0.18), 
+      rgba(44, 44, 122, 0.22)
+    ),
+    var(--card-bg, var(--tc-surface));
+  box-shadow: var(--glass-shadow-lg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   color: var(--tc-ink);
   overflow: hidden;
-  /* Disable expensive backdrop blur to avoid GPU thrash on desktop scroll */
-  transition:
-    background-image 0.6s var(--transition-smooth),
-    border-color 0.6s var(--transition-smooth),
-    box-shadow 0.6s var(--transition-smooth),
-    transform 0.6s var(--transition-smooth),
-    opacity 0.6s var(--transition-smooth);
+  /* No transitions - all cards are static */
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Liquid Glass inner highlight */
+.color-morph-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: 
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255, 255, 255, 0.08), transparent 70%),
+    linear-gradient(180deg, rgba(228, 236, 247, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.color-morph-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--glass-border-strong);
+  z-index: 0;
+}
+
+.color-morph-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .sliding-stack {
@@ -237,25 +260,30 @@ pre {
   position: relative;
   inset: auto;
   overflow: visible;
-  border: 1px solid var(--glass-border);
-  background:
-    linear-gradient(138deg, rgba(55, 174, 255, 0.22), rgba(85, 51, 255, 0.14)),
-    rgba(9, 16, 42, 0.78);
-  box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(calc(var(--glass-blur) / 1.35));
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 1.35));
-  isolation: isolate;
+}
+
+/* All cards are static - no sticky, no absolute positioning (only when sticky-stack is NOT enabled) */
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck > .color-morph-card,
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck > .sliding-stack__card,
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck > .color-morph-card.sliding-stack__card {
+  position: relative !important;
+  inset: auto !important;
+  animation: none !important;
+  transform: none !important;
 }
 
 .sliding-stack__card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: transparent;
-  opacity: 0.5;
+  background: 
+    radial-gradient(ellipse 140% 90% at 50% 0%, rgba(69, 188, 241, 0.14), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 60%);
+  opacity: 0.9;
   mix-blend-mode: screen;
   pointer-events: none;
   z-index: 0;
+  border-radius: inherit;
 }
 
 .sliding-stack__body {
@@ -277,18 +305,22 @@ pre {
 }
 
 .sliding-stack--interactive {
-  /* Reduce card height footprint on larger screens */
-  min-height: clamp(18rem, 52vw, 28rem);
+  /* Static cards - no special height needed */
+  min-height: auto;
 }
 
-.sliding-stack--interactive .sliding-stack__card {
-  position: absolute;
-  inset: 0;
-  transform-origin: left center;
-  transition: none;
-  pointer-events: none;
-  will-change: transform, opacity;
+/* All cards are static - no absolute positioning (only when sticky-stack is NOT enabled) */
+.sliding-stack--interactive:not([data-sticky-stack]) .sliding-stack__card,
+.sliding-stack:not([data-sticky-stack]) .sliding-stack__card {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  will-change: auto !important;
+  pointer-events: auto !important;
 }
+
 
 [data-sticky-module]:not([data-timeline-module]) [data-sticky-module-content] {
   content-visibility: auto;
@@ -296,20 +328,24 @@ pre {
   contain-intrinsic-size: 1024px;
 }
 
+/* All sections use normal contain settings - no special scroll-story rules */
+
 [data-sticky-module][data-prefers-reduced-motion] [data-sticky-module-content] {
   content-visibility: visible;
   contain: initial;
   contain-intrinsic-size: auto;
 }
 
-.sliding-stack--interactive .sliding-stack__card.is-active {
+/* All cards are static - no active states or animations (only when sticky-stack is NOT enabled) */
+.sliding-stack--interactive:not([data-sticky-stack]) .sliding-stack__card.is-active,
+.sliding-stack--static .sliding-stack__card,
+.sliding-stack:not([data-sticky-stack]) .sliding-stack__card {
   pointer-events: auto;
-  box-shadow: 0 30px 60px rgba(5, 12, 32, 0.38);
-}
-
-.sliding-stack--static .sliding-stack__card {
-  position: relative;
-  inset: auto;
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
 }
 
 @media (max-width: 62rem) {
@@ -326,15 +362,29 @@ pre {
   .sliding-stack__body { grid-template-columns: 1fr; }
 }
 
+/* All animations disabled - cards are static */
 @media (prefers-reduced-motion: reduce) {
   .stage-backdrop,
   .color-morph-card {
-    transition: none;
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
   }
 
   .stage-backdrop {
     filter: saturate(110%);
   }
+}
+
+/* Force static for all motion preferences */
+.stage-backdrop,
+.color-morph-card,
+.sliding-stack__card,
+.workspace-card__inner {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
 }
 
 .sliding-stack__content {
@@ -394,28 +444,84 @@ pre {
 .workspace-card {
   position: relative;
   z-index: 2; /* above the sub-cards which animate underneath */
-  /* The StickyModule sets --workspace-center (0..1) on the sticky container. */
-  --workspace-center: var(--workspace-center, 0);
+  /* Static - no CSS variables for animations */
 }
 
 .workspace-card__inner {
-  /* Full-bleed workspace: stretch to viewport and break out of the content container */
-  width: 100vw;
-  /* Reduce viewport fill to shorten vertical scroll and reveal next content sooner */
+  /* Liquid Glass workspace card */
+  width: calc(100% - 3rem);
+  max-width: calc(100% - 3rem);
   min-height: 80svh;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  border-radius: calc(var(--radius-card) + 12px * var(--workspace-center));
-  /* Swipe-to-reveal: hard mask from top controlled by --workspace-reveal (0..1) */
-  clip-path: inset(calc((1 - var(--workspace-reveal, 0)) * 70%) 0 0 0 round var(--radius-lg));
-  will-change: clip-path;
-  box-shadow:
-    0 12px 28px rgba(5, 12, 32, calc(0.18 + 0.18 * var(--workspace-center))),
-    0 40px 80px rgba(5, 12, 32, calc(0.16 + 0.12 * var(--workspace-center)));
-  transition: width 0.4s var(--transition-smooth),
-    min-height 0.4s var(--transition-smooth),
-    border-radius 0.4s var(--transition-smooth),
-    box-shadow 0.4s var(--transition-smooth);
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  border-radius: var(--glass-radius);
+  clip-path: inset(0 0 0 0 round var(--glass-radius));
+  will-change: auto !important;
+  /* Liquid Glass border */
+  border: 1px solid var(--glass-border);
+  outline: none;
+  /* Liquid Glass background */
+  background: 
+    radial-gradient(ellipse 150% 120% at 50% 0%, rgba(69, 188, 241, 0.12), transparent 70%),
+    radial-gradient(ellipse 120% 100% at 80% 100%, rgba(127, 134, 210, 0.10), transparent 65%),
+    linear-gradient(135deg, 
+      rgba(45, 98, 240, 0.16), 
+      rgba(44, 44, 122, 0.20)
+    ),
+    rgba(18, 32, 82, 0.85);
+  box-shadow: var(--glass-shadow-lg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.workspace-card__inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: 
+    radial-gradient(ellipse 140% 90% at 50% 0%, rgba(255, 255, 255, 0.10), transparent 70%),
+    linear-gradient(180deg, rgba(228, 236, 247, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.workspace-card__inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--glass-border-strong);
+  z-index: 0;
+}
+
+.workspace-card__inner > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 640px) {
+  .workspace-card__inner {
+    width: calc(100% - 4rem);
+    max-width: calc(100% - 4rem);
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .workspace-card__inner {
+    width: calc(100% - 6rem);
+    max-width: calc(100% - 6rem);
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
 }
 
 .workspace-card [data-section-intro] {
@@ -425,6 +531,49 @@ pre {
   justify-content: center;
   /* Slightly shorter intro so the card feels lighter */
   min-height: 32vh;
+}
+
+/* Label text (e.g., "THE PROBLEM") with gradient and pulsing glow */
+.workspace-card [data-section-intro] > p:first-child {
+  background: linear-gradient(
+    90deg,
+    #7FD4FF 0%,
+    #A5C4FF 50%,
+    #B8B5FF 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Pulsing glow effect behind the text */
+  filter: drop-shadow(0 0 4px rgba(127, 212, 255, 0.3)) 
+          drop-shadow(0 0 8px rgba(165, 196, 255, 0.25))
+          drop-shadow(0 0 12px rgba(184, 181, 255, 0.2));
+  animation: glow-pulse 3s ease-in-out infinite;
+  will-change: filter;
+  /* Subtle drop shadow for depth */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Pulsing glow animation for label text */
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(127, 212, 255, 0.3)) 
+            drop-shadow(0 0 8px rgba(165, 196, 255, 0.25))
+            drop-shadow(0 0 12px rgba(184, 181, 255, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(127, 212, 255, 0.5)) 
+            drop-shadow(0 0 12px rgba(165, 196, 255, 0.4))
+            drop-shadow(0 0 18px rgba(184, 181, 255, 0.3));
+  }
+}
+
+/* Pause animation on reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .workspace-card [data-section-intro] > p:first-child {
+    animation: none;
+    filter: drop-shadow(0 0 4px rgba(127, 212, 255, 0.3));
+  }
 }
 
 .workspace-pin__list {
@@ -441,36 +590,45 @@ pre {
   align-items: center;
   gap: 0.75rem;
   color: var(--tc-ink-muted);
-  font-size: 0.95rem;
+  font-size: 1.575rem;
   transition: color 0.25s ease;
 }
 
 .workspace-pin__listItem.is-active {
-  color: var(--tc-ink);
+  color: #45BCF1; /* Telcoin accent cyan - bright and prominent */
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(69, 188, 241, 0.4);
 }
 
 .workspace-pin__listIndex {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2.125rem;
+  height: 2.125rem;
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(66, 108, 255, 0.45), rgba(173, 120, 255, 0.5));
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.82rem;
+  font-size: 1.445rem;
   font-weight: 600;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+  border: 1px solid transparent;
 }
 
 .workspace-pin__listIndex.is-active {
-  background: linear-gradient(135deg, rgba(66, 108, 255, 0.95), rgba(173, 120, 255, 0.98));
+  background: linear-gradient(135deg, #45BCF1, #4066DE); /* Telcoin accent cyan to primary blue */
   color: #fff;
+  box-shadow: 
+    0 0 12px rgba(69, 188, 241, 0.6),
+    0 0 24px rgba(64, 102, 222, 0.4),
+    inset 0 0 8px rgba(255, 255, 255, 0.2);
+  transform: scale(1.08);
+  border: 1px solid rgba(69, 188, 241, 0.5);
 }
 
 .workspace-pin__listLabel {
   flex: 1;
-  font-size: 0.95rem;
+  font-size: 1.575rem;
 }
 
 @media (max-width: 47.99rem) {
@@ -479,65 +637,131 @@ pre {
   }
 
   .workspace-pin__listItem {
-    font-size: 0.9rem;
+    font-size: 1.525rem;
   }
 
   .workspace-pin__listIndex {
-    width: 1.35rem;
-    height: 1.35rem;
-    font-size: 0.75rem;
+    width: 1.975rem;
+    height: 1.975rem;
+    font-size: 1.375rem;
   }
 }
 
-@media (max-width: 62rem) {
+@media (max-width: 639px) {
   .workspace-card__inner {
-    width: 100vw;
+    /* Match px-6 container padding = 1.5rem * 2 = 3rem */
+    width: calc(100% - 3rem);
+    max-width: calc(100% - 3rem);
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
     /* Keep some presence on mobile but still shorter than full */
     min-height: 88svh;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
   }
 }
 
 /* Filing-cabinet style tabs for SlidingStack */
-.l\:sliding-tab-reset{} /* anchor for findability */
 .sliding-stack__tab {
-  position: absolute;
+  /* Liquid Glass tab header */
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  /* Header-style full-width tab; height +5% for seamless edge */
   --tab-base-height: clamp(56px, 8.5vh, 88px);
   height: calc(var(--tab-base-height) * 1.05);
   line-height: 1;
   padding: 0 0.75rem;
+  padding-left: 1.5rem;
   width: 100%;
-  /* Scale label to visually fill header height */
+  text-align: left;
   font-size: clamp(1rem, calc(var(--tab-base-height) * 0.42), 2.6rem);
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--tc-ink);
-  background: transparent;
+  /* Liquid Glass background with Telcoin colors */
+  background: 
+    radial-gradient(ellipse 140% 100% at 30% 50%, rgba(69, 188, 241, 0.18), transparent 65%),
+    radial-gradient(ellipse 120% 80% at 70% 20%, rgba(127, 134, 210, 0.14), transparent 60%),
+    linear-gradient(135deg, 
+      rgba(55, 174, 255, 0.16), 
+      rgba(85, 51, 255, 0.12),
+      rgba(44, 44, 122, 0.20)
+    ),
+    rgba(18, 32, 82, 0.88);
   border: 1px solid var(--glass-border);
-  outline: 1.5px solid var(--glass-border-strong);
-  outline-offset: -1px;
+  /* Replace outline with inner inset stroke to align bevel and radius */
+  outline: none;
   border-bottom: 0;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 12px;
+  border-top-left-radius: clamp(1.25rem, 3vw, 1.75rem);
+  border-top-right-radius: clamp(0.75rem, 2vw, 1.25rem);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 18px 32px rgba(5, 12, 32, 0.4);
-  backdrop-filter: blur(calc(var(--glass-blur) / 1.5));
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 1.5));
+    inset 0 2px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(69, 188, 241, 0.12),
+    0 20px 40px rgba(5, 12, 32, 0.52),
+    0 4px 16px rgba(64, 102, 222, 0.18),
+    inset 0 0 40px rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.1));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.1));
   pointer-events: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   z-index: 100;
 }
+
+/* Precise inner stroke for tab to avoid subpixel misalignment */
+.sliding-stack__tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--glass-border-strong);
+  z-index: 0;
+}
+
+/* Tab text container - ensure all children are vertically centered */
+.sliding-stack__tab-text {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* All spans in tab text should be vertically aligned */
+.sliding-stack__tab-text > span {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* Enhanced eyebrow styling in tab - Liquid Glass effect with subtle gradient */
+.sliding-stack__tab-text > span:first-child {
+  font-family: "Hero New Semibold", sans-serif;
+  /* Subtle gradient using lighter blues and purples for better contrast */
+  background: linear-gradient(
+    90deg,
+    #7FD4FF 0%,
+    #A5C4FF 50%,
+    #B8B5FF 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Minimal glow for readability */
+  filter: drop-shadow(0 0 2px rgba(127, 212, 255, 0.25)) 
+          drop-shadow(0 1px 1px rgba(165, 196, 255, 0.15));
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  /* Subtle drop shadow for depth */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 
 /* Ensure the last card's tab always renders above neighbors */
 [data-sliding-stack] .sliding-stack__deck > :nth-child(4) .sliding-stack__tab {
@@ -548,10 +772,10 @@ pre {
 
 /* Content clears the header tab vertically; no horizontal inset */
 .sliding-stack__card .sliding-stack__content {
-  /* Clearance matches the measured tab height plus a breathing gap */
-  padding-top: calc(
-    var(--card-tab-offset, var(--stack-tab-clearance, clamp(56px, 8.5vh, 88px))) + var(--space-2)
-  );
+  /* Very limited padding from header - text should be very close to tab like a word document */
+  padding-top: calc(var(--card-tab-offset, var(--stack-tab-clearance, clamp(56px, 8.5vh, 88px))) - 3.5rem);
+  /* Add padding after paragraph to maintain same card height */
+  padding-bottom: 3.5rem;
 }
 
 /* Hero Sequencer */
@@ -618,6 +842,7 @@ html.intro-header-hold .site-header {
   left: 0;
   right: 0;
   width: 100%;
+  max-width: 100vw;
   z-index: 160;
 }
 html.intro-show-header .site-header {
@@ -905,22 +1130,35 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   position: sticky;
   top: 0;
   z-index: 120;
+  /* Liquid Glass header with Telcoin colors */
   background:
-    linear-gradient(135deg, rgba(52, 143, 235, 0.28), rgba(128, 82, 227, 0.24)),
-    var(--glass-bg);
+    radial-gradient(ellipse 120% 100% at 50% 0%, rgba(69, 188, 241, 0.16), transparent 70%),
+    linear-gradient(135deg, 
+      rgba(55, 174, 255, 0.22), 
+      rgba(127, 134, 210, 0.18),
+      rgba(44, 44, 122, 0.24)
+    ),
+    rgba(18, 32, 82, 0.85);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--glass-border-strong);
+  box-shadow: 
+    0 8px 32px rgba(5, 11, 31, 0.48),
+    0 2px 8px rgba(64, 102, 222, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.2));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.2));
   overflow: hidden;
+  max-width: 100vw;
 }
 
 .site-header::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: transparent;
-  opacity: 0.4;
+  background: 
+    radial-gradient(ellipse 140% 100% at 20% 0%, rgba(255, 255, 255, 0.12), transparent 60%),
+    linear-gradient(180deg, rgba(228, 236, 247, 0.06) 0%, transparent 50%);
+  opacity: 0.9;
   mix-blend-mode: screen;
   pointer-events: none;
   z-index: 0;
@@ -934,6 +1172,7 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   left: 0;
   right: 0;
   width: 100%;
+  max-width: 100vw;
   z-index: 160;
 }
 
@@ -1021,11 +1260,20 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   align-items: center;
   padding: 0.625rem 0.875rem;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--tc-border);
-  background: var(--tc-surface);
+  border: 1px solid var(--glass-border);
+  /* Liquid Glass nav pill */
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.08), transparent 70%),
+    linear-gradient(135deg, rgba(45, 98, 240, 0.12), rgba(44, 44, 122, 0.16)),
+    rgba(18, 32, 82, 0.65);
+  backdrop-filter: blur(calc(var(--glass-blur) / 1.5));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 1.5));
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--tc-ink-muted);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(5, 11, 31, 0.25);
   transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -1033,15 +1281,27 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
 .top-nav__link:focus-visible {
   text-decoration: none;
   color: var(--tc-ink);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--tc-border-strong);
-  box-shadow: var(--shadow-focus);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.16), transparent 70%),
+    linear-gradient(135deg, rgba(55, 174, 255, 0.18), rgba(127, 134, 210, 0.14)),
+    rgba(24, 42, 88, 0.75);
+  border-color: var(--glass-border-strong);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 12px rgba(64, 102, 222, 0.22),
+    0 0 0 2px rgba(69, 188, 241, 0.2);
 }
 
 .top-nav__link.is-active {
   color: var(--tc-ink);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--tc-border-strong);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.18), transparent 70%),
+    linear-gradient(135deg, rgba(55, 174, 255, 0.20), rgba(127, 134, 210, 0.16)),
+    rgba(24, 42, 88, 0.78);
+  border-color: var(--glass-border-strong);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 12px rgba(64, 102, 222, 0.25);
 }
 
 .site-header__actions {
@@ -1079,12 +1339,23 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   padding: 0.35rem 0.5rem;
   border-radius: 9999px;
   border: 1px solid var(--glass-border);
-  background: transparent;
+  outline: 1px solid var(--glass-border-strong);
+  outline-offset: -1px;
+  /* Liquid Glass search input */
+  background:
+    radial-gradient(circle at 20% 50%, rgba(69, 188, 241, 0.08), transparent 60%),
+    linear-gradient(135deg, 
+      rgba(45, 98, 240, 0.10), 
+      rgba(44, 44, 122, 0.14)
+    ),
+    rgba(18, 32, 82, 0.65);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 18px 32px rgba(5, 11, 31, 0.4);
-  backdrop-filter: blur(calc(var(--glass-blur) / 1.4));
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 1.4));
+    inset 0 2px 4px rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(69, 188, 241, 0.12),
+    0 8px 24px rgba(5, 11, 31, 0.35),
+    0 2px 8px rgba(64, 102, 222, 0.15);
+  backdrop-filter: blur(calc(var(--glass-blur) / 1.2));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 1.2));
 }
 
 .tc-tabbar {
@@ -1100,27 +1371,48 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   gap: 0.5rem;
   padding: 0.625rem 0.875rem;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--tc-border);
-  background: var(--tc-surface);
+  border: 1px solid var(--glass-border);
+  /* Liquid Glass nav button */
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.08), transparent 70%),
+    linear-gradient(135deg, rgba(45, 98, 240, 0.12), rgba(44, 44, 122, 0.16)),
+    rgba(18, 32, 82, 0.65);
+  backdrop-filter: blur(calc(var(--glass-blur) / 1.5));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 1.5));
   color: var(--tc-ink-muted);
   font-weight: 600;
   text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(5, 11, 31, 0.25);
   transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .nav-btn:hover,
 .nav-btn:focus-visible {
   color: var(--tc-ink);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--tc-border-strong);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.16), transparent 70%),
+    linear-gradient(135deg, rgba(55, 174, 255, 0.18), rgba(127, 134, 210, 0.14)),
+    rgba(24, 42, 88, 0.75);
+  border-color: var(--glass-border-strong);
   outline: none;
-  box-shadow: var(--shadow-focus);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 12px rgba(64, 102, 222, 0.22),
+    0 0 0 2px rgba(69, 188, 241, 0.2);
 }
 
 .nav-btn.is-active {
   color: var(--tc-ink);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--tc-border-strong);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.18), transparent 70%),
+    linear-gradient(135deg, rgba(55, 174, 255, 0.20), rgba(127, 134, 210, 0.16)),
+    rgba(24, 42, 88, 0.78);
+  border-color: var(--glass-border-strong);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 12px rgba(64, 102, 222, 0.25);
 }
 
 @media (max-width: 959px) {
@@ -1166,15 +1458,31 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   height: 2.5rem;
   border-radius: 50%;
   border: 1px solid var(--glass-border);
-  background: transparent;
+  outline: 1px solid var(--glass-border-strong);
+  outline-offset: -1px;
+  /* Liquid Glass button */
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.10), transparent 70%),
+    rgba(18, 32, 82, 0.70);
+  backdrop-filter: blur(calc(var(--glass-blur) / 1.3));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 1.3));
   color: var(--tc-ink);
-  transition: transform var(--transition-base), border-color var(--transition-base), background var(--transition-base);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 2px 8px rgba(5, 11, 31, 0.30);
+  transition: transform var(--transition-base), border-color var(--transition-base), background var(--transition-base), box-shadow var(--transition-base);
 }
 
 .search-submit:hover,
 .search-submit:focus-visible {
   border-color: var(--glass-border-strong);
-  background: transparent;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.18), transparent 70%),
+    rgba(24, 42, 88, 0.80);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 12px rgba(64, 102, 222, 0.25),
+    0 0 0 2px rgba(69, 188, 241, 0.2);
   transform: translateY(-1px);
 }
 
@@ -1186,15 +1494,25 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   width: clamp(18rem, 32vw, 26rem);
   max-height: 26rem;
   overflow-y: auto;
-  background: var(--tc-surface);
-  border: 1px solid var(--tc-border);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-glass);
+  /* Liquid Glass search panel */
+  background:
+    radial-gradient(ellipse 120% 100% at 50% 0%, rgba(69, 188, 241, 0.10), transparent 70%),
+    linear-gradient(135deg, 
+      rgba(55, 174, 255, 0.14), 
+      rgba(127, 134, 210, 0.12),
+      rgba(44, 44, 122, 0.18)
+    ),
+    rgba(18, 32, 82, 0.85);
+  border: 1px solid var(--glass-border);
+  outline: 1px solid var(--glass-border-strong);
+  outline-offset: -1px;
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow-lg);
   padding: var(--space-2);
   display: none;
   z-index: 140;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
 .search-panel[aria-hidden="false"] {
@@ -1266,16 +1584,22 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   display: flex;
   flex-direction: column;
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
-  border-radius: var(--radius-card);
+  border-radius: var(--glass-radius);
+  /* Liquid Glass sidebar */
   background:
-    linear-gradient(135deg, rgba(124, 200, 255, 0.14), rgba(124, 200, 255, 0.04))
-      rgba(12, 26, 58, 0.65);
-  border: 1px solid rgba(124, 200, 255, 0.18);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 12px 32px rgba(5, 11, 31, 0.22);
+    radial-gradient(ellipse 120% 100% at 0% 50%, rgba(69, 188, 241, 0.12), transparent 70%),
+    linear-gradient(135deg, 
+      rgba(55, 174, 255, 0.14), 
+      rgba(127, 134, 210, 0.10),
+      rgba(44, 44, 122, 0.16)
+    ),
+    rgba(18, 32, 82, 0.78);
+  border: 1px solid var(--glass-border);
+  outline: 1px solid var(--glass-border-strong);
+  outline-offset: -1px;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--glass-shadow);
   overflow: hidden;
   isolation: isolate;
   width: 100%;
@@ -1307,10 +1631,19 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   content: '';
   position: absolute;
   inset: 0;
-  background: transparent;
+  border-radius: inherit;
+  background: 
+    radial-gradient(ellipse 140% 100% at 0% 0%, rgba(255, 255, 255, 0.08), transparent 70%),
+    linear-gradient(180deg, rgba(228, 236, 247, 0.04) 0%, transparent 50%);
   opacity: 0.9;
   pointer-events: none;
   mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.sidebar__inner > * {
+  position: relative;
+  z-index: 1;
 }
 
 .sidebar__heading {
@@ -1919,15 +2252,42 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   width: 100%;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-pill);
-  border: 1px solid var(--color-border-subtle);
-  background: rgba(17, 31, 68, 0.88);
+  border: 1px solid var(--glass-border);
+  outline: none;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(69, 188, 241, 0.08), transparent 60%),
+    linear-gradient(135deg, 
+      rgba(45, 98, 240, 0.10), 
+      rgba(44, 44, 122, 0.14)
+    ),
+    rgba(24, 42, 88, 0.70);
+  backdrop-filter: blur(calc(var(--glass-blur) / 1.3));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) / 1.3));
   color: var(--color-text);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(69, 188, 241, 0.10),
+    0 4px 12px rgba(5, 11, 31, 0.30),
+    0 1px 4px rgba(64, 102, 222, 0.15);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .faq-search input:focus-visible {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-soft);
+  border-color: var(--glass-border-strong);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.10),
+    inset 0 -1px 0 rgba(69, 188, 241, 0.16),
+    0 8px 20px rgba(5, 11, 31, 0.40),
+    0 2px 8px rgba(64, 102, 222, 0.25),
+    0 0 0 3px rgba(69, 188, 241, 0.20);
+  background:
+    radial-gradient(circle at 20% 50%, rgba(69, 188, 241, 0.14), transparent 60%),
+    linear-gradient(135deg, 
+      rgba(55, 174, 255, 0.14), 
+      rgba(127, 134, 210, 0.12)
+    ),
+    rgba(30, 52, 104, 0.85);
 }
 
 .faq-list {
@@ -1936,10 +2296,66 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
 }
 
 .accordion {
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--glass-border);
+  outline: none;
+  border-radius: var(--glass-radius);
+  /* Liquid Glass accordion */
+  background:
+    radial-gradient(ellipse 120% 100% at 20% 0%, rgba(69, 188, 241, 0.14), transparent 70%),
+    linear-gradient(135deg, 
+      rgba(55, 174, 255, 0.16), 
+      rgba(127, 134, 210, 0.12),
+      rgba(44, 44, 122, 0.18)
+    ),
+    rgba(24, 42, 88, 0.80);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.accordion::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: 
+    radial-gradient(ellipse 140% 90% at 50% 0%, rgba(255, 255, 255, 0.10), transparent 70%),
+    linear-gradient(180deg, rgba(228, 236, 247, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.accordion::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--glass-border-strong);
+  z-index: 0;
+}
+
+.accordion > * {
+  position: relative;
+  z-index: 1;
+}
+
+.accordion:hover {
+  box-shadow: 
+    0 12px 40px rgba(5, 11, 31, 0.55),
+    0 4px 12px rgba(64, 102, 222, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.accordion.is-open {
+  box-shadow: 
+    0 16px 48px rgba(5, 11, 31, 0.60),
+    0 6px 16px rgba(64, 102, 222, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .accordion__summary {
@@ -1951,15 +2367,31 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   align-items: flex-start;
   justify-content: space-between;
   text-align: left;
-  padding: var(--space-4);
+  padding: var(--space-5) var(--space-4);
   gap: var(--space-3);
-  font-size: 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  border-radius: var(--glass-radius);
+  position: relative;
 }
 
 .accordion__summary:hover,
 .accordion__summary:focus-visible {
-  background: var(--color-surface-alt);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.12), transparent 70%),
+    linear-gradient(135deg, rgba(55, 174, 255, 0.08), rgba(127, 134, 210, 0.06)),
+    rgba(28, 48, 96, 0.85);
+  color: var(--tc-ink);
+}
+
+.accordion.is-open .accordion__summary {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(69, 188, 241, 0.16), transparent 70%),
+    linear-gradient(135deg, rgba(55, 174, 255, 0.12), rgba(127, 134, 210, 0.08)),
+    rgba(30, 52, 104, 0.88);
+  color: var(--tc-ink);
 }
 
 .accordion__icon {
@@ -2292,311 +2724,377 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
 }
 
 
-/* ------------------------------
-   Scroll Story: Sliding Stack (overlapping deck, pinned)
-   - CSS-only via view-timeline
-   - Gated by [data-sliding-stack][data-scroll-story]
-   - Mobile now mirrors the desktop pinned timeline
-*/
+/* Sticky Card Stacking Implementation */
+/* When sticky stacking is enabled, cards use position: sticky for sequential stacking */
 
-@media (max-width: 47.99rem) {
-  [data-sliding-stack][data-js-fallback] {
-    position: relative;
-    min-height: calc(var(--stack-count, 3) * var(--stack-duration, 80vh) + var(--stack-tail, 40vh));
-  }
+/* Main container for sticky cards - ensure overflow is visible */
+[data-sliding-stack][data-sticky-stack] {
+  position: relative;
+  overflow: visible;
+  /* Base extra clearance below the global header and hero overlap - creates visible gap */
+  --stack-extra: 120px;
+  /* Container must be tall enough for all cards to stick and unstick */
+  min-height: var(--sticky-container-height, 400vh);
+}
 
-  [data-sliding-stack][data-js-fallback] .sliding-stack__viewport {
+[data-sliding-stack][data-sticky-stack] .sliding-stack__viewport {
+  position: relative;
+  overflow: visible;
+}
+
+/* Desktop only: Sticky stacking behavior */
+/* Mobile behavior is handled separately in mobile media query below */
+@media (min-width: 48rem) {
+[data-sliding-stack][data-sticky-stack] .sliding-stack__deck {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  /* Deck height matches container height - no multiplication needed */
+  /* Cards unstick when deck bottom passes viewport */
+  height: var(--sticky-container-height, 400vh) !important;
+  min-height: var(--sticky-container-height, 400vh) !important;
+  overflow: visible;
+  /* Performance optimization: contain layout to reduce reflow calculations */
+  contain: layout style;
+}
+
+/* Sticky subcards - pure CSS sticky like avax.network */
+/* Desktop only - matches avax.network pattern with dynamic offsets */
+@media (min-width: 48rem) {
+[data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .sliding-stack__card,
+[data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card,
+[data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card.sliding-stack__card {
     position: sticky;
-    top: var(--stack-top, 6vh);
-    height: calc(100vh - var(--stack-top, 6vh) - var(--stack-bottom, 0vh));
-    --stack-gutter: clamp(16px, 5vw, 28px);
-    padding-inline: var(--stack-gutter);
-  }
-
-  [data-sliding-stack][data-js-fallback] .sliding-stack__deck {
-    position: relative;
-    height: 100%;
-    max-width: 100%;
-    margin-inline: auto;
-  }
-
-  [data-sliding-stack][data-js-fallback] .sliding-stack__deck > .sliding-stack__card {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
+    /* Matches avax.network: top-[calc(var(--navbar-height)+var(--padding-md)+var(--offset))] */
+    /* Adjusted to pin 5px higher for all sections */
+    top: calc(var(--header-height, 6.375rem) + var(--padding-md, 1.25rem) + var(--offset, 0px) + 95px);
+    z-index: auto;
+    /* Performance optimizations for sticky positioning */
     will-change: transform;
-    transform-origin: top center;
-    border-radius: clamp(12px, 3vw, 20px);
-    opacity: 1;
-    overflow: visible;
+    contain: layout style paint;
+    /* Use GPU acceleration for smoother scrolling */
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
-  [data-sliding-stack][data-js-fallback] .sliding-stack__deck > .sliding-stack__card:first-child {
-    transform: translateY(0) scale(1);
+  /* Card 1: First card is static (not sticky yet) - matches avax.network */
+[data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(1) {
+    position: static;
+    top: auto;
+    /* First card has --offset: 0px (set by JavaScript) */
+}
+
+  /* Card 2: First sticky card - ensure it pins below header */
+[data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(2) {
+    /* Ensure first sticky card is visible below header */
+    /* Add extra spacing to account for header */
+    margin-top: calc(var(--header-height, 6.375rem) + var(--padding-md, 1.25rem) + 1rem);
   }
 }
 
-@media (max-width: 47.99rem) {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (view-timeline-name: --v) and (animation-timeline: --v) {
-      [data-sliding-stack][data-scroll-story] {
-        /* Keep enough scroll distance so the stack can pin and animate */
-        height: calc(var(--stack-count, 4) * var(--stack-duration, 110vh) + var(--stack-tail, 0vh));
-        position: relative;
-        view-timeline-name: --stack;
-        view-timeline-axis: block;
-      }
-
-      [data-sliding-stack][data-scroll-story] .sliding-stack__viewport {
-        position: sticky;
-        top: var(--stack-top, 6vh);
-        height: calc(100vh - var(--stack-top, 6vh) - var(--stack-bottom, 0vh));
-        /* Slightly wider gutters on compact screens to match desktop framing */
-        --stack-gutter: clamp(16px, 5vw, 28px);
-        padding-inline: var(--stack-gutter);
-      }
-
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck {
-        position: relative;
-        height: 100%;
-        max-width: 100%;
-        margin-inline: auto;
-        padding-top: clamp(48px, 8vh, 72px);
-        --stack-step: 56px;
-      }
-
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        will-change: transform, opacity;
-        transform-origin: top center;
-        border-radius: clamp(12px, 3vw, 20px);
-        transform: translateY(100vh) scale(var(--card-scale-initial, 0.96));
-        opacity: 1;
-        overflow: visible;
-        animation: stack-active both;
-        animation-timing-function: linear;
-        animation-timeline: --stack;
-        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
-      }
-
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
-        transform: translateY(0) scale(1);
-        animation: none !important;
-      }
-
-      /* Solid contrasting backgrounds per card */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { --card-bg: var(--palette-1); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { --card-bg: var(--palette-6); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) { --card-bg: var(--palette-5); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { --card-bg: var(--palette-4); }
-
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { top: 0; }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { top: calc(var(--stack-step) * 1); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) { top: calc(var(--stack-step) * 2); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { top: calc(var(--stack-step) * 3); }
-
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card .sliding-stack__title {
-        transform-origin: left center;
-        will-change: transform;
-        animation: stack-title-scale both;
-        animation-timing-function: linear;
-        animation-timeline: --stack;
-        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
-      }
-
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(n) .sliding-stack__body {
-        animation: none !important;
-        max-height: none !important;
-      }
-
-      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: 0; }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { 
-        margin-top: var(--space-2);
-        padding: var(--space-3);
-      }
-
-      @keyframes stack-active {
-        from {
-          transform:
-            translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 6vh) - var(--stack-bottom, 0vh))))
-            scale(var(--card-scale-initial, 0.96));
-        }
-        to {
-          transform:
-            translateY(0)
-            scale(var(--card-scale-final, 1));
-        }
-      }
-
-      @keyframes stack-title-scale {
-        0%   { transform: scale(0.50); }
-        70%  { transform: scale(0.96); }
-        100% { transform: scale(1.00); }
-      }
-    }
-  }
-}
-
-/* Ensure the scroll timeline originates from the sticky viewport so the
-   animation starts when the first card sits just below the header. */
-@media (max-width: 47.99rem) {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (view-timeline-name: --v) and (animation-timeline: --v) {
-      [data-sliding-stack][data-scroll-story] .sliding-stack__viewport {
-        view-timeline-name: --stack;
-        view-timeline-axis: block;
-        view-timeline-inset: var(--stack-top, 6vh) 0 0 0;
-      }
-    }
-  }
-}
+/* First card positioning - ensure it's visible below header when section enters view */
+/* Desktop only */
 @media (min-width: 48rem) {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (view-timeline-name: --v) and (animation-timeline: --v) {
-      [data-sliding-stack][data-scroll-story] {
-        /* Height equals cards × per-card duration, plus a tail so the last card fully reaches top */
-        height: calc(var(--stack-count, 4) * var(--stack-duration, 110vh) + var(--stack-tail, 0vh));
-        position: relative;
-        /* view-timeline moved to separate rule below to avoid duplication */
-      }
+  /* First card starts with margin to push stack to bottom initially */
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child {
+    /* Push card down initially */
+    margin-top: calc(100vh - var(--header-height, 6.375rem) - var(--padding-md, 1.25rem) - 150px);
+  }
+  
+  /* Ensure first section's first card is visible below header */
+  /* When section first enters viewport, first card should be below header */
+  /* Direct approach: Add large margin-top to first card to push it down */
+  /* Use very specific selector to override any Tailwind classes */
+  #home-broken-money [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
+  #home-broken-money [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
+  #home-broken-money [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
+    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
+    /* This ensures card appears much lower on page when section first enters view */
+    margin-top: calc(60vh + 100.75px + 4rem) !important;
+    margin-bottom: 0 !important;
+}
 
-      [data-sliding-stack][data-scroll-story] .sliding-stack__viewport {
-        position: sticky;
-        top: var(--stack-top, 12vh);
-        height: calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh));
-        /* Side gutters so cards never touch the viewport edges (reduced for near full‑width) */
-        --stack-gutter: clamp(12px, 2.5vw, 32px);
-        padding-inline: var(--stack-gutter);
-      }
+  /* Section 2: Same styling as first section for consistent behavior */
+  #home-section-2 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
+  #home-section-2 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
+  #home-section-2 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
+    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
+    /* This ensures card appears much lower on page when section first enters view */
+    margin-top: calc(60vh + 100.75px + 4rem) !important;
+    margin-bottom: 0 !important;
+  }
 
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck {
-        position: relative;
-        height: 100%;
-        /* Run cards close to full width; gutters provide edge margins */
-        max-width: 100%;
-        margin-inline: auto;
-        /* Larger step so stacked titles are fully visible */
-        --stack-step: 60px;
-      }
+  /* Section 3: Same styling as first section for consistent behavior */
+  #home-section-3 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
+  #home-section-3 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
+  #home-section-3 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
+    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
+    /* This ensures card appears much lower on page when section first enters view */
+    margin-top: calc(60vh + 100.75px + 4rem) !important;
+    margin-bottom: 0 !important;
+}
 
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
-        position: absolute;
-        /* Leave side margins via deck padding; keep card from touching edges */
-        left: 0; right: 0; top: 0; bottom: 0;
-        will-change: transform, opacity;
-        transform-origin: top center;
-        border-radius: 20px;
-        /* move well below viewport so only one card is visible */
-        transform: translateY(120vh) scale(var(--card-scale-initial, 0.985));
-        /* eliminate opacity changes to avoid ghosting */
-        opacity: 1;
-        overflow: visible;
-      }
+  /* Section 4: Same styling as first section for consistent behavior */
+  #home-section-4 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
+  #home-section-4 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
+  #home-section-4 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
+    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
+    /* This ensures card appears much lower on page when section first enters view */
+    margin-top: calc(60vh + 100.75px + 4rem) !important;
+    margin-bottom: 0 !important;
+  }
 
-      /* Title scale-in: smooth grow (no overshoot) */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card .sliding-stack__title {
-        transform-origin: left center;
-        will-change: transform;
-        animation: stack-title-scale both;
-        animation-timing-function: linear;
-        animation-timeline: --stack;
-        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
-      }
+  /* Section 5: Same styling as first section for consistent behavior */
+  #home-section-5 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
+  #home-section-5 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
+  #home-section-5 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
+    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
+    /* This ensures card appears much lower on page when section first enters view */
+    margin-top: calc(60vh + 100.75px + 4rem) !important;
+    margin-bottom: 0 !important;
+  }
+  
+}
 
-      /* Last-card custom animation removed; rely on greater runway instead */
+/* Main card (parent) - pure CSS sticky like avax.network */
+/* Desktop only - matches avax.network pattern */
+@media (min-width: 48rem) {
+[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
+  position: sticky !important;
+    /* Pin when main card's bottom reaches header bottom, then position 30px lower */
+    /* Header height is 100.75px, so pin at 130.75px from top */
+    /* This makes the card's bottom align with header bottom + 30px when it sticks */
+    top: calc(100.75px + 30px) !important;
+  z-index: 5;
+  align-self: start;
+  /* Performance optimizations for sticky positioning */
+  will-change: transform;
+  contain: layout style paint;
+  /* Main card unsticks when its containing block (Section) scrolls out */
+  /* Section bottom aligns with Deck bottom so all cards release together */
+  }
+  
+  /* First section (Problem): Lower main card pin location by 25px */
+  #home-broken-money[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
+    /* Pin location lowered by 25px for problem section */
+    top: calc(100.75px + 30px + 25px) !important;
+  }
+  
+  /* Section 2: Same pin location as first section */
+  /* Main card visibility and stack cards are controlled by JavaScript (introStyle/stackStyle) */
+  #home-section-2[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
+    /* Pin location lowered by 25px for section 2 */
+    top: calc(100.75px + 30px + 25px) !important;
+  }
 
-      /* Ensure all cards align to the same top; no per-card offset */
+  #home-section-3[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
+    /* Pin location lowered by 25px for section 3 - matches sections 1 and 2 */
+    top: calc(100.75px + 30px + 25px) !important;
+  }
 
-      /* First card is locked in place (no upward scroll-in),
-         so it immediately fills the viewport below the header. */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) {
-        transform: translateY(0) scale(1);
-        animation: none !important;
-      }
+  #home-section-4[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
+    /* Pin location lowered by 25px for section 4 - matches other sections */
+    top: calc(100.75px + 30px + 25px) !important;
+  }
 
-      
-
-      /* Solid contrasting backgrounds per card */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { --card-bg: var(--palette-1); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { --card-bg: var(--palette-6); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) { --card-bg: var(--palette-5); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { --card-bg: var(--palette-4); }
-
-      /* Stagger cards vertically so previous titles can remain visible under the active panel */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(1) { top: calc(var(--stack-step) * 0); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(2) { top: calc(var(--stack-step) * 1); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(3) { top: calc(var(--stack-step) * 2); }
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(4) { top: calc(var(--stack-step) * 3); }
-
-      /* Active segment animation per card with gaps so the next waits until the current fully locks */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > .sliding-stack__card {
-        animation: stack-active both;
-        animation-timing-function: linear;
-        animation-timeline: --stack;
-        animation-range: var(--stack-start, 0%) var(--stack-end, 100%);
-      }
-
-      @keyframes stack-active {
-        /* Slide up from just below the sticky viewport height and hold */
-        from {
-          transform:
-            translateY(var(--stack-translate-start, calc(100vh - var(--stack-top, 12vh) - var(--stack-bottom, 12vh))))
-            scale(var(--card-scale-initial, 0.985));
-        }
-        to {
-          transform:
-            translateY(0)
-            scale(var(--card-scale-final, 1));
-        }
-      }
-
-      /* Smooth grow-in for slide titles: start at 50% size, no overshoot */
-      @keyframes stack-title-scale {
-        0%   { transform: scale(0.50); }
-        70%  { transform: scale(0.96); }
-        100% { transform: scale(1.00); }
-      }
-
-      /* Keep card body visible at all times (no collapse) */
-      .sliding-stack__body { overflow: visible; max-height: none; animation: none !important; }
-      .sliding-stack__tab {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 2;
-      }
-
-      /* Disable body collapse animations entirely */
-      [data-sliding-stack][data-scroll-story] .sliding-stack__deck > :nth-child(n) .sliding-stack__body {
-        animation: none !important;
-        max-height: none !important;
-      }
-
-      @keyframes stack-body { from { max-height: none; } to { max-height: none; } }
-
-      /* Bring titles closer to the top: adjust inner spacing */
-      .sliding-stack__deck > .sliding-stack__card .sliding-stack__tab { margin-top: 0; }
-      .sliding-stack__deck > .sliding-stack__card .sliding-stack__body { margin-top: var(--space-2); }
-    }
+  #home-section-5[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
+    /* Pin location lowered by 25px for section 5 - matches other sections */
+    top: calc(100.75px + 30px + 25px) !important;
   }
 }
 
-/* Desktop: drive the timeline from the outer container so it measures full scroll extent */
-@media (min-width: 48rem) {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (view-timeline-name: --v) and (animation-timeline: --v) {
-      /* Move view-timeline to container, not viewport, so 100% = container fully scrolled */
-      [data-sliding-stack][data-scroll-story] {
-        view-timeline-name: --stack;
-        view-timeline-axis: block;
-      }
-    }
+/* Ensure StickyModule container has enough height for sticky behavior */
+/* Section height matches deck height so all cards unstick together */
+/* Main card unsticks when grid bottom reaches viewport top */
+/* Subcards unstick when deck bottom reaches viewport top */
+/* Section height must match so everything releases in sync */
+/* Each section is isolated - cards only stick within their own section */
+[data-sticky-module][data-sticky-stack] {
+  /* Section height matches deck height for synchronized release */
+  /* CRITICAL: Use !important to override any content-based height calculations */
+  height: var(--sticky-container-height, 400vh) !important;
+  min-height: var(--sticky-container-height, 400vh) !important;
+}
+
+/* Target only Section 1 (broken-money / "The Problem") - adjust its main card release timing */
+#home-broken-money[data-sticky-module][data-sticky-stack] {
+  /* Section height remains at full height */
+  /* Keep isolation: auto - isolate breaks sticky positioning */
+  isolation: auto !important;
+  /* CRITICAL: Each section must be completely independent */
+  /* Position relative ensures sticky children are scoped to this section */
+  position: relative;
+  /* Sections are sequential - each must complete before next begins */
+  /* Each section flows naturally in document order - no overlap */
+  display: block;
+}
+
+/* Section 2: Same styling as first section for consistent behavior */
+#home-section-2[data-sticky-module][data-sticky-stack] {
+  /* Section height remains at full height */
+  /* Keep isolation: auto - isolate breaks sticky positioning */
+  isolation: auto !important;
+  /* CRITICAL: Each section must be completely independent */
+  /* Position relative ensures sticky children are scoped to this section */
+  position: relative;
+  /* Sections are sequential - each must complete before next begins */
+  /* Each section flows naturally in document order - no overlap */
+  display: block;
+}
+
+/* Section 3: Same styling as first section for consistent behavior */
+#home-section-3[data-sticky-module][data-sticky-stack] {
+  /* Section height remains at full height */
+  /* Keep isolation: auto - isolate breaks sticky positioning */
+  isolation: auto !important;
+  /* CRITICAL: Each section must be completely independent */
+  /* Position relative ensures sticky children are scoped to this section */
+  position: relative;
+  /* Sections are sequential - each must complete before next begins */
+  /* Each section flows naturally in document order - no overlap */
+  display: block;
+}
+
+/* Section 4: Same styling as first section for consistent behavior */
+#home-section-4[data-sticky-module][data-sticky-stack] {
+  /* Section height remains at full height */
+  /* Keep isolation: auto - isolate breaks sticky positioning */
+  isolation: auto !important;
+  /* CRITICAL: Each section must be completely independent */
+  /* Position relative ensures sticky children are scoped to this section */
+  position: relative;
+  /* Sections are sequential - each must complete before next begins */
+  /* Each section flows naturally in document order - no overlap */
+  display: block;
+}
+
+/* Section 5: Same styling as first section for consistent behavior */
+#home-section-5[data-sticky-module][data-sticky-stack] {
+  /* Section height remains at full height */
+  /* Keep isolation: auto - isolate breaks sticky positioning */
+  isolation: auto !important;
+  /* CRITICAL: Each section must be completely independent */
+  /* Position relative ensures sticky children are scoped to this section */
+  position: relative;
+  /* Sections are sequential - each must complete before next begins */
+  /* Each section flows naturally in document order - no overlap */
+  display: block;
+}
+
+/* Grid height matches section height - main card unsticks when grid bottom passes viewport */
+/* A sticky element unsticks when its containing block's bottom edge scrolls past viewport */
+/* The main card is sticky within the grid, which is inside the section */
+[data-sticky-module][data-sticky-stack] > div > div[class*="grid"] {
+  /* Set a height constraint on the grid so the sticky card unsticks at the right time */
+  /* The sticky card will unstick when this grid's bottom passes the viewport */
+  /* Use height instead of max-height to create a definitive boundary */
+  /* CRITICAL: Use !important to override any content-based height calculations */
+  height: var(--sticky-container-height, 400vh) !important;
+  min-height: var(--sticky-container-height, 400vh) !important;
+  position: relative;
+  /* Don't use overflow: hidden as it might clip cards */
+  overflow: visible;
+}
+
+/* Remove padding from inner container that extends section height */
+/* This ensures section bottom edge aligns with deck bottom edge */
+[data-sticky-module][data-sticky-stack] > div {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Remove gap from grid that might affect bottom edge alignment */
+[data-sticky-module][data-sticky-stack] > div > div[class*="grid"] {
+  gap: 0 !important;
+}
+
+/* Ensure the content area (where deck is) doesn't add extra height */
+[data-sticky-module][data-sticky-stack] [data-sticky-module-content] {
+  /* Remove any gap that might extend section height */
+  gap: 0 !important;
+}
+
+
+/* CRITICAL: Ensure sequential sections don't interfere with each other */
+/* Timeline: Each section completes → All 4 cards release → Scroll up → Next section appears */
+/* Sections 2, 3, 4, and 5 use JavaScript-measured main card height for positioning */
+/* Other sections (if added later) use fixed 250vh gap */
+[data-sticky-module][data-sticky-stack] + [data-sticky-module][data-sticky-stack]:not(#home-section-2):not(#home-section-3):not(#home-section-4):not(#home-section-5) {
+  /* Add 250vh gap AFTER each section completes (after all cards release) */
+  /* This ensures previous section's cards scroll up completely before next section's container starts */
+  margin-top: 250vh;
+}
+
+/* Sections 2, 3, 4, and 5: Position is controlled by JavaScript (marginTop from sectionOffset) */
+/* No fixed CSS margin - uses measured main card height from previous section */
+/* Margin-top is set via inline style from JavaScript measurement in HomePage.tsx */
+
+} /* End desktop media query - all sticky stacking rules above are desktop-only */
+
+/* Static cards (fallback when sticky-stack is not enabled) */
+[data-sliding-stack]:not([data-sticky-stack]) {
+  position: relative;
+}
+
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__viewport {
+  position: relative;
+}
+
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-4);
+  padding: 0;
+  min-height: auto;
+  height: auto;
+}
+
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck > .sliding-stack__card,
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck > .color-morph-card,
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck > .color-morph-card.sliding-stack__card {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  animation: none !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  top: auto !important;
+  z-index: auto !important;
+  isolation: auto !important;
+}
+
+/* Mobile: Disable sticky stacking on small screens */
+/* Mobile behavior is separate - desktop changes don't affect mobile */
+@media (max-width: 47.99rem) {
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .sliding-stack__card,
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card {
+    position: relative !important;
+    top: auto !important;
+    margin-top: var(--space-4) !important;
+    margin-bottom: 0 !important;
+  }
+  
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck {
+    gap: var(--space-4);
+    /* Mobile: Use auto height - sticky stacking is disabled on mobile */
+    height: auto !important;
+    min-height: auto !important;
+  }
+  
+  /* Mobile: Reset section/grid heights to auto */
+  [data-sticky-module][data-sticky-stack] {
+    height: auto !important;
+    min-height: auto !important;
+  }
+  
+  [data-sticky-module][data-sticky-stack] > div > div[class*="grid"] {
+    height: auto !important;
+    min-height: auto !important;
   }
 }
 
@@ -2608,7 +3106,42 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
+  border-radius: var(--glass-radius);
+  border: 1px solid var(--glass-border);
+  background:
+    radial-gradient(ellipse 120% 100% at 10% 0%, rgba(69, 188, 241, 0.10), transparent 70%),
+    linear-gradient(135deg, rgba(55, 174, 255, 0.12), rgba(127, 134, 210, 0.10), rgba(44, 44, 122, 0.16)),
+    rgba(18, 32, 82, 0.78);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  overflow: hidden;
 }
+
+.faq-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:
+    radial-gradient(ellipse 140% 80% at 50% 0%, rgba(255,255,255,0.06), transparent 70%),
+    linear-gradient(180deg, rgba(228,236,247,0.04) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.faq-card::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  box-shadow: inset 0 0 0 1px var(--glass-border-strong);
+  z-index:0;
+}
+
+.faq-card > *{ position:relative; z-index:1; }
 
 .faq-card__summary {
   width: 100%;
@@ -2621,13 +3154,8 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   gap: var(--space-2);
 }
 
-.faq-card__summary-text p {
-  margin: 0;
-  color: var(--color-text-soft);
-}
-
 .faq-card__content {
-  border-top: 1px solid var(--color-border-subtle);
+  border-top: 1px solid var(--glass-border);
   padding-top: var(--space-4);
 }
 
@@ -3762,15 +4290,18 @@ mark {
 
 /* On the home hero, remove the ambient sequencer/bg so only the JPEG card is visible */
 #home-hero .hero-sequencer { display: none !important; }
-#home-hero [data-stage-backdrop] { display: none !important; }
-#home-hero .hero-fallback--bg { display: none !important; }
+/* Hide hero-specific layered backgrounds to preserve unified page gradient */
+#home-hero [data-stage-backdrop],
+#home-hero .hero-fallback--bg,
+#home-hero [data-hero-background],
+#home-hero [data-hero-overlay] { display: none !important; }
 
-
-
-#home-hero [data-hero-background], #home-hero [data-hero-overlay] { display: none !important; }
+/* Remove per-section gradient layers so background stays unified */
+[data-sticky-module] [data-color-shift] { display: none !important; }
 
 #home-hero [data-hero-card]{ background: transparent !important; }
 #home-hero [data-hero-card]::after{ display: none !important; }
+
 
 
 

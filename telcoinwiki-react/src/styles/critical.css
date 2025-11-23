@@ -1,6 +1,22 @@
+@font-face {
+  font-family: "Hero New Light";
+  src: url("/fonts/HeroNewLight.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Hero New Semibold";
+  src: url("/fonts/HeroNewSemibold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: dark;
-  --font-family-base: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --font-family-base: "Hero New Light";
   --font-family-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
   --line-height-base: 1.6;
 
@@ -58,11 +74,32 @@
   /* Reduce header height by ~25% to match variables.css */
   --header-height: 3.1875rem;
   --transition-base: 0.25s ease;
-  --glass-bg: rgba(9, 16, 42, 0.72);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-border-strong: rgba(124, 200, 255, 0.5);
-  --glass-shadow: 0 28px 60px rgba(5, 10, 28, 0.55);
-  --glass-blur: 28px;
+  /* Liquid Glass variables with Telcoin palette */
+  --glass-bg: linear-gradient(135deg, 
+    rgba(45, 98, 240, 0.16), 
+    rgba(127, 134, 210, 0.12), 
+    rgba(44, 44, 122, 0.18)
+  );
+  --glass-bg-solid: rgba(18, 32, 82, 0.72);
+  --glass-border: rgba(228, 236, 247, 0.22);
+  --glass-border-strong: rgba(69, 188, 241, 0.45);
+  --glass-shadow: 
+    0 8px 32px rgba(5, 11, 31, 0.48),
+    0 2px 8px rgba(64, 102, 222, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --glass-shadow-lg: 
+    0 28px 80px rgba(5, 11, 31, 0.55),
+    0 12px 24px rgba(64, 102, 222, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-blur: 32px;
+  --glass-radius: clamp(1rem, 2.5vw, 1.5rem);
+  
+  /* Sticky card stacking variables */
+  --navbar-height: 3.1875rem;
+  --padding-md: 1.25rem;
+  --card-min-height: 400px;
+  --card-offset-base: 15px;
+  --sticky-container-height: 300vh;
 }
 
 
@@ -279,7 +316,26 @@ ol {
     opacity 0.6s var(--transition-smooth);
 }
 
-.sliding-stack--static .sliding-stack__card {
+/* All cards are static - no sticky positioning, no animations, no absolute positioning */
+/* BUT: Exclude sticky-stack cards which need position: sticky */
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck > .sliding-stack__card,
+[data-sliding-stack]:not([data-sticky-stack]) .sliding-stack__deck > .color-morph-card,
+.sliding-stack:not([data-sticky-stack]) .sliding-stack__card,
+.sliding-stack--interactive:not([data-sticky-stack]) .sliding-stack__card {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  will-change: auto !important;
+  margin: 0 !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+.sliding-stack--static:not([data-sticky-stack]) .sliding-stack__card {
   position: relative;
   inset: auto;
   transform: none;
@@ -292,11 +348,18 @@ ol {
     min-height: auto !important;
   }
 
-  .sliding-stack__card {
+  .sliding-stack__card:not([data-sticky-stack] *) {
     position: relative;
     inset: auto;
     transform: none;
     opacity: 1;
+  }
+  
+  /* On mobile, disable sticky stacking */
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .sliding-stack__card,
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card {
+    position: relative !important;
+    top: auto !important;
   }
 }
 

@@ -4,4 +4,6 @@ import type { NavItems } from './types'
 export const NAV_ITEMS: NavItems = [
   { id: 'home', label: 'Home', href: '/' },
   { id: 'story', label: 'Story', href: '/#home-story-cards' },
+  { id: 'deep-dive', label: 'Deep Dive', href: '/deep-dive' },
+  { id: 'faq', label: 'FAQ', href: '/#faq-section' },
 ]

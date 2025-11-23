@@ -6,6 +6,7 @@ import { NAV_ITEMS } from './config/navigation'
 import { PAGE_META } from './config/pageMeta'
 import { SEARCH_CONFIG } from './config/search'
 import { HomePage } from './pages/HomePage'
+import { DeepDivePage } from './pages/DeepDivePage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
 const queryClient = new QueryClient({
@@ -32,6 +33,19 @@ function App() {
               searchConfig={SEARCH_CONFIG}
             >
               <HomePage />
+            </CinematicLayout>
+          }
+        />
+        <Route
+          path="/deep-dive"
+          element={
+            <CinematicLayout
+              pageId="deep-dive"
+              navItems={NAV_ITEMS}
+              pageMeta={PAGE_META}
+              searchConfig={SEARCH_CONFIG}
+            >
+              <DeepDivePage />
             </CinematicLayout>
           }
         />

@@ -1,4 +1,6 @@
 import type { CSSProperties } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
 import { SCROLL_STORY_ENABLED } from '../config/featureFlags'
 
 import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
@@ -13,18 +15,18 @@ import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
 import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
 import {
   useHomeBrokenMoneyScroll,
-  useHomeEngineScroll,
-  useHomeExperienceScroll,
+  useHomeSection2Scroll,
+  useHomeSection3Scroll,
+  useHomeSection4Scroll,
+  useHomeSection5Scroll,
   useHomeHeroScroll,
-  useHomeLearnMoreScroll,
-  useHomeTelcoinModelScroll,
 } from '../hooks/useHomeScrollSections'
 import { cn } from '../utils/cn'
 import { useViewportHeight } from '../hooks/useViewportHeight'
 import { FAQSection } from '../components/faq/FAQ'
 import { faqGroups } from '../components/faq/data'
 interface HomeNarrativeSection {
-  id: 'broken-money' | 'telcoin-model' | 'engine' | 'experience' | 'learn-more'
+  id: 'broken-money' | 'section-2' | 'section-3' | 'section-4' | 'section-5'
   label: string
   heading: string
   description: string
@@ -35,156 +37,156 @@ interface HomeNarrativeSection {
 const homeNarrativeSections: HomeNarrativeSection[] = [
   {
     id: 'broken-money',
-    label: '1 â€” The Problem',
+    label: 'The Problem',
     heading: 'Broken money keeps billions locked out',
     description:
-      'Start with the real-world friction: remittance fees, delayed settlements, and unbanked households who rely on mobile money.',
+      'Remittance costs are high, delays are common, and most people globally are unbanked. Telcoin starts by fixing that—with mobile-native access.',
     backgroundClip: '18%',
     cards: [
       {
         id: 'broken-money-fees',
-        eyebrow: 'Cost & delay',
-        title: 'Transfers lose value in the middle',
-        body: 'Traditional corridors route through multiple correspondent banks. Watch how Telcoin compresses fee stacks inside the Wallet.',
+        eyebrow: 'Cost & Delay',
+        title: 'Transfers lose value midstream',
+        body: 'Traditional payments move through middlemen and fee layers. Telcoin compresses those inside the wallet.',
         href: '#broken-money-fees',
       },
       {
         id: 'broken-money-access',
         eyebrow: 'Inclusion',
         title: 'Mobile-first by necessity',
-        body: 'Telcoin designs the onboarding flow so mobile money users can clear compliance without a legacy bank account.',
+        body: 'Telcoin designs onboarding so users can access services without needing a bank account.',
         href: '#broken-money-access',
       },
       {
         id: 'broken-money-trust',
         eyebrow: 'Trust',
         title: 'Compliance needs transparency',
-        body: 'Association-led policy and TAN reporting make sure fintech conveniences do not abandon telecom-grade oversight.',
+        body: 'TAN reporting and Association-led policy keep telecom-grade oversight at the heart of the system.',
         href: '#broken-money-trust',
       },
     ],
   },
   {
-    id: 'telcoin-model',
-    label: '2 â€” Telcoin Model',
-    heading: 'Telecom + crypto + compliance working together',
+    id: 'section-2',
+    label: 'Telcoin Model',
+    heading: 'Telecom + crypto + compliance, working together',
     description:
-      'Meet the three-layer system: the Telcoin Network (L1), TELx liquidity, and the Telcoin Application Network (TAN).',
+      'Telcoin blends telecom reach, blockchain infrastructure, and legal clarity into a single system—powered by the Telcoin Network, TELx, and the Telcoin Bank experience.',
     backgroundClip: '20%',
     cards: [
       {
         id: 'telcoin-model-governance',
         eyebrow: 'Governance',
-        title: 'GSMA members steward the chain',
-        body: 'Explore how the Telcoin Association, councils, and working groups approve upgrades and TEL issuance policies.',
-        href: '#telcoin-model-governance',
+        title: 'GSMA members help secure the chain',
+        body: 'Telcoin Association stewards the protocol with validator input, open proposals, and TEL issuance policy.',
+        href: '/governance#governance-overview',
       },
       {
         id: 'telcoin-model-network',
         eyebrow: 'Network',
-        title: 'DAG-powered consensus',
-        body: 'Understand why the Telcoin Network pairs DAG execution with BFT finality and GSMA validators.',
-        href: '#telcoin-model-network',
+        title: 'Modular by design',
+        body: 'Unlike monolithic chains, Telcoin separates execution, consensus, and settlement—improving scale and resilience.',
+        href: '/network#network-consensus',
       },
       {
         id: 'telcoin-model-bank',
-        eyebrow: 'Bank layer',
-        title: 'Wallet + Digital Cash = familiar UX',
-        body: 'Scroll into the Telcoin Bank experience to see how fiat-backed assets meet self-custody.',
-        href: '#telcoin-model-bank',
+        eyebrow: 'Bank Layer',
+        title: 'Wallet + Digital Cash = everyday UX',
+        body: 'The Telcoin Bank experience bridges fiat-backed assets with self-custodial wallets that feel familiar.',
+        href: '/bank#bank-overview',
       },
     ],
   },
   {
-    id: 'engine',
-    label: '3 â€” The Engine',
-    heading: 'Network + TEL make the system real',
+    id: 'section-3',
+    label: 'The Engine',
+    heading: 'Telcoin Network + TEL make it real',
     description:
-      'Dive into how consensus, liquidity, and burn/regen tokenomics keep the platform running.',
+      'Telcoin Network is a modular, EVM-compatible chain built for performance. TEL powers transactions, staking, liquidity, and rewards—via a burn-and-regen cycle.',
     backgroundClip: '22%',
     cards: [
       {
         id: 'engine-topology',
-        eyebrow: 'Interactive topology',
-        title: 'Trace value flows visually',
-        body: 'Use the interactive network map to follow TEL burn, liquidity routes, and TAN compliance loops.',
-        href: '#engine-topology',
+        eyebrow: 'Network Infrastructure',
+        title: 'Modular stack, optimized consensus',
+        body: 'Telcoin uses Narwhal for mempool ordering, Bullshark for BFT finality, and the EVM for execution—all modular, all optimized.',
+        href: '/network#network-architecture',
       },
       {
         id: 'engine-tokenomics',
         eyebrow: 'Tokenomics',
-        title: 'Burn, regen, and treasuries',
-        body: 'See how TEL fees burn supply while Association treasuries recycle rewards into real usage.',
-        href: '#engine-tokenomics',
+        title: 'Burn, regenerate, recycle',
+        body: 'TEL fees are burned every block and regenerated into Telcoin Association treasuries—funding growth and governance.',
+        href: '/tokenomics#tokenomics-cycle',
       },
       {
         id: 'engine-liquidity',
         eyebrow: 'Liquidity',
-        title: 'TELx routes liquidity instantly',
-        body: 'Learn how TELx pools pair TEL with Digital Cash so remittances and swaps stay fluid.',
-        href: '#engine-liquidity',
+        title: 'TELx keeps flows instant',
+        body: 'TELx liquidity pools pair TEL with Digital Cash so users can swap, send, and settle without bottlenecks.',
+        href: '/tokenomics#tokenomics-programs',
       },
     ],
   },
   {
-    id: 'experience',
-    label: '4 â€” Experience',
+    id: 'section-4',
+    label: 'Experience',
     heading: 'Real app. Real users. All self-custodied.',
     description:
-      'Walk through the Telcoin Bank journey from onboarding to payout so new users know exactly what to expect.',
+      'Telcoin App gives users control without complexity. Everything—onboarding, transfers, swaps—happens in a familiar, secure mobile flow.',
     backgroundClip: '24%',
     cards: [
       {
         id: 'experience-onboarding',
         eyebrow: 'Onboard',
-        title: 'Clear, mobile-native KYC',
-        body: 'Step-by-step copy, device binding, and recovery training help non-crypto natives finish verification.',
-        href: '#experience-onboarding',
+        title: 'KYC that fits your phone',
+        body: 'Mobile-native verification with recovery flows helps anyone onboard without needing a desktop or seed phrase.',
+        href: '/bank#bank-journey',
       },
       {
         id: 'experience-send',
-        eyebrow: 'Send & receive',
-        title: 'Transparent corridor pricing',
-        body: 'Fees, FX, and timing surface before you tap send; status events mirror TAN compliance checkpoints.',
-        href: '#experience-send',
+        eyebrow: 'Send & Receive',
+        title: 'Transparent before you tap',
+        body: 'Corridor pricing shows fees, FX, and timing up front—aligned with TAN compliance tracking.',
+        href: '/bank#bank-metrics',
       },
       {
         id: 'experience-security',
-        eyebrow: 'Stay safe',
-        title: 'Security-first guardrails',
-        body: 'Notifications, two-factor prompts, and newsroom alerts keep everyday users aligned with best practice.',
-        href: '#experience-security',
+        eyebrow: 'Stay Safe',
+        title: 'Security built-in',
+        body: 'Notifications, 2FA prompts, and alerts give users confidence without slowing them down.',
+        href: '/bank#bank-resources',
       },
     ],
   },
   {
-    id: 'learn-more',
-    label: '5 â€” Learn More & FAQ',
+    id: 'section-5',
+    label: 'Learn More',
     heading: 'Go deeper once the story clicks',
     description:
-      'Jump from these summaries into long-form documentation, governance minutes, and a living FAQ that ties each question back to source material.',
+      "Browse full documentation, validator requirements, and a living FAQ—each tied back to Telcoin's ecosystem and verified sources.",
     backgroundClip: '26%',
     cards: [
       {
         id: 'learn-more-governance',
-        eyebrow: 'Governance hub',
-        title: 'Explore policy & councils',
-        body: 'Read governance briefs, validator requirements, and how proposals advance through the Association.',
-        href: '#learn-more-governance',
+        eyebrow: 'Governance Hub',
+        title: 'See how proposals move',
+        body: 'Review Association roles, validator expectations, and how policy evolves in public.',
+        href: '/governance#governance-overview',
       },
       {
         id: 'learn-more-faq',
         eyebrow: 'FAQ',
-        title: 'Answers that cite sources',
-        body: 'Filterable FAQ entries cite Telcoin docs so curious users can verify everything themselves.',
-        href: '#learn-more-faq',
+        title: 'Questions tied to sources',
+        body: 'Filterable answers cite Telcoin documentation directly—no guessing, no fluff.',
+        href: '/faq#faq-list',
       },
       {
         id: 'learn-more-deep',
-        eyebrow: 'Deep dives',
-        title: 'Compare TEL resources',
-        body: 'Use the deep-dive library to contrast TEL, Digital Cash, and TELx mechanics across the Telcoin stack.',
-        href: '#learn-more-deep',
+        eyebrow: 'Deep Dives',
+        title: 'Learn by comparing',
+        body: 'Explore TEL, TELx, and Digital Cash across use cases—from liquidity to treasury flows.',
+        href: '/deep-dive#deep-dive-overview',
       },
     ],
   },
@@ -209,27 +211,45 @@ const storyDeckStyle: CSSProperties & Record<'--stack-top' | '--stack-bottom' | 
 export function HomePage() {
   const hero = useHomeHeroScroll()
   const brokenMoney = useHomeBrokenMoneyScroll()
-  const telcoinModel = useHomeTelcoinModelScroll()
-  const engine = useHomeEngineScroll()
-  const experience = useHomeExperienceScroll()
-  const learnMore = useHomeLearnMoreScroll()
+  const section2 = useHomeSection2Scroll()
+  const section3 = useHomeSection3Scroll()
+  const section4 = useHomeSection4Scroll()
+  const section5 = useHomeSection5Scroll()
   const viewportHeight = useViewportHeight()
 
+  // Lenis smooth scrolling is initialized in CinematicLayout
+  // CSS sticky handles card stacking (not replaced by ScrollTrigger)
+
   // Toggle for non-storyboard narrative sections (disabled per request)
-  const NON_STORYBOARD_ENABLED = false
+  const NON_STORYBOARD_ENABLED = true
 
-  const sectionStates: Record<HomeNarrativeSection['id'], HomeStackSectionState> = {
+  const sectionStates: Record<HomeNarrativeSection['id'], HomeStackSectionState> = useMemo(() => ({
     'broken-money': brokenMoney,
-    'telcoin-model': telcoinModel,
-    engine,
-    experience,
-    'learn-more': learnMore,
-  }
+    'section-2': section2,
+    'section-3': section3,
+    'section-4': section4,
+    'section-5': section5,
+  }), [brokenMoney, section2, section3, section4, section5])
 
-  const sections = homeNarrativeSections.map((section) => ({
+  const sections = useMemo(() => homeNarrativeSections.map((section) => ({
     ...section,
     state: sectionStates[section.id],
-  }))
+  })), [sectionStates])
+
+  const location = useLocation()
+
+  // Handle FAQ section scroll when hash is present
+  useEffect(() => {
+    if (location.hash === '#faq-section') {
+      const faqSection = document.getElementById('faq-section')
+      if (faqSection) {
+        // Small delay to ensure page is rendered
+        setTimeout(() => {
+          faqSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 100)
+      }
+    }
+  }, [location.hash])
 
   // Removed story pin variables along with storyboard
 
@@ -355,11 +375,6 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {/* FAQ section */}
-      <div className="-mt-[80vh] sm:-mt-[85vh] lg:-mt-[90vh]">
-        <FAQSection groups={faqGroups} singleOpen={false} trackHash={false} />
-      </div>
-
       {/* Removed Storyboard sticky section per request */}
 
       {/* Former HorizontalRail removed per new header strategy. */}
@@ -370,6 +385,9 @@ export function HomePage() {
           ? Math.min(cards.length - 1, Math.floor(state.stackProgress * cards.length))
           : 0
         const isFirstSection = index === 0
+
+        const isSection2Or3Or4Or5 = id === 'section-2' || id === 'section-3' || id === 'section-4' || id === 'section-5'
+        const sectionOffset = 'sectionOffset' in state ? (state as { sectionOffset?: number }).sectionOffset : undefined
 
         return (
           <StickyModule
@@ -382,6 +400,7 @@ export function HomePage() {
               'max-w-[min(1920px,98vw)] pt-16 pb-16 lg:pt-20 lg:pb-20',
               isFirstSection && 'pt-4 lg:pt-6',
             )}
+            style={isSection2Or3Or4Or5 && sectionOffset !== undefined ? { marginTop: `${sectionOffset}px` } : undefined}
           background={
             <>
               <ColorShiftBackground
@@ -394,18 +413,18 @@ export function HomePage() {
           sticky={
             <MainWorkspaceCard progress={state.stageProgress}>
               <div className="flex flex-col gap-4" data-section-intro style={state.introStyle}>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">{label}</p>
-                <h2 id={`home-${id}-heading`} className="text-3xl font-semibold text-telcoin-ink lg:text-4xl">
+                <p className="text-[1.5rem] font-semibold uppercase tracking-[0.2em] text-telcoin-ink-subtle">{label}</p>
+                <h2 id={`home-${id}-heading`} className="text-[2.5rem] font-semibold text-telcoin-ink lg:text-[2.875rem]">
                   {heading}
                 </h2>
-                <p className="max-w-xl text-lg text-telcoin-ink-muted">{description}</p>
+                <p className="max-w-xl text-[1.75rem] text-telcoin-ink-muted">{description}</p>
                 <ol className="workspace-pin__list">
                   {cards.map((card, index) => (
                     <li
                       key={card.id}
-                      className={cn('workspace-pin__listItem', { 'is-active': index === activeIndex })}
+                      className={cn('workspace-pin__listItem', index === activeIndex && 'is-active')}
                     >
-                      <span className={cn('workspace-pin__listIndex', { 'is-active': index === activeIndex })}>
+                      <span className={cn('workspace-pin__listIndex', index === activeIndex && 'is-active')}>
                         {index + 1}
                       </span>
                       <span className="workspace-pin__listLabel">{card.title}</span>
@@ -421,6 +440,7 @@ export function HomePage() {
               onProgressChange={state.onStackProgress}
               prefersReducedMotion={state.prefersReducedMotion}
               style={state.stackStyle}
+              enabled={state.stackCardsEnabled !== false}
             />
           }
           prefersReducedMotion={state.prefersReducedMotion}
@@ -429,6 +449,11 @@ export function HomePage() {
         />
         )
       }) : null}
+
+      {/* FAQ section */}
+      <div id="faq-section" className="-mt-[80vh] sm:-mt-[85vh] lg:-mt-[90vh]" style={{ scrollMarginTop: 'calc(var(--header-height) + 1rem)' }}>
+        <FAQSection groups={faqGroups} singleOpen={false} trackHash={false} />
+      </div>
 
       {/* Below this point, we intentionally remove additional content to focus on the sliding cards. */}
     </>

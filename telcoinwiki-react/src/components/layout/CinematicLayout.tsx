@@ -4,6 +4,7 @@ import type { NavItem, PageMetaMap, SearchConfig } from '../../config/types'
 import { Header } from './Header'
 import { MAIN_CONTENT_ID, useHashScroll, useLayoutChrome } from './layoutShared'
 import { IntroReveal } from '../intro/IntroReveal'
+import { useSmoothScroll } from '../../hooks/useSmoothScroll'
 
 interface CinematicLayoutProps {
   pageId: string
@@ -22,6 +23,9 @@ export function CinematicLayout({
 }: CinematicLayoutProps) {
   const { hash, pathname } = useLocation()
   useHashScroll(hash, pathname)
+  
+  // Initialize Lenis smooth scrolling (desktop only)
+  useSmoothScroll({ enabled: true })
 
   const currentMeta = pageMeta[pageId] ?? pageMeta.home
   const activeNavId = currentMeta?.navId ?? pageId ?? null

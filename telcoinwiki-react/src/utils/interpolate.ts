@@ -1,19 +1,15 @@
-export function clamp01(value: number): number {
-  if (Number.isNaN(value)) {
-    return 0
-  }
+/**
+ * Clamp a value between 0 and 1
+ */
+export const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v)
 
-  if (value < 0) {
-    return 0
-  }
-
-  if (value > 1) {
-    return 1
-  }
-
-  return value
+/**
+ * Linear interpolation between two values
+ * @param a Start value
+ * @param b End value
+ * @param t Interpolation factor (0-1)
+ */
+export const lerp = (a: number, b: number, t: number): number => {
+  return a + (b - a) * t
 }
 
-export function lerp(start: number, end: number, t: number): number {
-  return start + (end - start) * t
-}

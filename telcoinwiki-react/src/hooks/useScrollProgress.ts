@@ -89,7 +89,7 @@ export function useScrollProgress(
 
     const onChange = () => schedule(compute)
     window.addEventListener('scroll', onChange, { passive: true })
-    window.addEventListener('resize', onChange)
+    window.addEventListener('resize', onChange, { passive: true })
     onChange()
 
     return () => {

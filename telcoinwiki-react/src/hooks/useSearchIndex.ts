@@ -1,54 +1,53 @@
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import type { SearchConfig } from '../config/types'
 
-export interface SearchDocument {
-  ref: string
-  type: 'page' | 'faq'
-  title: string
-  summary: string
-  body: string
-  url: string
-  tags: string[]
+export interface SearchResultGroup {
+  id: string
+  label: string
+  items: SearchResultItem[]
 }
 
 export interface SearchResultItem {
-  doc: SearchDocument
+  doc: {
+    ref: string
+    title: string
+    url: string
+  }
   snippet: string
-  score: number
-}
-
-export interface SearchResultGroup {
-  id: SearchDocument['type']
-  label: string
-  items: SearchResultItem[]
 }
 
 export interface UseSearchIndexResult {
   search: (query: string) => SearchResultGroup[]
   isLoading: boolean
-  error: Error | null
+  error: string | null
   isFallback: boolean
   reload: () => void
-  /** Indicates that the heavy client-side index has been removed. */
   isDisabled: boolean
 }
 
-const EMPTY_RESULTS: SearchResultGroup[] = []
-
-export const useSearchIndex = (searchConfig: SearchConfig): UseSearchIndexResult => {
-  void searchConfig
-  const search = useCallback(() => EMPTY_RESULTS, [])
-  const reload = useCallback(() => {}, [])
-
-  return useMemo(
-    () => ({
-      search,
-      isLoading: false,
-      error: null,
-      isFallback: false,
-      reload,
-      isDisabled: true,
-    }),
-    [search, reload],
+/**
+ * Search index hook - currently disabled for performance
+ * Per CHANGELOG: Search was disabled to improve performance
+ * This is a minimal stub that returns empty results
+ */
+export function useSearchIndex(_searchConfig: SearchConfig): UseSearchIndexResult {
+  const search = useMemo(
+    () => (query: string): SearchResultGroup[] => {
+      // Search is disabled - return empty results
+      return []
+    },
+    [],
   )
+
+  return {
+    search,
+    isLoading: false,
+    error: null,
+    isFallback: false,
+    reload: () => {
+      // No-op - search is disabled
+    },
+    isDisabled: true, // Search is disabled
+  }
 }
+

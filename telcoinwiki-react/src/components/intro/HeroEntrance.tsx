@@ -194,14 +194,16 @@ export function HeroEntrance() {
 
     // 2) Wait for the intro veil overlay to be removed (if present)
     const overlay = document.querySelector('.intro-reveal')
+    let obs: MutationObserver | null = null
     if (!overlay) {
       overlayDone = true
       maybeStart()
     } else {
-      const obs = new MutationObserver(() => {
+      obs = new MutationObserver(() => {
         if (!document.querySelector('.intro-reveal')) {
           overlayDone = true
-          obs.disconnect()
+          obs?.disconnect()
+          obs = null
           maybeStart()
         }
       })
@@ -220,6 +222,11 @@ export function HeroEntrance() {
       window.clearTimeout(maskFallback)
       window.removeEventListener('scroll', onFirstScroll)
       timeouts.forEach((id) => window.clearTimeout(id))
+      // Clean up MutationObserver
+      if (obs) {
+        obs.disconnect()
+        obs = null
+      }
       // Safety: never leave global intro classes behind on unmount/navigation
       cleanupRootState()
     }

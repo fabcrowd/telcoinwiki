@@ -3,7 +3,7 @@ import { forwardRef, useMemo } from 'react'
 
 import { cn } from '../../utils/cn'
 
-interface StickyModuleProps extends ComponentPropsWithoutRef<'section'> {
+interface StickyModuleProps extends Omit<ComponentPropsWithoutRef<'section'>, 'content'> {
   sticky: ReactNode
   content: ReactNode
   top?: string | number
@@ -45,11 +45,19 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
     }
   }, [prefersReducedMotion, resolvedTop, stickyStyle])
 
+  // Enable sticky stacking for main card
+  const enableStickyStack = true
+
   return (
     <section
       ref={ref}
-      className={cn('relative isolate', className)}
+      className={cn(
+        'relative',
+        enableStickyStack && !prefersReducedMotion ? '' : 'isolate',
+        className
+      )}
       data-sticky-module=""
+      data-sticky-stack={enableStickyStack ? '' : undefined}
       data-prefers-reduced-motion={prefersReducedMotion ? '' : undefined}
       data-timeline-module={timelineDriven ? '' : undefined}
       {...rest}
@@ -63,7 +71,11 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
       >
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
           <div
-            className={cn('lg:self-start', prefersReducedMotion ? 'lg:static' : 'lg:sticky', stickyClassName)}
+            className={cn(
+              'lg:self-start',
+              enableStickyStack && !prefersReducedMotion ? 'lg:sticky' : 'lg:static',
+              stickyClassName
+            )}
             style={mergedStickyStyle}
             data-sticky-module-lead=""
           >

@@ -19,14 +19,12 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/gsap')) {
-            return 'vendor-gsap'
-          }
-          if (id.includes('node_modules/lenis')) {
-            return 'vendor-lenis'
-          }
+          // Only chunk large dependencies
           if (id.includes('node_modules/react-router-dom') || id.includes('node_modules/@remix-run')) {
             return 'vendor-router'
+          }
+          if (id.includes('node_modules/@tanstack')) {
+            return 'vendor-query'
           }
           return undefined
         },
