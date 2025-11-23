@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, CSSProperties, ReactNode } from 'react'
-import { forwardRef, useMemo } from 'react'
+import { forwardRef, useEffect, useMemo, useRef } from 'react'
 
 import { cn } from '../../utils/cn'
 
@@ -47,10 +47,83 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
 
   // Enable sticky stacking for main card
   const enableStickyStack = true
+  
+  // Mobile scroll animations: use IntersectionObserver for main card
+  const stickyLeadRef = useRef<HTMLDivElement | null>(null)
+  const sectionRef = useRef<HTMLElement | null>(null)
+  
+  // Calculate and set mobile sticky top position based on main card height
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    
+    const checkMobile = () => window.innerWidth <= 768
+    if (!checkMobile()) return
+    
+    const stickyElement = stickyLeadRef.current
+    const section = sectionRef.current
+    if (!stickyElement || !section) return
+    
+    const calculateStickyTop = () => {
+      // Get header height
+      const header = document.querySelector<HTMLElement>('.site-header')
+      const headerHeight = header ? header.getBoundingClientRect().height : 100
+      
+      // Get main card height (including bullet points)
+      const mainCardRect = stickyElement.getBoundingClientRect()
+      const mainCardHeight = mainCardRect.height
+      
+      // Calculate top position: header + main card + small gap
+      const stickyTop = headerHeight + mainCardHeight + 16 // 16px gap
+      
+      // Set CSS variable for subcards to use
+      section.style.setProperty('--mobile-sticky-top', `${stickyTop}px`)
+    }
+    
+    // Calculate on load and resize
+    calculateStickyTop()
+    
+    const resizeObserver = new ResizeObserver(() => {
+      calculateStickyTop()
+    })
+    
+    resizeObserver.observe(stickyElement)
+    if (stickyElement.querySelector('.workspace-pin__list')) {
+      const listElement = stickyElement.querySelector('.workspace-pin__list')
+      if (listElement) {
+        resizeObserver.observe(listElement)
+      }
+    }
+    
+    const handleResize = () => {
+      if (checkMobile()) {
+        calculateStickyTop()
+      }
+    }
+    
+    window.addEventListener('resize', handleResize, { passive: true })
+    
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  
+  // Mobile sticky stacking now uses the same system as desktop
+  // No separate animation logic needed
 
+  // Combine refs for section element
+  const sectionRefCallback = (node: HTMLElement | null) => {
+    sectionRef.current = node
+    if (typeof ref === 'function') {
+      ref(node)
+    } else if (ref) {
+      ref.current = node
+    }
+  }
+  
   return (
     <section
-      ref={ref}
+      ref={sectionRefCallback}
       className={cn(
         'relative',
         enableStickyStack && !prefersReducedMotion ? '' : 'isolate',
@@ -71,6 +144,7 @@ export const StickyModule = forwardRef<HTMLElement, StickyModuleProps>(function 
       >
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
           <div
+            ref={stickyLeadRef}
             className={cn(
               'lg:self-start',
               enableStickyStack && !prefersReducedMotion ? 'lg:sticky' : 'lg:static',

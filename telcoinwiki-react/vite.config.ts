@@ -20,15 +20,35 @@ export default defineConfig({
     },
   },
   build: {
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Only chunk large dependencies
+          // Chunk large dependencies for better code splitting
+          if (id.includes('node_modules/react-dom')) {
+            return 'vendor-react-dom'
+          }
+          if (id.includes('node_modules/react/')) {
+            return 'vendor-react'
+          }
           if (id.includes('node_modules/react-router-dom') || id.includes('node_modules/@remix-run')) {
             return 'vendor-router'
           }
           if (id.includes('node_modules/@tanstack')) {
             return 'vendor-query'
+          }
+          if (id.includes('node_modules/framer-motion')) {
+            return 'vendor-framer-motion'
+          }
+          if (id.includes('node_modules/gsap')) {
+            return 'vendor-gsap'
+          }
+          if (id.includes('node_modules/lenis')) {
+            return 'vendor-lenis'
+          }
+          // Chunk large components
+          if (id.includes('DeepDiveFaqSections')) {
+            return 'component-deep-dive'
           }
           return undefined
         },

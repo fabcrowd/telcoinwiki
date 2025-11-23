@@ -178,6 +178,9 @@ export function SlidingStack({
 
   // Card-based progress tracking: detect when each card locks into sticky position
   const [cardBasedProgress, setCardBasedProgress] = useState(0)
+  
+  // Mobile sticky stacking now uses the same offset calculation as desktop
+  // No separate animation logic needed - sticky positioning handles the stacking
 
   // Track which card is locked at sticky position and calculate progress
   // Optimized: Only runs on scroll/resize events, not continuous RAF loop
@@ -438,8 +441,8 @@ export function SlidingStack({
     if (!deck) return
 
     const calculateOffsets = () => {
-      // Only calculate on desktop (avax.network only does this on desktop)
-      if (window.innerWidth <= 1024) {
+      // Only calculate on desktop (mobile uses static layout)
+      if (window.innerWidth <= 768) {
         return
       }
 

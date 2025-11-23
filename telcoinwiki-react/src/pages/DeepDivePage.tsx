@@ -1,4 +1,7 @@
-import { DeepDiveFaqSections } from '../components/deepDive/DeepDiveFaqSections'
+import { lazy, Suspense } from 'react'
+
+// Lazy load DeepDiveFaqSections to reduce initial bundle size
+const DeepDiveFaqSections = lazy(() => import('../components/deepDive/DeepDiveFaqSections').then(module => ({ default: module.DeepDiveFaqSections })))
 
 export function DeepDivePage() {
   return (
@@ -54,7 +57,9 @@ export function DeepDivePage() {
         </div>
       </section>
 
-      <DeepDiveFaqSections />
+      <Suspense fallback={<div className="min-h-screen" />}>
+        <DeepDiveFaqSections />
+      </Suspense>
     </>
   )
 }

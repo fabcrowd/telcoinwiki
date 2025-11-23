@@ -3467,6 +3467,7 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
     /* Matches avax.network: top-[calc(var(--navbar-height)+var(--padding-md)+var(--offset))] */
     /* Adjusted to pin 5px higher for all sections */
     top: calc(var(--header-height, 6.375rem) + var(--padding-md, 1.25rem) + var(--offset, 0px) + 95px);
+    /* Base z-index - will be overridden by nth-child selectors below */
     z-index: auto;
     /* Performance optimizations for sticky positioning */
     contain: layout style paint;
@@ -3484,10 +3485,22 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
 }
 
   /* Card 2: First sticky card - ensure it pins below header */
-[data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(2) {
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(2) {
     /* Ensure first sticky card is visible below header */
     /* Add extra spacing to account for header */
     margin-top: calc(var(--header-height, 6.375rem) + var(--padding-md, 1.25rem) + 1rem);
+    /* Progressive z-index: 1st card has z-index 3 (above main card z-index 2) */
+    z-index: 3;
+  }
+  
+  /* Card 3: Second sticky card - higher z-index than 1st (in front) */
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(3) {
+    z-index: 4; /* 2nd card: z-index 4 */
+  }
+  
+  /* Card 4: Third sticky card - highest z-index (in front of both) */
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(4) {
+    z-index: 5; /* 3rd card: z-index 5 */
   }
 }
 
@@ -3564,7 +3577,7 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
     /* Header height is 100.75px, so pin at 130.75px from top */
     /* This makes the card's bottom align with header bottom + 30px when it sticks */
     top: calc(100.75px + 30px) !important;
-  z-index: 5;
+  z-index: 2; /* Main card: z-index 2 */
   align-self: start;
   /* Performance optimizations for sticky positioning */
   contain: layout style paint;
@@ -3764,33 +3777,153 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
   isolation: auto !important;
 }
 
-/* Mobile: Disable sticky stacking on small screens */
+/* Mobile: Simple static layout - no sticky scrolling */
 /* Mobile behavior is separate - desktop changes don't affect mobile */
 @media (max-width: 47.99rem) {
-  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .sliding-stack__card,
-  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card {
-    position: relative !important;
-    top: auto !important;
-    margin-top: var(--space-4) !important;
-    margin-bottom: 0 !important;
-  }
-  
-  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck {
-    gap: var(--space-4);
-    /* Mobile: Use auto height - sticky stacking is disabled on mobile */
-    height: auto !important;
-    min-height: auto !important;
-  }
-  
-  /* Mobile: Reset section/grid heights to auto */
+  /* Remove sticky stacking on mobile - use simple static layout */
   [data-sticky-module][data-sticky-stack] {
-    height: auto !important;
+    overflow: visible !important;
+    position: relative !important;
     min-height: auto !important;
+    height: auto !important;
+    /* Add gap between sections */
+    margin-bottom: var(--space-12) !important;
+  }
+  
+  [data-sticky-module][data-sticky-stack] > div {
+    overflow: visible !important;
+    position: relative !important;
   }
   
   [data-sticky-module][data-sticky-stack] > div > div[class*="grid"] {
+    overflow: visible !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-8) !important; /* Gap between main card and subcards */
+    min-height: auto !important;
+  }
+  
+  [data-sticky-module][data-sticky-stack] [data-sticky-module-content] {
+    overflow: visible !important;
+    position: relative !important;
+    z-index: auto !important;
+    isolation: auto !important;
+  }
+  
+  [data-sliding-stack][data-sticky-stack] {
+    overflow: visible !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    z-index: auto !important;
+    min-height: auto !important;
+  }
+  
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__viewport {
+    overflow: visible !important;
+    position: relative !important;
+  }
+  
+  /* Mobile deck: simple static column layout */
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--space-6) !important; /* Gap between subcards */
+    padding: 0 !important;
     height: auto !important;
     min-height: auto !important;
+    overflow: visible !important;
+  }
+  
+  /* Main card: static positioning */
+  [data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
+    position: relative !important;
+    top: auto !important;
+    z-index: auto !important;
+    align-self: stretch !important;
+    order: 1 !important;
+  }
+  
+  /* Override global .workspace-card z-index for mobile */
+  [data-sticky-module][data-sticky-stack] [data-sticky-module-lead] .workspace-card {
+    z-index: auto !important;
+    position: relative !important;
+  }
+  
+  [data-sticky-module][data-sticky-stack] [data-sticky-module-lead] .workspace-card__inner,
+  [data-sticky-module][data-sticky-stack] [data-sticky-module-lead] .workspace-card * {
+    z-index: auto !important;
+    position: relative !important;
+  }
+  
+  /* Subcards: all static, no sticky positioning */
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .sliding-stack__card,
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card,
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card.sliding-stack__card {
+    position: relative !important;
+    top: auto !important;
+    z-index: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    transform: none !important;
+    contain: none !important;
+    backface-visibility: visible !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  
+  /* All cards are static - remove any special positioning */
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(1),
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(2),
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(3),
+  [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :nth-child(4) {
+    position: relative !important;
+    top: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    z-index: auto !important;
+  }
+  
+  /* Subcards come after main card */
+  [data-sticky-module][data-sticky-stack] [data-sticky-module-content] {
+    order: 2 !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+}
+
+/* Hero Floating Chips - CSS animation instead of framer-motion */
+.hero-floating-chip {
+  animation: heroChipScaleIn 0.8s ease-out 0.2s both;
+  will-change: transform;
+}
+
+@keyframes heroChipScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-floating-chip {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -4997,6 +5130,7 @@ mark {
 
 #home-hero [data-hero-card]{ background: transparent !important; }
 #home-hero [data-hero-card]::after{ display: none !important; }
+
 
 
 

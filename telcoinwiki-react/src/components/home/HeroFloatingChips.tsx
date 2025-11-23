@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 const chips = [
@@ -22,12 +21,6 @@ const chips = [
   },
 ]
 
-const chipMotion = {
-  // No fade: scale-only motion for consistency
-  initial: { scale: 0.92 },
-  animate: { scale: 1 },
-}
-
 export function HeroFloatingChips() {
   const [offset, setOffset] = useState({ x: 0, y: 0 })
 
@@ -38,28 +31,24 @@ export function HeroFloatingChips() {
       setOffset({ x, y })
     }
 
-    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointermove', handlePointerMove, { passive: true })
     return () => window.removeEventListener('pointermove', handlePointerMove)
   }, [])
 
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden>
       {chips.map((chip) => (
-        <motion.div
+        <div
           key={chip.id}
-          variants={chipMotion}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
           style={{
             top: chip.top,
             left: chip.left,
             transform: `translate3d(${offset.x * chip.multiplier}px, ${offset.y * chip.multiplier}px, 0)`,
           }}
-          className={`absolute hidden rounded-full border ${chip.border} bg-gradient-to-br ${chip.accent} px-4 py-2 text-sm font-medium text-telcoin-ink shadow-lg lg:inline-flex`}
+          className={`hero-floating-chip absolute hidden rounded-full border ${chip.border} bg-gradient-to-br ${chip.accent} px-4 py-2 text-sm font-medium text-telcoin-ink shadow-lg lg:inline-flex`}
         >
           {chip.label}
-        </motion.div>
+        </div>
       ))}
     </div>
   )
