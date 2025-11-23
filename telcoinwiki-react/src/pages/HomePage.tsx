@@ -200,14 +200,6 @@ function colorShiftClip(value: string, prefersReducedMotion: boolean): CSSProper
   } as CSSProperties
 }
 
-// Storyboard content removed per request
-
-const storyDeckStyle: CSSProperties & Record<'--stack-top' | '--stack-bottom' | '--stack-tail', string> = {
-  '--stack-top': 'calc(var(--header-height) + 7rem)',
-  '--stack-bottom': '-7rem',
-  '--stack-tail': '0vh',
-}
-
 export function HomePage() {
   const hero = useHomeHeroScroll()
   const brokenMoney = useHomeBrokenMoneyScroll()
@@ -328,56 +320,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Sliding deck: four-story beats directly under the hero (feature-flagged) */}
-      {SCROLL_STORY_ENABLED ? (
-        <section
-          id="home-story-cards"
-          className="anchor-offset"
-          style={{ scrollMarginTop: 'calc(var(--header-height) + 1rem)' }}
-        >
-          <div className="mx-auto w-full max-w-[min(1440px,90vw)] px-4 sm:px-8 lg:px-12 xl:px-16">
-            <SlidingStack
-              className="mt-4"
-              style={storyDeckStyle}
-              items={[
-                {
-                  id: 'story-problem',
-                  tabLabel: 'The Problem:',
-                  title: "Money Isn’t Built for People",
-                  body:
-                    'Most of the world’s financial infrastructure excludes the very people who need it most. Sending money costs too much, takes too long, and leaves billions behind.',
-                },
-                {
-                  id: 'story-model',
-                  tabLabel: 'The Telcoin Model:',
-                  title: 'Financial Access, Rebuilt',
-                  body:
-                    'Telcoin is a new kind of system—combining telecom networks, blockchain rails, and regulatory clarity to move money like a message. It’s mobile-first, self-custodial, and built to reach anyone with a phone.',
-                },
-                {
-                  id: 'story-engine',
-                  tabLabel: 'The Engine:',
-                  title: 'Telcoin Network + $TEL',
-                  body:
-                    'At the core is the Telcoin Network, a purpose-built Layer 1 blockchain secured by mobile network operators. The $TEL token powers everything—from transaction fees to staking, liquidity, and governance—through a unique burn-and-regen model.',
-                },
-                {
-                  id: 'story-experience',
-                  tabLabel: 'The Experience:',
-                  title: 'Use It Like an App, Own It Like Crypto',
-                  body:
-                    'With the Telcoin App, users can send money, swap assets, and earn—all without giving up control. No middlemen, no passwords—just a secure wallet in your pocket that works like the apps you already use.',
-                },
-              ]}
-            />
-          </div>
-          {/* spacer removed after storyboard removal */}
-        </section>
-      ) : null}
-
-      {/* Removed Storyboard sticky section per request */}
-
-      {/* Former HorizontalRail removed per new header strategy. */}
+      {/* Removed legacy sliding deck cards from previous build */}
 
       {NON_STORYBOARD_ENABLED ? sections.map((section, index) => {
         const { id, label, heading, description, backgroundClip, cards, state } = section
