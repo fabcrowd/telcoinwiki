@@ -1,4 +1,4 @@
-/* Intro loading animation — gradient + logo fly-through */
+/* Simplified intro animation — logo fade */
 
 :root {
   /* Gradient uses only Telcoin brand palette tokens */
@@ -6,18 +6,9 @@
     linear-gradient(135deg, var(--palette-4) 0%, var(--palette-5) 48%, var(--palette-6) 100%);
 }
 
-/* Tunables for the intro sequence; scoped so they can be adjusted from JS later if needed */
+/* Simplified intro sequence */
 .intro-reveal {
-  /* Size the mask consistently across viewports */
   --intro-logo-size: min(62vw, 460px);
-  /* Normalized x-position (0..1) of the Telcoin “N” right leg inside logo.svg (viewBox width 260, leg ≈ 136/260 ≈ 0.523) */
-  --intro-focus-x: 0.523;
-  /* Offset needed to align the focus point with the viewport center */
-  --intro-mask-offset-x: calc((var(--intro-focus-x) - 0.5) * var(--intro-logo-size));
-  /* Scale multiplier applied to the offset once the mask has fully expanded */
-  --intro-mask-offset-factor-final: 9.5;
-  /* Timing controls for the fly-through */
-  --intro-fly-ms: 1400ms;
 }
 
 .intro-reveal {
@@ -27,165 +18,40 @@
   display: grid;
   place-items: center;
   isolation: isolate;
-  pointer-events: auto; /* block underlying interactions during intro */
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 500ms ease-out;
 }
 
-/* Prelude: outline draw + subtle glint */
-.intro-prelude {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
+.intro-reveal--fading {
   opacity: 0;
-  transition: opacity 150ms ease;
 }
-.intro-reveal.is-prelude .intro-prelude { opacity: 1; }
-
-.intro-prelude__svg {
-  width: var(--intro-logo-size);
-  height: auto;
-}
-
-.intro-prelude__telcoin,
-.intro-prelude__wiki {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-.intro-reveal.is-prelude .intro-prelude__telcoin,
-.intro-reveal.is-prelude .intro-prelude__wiki {
-  animation: preludeDraw 160ms cubic-bezier(.22,.61,.36,1) forwards;
-}
-.intro-reveal.is-prelude .intro-prelude__wiki { animation-delay: 20ms; }
-
-@keyframes preludeDraw { to { stroke-dashoffset: 0; } }
-
-.intro-prelude__glint {
-  stroke-dasharray: 0.18 0.82;
-  stroke-dashoffset: 1.2;
-  opacity: 0.0;
-}
-.intro-reveal.is-prelude .intro-prelude__glint {
-  animation:
-    glintAppear 20ms ease 120ms forwards,
-    glintTravel 80ms cubic-bezier(.22,.61,.36,1) 125ms forwards,
-    glintFade 40ms ease 190ms forwards;
-}
-.intro-reveal.is-prelude .intro-prelude__glint--wiki { animation-delay: 130ms, 135ms, 200ms; }
-
-@keyframes glintAppear { to { opacity: 0.8; } }
-@keyframes glintTravel { to { stroke-dashoffset: -1.2; } }
-@keyframes glintFade   { to { opacity: 0.0; } }
 
 .intro-reveal__veil {
   position: absolute;
   inset: 0;
   background: var(--intro-gradient);
-  background-size: 220% 220%, 100% 100%;
-  background-position: 0% 50%, center;
-  animation: introBgPulse 18s ease-in-out infinite;
-  transform: translate3d(0,0,0) scale(1);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  contain: paint;
+  background-size: 100% 100%;
+  background-position: center;
+  /* Removed expensive animation for performance */
 }
 
-@keyframes introBgPulse {
-  0%, 100% { background-position: 0% 50%, center; }
-  50% { background-position: 100% 50%, center; }
-}
-
-.intro-reveal__logo {
-  position: relative;
-  width: var(--intro-logo-size);
-  height: auto;
-  opacity: 0;
-  transform: translate3d(0, 6px, 0) scale(0.985);
-  filter: drop-shadow(0 8px 22px rgba(5, 11, 31, 0.4));
-  animation: introLogoFade 1000ms cubic-bezier(.22,.61,.36,1) forwards;
-  will-change: transform, opacity, filter;
-}
-
-@keyframes introLogoFade {
-  0% { opacity: 0; transform: translate3d(0, 12px, 0) scale(0.985); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-}
-
-/* Fly-through phase */
-/* When fly starts, hide the filled letters so only the cutout reveals */
-.intro-reveal.is-flying .intro-reveal__logo {
-  transition: opacity 300ms ease;
-  opacity: 0;
-}
-
-/* Static filled logo shown first (2s) then hidden */
+/* Static filled logo */
 .intro-logo-static {
   position: relative;
   width: var(--intro-logo-size);
   height: auto;
   opacity: 1;
-  transition: opacity 180ms ease;
-}
-.intro-reveal.is-prelude .intro-logo-static,
-.intro-reveal.is-flying .intro-logo-static { opacity: 0; }
-
-/* Removed logo scale animation — fly effect handled by veil mask */
-
-.intro-reveal.is-flying .intro-reveal__veil {
-  /* Activate mask during the fly-through */
-  -webkit-mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
-  -webkit-mask-repeat: no-repeat, no-repeat;
-  /* Position the mask so the focus point aligns with the viewport center */
-  -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
-  -webkit-mask-size: var(--intro-logo-size) auto, 100% 100%;
-  -webkit-mask-composite: xor;
-  mask-image: url('/logo-mask.svg'), linear-gradient(#fff, #fff);
-  mask-repeat: no-repeat, no-repeat;
-  /* Same shift for the standard mask */
-  mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
-  mask-size: var(--intro-logo-size) auto, 100% 100%;
-  mask-composite: exclude;
-  -webkit-mask-mode: luminance, alpha;
-  mask-mode: luminance, alpha;
-  -webkit-mask-origin: content-box;
-  mask-origin: content-box;
-  -webkit-mask-smoothing: antialiased;
-  /* Pivot the scale around the screen center while the mask reveals the focus point */
-  transform-origin: center;
-  /* Keep accelerating through the mask with an ease-in curve */
-  animation: veilFly var(--intro-fly-ms) cubic-bezier(0.7, 0, 1, 0.6) forwards;
+  transition: opacity 500ms ease-out;
 }
 
-/* Hide prelude once fly starts */
-.intro-reveal.is-flying .intro-prelude { opacity: 0; transition: opacity 150ms ease; }
-
-/* Keyframes driving the zoom fly-through */
-@keyframes veilFly {
-  /* Bezier easing handles acceleration; keep intermediate values implicit for continuity */
-  0% {
-    transform: translate3d(0,0,0) scale(1);
-    opacity: 1;
-    -webkit-mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
-    mask-position: calc(50% - var(--intro-mask-offset-x)) center, center;
-    -webkit-mask-size: var(--intro-logo-size) auto, 100% 100%;
-    mask-size: var(--intro-logo-size) auto, 100% 100%;
-  }
-  82% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate3d(0,0,0) scale(18);
-    opacity: 0;
-    -webkit-mask-position: calc(50% - (var(--intro-mask-offset-x) * var(--intro-mask-offset-factor-final))) center, center;
-    mask-position: calc(50% - (var(--intro-mask-offset-x) * var(--intro-mask-offset-factor-final))) center, center;
-    -webkit-mask-size: calc(var(--intro-logo-size) * 18) auto, 100% 100%;
-    mask-size: calc(var(--intro-logo-size) * 18) auto, 100% 100%;
-  }
+.intro-reveal--fading .intro-logo-static {
+  opacity: 0;
 }
 
 /* Reduced motion: keep minimal and quick */
 @media (prefers-reduced-motion: reduce) {
-  .intro-reveal__veil { animation: none; }
-  .intro-reveal.is-flying .intro-reveal__veil { animation: none; opacity: 0; }
-  .intro-prelude { opacity: 0; }
-  .intro-prelude__glint { animation: none; }
+  .intro-reveal {
+    transition-duration: 200ms;
+  }
 }

@@ -320,10 +320,6 @@ pre {
   z-index: 1;
   overflow: visible;
   max-height: none;
-  /* Two-column layout: text on the left half, space on right for mini cards */
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-6);
 }
 
 /* Ensure card content is always visible (no fade-out or clipping) */
@@ -422,6 +418,189 @@ pre {
   gap: var(--space-4);
 }
 
+/* Text and image side-by-side layout */
+.sliding-stack__content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+/* Stack on mobile */
+@media (max-width: 1024px) {
+  .sliding-stack__content-wrapper {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  
+  .sliding-stack__image-wrapper {
+    justify-self: center;
+    max-width: 100%;
+  }
+}
+
+.sliding-stack__text-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Card Image Styles */
+.sliding-stack__image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+  flex-shrink: 0;
+}
+
+.sliding-stack__image {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+/* SVG images should be smaller */
+.sliding-stack__image[src$=".svg"] {
+  max-height: 120px;
+  max-width: 200px;
+}
+
+/* Animation keyframes */
+@keyframes cardImageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cardImageScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cardImageSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cardImageSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cardImageSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardImageSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardImageRotate {
+  from {
+    opacity: 0;
+    transform: rotate(-5deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes cardImagePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Animation classes - triggered by Intersection Observer */
+.sliding-stack__image--fade.sliding-stack__image--visible {
+  animation: cardImageFadeIn 600ms ease forwards;
+}
+
+.sliding-stack__image--scale.sliding-stack__image--visible {
+  animation: cardImageScaleIn 600ms ease forwards;
+}
+
+.sliding-stack__image--slide-left.sliding-stack__image--visible {
+  animation: cardImageSlideLeft 600ms ease forwards;
+}
+
+.sliding-stack__image--slide-right.sliding-stack__image--visible {
+  animation: cardImageSlideRight 600ms ease forwards;
+}
+
+.sliding-stack__image--slide-up.sliding-stack__image--visible {
+  animation: cardImageSlideUp 600ms ease forwards;
+}
+
+.sliding-stack__image--slide-down.sliding-stack__image--visible {
+  animation: cardImageSlideDown 600ms ease forwards;
+}
+
+.sliding-stack__image--rotate.sliding-stack__image--visible {
+  animation: cardImageRotate 600ms ease forwards;
+}
+
+.sliding-stack__image--pulse.sliding-stack__image--visible {
+  animation: cardImageFadeIn 600ms ease forwards;
+  /* Removed infinite pulse animation for performance - use scale animation instead */
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sliding-stack__image {
+    animation: none !important;
+    opacity: 1;
+  }
+  
+  .sliding-stack__image--visible {
+    opacity: 1;
+  }
+}
+
 /* Horizontal SlidingTrack */
 .sliding-track {
   position: relative;
@@ -474,6 +653,8 @@ pre {
   position: relative;
   z-index: 2; /* above the sub-cards which animate underneath */
   /* Static - no CSS variables for animations */
+  content-visibility: auto;
+  contain-intrinsic-size: 600px;
 }
 
 .workspace-card__inner {
@@ -573,29 +754,13 @@ pre {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* Pulsing glow effect behind the text */
-  filter: drop-shadow(0 0 4px rgba(127, 212, 255, 0.3)) 
-          drop-shadow(0 0 8px rgba(165, 196, 255, 0.25))
-          drop-shadow(0 0 12px rgba(184, 181, 255, 0.2));
-  animation: glow-pulse 3s ease-in-out infinite;
-  will-change: filter;
+  /* Static glow effect - removed animation for performance */
+  filter: drop-shadow(0 0 4px rgba(127, 212, 255, 0.3));
   /* Subtle drop shadow for depth */
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Pulsing glow animation for label text */
-@keyframes glow-pulse {
-  0%, 100% {
-    filter: drop-shadow(0 0 4px rgba(127, 212, 255, 0.3)) 
-            drop-shadow(0 0 8px rgba(165, 196, 255, 0.25))
-            drop-shadow(0 0 12px rgba(184, 181, 255, 0.2));
-  }
-  50% {
-    filter: drop-shadow(0 0 6px rgba(127, 212, 255, 0.5)) 
-            drop-shadow(0 0 12px rgba(165, 196, 255, 0.4))
-            drop-shadow(0 0 18px rgba(184, 181, 255, 0.3));
-  }
-}
+/* Removed glow-pulse animation for performance */
 
 /* Pause animation on reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -946,7 +1111,7 @@ pre {
 .hero-layer {
   position: absolute;
   inset: 0;
-  will-change: clip-path, transform, opacity;
+  /* Removed will-change for performance - only set during animation if needed */
   clip-path: inset(var(--hero-clip, 12%) 0 0 0 round var(--radius-card));
   border-radius: inherit;
 }
@@ -1031,25 +1196,13 @@ html.intro-show-header .site-header {
     padding-bottom 700ms var(--transition-overshoot),
     opacity 420ms var(--transition-smooth);
 }
-html.intro-preload #home-hero [data-hero-card],
-html.intro-pending #home-hero [data-hero-card],
-html.intro-show-header #home-hero [data-hero-card],
-html.intro-header-hold #home-hero [data-hero-card] {
-  /* Offset for header height + 20px to prevent content from being hidden under header */
-  --hero-card-offset: 0px;
-  --hero-card-padding-bottom: clamp(5rem, 9vw, 7rem);
-  padding-top: calc(var(--header-height) + var(--hero-card-top-base) + 1.25rem);
-}
-html:not(.intro-preload):not(.intro-pending):not(.intro-show-header):not(.intro-header-hold)
-  #home-hero [data-hero-card] {
+/* Hero card should always be visible - removed intro class dependencies */
+#home-hero [data-hero-card] {
   --hero-card-offset: var(--header-height);
   --hero-card-padding-bottom: max(var(--hero-card-top-base), clamp(3.5rem, 5vw, 5.5rem));
   padding-top: max(var(--hero-card-top-base), clamp(3.5rem, 5vw, 5.5rem));
-}
-html.intro-preload #home-hero [data-hero-card],
-html.intro-pending #home-hero [data-hero-card] {
-  opacity: 0;
-  pointer-events: none;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 /* Add a dynamic gap between the hero card and the story card deck so the hero
@@ -1125,12 +1278,7 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
 }
 
 /* Hide hero copy while pending; set starting horizontal offsets for slide-in animations */
-html.intro-preload #home-hero [data-hero-copy],
-html.intro-pending #home-hero [data-hero-copy] { opacity: 0; }
-html.intro-preload #home-hero [data-hero-title],
-html.intro-pending #home-hero [data-hero-title] { transform: translateX(-50vw); }
-html.intro-preload #home-hero [data-hero-subtitle],
-html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw); }
+/* Removed intro-preload and intro-pending hiding rules - text should be visible immediately */
 
 @keyframes introSlideInRight {
   0% { transform: translateX(50vw); }
@@ -1145,12 +1293,15 @@ html.intro-pending #home-hero [data-hero-subtitle] { transform: translateX(50vw)
   to { opacity: 1; }
 }
 
-/* Lock final positions after animation completes to prevent post-animation shifts */
-/* The forwards fill-mode maintains the final keyframe state, but we add explicit rules as a safeguard */
-html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-title],
-html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
-  /* Ensure final transform state is maintained - matches keyframe 100% state */
-  transform: translateX(0);
+/* Hero text should always be visible - removed intro class dependencies */
+#home-hero [data-hero-copy] {
+  opacity: 1 !important;
+}
+
+#home-hero [data-hero-title],
+#home-hero [data-hero-subtitle] {
+  transform: translateX(0) !important;
+  opacity: 1 !important;
 }
 
 /* Logo marquee */
@@ -1223,10 +1374,9 @@ html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
     linear-gradient(90deg, rgba(12,16,32,0.6), rgba(5,10,24,0.4)),
     repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 4px);
   filter: saturate(115%);
-  /* Force GPU layer promotion */
-  will-change: transform;
   transform: translate3d(0, 0, 0);
   /* Contain repaints to this layer */
+  /* Removed will-change - only needed during active animations */
   contain: layout style paint;
 }
 
@@ -1238,11 +1388,10 @@ html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
   height: 100%;
   gap: var(--space-6);
   padding-inline: clamp(1rem, 4vw, 2.25rem);
-  /* Force GPU compositing for smooth transforms */
-  will-change: transform;
   transform: translate3d(0, 0, 0);
   /* Isolate card rendering */
   contain: layout style;
+  /* Removed will-change - only needed during active animations */
 }
 
 .horizontal-rail__slide {
@@ -1293,9 +1442,9 @@ html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
   background: linear-gradient(90deg, var(--tc-accent), transparent);
   opacity: 0.35;
   transform: scaleX(0) translate3d(0, 0, 0);
-  will-change: transform;
   /* GPU compositing */
   contain: layout style paint;
+  /* Removed will-change - only needed during active animations */
 }
 
 .horizontal-rail__progress-wrap {
@@ -2437,6 +2586,8 @@ html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
   margin: 0 auto;
   padding: 0 var(--space-4) var(--space-12);
   margin-top: 0;
+  content-visibility: auto;
+  contain-intrinsic-size: 2000px;
 }
 
 @media (min-width: 640px) {
@@ -2454,74 +2605,323 @@ html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
 
 .deep-dive-section {
   scroll-margin-top: calc(var(--header-height) + 2rem);
+  content-visibility: auto;
+  contain-intrinsic-size: 500px;
 }
 
 .deep-dive-section h2 {
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 600;
   color: var(--tc-ink);
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-3);
-  border-bottom: 2px solid var(--tc-border);
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
-.deep-dive-faqs {
+.deep-dive-section-header {
+  margin: 0;
+  padding: 0;
+}
+
+.deep-dive-section-button {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
-.deep-dive-faq {
-  background: var(--tc-surface);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--tc-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.deep-dive-faq:hover {
-  border-color: var(--tc-border-strong);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.deep-dive-faq h3 {
-  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  text-align: left;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 600;
   color: var(--tc-ink);
+  margin-bottom: 0;
+}
+
+.deep-dive-section-button:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--tc-border-strong);
+}
+
+.deep-dive-section-icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  margin-left: var(--space-4);
+}
+
+.deep-dive-section-icon.open {
+  transform: rotate(180deg);
+}
+
+.deep-dive-content-wrapper {
+  overflow: hidden;
+}
+
+.deep-dive-content {
+  color: var(--tc-ink-muted);
+  line-height: 1.8;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+}
+
+.deep-dive-content h3 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: var(--tc-ink);
+  margin-top: var(--space-8);
   margin-bottom: var(--space-4);
   line-height: 1.4;
 }
 
-.deep-dive-faq p {
-  color: var(--tc-ink-muted);
-  line-height: 1.6;
-  margin-bottom: var(--space-3);
+.deep-dive-content h3:first-child {
+  margin-top: 0;
 }
 
-.deep-dive-faq p:last-of-type {
-  margin-top: var(--space-4);
+.deep-dive-content p {
+  margin-bottom: var(--space-6);
+  color: var(--tc-ink-muted);
+  line-height: 1.8;
+}
+
+.deep-dive-content p:last-child {
   margin-bottom: 0;
 }
 
-.deep-dive-faq a {
-  color: var(--tc-primary);
+.deep-dive-content ul {
+  margin-bottom: var(--space-6);
+  padding-left: var(--space-6);
+  color: var(--tc-ink-muted);
+  line-height: 1.8;
+}
+
+.deep-dive-content li {
+  margin-bottom: var(--space-2);
+}
+
+.deep-dive-content strong {
+  color: var(--tc-ink);
+  font-weight: 600;
+}
+
+.deep-dive-content a {
+  color: var(--tc-accent);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
-.deep-dive-faq a:hover,
-.deep-dive-faq a:focus-visible {
-  color: var(--tc-primary-strong);
+.deep-dive-content a:hover,
+.deep-dive-content a:focus-visible {
+  color: var(--tc-accent-strong);
   text-decoration: underline;
 }
 
-.deep-dive-faq a[href^="http"] {
-  color: var(--tc-accent);
+/* Deep Dive Image Styles */
+.deep-dive-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: var(--space-6) auto;
+  border-radius: 8px;
 }
 
-.deep-dive-faq a[href^="http"]:hover {
-  color: var(--tc-accent-strong);
+/* Currency Logo Grid */
+.deep-dive-currency-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin: var(--space-8) 0;
+  padding: var(--space-6);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border: 1px solid var(--tc-border);
+}
+
+@media (min-width: 640px) {
+  .deep-dive-currency-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .deep-dive-currency-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-6);
+    padding: var(--space-8);
+  }
+}
+
+.deep-dive-currency-grid img {
+  width: 100%;
+  max-width: 80px;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: var(--space-2);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: transform 0.2s ease, background 0.2s ease;
+  margin: 0 auto;
+}
+
+.deep-dive-currency-grid img:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Inline Image Container */
+.deep-dive-image-inline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+}
+
+@media (min-width: 640px) {
+  .deep-dive-image-inline {
+    flex-direction: row;
+    gap: var(--space-6);
+  }
+}
+
+.deep-dive-image-inline img {
+  flex: 1;
+  max-width: 200px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Use Case Images Grid */
+.deep-dive-use-cases {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin: var(--space-8) 0;
+}
+
+@media (min-width: 640px) {
+  .deep-dive-use-cases {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .deep-dive-use-cases {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+.deep-dive-use-cases img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deep-dive-use-cases img:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* TELx Logo Sections */
+.deep-dive-telx-logos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin: var(--space-8) 0;
+  padding: var(--space-6);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border: 1px solid var(--tc-border);
+}
+
+.deep-dive-logo-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.deep-dive-logo-group h4 {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  font-weight: 600;
+  color: var(--tc-ink);
+  margin: 0;
+  margin-bottom: var(--space-2);
+}
+
+.deep-dive-logo-group--prominent {
+  margin-bottom: var(--space-8);
+}
+
+.deep-dive-logo-grid--prominent {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.deep-dive-icon--large {
+  max-width: 200px;
+  padding: var(--space-6);
+}
+
+.deep-dive-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .deep-dive-logo-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .deep-dive-logo-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+.deep-dive-logo-grid img {
+  width: 100%;
+  max-width: 60px;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: var(--space-2);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: transform 0.2s ease, background 0.2s ease;
+  margin: 0 auto;
+}
+
+.deep-dive-logo-grid img:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Icon styling for SVG logos */
+.deep-dive-icon {
+  max-width: 120px;
+  height: auto;
+  filter: brightness(1.1);
+}
+
+.deep-dive-image-inline .deep-dive-icon {
+  max-width: 150px;
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid var(--tc-border);
 }
 
 .faq-controls {
@@ -2841,9 +3241,9 @@ html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
   box-shadow: 0 24px 70px rgba(17, 38, 87, 0.18);
   border: 1px solid rgba(17, 38, 87, 0.06);
   transform-origin: center;
-  will-change: transform, opacity;
   opacity: 0.92;
   transform: translateY(12vh) scale(0.98);
+  /* Removed will-change - only needed during active animations */
 }
 
 .story-pin__art {
@@ -3069,9 +3469,9 @@ html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
     top: calc(var(--header-height, 6.375rem) + var(--padding-md, 1.25rem) + var(--offset, 0px) + 95px);
     z-index: auto;
     /* Performance optimizations for sticky positioning */
-    will-change: transform;
     contain: layout style paint;
     /* Use GPU acceleration for smoother scrolling */
+    /* Removed will-change - sticky positioning doesn't need it */
     transform: translateZ(0);
     backface-visibility: hidden;
   }
@@ -3167,9 +3567,9 @@ html:not(.intro-preload):not(.intro-pending) #home-hero [data-hero-subtitle] {
   z-index: 5;
   align-self: start;
   /* Performance optimizations for sticky positioning */
-  will-change: transform;
   contain: layout style paint;
   /* Main card unsticks when its containing block (Section) scrolls out */
+  /* Removed will-change - sticky positioning doesn't need it */
   /* Section bottom aligns with Deck bottom so all cards release together */
   }
   

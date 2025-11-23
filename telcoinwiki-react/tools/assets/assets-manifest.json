@@ -1,303 +1,699 @@
 {
-  "fetchedAt": "2025-10-08T22:05:47.009Z",
+  "fetchedAt": "2025-11-23T18:27:00.844Z",
   "entries": [
     {
       "url": "https://telco.in/logos/telcoin-logo-light.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/telcoin-logo-light.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\telcoin-logo-light.svg",
       "type": "image/svg+xml",
       "bytes": 1871
     },
     {
       "url": "https://telco.in/locale/en.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/en.svg",
+      "dest": "public\\media\\marquee\\logos\\en.svg",
       "type": "image/svg+xml",
       "bytes": 603
     },
     {
       "url": "https://telco.in/locale/lt.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/lt.svg",
+      "dest": "public\\media\\marquee\\logos\\lt.svg",
       "type": "image/svg+xml",
       "bytes": 753
     },
     {
       "url": "https://telco.in/locale/es.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/es.svg",
+      "dest": "public\\media\\marquee\\logos\\es.svg",
       "type": "image/svg+xml",
       "bytes": 2357
     },
     {
       "url": "https://telco.in/foregrounds/screens/wallet-mockup-send-php-l.png",
-      "dest": "telcoinwiki-react/public/media/hero/wallet-mockup-send-php-l.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\wallet-mockup-send-php-l.png",
       "type": "image/png",
       "bytes": 429099
     },
     {
       "url": "https://telco.in/foregrounds/screens/wallet-mockup-home-r.png",
-      "dest": "telcoinwiki-react/public/media/hero/wallet-mockup-home-r.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\wallet-mockup-home-r.png",
       "type": "image/png",
       "bytes": 688886
     },
     {
       "url": "https://telco.in/digital-cash/3d/eAUD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eAUD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eAUD.png",
       "type": "image/png",
       "bytes": 83068
     },
     {
       "url": "https://telco.in/digital-cash/3d/eCAD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eCAD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCAD.png",
       "type": "image/png",
       "bytes": 68265
     },
     {
       "url": "https://telco.in/digital-cash/3d/eCFA.png",
-      "dest": "telcoinwiki-react/public/media/hero/eCFA.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCFA.png",
       "type": "image/png",
       "bytes": 73481
     },
     {
       "url": "https://telco.in/digital-cash/3d/eGBP.png",
-      "dest": "telcoinwiki-react/public/media/hero/eGBP.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eGBP.png",
       "type": "image/png",
       "bytes": 86763
     },
     {
       "url": "https://telco.in/digital-cash/3d/eHKD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eHKD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eHKD.png",
       "type": "image/png",
       "bytes": 67319
     },
     {
       "url": "https://telco.in/digital-cash/3d/eJPY.png",
-      "dest": "telcoinwiki-react/public/media/hero/eJPY.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eJPY.png",
       "type": "image/png",
       "bytes": 59783
     },
     {
       "url": "https://telco.in/digital-cash/3d/eMXN.png",
-      "dest": "telcoinwiki-react/public/media/hero/eMXN.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eMXN.png",
       "type": "image/png",
       "bytes": 79066
     },
     {
       "url": "https://telco.in/digital-cash/3d/eNZD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eNZD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eNZD.png",
       "type": "image/png",
       "bytes": 86071
     },
     {
       "url": "https://telco.in/digital-cash/3d/eSGD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eSGD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eSGD.png",
       "type": "image/png",
       "bytes": 66912
     },
     {
       "url": "https://telco.in/digital-cash/3d/eZAR.png",
-      "dest": "telcoinwiki-react/public/media/hero/eZAR.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eZAR.png",
       "type": "image/png",
       "bytes": 74756
     },
     {
       "url": "https://telco.in/digital-cash/images/ta.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/ta.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\ta.svg",
       "type": "image/svg+xml",
       "bytes": 8107
     },
     {
       "url": "https://telco.in/digital-cash/images/gsma.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/gsma.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\gsma.svg",
       "type": "image/svg+xml",
       "bytes": 3753
     },
     {
       "url": "https://telco.in/icons/projects/network.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/network.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\network.svg",
       "type": "image/svg+xml",
       "bytes": 2759
     },
     {
       "url": "https://telco.in/icons/projects/TEL.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/TEL.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\TEL.svg",
       "type": "image/svg+xml",
       "bytes": 273447
     },
     {
       "url": "https://telco.in/icons/projects/TELx.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/TELx.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\TELx.svg",
       "type": "image/svg+xml",
       "bytes": 6411
     },
     {
       "url": "https://telco.in/icons/projects/TAN.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/TAN.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\TAN.svg",
       "type": "image/svg+xml",
       "bytes": 2134
     },
     {
       "url": "https://telco.in/crypto/usdc.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/usdc.svg",
+      "dest": "public\\media\\deep-dive\\telx\\usdc.svg",
       "type": "image/svg+xml",
       "bytes": 119660
     },
     {
+      "url": "https://telco.in/logos/telcoin-bank-logo.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\telcoin-bank-logo.svg",
+      "type": "image/svg+xml",
+      "bytes": 6906
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eUSD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eUSD.png",
+      "type": "image/png",
+      "bytes": 69313
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eEUR.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eEUR.png",
+      "type": "image/png",
+      "bytes": 64875
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eCHF.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCHF.png",
+      "type": "image/png",
+      "bytes": 68747
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eDKK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eDKK.png",
+      "type": "image/png",
+      "bytes": 65661
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eSEK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eSEK.png",
+      "type": "image/png",
+      "bytes": 67519
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eCZK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCZK.png",
+      "type": "image/png",
+      "bytes": 60116
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eISK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eISK.png",
+      "type": "image/png",
+      "bytes": 76546
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eNOK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eNOK.png",
+      "type": "image/png",
+      "bytes": 76762
+    },
+    {
+      "url": "https://telco.in/digital-cash/3d/eHUF.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eHUF.png",
+      "type": "image/png",
+      "bytes": 63353
+    },
+    {
+      "url": "https://telco.in/digital-cash/eAUD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eAUD.svg",
+      "type": "image/svg+xml",
+      "bytes": 1100
+    },
+    {
+      "url": "https://telco.in/digital-cash/eCAD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCAD.svg",
+      "type": "image/svg+xml",
+      "bytes": 701
+    },
+    {
+      "url": "https://telco.in/digital-cash/eXOF.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eXOF.svg",
+      "type": "image/svg+xml",
+      "bytes": 3330
+    },
+    {
+      "url": "https://telco.in/digital-cash/eGBP.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eGBP.svg",
+      "type": "image/svg+xml",
+      "bytes": 892
+    },
+    {
+      "url": "https://telco.in/digital-cash/eHKD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eHKD.svg",
+      "type": "image/svg+xml",
+      "bytes": 1260
+    },
+    {
+      "url": "https://telco.in/digital-cash/eJPY.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eJPY.svg",
+      "type": "image/svg+xml",
+      "bytes": 634
+    },
+    {
+      "url": "https://telco.in/digital-cash/eMXN.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eMXN.svg",
+      "type": "image/svg+xml",
+      "bytes": 1785
+    },
+    {
+      "url": "https://telco.in/digital-cash/eNZD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eNZD.svg",
+      "type": "image/svg+xml",
+      "bytes": 1179
+    },
+    {
+      "url": "https://telco.in/digital-cash/eSGD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eSGD.svg",
+      "type": "image/svg+xml",
+      "bytes": 1217
+    },
+    {
+      "url": "https://telco.in/digital-cash/eSDR.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eSDR.svg",
+      "type": "image/svg+xml",
+      "bytes": 23976
+    },
+    {
+      "url": "https://telco.in/digital-cash/eZAR.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eZAR.svg",
+      "type": "image/svg+xml",
+      "bytes": 843
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/cross-border-payments.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\cross-border-payments.jpg",
+      "type": "image/jpeg",
+      "bytes": 219649
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/direct-merchant-payments.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\direct-merchant-payments.jpg",
+      "type": "image/jpeg",
+      "bytes": 136131
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/blockchain-based-financial-services.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\blockchain-based-financial-services.jpg",
+      "type": "image/jpeg",
+      "bytes": 101575
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/vault.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\vault.png",
+      "type": "image/png",
+      "bytes": 631955
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/mfs-2.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\mfs-2.jpg",
+      "type": "image/jpeg",
+      "bytes": 38764
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/treasury-management.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\treasury-management.jpg",
+      "type": "image/jpeg",
+      "bytes": 56089
+    },
+    {
+      "url": "https://telco.in/digital-cash/images/inter-carrier-settlements.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\inter-carrier-settlements.jpg",
+      "type": "image/jpeg",
+      "bytes": 34511
+    },
+    {
+      "url": "https://telco.in/icons/icon-blockchain.svg",
+      "dest": "public\\media\\marquee\\logos\\icon-blockchain.svg",
+      "type": "image/svg+xml",
+      "bytes": 1996
+    },
+    {
+      "url": "https://telco.in/icons/icon-mnos.svg",
+      "dest": "public\\media\\marquee\\logos\\icon-mnos.svg",
+      "type": "image/svg+xml",
+      "bytes": 1828
+    },
+    {
+      "url": "https://telco.in/icons/icon-crypto-bank.svg",
+      "dest": "public\\media\\marquee\\logos\\icon-crypto-bank.svg",
+      "type": "image/svg+xml",
+      "bytes": 4873
+    },
+    {
+      "url": "https://telco.in/foregrounds/support-center.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\support-center.png",
+      "type": "image/png",
+      "bytes": 462959
+    },
+    {
+      "url": "https://telco.in/foregrounds/support-center-mobile.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\support-center-mobile.png",
+      "type": "image/png",
+      "bytes": 137387
+    },
+    {
       "url": "https://www.telco.in/logos/telcoin-logo-light.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/telcoin-logo-light.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\telcoin-logo-light.svg",
       "type": "image/svg+xml",
       "bytes": 1871
     },
     {
       "url": "https://www.telco.in/locale/en.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/en.svg",
+      "dest": "public\\media\\marquee\\logos\\en.svg",
       "type": "image/svg+xml",
       "bytes": 603
     },
     {
       "url": "https://www.telco.in/locale/lt.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/lt.svg",
+      "dest": "public\\media\\marquee\\logos\\lt.svg",
       "type": "image/svg+xml",
       "bytes": 753
     },
     {
       "url": "https://www.telco.in/locale/es.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/es.svg",
+      "dest": "public\\media\\marquee\\logos\\es.svg",
       "type": "image/svg+xml",
       "bytes": 2357
     },
     {
       "url": "https://www.telco.in/foregrounds/screens/wallet-mockup-send-php-l.png",
-      "dest": "telcoinwiki-react/public/media/hero/wallet-mockup-send-php-l.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\wallet-mockup-send-php-l.png",
       "type": "image/png",
       "bytes": 429099
     },
     {
       "url": "https://www.telco.in/foregrounds/screens/wallet-mockup-home-r.png",
-      "dest": "telcoinwiki-react/public/media/hero/wallet-mockup-home-r.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\wallet-mockup-home-r.png",
       "type": "image/png",
       "bytes": 688886
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eAUD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eAUD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eAUD.png",
       "type": "image/png",
       "bytes": 83068
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eCAD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eCAD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCAD.png",
       "type": "image/png",
       "bytes": 68265
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eCFA.png",
-      "dest": "telcoinwiki-react/public/media/hero/eCFA.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCFA.png",
       "type": "image/png",
       "bytes": 73481
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eGBP.png",
-      "dest": "telcoinwiki-react/public/media/hero/eGBP.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eGBP.png",
       "type": "image/png",
       "bytes": 86763
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eHKD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eHKD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eHKD.png",
       "type": "image/png",
       "bytes": 67319
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eJPY.png",
-      "dest": "telcoinwiki-react/public/media/hero/eJPY.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eJPY.png",
       "type": "image/png",
       "bytes": 59783
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eMXN.png",
-      "dest": "telcoinwiki-react/public/media/hero/eMXN.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eMXN.png",
       "type": "image/png",
       "bytes": 79066
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eNZD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eNZD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eNZD.png",
       "type": "image/png",
       "bytes": 86071
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eSGD.png",
-      "dest": "telcoinwiki-react/public/media/hero/eSGD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eSGD.png",
       "type": "image/png",
       "bytes": 66912
     },
     {
       "url": "https://www.telco.in/digital-cash/3d/eZAR.png",
-      "dest": "telcoinwiki-react/public/media/hero/eZAR.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eZAR.png",
       "type": "image/png",
       "bytes": 74756
     },
     {
       "url": "https://www.telco.in/digital-cash/images/ta.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/ta.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\ta.svg",
       "type": "image/svg+xml",
       "bytes": 8107
     },
     {
       "url": "https://www.telco.in/digital-cash/images/gsma.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/gsma.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\gsma.svg",
       "type": "image/svg+xml",
       "bytes": 3753
     },
     {
       "url": "https://www.telco.in/icons/projects/network.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/network.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\network.svg",
       "type": "image/svg+xml",
       "bytes": 2759
     },
     {
       "url": "https://www.telco.in/icons/projects/TEL.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/TEL.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\TEL.svg",
       "type": "image/svg+xml",
       "bytes": 273447
     },
     {
       "url": "https://www.telco.in/icons/projects/TELx.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/TELx.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\TELx.svg",
       "type": "image/svg+xml",
       "bytes": 6411
     },
     {
       "url": "https://www.telco.in/icons/projects/TAN.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/TAN.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\TAN.svg",
       "type": "image/svg+xml",
       "bytes": 2134
     },
     {
       "url": "https://www.telco.in/crypto/usdc.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/usdc.svg",
+      "dest": "public\\media\\deep-dive\\telx\\usdc.svg",
       "type": "image/svg+xml",
       "bytes": 119660
     },
     {
+      "url": "https://www.telco.in/logos/telcoin-bank-logo.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\telcoin-bank-logo.svg",
+      "type": "image/svg+xml",
+      "bytes": 6906
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eUSD.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eUSD.png",
+      "type": "image/png",
+      "bytes": 69313
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eEUR.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eEUR.png",
+      "type": "image/png",
+      "bytes": 64875
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eCHF.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCHF.png",
+      "type": "image/png",
+      "bytes": 68747
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eDKK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eDKK.png",
+      "type": "image/png",
+      "bytes": 65661
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eSEK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eSEK.png",
+      "type": "image/png",
+      "bytes": 67519
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eCZK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCZK.png",
+      "type": "image/png",
+      "bytes": 60116
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eISK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eISK.png",
+      "type": "image/png",
+      "bytes": 76546
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eNOK.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eNOK.png",
+      "type": "image/png",
+      "bytes": 76762
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/3d/eHUF.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eHUF.png",
+      "type": "image/png",
+      "bytes": 63353
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eAUD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eAUD.svg",
+      "type": "image/svg+xml",
+      "bytes": 1100
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eCAD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eCAD.svg",
+      "type": "image/svg+xml",
+      "bytes": 701
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eXOF.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eXOF.svg",
+      "type": "image/svg+xml",
+      "bytes": 3330
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eGBP.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eGBP.svg",
+      "type": "image/svg+xml",
+      "bytes": 892
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eHKD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eHKD.svg",
+      "type": "image/svg+xml",
+      "bytes": 1260
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eJPY.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eJPY.svg",
+      "type": "image/svg+xml",
+      "bytes": 634
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eMXN.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eMXN.svg",
+      "type": "image/svg+xml",
+      "bytes": 1785
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eNZD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eNZD.svg",
+      "type": "image/svg+xml",
+      "bytes": 1179
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eSGD.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eSGD.svg",
+      "type": "image/svg+xml",
+      "bytes": 1217
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eSDR.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eSDR.svg",
+      "type": "image/svg+xml",
+      "bytes": 23976
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/eZAR.svg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\eZAR.svg",
+      "type": "image/svg+xml",
+      "bytes": 843
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/cross-border-payments.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\cross-border-payments.jpg",
+      "type": "image/jpeg",
+      "bytes": 219649
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/direct-merchant-payments.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\direct-merchant-payments.jpg",
+      "type": "image/jpeg",
+      "bytes": 136131
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/blockchain-based-financial-services.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\blockchain-based-financial-services.jpg",
+      "type": "image/jpeg",
+      "bytes": 101575
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/vault.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\vault.png",
+      "type": "image/png",
+      "bytes": 631955
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/mfs-2.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\mfs-2.jpg",
+      "type": "image/jpeg",
+      "bytes": 38764
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/treasury-management.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\treasury-management.jpg",
+      "type": "image/jpeg",
+      "bytes": 56089
+    },
+    {
+      "url": "https://www.telco.in/digital-cash/images/inter-carrier-settlements.jpg",
+      "dest": "public\\media\\deep-dive\\digital-cash\\inter-carrier-settlements.jpg",
+      "type": "image/jpeg",
+      "bytes": 34511
+    },
+    {
+      "url": "https://www.telco.in/icons/icon-blockchain.svg",
+      "dest": "public\\media\\marquee\\logos\\icon-blockchain.svg",
+      "type": "image/svg+xml",
+      "bytes": 1996
+    },
+    {
+      "url": "https://www.telco.in/icons/icon-mnos.svg",
+      "dest": "public\\media\\marquee\\logos\\icon-mnos.svg",
+      "type": "image/svg+xml",
+      "bytes": 1828
+    },
+    {
+      "url": "https://www.telco.in/icons/icon-crypto-bank.svg",
+      "dest": "public\\media\\marquee\\logos\\icon-crypto-bank.svg",
+      "type": "image/svg+xml",
+      "bytes": 4873
+    },
+    {
+      "url": "https://www.telco.in/foregrounds/support-center.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\support-center.png",
+      "type": "image/png",
+      "bytes": 462959
+    },
+    {
+      "url": "https://www.telco.in/foregrounds/support-center-mobile.png",
+      "dest": "public\\media\\deep-dive\\digital-cash\\support-center-mobile.png",
+      "type": "image/png",
+      "bytes": 137387
+    },
+    {
       "url": "https://telcoin.org/logos/GSMA.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/GSMA.svg",
+      "dest": "public\\media\\marquee\\logos\\GSMA.svg",
       "type": "image/svg+xml",
       "bytes": 3861
     },
     {
       "url": "https://www.telcoin.org/logos/GSMA.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/GSMA.svg",
+      "dest": "public\\media\\marquee\\logos\\GSMA.svg",
       "type": "image/svg+xml",
       "bytes": 3861
     },
     {
       "url": "https://telcoin.network/logos/GSMA.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/GSMA.svg",
+      "dest": "public\\media\\marquee\\logos\\GSMA.svg",
       "type": "image/svg+xml",
       "bytes": 3861
     },
     {
       "url": "https://www.telcoin.network/logos/GSMA.svg",
-      "dest": "telcoinwiki-react/public/media/marquee/logos/GSMA.svg",
+      "dest": "public\\media\\marquee\\logos\\GSMA.svg",
       "type": "image/svg+xml",
       "bytes": 3861
     }

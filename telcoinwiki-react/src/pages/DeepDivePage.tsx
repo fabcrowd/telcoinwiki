@@ -25,23 +25,29 @@ export function DeepDivePage() {
               </p>
             </div>
           <nav className="toc-chips flex flex-wrap justify-center gap-2" aria-label="Deep-Dive sections">
-            <a className="toc-chip" href="#deep-problem">
-              The Problem
+            <a className="toc-chip" href="#deep-about">
+              About Telcoin
+            </a>
+            <a className="toc-chip" href="#deep-network">
+              Network & Technology
+            </a>
+            <a className="toc-chip" href="#deep-consensus">
+              Consensus
+            </a>
+            <a className="toc-chip" href="#deep-digital-cash">
+              Digital Cash
+            </a>
+            <a className="toc-chip" href="#deep-products">
+              Products & Compliance
+            </a>
+            <a className="toc-chip" href="#deep-incentives">
+              Incentives & Staking
             </a>
             <a className="toc-chip" href="#deep-governance">
               Governance
             </a>
-            <a className="toc-chip" href="#deep-network">
-              Network
-            </a>
-            <a className="toc-chip" href="#deep-bank">
-              Bank
-            </a>
-            <a className="toc-chip" href="#deep-tokenomics">
-              Tokenomics
-            </a>
-            <a className="toc-chip" href="#deep-faq">
-              FAQ tiebacks
+            <a className="toc-chip" href="#deep-community">
+              Community & Access
             </a>
           </nav>
           </div>

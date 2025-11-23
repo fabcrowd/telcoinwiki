@@ -4,12 +4,11 @@ import { useLocation } from 'react-router-dom'
 import { SCROLL_STORY_ENABLED } from '../config/featureFlags'
 
 import { ColorShiftBackground } from '../components/cinematic/ColorShiftBackground'
-import { HeroSequencer } from '../components/cinematic/HeroSequencer'
+// Removed HeroSequencer and HeroEntrance for performance optimization
 import { StageBackdrop } from '../components/cinematic/StageBackdrop'
 import { StickyModule } from '../components/cinematic/StickyModule'
 import { HeroOverlay } from '../components/content/HeroOverlay'
 import { HeroFloatingChips } from '../components/home/HeroFloatingChips'
-import { HeroEntrance } from '../components/intro/HeroEntrance'
 import { SlidingStack } from '../components/cinematic/SlidingStack'
 import { MainWorkspaceCard } from '../components/cinematic/MainWorkspaceCard'
 import type { SlidingStackItem } from '../components/cinematic/SlidingStack'
@@ -49,6 +48,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Transfers lose value midstream',
         body: 'Traditional payments move through middlemen and fee layers. Telcoin compresses those inside the wallet.',
         href: '/deep-dive#deep-problem',
+        imageSrc: '/media/deep-dive/digital-cash/inter-carrier-settlements.jpg',
+        imageAlt: 'Inter-carrier settlements and payment flows',
+        imageAnimation: 'slide-left',
       },
       {
         id: 'broken-money-access',
@@ -56,6 +58,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Mobile-first by necessity',
         body: 'Telcoin designs onboarding so users can access services without needing a bank account.',
         href: '/deep-dive#deep-problem',
+        imageSrc: '/media/deep-dive/digital-cash/wallet-mockup-home-r.png',
+        imageAlt: 'Mobile wallet interface',
+        imageAnimation: 'scale',
       },
       {
         id: 'broken-money-trust',
@@ -63,6 +68,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Compliance needs transparency',
         body: 'TAN reporting and Association-led policy keep telecom-grade oversight at the heart of the system.',
         href: '/deep-dive#deep-problem',
+        imageSrc: '/media/deep-dive/digital-cash/TAN.svg',
+        imageAlt: 'Telcoin Association Network',
+        imageAnimation: 'rotate',
       },
     ],
   },
@@ -80,6 +88,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'GSMA members help secure the chain',
         body: 'Telcoin Association stewards the protocol with validator input, open proposals, and TEL issuance policy.',
         href: '/deep-dive#deep-governance',
+        imageSrc: '/media/deep-dive/digital-cash/gsma.svg',
+        imageAlt: 'GSMA Partnership',
+        imageAnimation: 'slide-up',
       },
       {
         id: 'telcoin-model-network',
@@ -87,6 +98,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Modular by design',
         body: 'Unlike monolithic chains, Telcoin separates execution, consensus, and settlement—improving scale and resilience.',
         href: '/deep-dive#deep-network',
+        imageSrc: '/media/deep-dive/digital-cash/network.svg',
+        imageAlt: 'Telcoin Network Architecture',
+        imageAnimation: 'scale',
       },
       {
         id: 'telcoin-model-bank',
@@ -94,6 +108,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Wallet + Digital Cash = everyday UX',
         body: 'The Telcoin Bank experience bridges fiat-backed assets with self-custodial wallets that feel familiar.',
         href: '/deep-dive#deep-bank',
+        imageSrc: '/media/deep-dive/digital-cash/telcoin-bank-logo.svg',
+        imageAlt: 'Telcoin Digital Asset Bank',
+        imageAnimation: 'slide-up',
       },
     ],
   },
@@ -111,6 +128,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Modular stack, optimized consensus',
         body: 'Telcoin uses Narwhal for mempool ordering, Bullshark for BFT finality, and the EVM for execution—all modular, all optimized.',
         href: '/deep-dive#deep-network',
+        imageSrc: '/media/deep-dive/digital-cash/network.svg',
+        imageAlt: 'Modular Network Architecture',
+        imageAnimation: 'pulse',
       },
       {
         id: 'engine-tokenomics',
@@ -118,6 +138,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Burn, regenerate, recycle',
         body: 'TEL fees are burned every block and regenerated into Telcoin Association treasuries—funding growth and governance.',
         href: '/deep-dive#deep-tokenomics',
+        imageSrc: '/media/deep-dive/digital-cash/TEL.svg',
+        imageAlt: 'TEL Token',
+        imageAnimation: 'rotate',
       },
       {
         id: 'engine-liquidity',
@@ -125,6 +148,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'TELx keeps flows instant',
         body: 'TELx liquidity pools pair TEL with Digital Cash so users can swap, send, and settle without bottlenecks.',
         href: '/deep-dive#deep-tokenomics',
+        imageSrc: '/media/deep-dive/digital-cash/TELx.svg',
+        imageAlt: 'TELx Platform',
+        imageAnimation: 'slide-right',
       },
     ],
   },
@@ -142,6 +168,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'KYC that fits your phone',
         body: 'Mobile-native verification with recovery flows helps anyone onboard without needing a desktop or seed phrase.',
         href: '/deep-dive#deep-bank',
+        imageSrc: '/media/deep-dive/digital-cash/wallet-mockup-home-r.png',
+        imageAlt: 'Mobile wallet onboarding',
+        imageAnimation: 'slide-up',
       },
       {
         id: 'experience-send',
@@ -149,6 +178,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Transparent before you tap',
         body: 'Corridor pricing shows fees, FX, and timing up front—aligned with TAN compliance tracking.',
         href: '/deep-dive#deep-bank',
+        imageSrc: '/media/deep-dive/digital-cash/wallet-mockup-send-php-l.png',
+        imageAlt: 'Transparent payment interface',
+        imageAnimation: 'scale',
       },
       {
         id: 'experience-security',
@@ -156,6 +188,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Security built-in',
         body: 'Notifications, 2FA prompts, and alerts give users confidence without slowing them down.',
         href: '/deep-dive#deep-bank',
+        imageSrc: '/media/marquee/logos/icon-blockchain.svg',
+        imageAlt: 'Blockchain security',
+        imageAnimation: 'fade',
       },
     ],
   },
@@ -173,6 +208,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'See how proposals move',
         body: 'Review Association roles, validator expectations, and how policy evolves in public.',
         href: '/deep-dive#deep-governance',
+        imageSrc: '/media/deep-dive/digital-cash/ta.svg',
+        imageAlt: 'Telcoin Association',
+        imageAnimation: 'slide-left',
       },
       {
         id: 'learn-more-faq',
@@ -180,6 +218,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Questions tied to sources',
         body: 'Filterable answers cite Telcoin documentation directly—no guessing, no fluff.',
         href: '/deep-dive#deep-faq',
+        imageSrc: '/media/marquee/logos/icon-blockchain.svg',
+        imageAlt: 'Information and documentation',
+        imageAnimation: 'scale',
       },
       {
         id: 'learn-more-deep',
@@ -187,6 +228,9 @@ const homeNarrativeSections: HomeNarrativeSection[] = [
         title: 'Learn by comparing',
         body: 'Explore TEL, TELx, and Digital Cash across use cases—from liquidity to treasury flows.',
         href: '/deep-dive#deep-dive-hero',
+        imageSrc: '/media/deep-dive/digital-cash/TEL.svg',
+        imageAlt: 'TEL, TELx, and Digital Cash',
+        imageAnimation: 'fade',
       },
     ],
   },
@@ -264,9 +308,7 @@ export function HomePage() {
           style={colorShiftClip('65%', hero.prefersReducedMotion)}
         />
         {/* Cinematic hero sequencer (uses CSS fallbacks until videos are provided) */}
-        <HeroSequencer className="pointer-events-none absolute inset-0" />
-        {/* Orchestrate the requested entrance sequence once mask & intro end */}
-        <HeroEntrance />
+        {/* Removed HeroSequencer and HeroEntrance for performance optimization */}
         <StageBackdrop progress={hero.stageProgress} />
         <HeroOverlay
           className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-telcoin-surface/20 to-telcoin-surface/40"

@@ -65,10 +65,11 @@ export function useScrollProgress(
           const target = targetRefValue.current
           const delta = target - current
           const alpha = Math.min(1, Math.max(0.01, smoothing))
-          const nextValue = Math.abs(delta) < 0.001 ? target : current + delta * alpha
+          const nextValue = Math.abs(delta) < 0.005 ? target : current + delta * alpha
           progressRef.current = nextValue
           setProgress(nextValue)
-          if (Math.abs(target - nextValue) >= 0.001) {
+          // Increased threshold to stop RAF loop sooner (0.005 instead of 0.001)
+          if (Math.abs(target - nextValue) >= 0.005) {
             rafIdRef.current = requestAnimationFrame(step)
           } else {
             rafIdRef.current = null

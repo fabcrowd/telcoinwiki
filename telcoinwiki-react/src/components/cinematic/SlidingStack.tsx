@@ -14,6 +14,116 @@ import { cn } from '../../utils/cn'
 import { calculateStickyOffsets } from '../../utils/calculateStickyOffsets'
 import { ColorMorphCard } from './ColorMorphCard'
 
+// Component for card content with image animation support
+interface CardContentProps {
+  item: SlidingStackItem
+  prefersReducedMotion: boolean
+}
+
+function CardContent({ item, prefersReducedMotion }: CardContentProps) {
+  const imageRef = useRef<HTMLImageElement>(null)
+  const [isImageVisible, setIsImageVisible] = useState(false)
+
+  useEffect(() => {
+    if (prefersReducedMotion || !item.imageSrc || !imageRef.current) {
+      setIsImageVisible(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsImageVisible(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      {
+        threshold: 0.5, // Need 50% of image visible
+        rootMargin: '-150px 0px', // Negative margin delays trigger - image must be well into viewport
+      }
+    )
+
+    observer.observe(imageRef.current)
+
+    return () => {
+      if (imageRef.current) {
+        observer.unobserve(imageRef.current)
+      }
+    }
+  }, [prefersReducedMotion, item.imageSrc])
+
+  const bodyContent = (
+    <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">
+      {item.body}
+    </div>
+  )
+
+  const imageContent = item.imageSrc ? (
+    <div className="sliding-stack__image-wrapper">
+      <img
+        ref={imageRef}
+        src={item.imageSrc}
+        alt={item.imageAlt || ''}
+        className={cn(
+          'sliding-stack__image',
+          `sliding-stack__image--${item.imageAnimation || 'fade'}`,
+          isImageVisible && 'sliding-stack__image--visible'
+        )}
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
+      />
+    </div>
+  ) : null
+
+  const textAndImage = (
+    <div className="sliding-stack__content-wrapper">
+      <div className="sliding-stack__text-content">
+        {bodyContent}
+      </div>
+      {imageContent}
+    </div>
+  )
+
+  if (!item.href) {
+    return (
+      <div className="sliding-stack__content">
+        {textAndImage}
+      </div>
+    )
+  }
+
+  const ctaLabel = item.ctaLabel ?? 'Learn more'
+  const linkChildren = (
+    <>
+      {ctaLabel}
+      <span aria-hidden>→</span>
+    </>
+  )
+
+  return (
+    <div className="sliding-stack__content">
+      {textAndImage}
+      {isExternalLink(item.href) ? (
+        <a
+          className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent mt-4"
+          href={item.href}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {linkChildren}
+        </a>
+      ) : (
+        <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent mt-4" to={item.href}>
+          {linkChildren}
+        </Link>
+      )}
+    </div>
+  )
+}
+
 export interface SlidingStackItem {
   id: string
   eyebrow?: string
@@ -23,6 +133,12 @@ export interface SlidingStackItem {
   body: ReactNode
   href?: string
   ctaLabel?: string
+  /** Optional image source for the card */
+  imageSrc?: string
+  /** Optional alt text for the image */
+  imageAlt?: string
+  /** Optional animation type: 'fade', 'scale', 'slide-left', 'slide-right', 'slide-up', 'slide-down', 'rotate', 'pulse' */
+  imageAnimation?: 'fade' | 'scale' | 'slide-left' | 'slide-right' | 'slide-up' | 'slide-down' | 'rotate' | 'pulse'
 }
 
 interface SlidingStackProps {
@@ -153,7 +269,7 @@ export function SlidingStack({
     let rafId: number | null = null
     let isScheduled = false
     let lastScrollTime = 0
-    const SCROLL_THROTTLE_MS = 16 // ~60fps max update rate
+    const SCROLL_THROTTLE_MS = 32 // ~30fps max update rate for better performance
     
     const scheduleCalculation = () => {
       const now = performance.now()
@@ -256,44 +372,8 @@ export function SlidingStack({
   }, [canAnimate])
 
   const renderCardContent = useCallback((item: SlidingStackItem) => {
-    const bodyContent = (
-      <div className="text-xl text-telcoin-ink-muted sm:text-[1.35rem] lg:text-2xl leading-relaxed">
-        {item.body}
-      </div>
-    )
-
-    if (!item.href) {
-      return <div className="sliding-stack__content">{bodyContent}</div>
-    }
-
-    const ctaLabel = item.ctaLabel ?? 'Learn more'
-    const linkChildren = (
-      <>
-        {ctaLabel}
-        <span aria-hidden>→</span>
-      </>
-    )
-
-    return (
-      <div className="sliding-stack__content">
-        {bodyContent}
-        {isExternalLink(item.href) ? (
-          <a
-            className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent mt-4"
-            href={item.href}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {linkChildren}
-          </a>
-        ) : (
-          <Link className="inline-flex items-center gap-2 text-sm font-semibold text-telcoin-accent mt-4" to={item.href}>
-            {linkChildren}
-          </Link>
-        )}
-      </div>
-    )
-  }, [])
+    return <CardContent item={item} prefersReducedMotion={prefersReducedMotion} />
+  }, [prefersReducedMotion])
 
   // Calculate container height and CSS variables for sticky positioning
   // Optimized to match avax.network's approach (100lvh per card)
