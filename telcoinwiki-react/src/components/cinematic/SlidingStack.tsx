@@ -11,7 +11,6 @@ import {
 import { Link } from 'react-router-dom'
 
 import { cn } from '../../utils/cn'
-import { calculateStickyOffsets } from '../../utils/calculateStickyOffsets'
 import { ColorMorphCard } from './ColorMorphCard'
 
 // Component for card content with image animation support
@@ -25,7 +24,8 @@ function CardContent({ item, prefersReducedMotion }: CardContentProps) {
   const [isImageVisible, setIsImageVisible] = useState(false)
 
   useEffect(() => {
-    if (prefersReducedMotion || !item.imageSrc || !imageRef.current) {
+    const node = imageRef.current
+    if (prefersReducedMotion || !item.imageSrc || !node) {
       setIsImageVisible(true)
       return
     }
@@ -40,17 +40,15 @@ function CardContent({ item, prefersReducedMotion }: CardContentProps) {
         })
       },
       {
-        threshold: 0.5, // Need 50% of image visible
-        rootMargin: '-150px 0px', // Negative margin delays trigger - image must be well into viewport
+        threshold: 0.5,
+        rootMargin: '-150px 0px',
       }
     )
 
-    observer.observe(imageRef.current)
+    observer.observe(node)
 
     return () => {
-      if (imageRef.current) {
-        observer.unobserve(imageRef.current)
-      }
+      observer.disconnect()
     }
   }, [prefersReducedMotion, item.imageSrc])
 
@@ -198,113 +196,77 @@ export function SlidingStack({
     const cards = Array.from(deck.querySelectorAll<HTMLElement>('.sliding-stack__card, .color-morph-card'))
     if (cards.length === 0) return
 
-    // Cache sticky top calculation to avoid repeated getBoundingClientRect calls
-    let cachedStickyTop: number | null = null
-    let lastHeaderHeight: number | null = null
-    // Cache header element reference to avoid repeated querySelector calls
-    let cachedHeader: HTMLElement | null = null
-    
-    const getStickyTop = (): number => {
-      // Cache header element reference (only query once)
-      if (!cachedHeader) {
-        cachedHeader = document.querySelector<HTMLElement>('.site-header')
+    // Read each card's resolved `top` from computed style — this is exactly what the
+    // browser uses for sticky positioning, so detection is always in sync with CSS
+    // regardless of how --stack-top or --stack-tab-height resolve.
+    let cachedThresholds: number[] | null = null
+
+    const getCardThresholds = (): number[] => {
+      if (cachedThresholds) return cachedThresholds
+
+      let base = Number.NaN
+      const resolved = cards.map((card) => {
+        const top = Number.parseFloat(window.getComputedStyle(card).top)
+        if (!Number.isNaN(top) && Number.isNaN(base)) base = top
+        return top
+      })
+
+      if (Number.isNaN(base)) {
+        const header = document.querySelector<HTMLElement>('.site-header')
+        const headerHeight = header ? header.getBoundingClientRect().height : 100.75
+        base = headerHeight + 20 + 95
       }
-      
-      // Only recalculate if header might have changed (on resize)
-      const headerHeight = cachedHeader ? cachedHeader.getBoundingClientRect().height : 100.75
-      
-      // Cache sticky top if header height hasn't changed
-      if (cachedStickyTop !== null && lastHeaderHeight === headerHeight) {
-        return cachedStickyTop
-      }
-      
-      const paddingMd = 20 // 1.25rem = 20px
-      const offset = 95 // From site.css: top: calc(... + 95px)
-      lastHeaderHeight = headerHeight
-      cachedStickyTop = headerHeight + paddingMd + offset
-      return cachedStickyTop
+
+      cachedThresholds = resolved.map((top) => (Number.isNaN(top) ? base : top))
+      return cachedThresholds
     }
 
-    // Cache last progress to avoid unnecessary state updates
     let lastProgress = -1
 
     const calculateProgress = () => {
-      const stickyTop = getStickyTop()
-      const stickyTolerance = 10 // px tolerance for "locked" detection
+      const thresholds = getCardThresholds()
+      const stickyTolerance = 10
 
-      // Batch all getBoundingClientRect calls at once (better performance)
       const cardRects = cards.map(card => card.getBoundingClientRect())
 
-      // Find the most advanced locked card (check from highest index to lowest)
       let lockedCardIndex = -1
       for (let i = cards.length - 1; i >= 0; i--) {
-        const cardTop = cardRects[i].top
-
-        // Card is "locked" if its top is within tolerance of sticky position
-        if (cardTop <= stickyTop + stickyTolerance) {
+        if (cardRects[i].top <= thresholds[i] + stickyTolerance) {
           lockedCardIndex = i
-          break // Found the most advanced locked card
+          break
         }
       }
 
-      // Calculate progress based on locked card index
-      // For 3 cards: 0 (no lock) → 0, card 0 locks → 0.5, card 1 or 2 locks → 1.0
       let totalProgress = 0
       if (lockedCardIndex >= 0) {
-        if (lockedCardIndex === 0) {
-          totalProgress = 0.5 // First card locked = bullet 2
-        } else {
-          totalProgress = 1.0 // Second or third card locked = bullet 3
-        }
+        totalProgress = lockedCardIndex === 0 ? 0.5 : 1.0
       }
 
-      // Only update state if progress actually changed (reduces re-renders)
       if (totalProgress !== lastProgress) {
         lastProgress = totalProgress
         setCardBasedProgress(totalProgress)
-        if (onProgressChange) {
-          onProgressChange(totalProgress)
-        }
+        if (onProgressChange) onProgressChange(totalProgress)
       }
     }
 
-    // Aggressively throttled scroll handler - use time-based throttling for better FPS
+    // rAF coalescing: caps updates to display refresh rate and guarantees a trailing
+    // run after scroll stops, so progress never lags the final position.
     let rafId: number | null = null
-    let isScheduled = false
-    let lastScrollTime = 0
-    const SCROLL_THROTTLE_MS = 32 // ~30fps max update rate for better performance
-    
+
     const scheduleCalculation = () => {
-      const now = performance.now()
-      if (isScheduled || (now - lastScrollTime) < SCROLL_THROTTLE_MS) {
-        return
-      }
-      
-      isScheduled = true
-      lastScrollTime = now
+      if (rafId !== null) return
       rafId = requestAnimationFrame(() => {
-        isScheduled = false
-        calculateProgress()
         rafId = null
+        calculateProgress()
       })
     }
 
-    // Listen to scroll and resize events with passive listeners
     window.addEventListener('scroll', scheduleCalculation, { passive: true })
-    
+
     let resizeTimeout: ReturnType<typeof setTimeout> | null = null
-    // Store resize handler reference for proper cleanup
     const handleResize = () => {
-      // Clear cache on resize so header height is recalculated
-      cachedStickyTop = null
-      lastHeaderHeight = null
-      // Clear header cache to re-query if DOM changed
-      cachedHeader = null
-      
-      // Debounce resize calculations
-      if (resizeTimeout !== null) {
-        clearTimeout(resizeTimeout)
-      }
+      cachedThresholds = null
+      if (resizeTimeout !== null) clearTimeout(resizeTimeout)
       resizeTimeout = setTimeout(() => {
         scheduleCalculation()
         resizeTimeout = null
@@ -378,37 +340,17 @@ export function SlidingStack({
     return <CardContent item={item} prefersReducedMotion={prefersReducedMotion} />
   }, [prefersReducedMotion])
 
-  // Calculate container height and CSS variables for sticky positioning
-  // Optimized to match avax.network's approach (100lvh per card)
+  // Container height: exactly 1 viewport per card (dvh respects mobile URL-bar resize).
+  // --card-count lets any CSS rule re-derive the height if needed.
   const cssVars = useMemo(() => {
-    if (!enableStickyStack) {
-      return {} as CSSProperties
-    }
+    if (!enableStickyStack) return {} as CSSProperties
 
-    const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800
     const cardCount = items.length
-    
-    // Container height calculation (matches avax.network pattern)
-    // avax.network uses 100lvh (large viewport height) per card
-    // Cards stack within this space, so we need enough height for all cards
-    // Formula: Base offset + (cardCount * viewport height)
-    // Base: 0.5 viewport for initial positioning
-    // Per card: 0.8 viewport (cards overlap, so less than 1.0)
-    const containerHeight = viewportHeight * (0.5 + (cardCount * 0.8))
-    
-    // Tab height is set via CSS and doesn't need dynamic calculation
-    const tabHeight = 88
-
     const vars: CSSProperties &
-      Record<
-        '--sticky-container-height' | '--card-count' | '--card-tab-offset',
-        string
-      > = {
-      '--sticky-container-height': `${containerHeight.toFixed(2)}px`,
+      Record<'--sticky-container-height' | '--card-count', string> = {
+      '--sticky-container-height': `calc(${cardCount} * 100dvh)`,
       '--card-count': String(cardCount),
-      '--card-tab-offset': `${tabHeight}px`,
     }
-    
     return vars
   }, [items.length, enableStickyStack])
 
@@ -426,79 +368,14 @@ export function SlidingStack({
     }
   }, [enableStickyStack, cssVars])
 
-  // Calculate dynamic offsets for cards (matches avax.network pattern exactly)
-  // Algorithm: For each card, measure distance from card top to reference element,
-  // then set that offset on the NEXT card to create cascading stack effect
-  // Optimized: Caches DOM queries and batches getBoundingClientRect() calls
-  // Only calculate when enabled (for section 2, this waits until main card is pinned)
-  useLayoutEffect(() => {
-    if (typeof window === 'undefined' || !enableStickyStack || !containerRef.current || !enabled) {
-      return
-    }
-
-    // Cache deck reference to avoid repeated queries
-    const deck = containerRef.current.querySelector<HTMLElement>('.sliding-stack__deck')
-    if (!deck) return
-
-    const calculateOffsets = () => {
-      // Only calculate on desktop (mobile uses static layout)
-      if (window.innerWidth <= 768) {
-        return
-      }
-
-      // Use utility function for offset calculation (matches avax.network pattern)
-      calculateStickyOffsets(deck)
-    }
-
-    // Calculate offsets after layout is stable
-    // Use single RAF (avax.network doesn't use RAF, but we need it for React)
-    const rafId = requestAnimationFrame(() => {
-      calculateOffsets()
-    })
-
-    // Use ResizeObserver for deck changes (more efficient than window resize)
-    const resizeObserver = new ResizeObserver(() => {
-      calculateOffsets()
-    })
-    resizeObserver.observe(deck)
-
-    // Recalculate on window resize with debouncing (optimized from avax.network)
-    let resizeTimeout: ReturnType<typeof setTimeout> | null = null
-    
-    const handleResize = () => {
-      // Clear any pending resize calculations
-      if (resizeTimeout !== null) {
-        clearTimeout(resizeTimeout)
-        resizeTimeout = null
-      }
-      
-      // Debounce resize calculations (150ms delay for better performance)
-      resizeTimeout = setTimeout(() => {
-        calculateOffsets()
-        resizeTimeout = null
-      }, 150)
-    }
-
-    window.addEventListener('resize', handleResize, { passive: true })
-    
-    return () => {
-      cancelAnimationFrame(rafId)
-      resizeObserver.disconnect()
-      if (resizeTimeout !== null) {
-        clearTimeout(resizeTimeout)
-      }
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [enableStickyStack, items.length, enabled])
-
-
   cardRefs.current.length = items.length
 
   const cards = useMemo(() => items.map((item, index) => {
     const palette = CARD_PALETTES[index % CARD_PALETTES.length]
 
-    const cardStyle: CSSProperties & Record<'--card-bg', string> = {
+    const cardStyle: CSSProperties & Record<'--card-bg' | '--card-index', string> = {
       '--card-bg': palette,
+      '--card-index': String(index),
     }
 
     return (
