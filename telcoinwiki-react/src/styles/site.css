@@ -3464,11 +3464,13 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card,
 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > .color-morph-card.sliding-stack__card {
     position: sticky;
-    /* Cascade: each card pins one tab-height below the previous.
-       --stack-top is the JS-measured live header height (set on container).
-       --card-index is the 0-based index set inline per card by React. */
-    top: calc(var(--stack-top, 6.375rem) + (var(--card-index, 1) - 1) * var(--stack-tab-height, clamp(56px, 8.5vh, 88px)));
-    z-index: calc(var(--card-index, 1) + 1);
+    /* Cascade: card N pins one rendered-tab-height below card N-1, measured from
+       the live header (--stack-top, set on the container by React). --card-index is
+       the 0-based index set inline per card. The tab's rendered height is
+       --stack-tab-height * 1.05 (see .sliding-stack__tab), so the step matches the
+       peeking tab exactly. Pins stay below the lead card, preserving the tab peek. */
+    top: calc(var(--stack-top, 6.375rem) + var(--card-index, 0) * var(--stack-tab-height, clamp(56px, 8.5vh, 88px)) * 1.05);
+    z-index: calc(var(--card-index, 0) + 1);
     contain: layout style paint;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -3496,11 +3498,13 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
   }
   
   /* First card: push it down so the deck entry feels like a full-page arrival.
-     60vh of scroll + header height + breathing room. */
+     60vh of scroll + the real rendered header height (~100.75px) + breathing room.
+     Uses a literal header height, not --header-height, because the global token
+     is intentionally left at its production value and does not match the real header. */
   [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
   [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
   [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
-    margin-top: calc(60vh + var(--header-height, 6.375rem) + 4rem) !important;
+    margin-top: calc(60vh + 100.75px + 4rem) !important;
     margin-bottom: 0 !important;
   }
 
@@ -3510,7 +3514,9 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
 @media (min-width: 48rem) {
   [data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
     position: sticky !important;
-    top: calc(var(--header-height, 6.375rem) + 55px) !important;
+    /* Pins ~155px from top — real header (~100.75px) + 55px gap, matching the
+       prior per-section value. Literal, not --header-height (see note above). */
+    top: calc(100.75px + 55px) !important;
     z-index: 2;
     align-self: start;
     contain: layout style paint;

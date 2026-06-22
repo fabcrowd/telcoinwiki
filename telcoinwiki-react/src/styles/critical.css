@@ -71,7 +71,7 @@
   --max-width-wide: 90rem;
   --sidebar-min-width: 15.5rem;
   --sidebar-width: clamp(17rem, 22vw, 23.5rem);
-  --header-height: 6.375rem;
+  --header-height: 3.1875rem;
   --transition-base: 0.25s ease;
   /* Liquid Glass variables with Telcoin palette */
   --glass-bg: linear-gradient(135deg, 
@@ -94,7 +94,7 @@
   --glass-radius: clamp(1rem, 2.5vw, 1.5rem);
   
   /* Sticky card stacking variables */
-  --navbar-height: 6.375rem;
+  --navbar-height: 3.1875rem;
   --padding-md: 1.25rem;
   --card-min-height: 400px;
   --card-offset-base: 15px;
