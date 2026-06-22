@@ -201,38 +201,47 @@ export function SlidingStack({
     const cards = Array.from(deck.querySelectorAll<HTMLElement>('.sliding-stack__card, .color-morph-card'))
     if (cards.length === 0) return
 
-    // Cache sticky top calculation to avoid repeated getBoundingClientRect calls
-    let cachedStickyTop: number | null = null
-    let lastHeaderHeight: number | null = null
-    // Cache header element reference to avoid repeated querySelector calls
-    let cachedHeader: HTMLElement | null = null
-    
-    const getStickyTop = (): number => {
-      // Cache header element reference (only query once)
-      if (!cachedHeader) {
-        cachedHeader = document.querySelector<HTMLElement>('.site-header')
+    // Resolve each card's true pin position from its computed `top`. This is the
+    // exact value the browser uses for `position: sticky`, so detection matches the
+    // CSS automatically — including each card's individual `--offset` and whatever
+    // `--header-height` actually resolves to (the project defines it inconsistently:
+    // 51px in critical.css vs 102px in variables.css). Reconstructing it from a
+    // measured header height plus magic numbers drifted ~50px from reality.
+    let cachedThresholds: number[] | null = null
+
+    const getCardThresholds = (): number[] => {
+      if (cachedThresholds) {
+        return cachedThresholds
       }
-      
-      // Only recalculate if header might have changed (on resize)
-      const headerHeight = cachedHeader ? cachedHeader.getBoundingClientRect().height : 100.75
-      
-      // Cache sticky top if header height hasn't changed
-      if (cachedStickyTop !== null && lastHeaderHeight === headerHeight) {
-        return cachedStickyTop
+
+      // Base pin position (the resolved `top` of a sticky card). The first card is
+      // statically positioned (`top: auto`), so it has no sticky threshold of its
+      // own; it falls back to this base, matching the previous single-threshold model.
+      let base = Number.NaN
+      const resolved = cards.map((card) => {
+        const top = Number.parseFloat(window.getComputedStyle(card).top)
+        if (!Number.isNaN(top) && Number.isNaN(base)) {
+          base = top
+        }
+        return top
+      })
+
+      if (Number.isNaN(base)) {
+        // No sticky card resolved (unexpected): fall back to a header measurement.
+        const header = document.querySelector<HTMLElement>('.site-header')
+        const headerHeight = header ? header.getBoundingClientRect().height : 100.75
+        base = headerHeight + 20 + 95
       }
-      
-      const paddingMd = 20 // 1.25rem = 20px
-      const offset = 95 // From site.css: top: calc(... + 95px)
-      lastHeaderHeight = headerHeight
-      cachedStickyTop = headerHeight + paddingMd + offset
-      return cachedStickyTop
+
+      cachedThresholds = resolved.map((top) => (Number.isNaN(top) ? base : top))
+      return cachedThresholds
     }
 
     // Cache last progress to avoid unnecessary state updates
     let lastProgress = -1
 
     const calculateProgress = () => {
-      const stickyTop = getStickyTop()
+      const thresholds = getCardThresholds()
       const stickyTolerance = 10 // px tolerance for "locked" detection
 
       // Batch all getBoundingClientRect calls at once (better performance)
@@ -243,8 +252,8 @@ export function SlidingStack({
       for (let i = cards.length - 1; i >= 0; i--) {
         const cardTop = cardRects[i].top
 
-        // Card is "locked" if its top is within tolerance of sticky position
-        if (cardTop <= stickyTop + stickyTolerance) {
+        // Card is "locked" once its top reaches its own resolved pin position
+        if (cardTop <= thresholds[i] + stickyTolerance) {
           lockedCardIndex = i
           break // Found the most advanced locked card
         }
@@ -294,12 +303,10 @@ export function SlidingStack({
     let resizeTimeout: ReturnType<typeof setTimeout> | null = null
     // Store resize handler reference for proper cleanup
     const handleResize = () => {
-      // Clear cache on resize so header height is recalculated
-      cachedStickyTop = null
-      lastHeaderHeight = null
-      // Clear header cache to re-query if DOM changed
-      cachedHeader = null
-      
+      // Clear cached thresholds so pin positions are re-resolved after layout
+      // changes (header height, card offsets, or container height may all shift).
+      cachedThresholds = null
+
       // Debounce resize calculations
       if (resizeTimeout !== null) {
         clearTimeout(resizeTimeout)
