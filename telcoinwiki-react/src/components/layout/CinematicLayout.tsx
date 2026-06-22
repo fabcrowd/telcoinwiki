@@ -5,6 +5,7 @@ import { Header } from './Header'
 import { MAIN_CONTENT_ID, useHashScroll, useLayoutChrome } from './layoutShared'
 import { IntroReveal } from '../intro/IntroReveal'
 import { useSmoothScroll } from '../../hooks/useSmoothScroll'
+import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 
 interface CinematicLayoutProps {
   pageId: string
@@ -29,6 +30,8 @@ export function CinematicLayout({
 
   const currentMeta = pageMeta[pageId] ?? pageMeta.home
   const activeNavId = currentMeta?.navId ?? pageId ?? null
+
+  useDocumentTitle(currentMeta?.label, pageId === 'home')
 
   const { headerProps, footer, searchModal } = useLayoutChrome({
     navItems,

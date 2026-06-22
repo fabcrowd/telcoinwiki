@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 // MegaMenu removed - not used on homepage
 import type { NavItem } from '../../config/types';
 
@@ -21,10 +21,38 @@ export function Header({
   const [searchValue, setSearchValue] = useState('');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const { pathname, hash } = useLocation();
 
   function toggleMobileNav() {
     setMobileNavOpen((current) => !current);
   }
+
+  // Close the mobile drawer whenever the route (path or hash) changes.
+  useEffect(() => {
+    setMobileNavOpen(false);
+  }, [pathname, hash]);
+
+  // While the drawer is open, close it on Escape and lock background scroll.
+  useEffect(() => {
+    if (!mobileNavOpen) {
+      return;
+    }
+
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileNavOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeydown);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileNavOpen]);
 
   function handleSearchIconClick() {
     setIsSearchExpanded(true);
