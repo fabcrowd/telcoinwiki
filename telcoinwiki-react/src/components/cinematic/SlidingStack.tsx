@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom'
 
 import { cn } from '../../utils/cn'
 import { calculateStickyOffsets } from '../../utils/calculateStickyOffsets'
+import { useViewportHeight } from '../../hooks/useViewportHeight'
 import { ColorMorphCard } from './ColorMorphCard'
 
 // Component for card content with image animation support
@@ -25,7 +26,8 @@ function CardContent({ item, prefersReducedMotion }: CardContentProps) {
   const [isImageVisible, setIsImageVisible] = useState(false)
 
   useEffect(() => {
-    if (prefersReducedMotion || !item.imageSrc || !imageRef.current) {
+    const node = imageRef.current
+    if (prefersReducedMotion || !item.imageSrc || !node) {
       setIsImageVisible(true)
       return
     }
@@ -45,12 +47,10 @@ function CardContent({ item, prefersReducedMotion }: CardContentProps) {
       }
     )
 
-    observer.observe(imageRef.current)
+    observer.observe(node)
 
     return () => {
-      if (imageRef.current) {
-        observer.unobserve(imageRef.current)
-      }
+      observer.disconnect()
     }
   }, [prefersReducedMotion, item.imageSrc])
 
@@ -169,6 +169,9 @@ export function SlidingStack({
 }: SlidingStackProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const cardRefs = useRef<(HTMLElement | null)[]>([])
+  // Track viewport height so the sticky scroll choreography stays in sync when
+  // the window is resized (debounced inside the hook).
+  const viewportHeight = useViewportHeight()
 
   // Enable sticky stacking
   // Always enable sticky stacking for card animations (feature flag can still disable via URL ?story=0)
@@ -268,24 +271,20 @@ export function SlidingStack({
       }
     }
 
-    // Aggressively throttled scroll handler - use time-based throttling for better FPS
+    // Coalesce scroll/resize work into a single animation frame. requestAnimationFrame
+    // already caps updates to the display refresh rate and—unlike a time-gated throttle—
+    // guarantees a trailing run after scrolling stops, so the progress indicator never
+    // lags the final scroll position. calculateProgress only commits state when the
+    // computed value actually changes, so idle frames stay cheap.
     let rafId: number | null = null
-    let isScheduled = false
-    let lastScrollTime = 0
-    const SCROLL_THROTTLE_MS = 32 // ~30fps max update rate for better performance
-    
+
     const scheduleCalculation = () => {
-      const now = performance.now()
-      if (isScheduled || (now - lastScrollTime) < SCROLL_THROTTLE_MS) {
+      if (rafId !== null) {
         return
       }
-      
-      isScheduled = true
-      lastScrollTime = now
       rafId = requestAnimationFrame(() => {
-        isScheduled = false
-        calculateProgress()
         rafId = null
+        calculateProgress()
       })
     }
 
@@ -385,16 +384,17 @@ export function SlidingStack({
       return {} as CSSProperties
     }
 
-    const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800
+    const resolvedViewportHeight =
+      viewportHeight ?? (typeof window !== 'undefined' ? window.innerHeight : 800)
     const cardCount = items.length
-    
+
     // Container height calculation (matches avax.network pattern)
     // avax.network uses 100lvh (large viewport height) per card
     // Cards stack within this space, so we need enough height for all cards
     // Formula: Base offset + (cardCount * viewport height)
     // Base: 0.5 viewport for initial positioning
     // Per card: 0.8 viewport (cards overlap, so less than 1.0)
-    const containerHeight = viewportHeight * (0.5 + (cardCount * 0.8))
+    const containerHeight = resolvedViewportHeight * (0.5 + (cardCount * 0.8))
     
     // Tab height is set via CSS and doesn't need dynamic calculation
     const tabHeight = 88
@@ -410,7 +410,7 @@ export function SlidingStack({
     }
     
     return vars
-  }, [items.length, enableStickyStack])
+  }, [items.length, enableStickyStack, viewportHeight])
 
   // Copy CSS variable from SlidingStack container to parent section
   // This allows the section to use --sticky-container-height in its height calculation
