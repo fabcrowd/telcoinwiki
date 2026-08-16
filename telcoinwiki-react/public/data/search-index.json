@@ -1,286 +1,282 @@
 [
   {
     "id": "home",
-    "title": "Telcoin Wiki — Community Q&A for the Telcoin Ecosystem",
-    "summary": "Landing hub introducing the community wiki with quick links to the Telcoin Wallet, Digital Cash, Remittances, and deep-dive guides.",
+    "kind": "page",
+    "title": "Telcoin Wiki — community guide to the Telcoin ecosystem",
+    "summary": "Community-maintained introduction to Telcoin: the mobile-first financial network, Telcoin Network, Digital Cash, TELx, and the TEL token.",
     "url": "/",
-    "tags": ["Getting Started"],
-    "headings": [
-      { "id": "home-hero", "title": "Understand the Telcoin platform in minutes" },
-      { "id": "learning-pathways", "title": "Learning pathways" },
-      { "id": "faq", "title": "FAQs" }
+    "tags": [
+      "Getting Started",
+      "Overview"
     ],
-    "highlights": [
-      "Hero overview with community disclaimer",
-      "Cards linking directly to Wallet, Digital Cash, and Remittances",
-      "Deep-dive pathways for Network, TEL, TELx, and Governance"
-    ]
-  },
-  {
-    "id": "start-here",
-    "title": "Start Here — Telcoin Wiki Onboarding Hub",
-    "summary": "Onboarding checklist featuring the top Telcoin questions with FAQ references, official telco.in resources, and support reminders.",
-    "url": "/#home-hero",
-    "tags": ["Getting Started"],
     "headings": [
-      { "id": "start-intro", "title": "Your Telcoin onboarding checklist" },
-      { "id": "quick-actions", "title": "Essential first steps" },
-      { "id": "support-links", "title": "Need more help?" }
+      {
+        "id": "home-hero",
+        "title": "Understand the Telcoin platform"
+      },
+      {
+        "id": "home-story-cards",
+        "title": "The Telcoin story"
+      },
+      {
+        "id": "faq-section",
+        "title": "Frequently asked questions"
+      }
     ],
-    "highlights": [
-      "Ten quick-start question cards with FAQ deep links",
-      "Direct connections to Wallet, Digital Cash, Remittances, TEL, and TELx pages",
-      "Pointers to builder tools and official status resources"
-    ]
-  },
-  {
-    "id": "faq",
-    "title": "Telcoin FAQ — Filterable Questions & Official Links",
-    "summary": "Filterable FAQ with tag pills, search input, and accordion answers that cite Telcoin Association and telco.in sources.",
-    "url": "/",
-    "tags": ["FAQ", "Reference"],
-    "headings": [
-      { "id": "faq-hero", "title": "Filterable Telcoin FAQ" },
-      { "id": "faq-list", "title": "FAQ results" }
-    ],
-    "highlights": [
-      "Tag filtering for topics like Wallet, Network, TELx, and Governance",
-      "Elasticlunr-powered keyword search with grouped results",
-      "Accordion answers that include \"From the source\" link boxes"
-    ]
-  },
-  {
-    "id": "wallet",
-    "title": "Telcoin Wallet — Mobile-first Access",
-    "summary": "Explains what the Telcoin Wallet enables, from remittances and Digital Cash to TELx swaps, along with safety checklists and official references.",
-    "url": "/",
-    "tags": ["Wallet", "Getting Started"],
-    "headings": [
-      { "id": "wallet-overview", "title": "Mobile-first access to Telcoin services" },
-      { "id": "wallet-capabilities", "title": "What the Wallet enables" },
-      { "id": "wallet-safety", "title": "Safety checklist" },
-      { "id": "wallet-resources", "title": "Helpful resources" }
-    ],
-    "highlights": [
-      "Cards covering remittances, Digital Cash balances, swaps, and compliance",
-      "Safety reminders for KYC, downloads, and monitoring status.telco.in",
-      "Links to official wallet, digital cash, and security pages"
-    ]
-  },
-  {
-    "id": "digital-cash",
-    "title": "Digital Cash — Instant-settlement Fiat",
-    "summary": "Covers the Digital Cash lineup, how Telcoin uses eUSD, eCAD, and ePHP across remittances and TELx, and where to review compliance notices.",
-    "url": "/",
-    "tags": ["Digital Cash", "Wallet"],
-    "headings": [
-      { "id": "digital-cash-overview", "title": "Instant-settlement fiat on the Telcoin Network" },
-      { "id": "digital-cash-lineup", "title": "Currency lineup" },
-      { "id": "digital-cash-use", "title": "How Digital Cash is used" },
-      { "id": "digital-cash-compliance", "title": "Compliance notes" }
-    ],
-    "highlights": [
-      "Cards summarizing eUSD, eCAD, and ePHP availability",
-      "Usage scenarios across remittances, merchant payouts, and TELx liquidity",
-      "Compliance reminders with links to legal and security newsroom updates"
-    ]
-  },
-  {
-    "id": "remittances",
-    "title": "Remittances — Send Money with Telcoin",
-    "summary": "Shows Telcoin remittance coverage, step-by-step sending guidance, and safety checks pointing to newsroom, status, and social updates.",
-    "url": "/",
-    "tags": ["Remittances", "Wallet"],
-    "headings": [
-      { "id": "remittance-overview", "title": "Send money with Telcoin" },
-      { "id": "remittance-coverage", "title": "Coverage snapshot" },
-      { "id": "remittance-steps", "title": "How to send" },
-      { "id": "remittance-safety", "title": "Safety checks" }
-    ],
-    "highlights": [
-      "Coverage cards for supported countries, payout methods, and transparent pricing",
-      "Three-step walkthrough for initiating remittances in the Telcoin Wallet",
-      "Safety reminders linking to newsroom updates and the Telcoin X account"
-    ]
-  },
-  {
-    "id": "tel-token",
-    "title": "TEL Token — Utility, Rewards, and Risk",
-    "summary": "Details TEL’s role as network gas, staking incentive, and governance asset, plus reward programs and risk awareness references.",
-    "url": "/",
-    "tags": ["TEL Token", "Network"],
-    "headings": [
-      { "id": "tel-overview", "title": "Fuel for Telcoin services and governance" },
-      { "id": "tel-utility", "title": "Utility pillars" },
-      { "id": "tel-rewards", "title": "Reward programs" },
-      { "id": "tel-risk", "title": "Risk awareness" }
-    ],
-    "highlights": [
-      "Explains gas, staking, and governance participation",
-      "Covers TELx liquidity mining and TANIP-1 incentives",
-      "Encourages reviewing legal and security newsroom notices"
-    ]
-  },
-  {
-    "id": "network",
-    "title": "Telcoin Network — Carrier-secured EVM",
-    "summary": "Outlines Telcoin Network architecture, Association-led governance, and security expectations for validators and users.",
-    "url": "/",
-    "tags": ["Network", "Governance"],
-    "headings": [
-      { "id": "network-overview", "title": "Carrier-secured, EVM compatible" },
-      { "id": "network-architecture", "title": "Architecture highlights" },
-      { "id": "network-governance", "title": "Governance & upgrades" },
-      { "id": "network-security", "title": "Security posture" }
-    ],
-    "highlights": [
-      "EVM smart contracts and GSMA-aligned validator criteria",
-      "Association-managed governance and upgrade flow",
-      "Security newsroom and status page references for monitoring"
-    ]
-  },
-  {
-    "id": "telx",
-    "title": "TELx — Telcoin’s Liquidity Engine",
-    "summary": "Breaks down TELx pillars, why the liquidity engine matters, and provides builder links to the pools dashboard and portfolio explorer.",
-    "url": "/",
-    "tags": ["DeFi/TELx", "TEL Token"],
-    "headings": [
-      { "id": "telx-overview", "title": "The decentralized liquidity engine of the Telcoin Platform" },
-      { "id": "telx-pillars", "title": "How it works" },
-      { "id": "telx-differentiators", "title": "Why TELx matters" },
-      { "id": "telx-builder-links", "title": "Builder resources" }
-    ],
-    "highlights": [
-      "Three-pillar explanation covering design, liquidity mining, and user ownership",
-      "Notice linking TELx to Telcoin Bank, Network, and TANIP programs",
-      "Calls to explore TELx Pools and the Portfolio Explorer"
-    ]
-  },
-  {
-    "id": "governance",
-    "title": "Governance & Association — Who Stewards Telcoin?",
-    "summary": "Summarizes the Telcoin Association structure, proposal flow, and compliance transparency sources for legal and security updates.",
-    "url": "/",
-    "tags": ["Governance", "Compliance & Security"],
-    "headings": [
-      { "id": "governance-overview", "title": "Who stewards Telcoin?" },
-      { "id": "governance-structure", "title": "Structure" },
-      { "id": "proposal-flow", "title": "Proposal flow" },
-      { "id": "compliance", "title": "Compliance & transparency" }
-    ],
-    "highlights": [
-      "Defines roles for the Association board, community councils, and working groups",
-      "Outlines idea-to-implementation stages for Telcoin proposals",
-      "Links to legal resources and the security newsroom"
-    ]
-  },
-  {
-    "id": "builders",
-    "title": "Builders — Resources for Telcoin Contributors",
-    "summary": "Curates community dashboards, newcomer context, and contribution guidance for people experimenting with TELx data and tooling.",
-    "url": "/",
-    "tags": ["Builders", "DeFi/TELx"],
-    "headings": [
-      { "id": "builders-overview", "title": "Resources for Telcoin contributors" },
-      { "id": "builders-tools", "title": "Community dashboards" },
-      { "id": "builders-context", "title": "Context for newcomers" },
-      { "id": "builders-contribute", "title": "Contribute" }
-    ],
-    "highlights": [
-      "Links to the TELx Pools dashboard and Portfolio Explorer",
-      "Context box reminding users to verify data on telx.network",
-      "Invitation to fork the GitHub repo and collaborate"
-    ]
+    "body": ""
   },
   {
     "id": "deep-dive",
-    "title": "Deep Dive — How Telcoin’s Pieces Fit Together",
-    "summary": "Primer connecting the Telcoin Association, Network, TEL token, and TELx liquidity layer with recommended official reading order.",
-    "url": "/",
-    "tags": ["Deep Dive", "Getting Started"],
-    "headings": [
-      { "id": "deep-broken-money", "title": "Broken Money" },
-      { "id": "deep-telcoin-model", "title": "Telcoin Model" },
-      { "id": "deep-engine", "title": "Engine" },
-      { "id": "deep-experience", "title": "Experience" },
-      { "id": "deep-learn-more", "title": "Learn More" }
+    "kind": "page",
+    "title": "Deep Dive — Telcoin architecture, economics and risks",
+    "summary": "Long-form reference covering Telcoin Network architecture, Narwhal and Bullshark consensus, Digital Cash, the Telcoin Digital Asset Bank, remittance corridors, TEL tokenomics, governance, and open risks.",
+    "url": "/deep-dive",
+    "tags": [
+      "Deep Dive",
+      "Reference"
     ],
-    "highlights": [
-      "Accordion answers organised around Broken Money, Model, Engine, Experience, and Learn More",
-      "Each topic addresses common objections with citations to telcoin.org, docs.telcoin.network, and telx.network",
-      "Section anchors match the navigation chips and Learn pillar routes"
-    ]
+    "headings": [
+      {
+        "id": "deep-about",
+        "title": "About Telcoin — Deep Dive"
+      },
+      {
+        "id": "deep-problem",
+        "title": "The Problem: Broken Money — Deep Dive"
+      },
+      {
+        "id": "deep-network",
+        "title": "Network and Technology — Deep Dive"
+      },
+      {
+        "id": "deep-consensus",
+        "title": "Consensus — Deep Dive"
+      },
+      {
+        "id": "deep-digital-cash",
+        "title": "Digital Cash — Deep Dive"
+      },
+      {
+        "id": "deep-bank",
+        "title": "Telcoin Digital Asset Bank — Deep Dive"
+      },
+      {
+        "id": "deep-products",
+        "title": "Products and Compliance — Deep Dive"
+      },
+      {
+        "id": "deep-wallet",
+        "title": "The Telcoin Wallet — Deep Dive"
+      },
+      {
+        "id": "deep-remittances",
+        "title": "Remittances and Corridors — Deep Dive"
+      },
+      {
+        "id": "deep-tokenomics",
+        "title": "TEL Tokenomics and Supply — Deep Dive"
+      },
+      {
+        "id": "deep-incentives",
+        "title": "Incentives and Staking — Deep Dive"
+      },
+      {
+        "id": "deep-governance",
+        "title": "Governance — Deep Dive"
+      },
+      {
+        "id": "deep-community",
+        "title": "Community and Access — Deep Dive"
+      },
+      {
+        "id": "deep-security",
+        "title": "Security, Risks and Open Questions — Deep Dive"
+      },
+      {
+        "id": "deep-glossary",
+        "title": "Glossary and Primary Sources — Deep Dive"
+      }
+    ],
+    "body": ""
   },
   {
-    "id": "links",
-    "title": "Official Links — Verified Telcoin Destinations",
-    "summary": "Curated list of official Telcoin product pages, governance docs, legal resources, newsroom updates, and social channels.",
-    "url": "/",
-    "tags": ["Links", "Reference"],
-    "headings": [
-      { "id": "links-overview", "title": "Verified Telcoin destinations" },
-      { "id": "links-grid", "title": "Product & services" },
-      { "id": "links-governance", "title": "Governance & documentation" },
-      { "id": "links-compliance", "title": "Compliance & communications" }
+    "id": "deep-about",
+    "kind": "section",
+    "title": "About Telcoin — Deep Dive",
+    "summary": "What Telcoin Is Really Trying to Build Telcoin’s core ambition isn’t to be another blockchain competing for DeFi liquidity. The vision is far bigger: Telcoin wants to become the financial layer of the mobile internet. It aims to plug direct",
+    "url": "/deep-dive#deep-about",
+    "tags": [
+      "Deep Dive"
     ],
-    "highlights": [
-      "Wallet, Digital Cash, Remittances, and status links",
-      "Association, Network, TEL, and TELx documentation",
-      "Legal library, security newsroom, newsroom, and Telcoin on X"
-    ]
+    "headings": [],
+    "body": "What Telcoin Is Really Trying to Build Telcoin’s core ambition isn’t to be another blockchain competing for DeFi liquidity. The vision is far bigger: Telcoin wants to become the financial layer of the mobile internet. It aims to plug directly into the systems that already serve billions of people — telecoms, mobile money, remittance networks, and emerging-market payments — and give them an instant-settlement foundation that works globally, compliantly, and without the friction that makes traditional finance slow. Most blockchains assume that adoption will come from users discovering ”crypto.” Telcoin assumes adoption will come from users who never even realize they’re interacting with a blockchain. The chain becomes invisible infrastructure, just like TCP/IP under the modern web. What users see is Digital Cash — money that moves instantly, settles with certainty, and integrates into mobile-first workflows. This only works with a token that acts as the computation fuel of the system. TEL is that fuel. It is the unit of computation, coordination, and settlement across the entire economic surface area. As more users join, as telecoms integrate, and as developers build new financial flows on Telcoin Network, TEL becomes more deeply entrenched in the system’s physiology. Origins and Founding Thesis Telcoin was founded in 2017 by Paul Neuner and Claude Eguienta. Neuner’s background was in telecom fraud management, which is where the founding insight came from: mobile network operators already run enormous, tightly regulated financial operations, and they already have billing relationships and verified identity for a large share of the planet. What they lack is a fast, neutral settlement layer that works across borders and across carriers. The original TEL token launched as an ERC-20 on Ethereum in 2017. The project’s structure has evolved considerably since then — from a token plus wallet, to a governed association, a liquidity layer, a regulated bank entity, and finally a dedicated Layer 1 — but the founding thesis has been consistent: reach users through the carriers who already serve them, and make compliance a design input rather than an afterthought. The Four Pillars It helps to keep the moving parts distinct, because they are separate entities with separate roles: Telcoin Network — the EVM-compatible Layer 1 where transactions settle. Telcoin Association — the member-governed body that stewards the protocol, emissions, and network policy. Telcoin Digital Asset Bank — the regulated entity that issues and redeems Digital Cash. TELx — the liquidity layer that makes markets in TEL and Digital Cash. The Telcoin Wallet (the consumer app) sits on top of all four and hides them from the user. The Problem Telcoin Solves Financial rails worldwide are fragmented: national mobile-money systems don’t interoperate, telecom clearing takes hours or days, remittances are slow and expensive, and stablecoins lack regulatory legitimacy outside crypto. Telcoin solves all of this by offering a settlement framework where: money is regulated at the banking layer, settlement is global and instant at the blockchain layer, distribution is handled by telecoms with billions of users, programmability is unlocked through an EVM-compatible environment. It is the first time regulated fiat, mobile identity, telecom rails, and a modular L1 are integrated into a single economic system — and the glue that holds this system together is TEL. Who Telcoin Serves The Telcoin ecosystem is designed for three overlapping groups: Consumers get a self-custodial wallet where they can send, store, and swap digital assets — including Digital Cash — with the speed of messaging. Telecoms get a settlement backend that removes clearing delays and modernizes mobile-money flows. Developers get an execution environment built for payments and financial apps, not gambling or speculation. Each group’s participation increases throughput, and throughput increases TEL’s utility."
   },
   {
-    "id": "about",
-    "title": "About — Why This Wiki Exists",
-    "summary": "Explains the community-run mission, unofficial disclaimer, contribution steps, and roadmap ideas grounded in official Telcoin sources.",
-    "url": "/#home-hero",
-    "tags": ["About", "Builders"],
-    "headings": [
-      { "id": "about-mission", "title": "Why this wiki exists" },
-      { "id": "about-disclaimer", "title": "Unofficial status" },
-      { "id": "about-contribute", "title": "How to contribute" },
-      { "id": "about-roadmap", "title": "Roadmap ideas" }
+    "id": "deep-problem",
+    "kind": "section",
+    "title": "The Problem: Broken Money — Deep Dive",
+    "summary": "Why Moving Money Is Still Hard in a Connected World You can send a photograph to the other side of the planet in under a second, for free. Sending fifty dollars to the same place can take three days and cost six of them. That gap is not a t",
+    "url": "/deep-dive#deep-problem",
+    "tags": [
+      "Deep Dive"
     ],
-    "highlights": [
-      "Community disclaimer encouraging verification via official channels",
-      "Step-by-step contribution guidance with GitHub link",
-      "Roadmap notes on localization, analytics, and compliance summaries"
-    ]
+    "headings": [],
+    "body": "Why Moving Money Is Still Hard in a Connected World You can send a photograph to the other side of the planet in under a second, for free. Sending fifty dollars to the same place can take three days and cost six of them. That gap is not a technology problem — the technology has existed for years. It is a structural problem, and it has three distinct causes that Telcoin addresses separately. Cause One: Correspondent Banking Cross-border payments still largely travel through correspondent banking, a chain of bilateral relationships between banks that each hold accounts with one another. A transfer from a small bank in one country to a small bank in another may hop through two or three intermediaries. Every hop adds a fee, a cut-off time, a compliance check, and a point of failure. Worse, the system requires pre-funded accounts. Banks must park capital in foreign currencies just to be able to settle, which ties up liquidity and pushes costs back onto the sender. Instant settlement on a shared ledger removes the need for that pre-funding entirely — both parties settle against the same record. Cause Two: Mobile Money Islands Mobile money has been genuinely transformative — services across Africa, South Asia, and Southeast Asia brought hundreds of millions of people into the financial system using nothing but a feature phone. But each deployment is effectively a closed loop. Value inside one carrier’s mobile-money system generally cannot move natively to another carrier’s, let alone across a border. The result is a map of financial islands. Users are served, but they are not connected. Telcoin’s proposition is that the islands do not need to be replaced — they need a shared settlement layer between them, and telecoms are the natural operators of that layer. Cause Three: The Cost Falls on the People Least Able to Bear It Remittance pricing is regressive. Fees are often a flat component plus a percentage, plus an exchange-rate margin that is rarely disclosed clearly. Small transfers — the kind sent by migrant workers supporting family — carry the highest effective cost. The United Nations has a Sustainable Development Goal target of reducing remittance costs to 3 percent; global averages have remained stubbornly above that for years. The exchange-rate spread deserves particular attention, because it is where much of the real cost hides. A service advertising ”zero fees” may still take several percent through the rate it quotes. Transparent, on-chain settlement makes that spread visible and competitive. Why Crypto Hasn’t Fixed It Yet Cryptocurrency solved the settlement problem and then created three new ones: volatility, custody, and compliance. A worker sending wages home cannot accept a 10 percent price swing in transit. A first-time user cannot be handed a seed phrase and told that losing it means losing everything. And a regulated business cannot accept funds from a system with no identity layer. Telcoin’s answer to each is structural rather than cosmetic: Digital Cash removes volatility by being fiat-denominated and redeemable, the wallet’s multi-key design removes the seed phrase, and telecom-anchored identity plus a chartered bank supply the compliance layer. Any payments network aimed at ordinary users has to solve all three at once — solving two is the same as solving none."
   },
   {
-    "id": "pools",
-    "title": "TELx Pools Dashboard — Telcoin Liquidity Overview",
-    "summary": "TELx pools dashboard with a newcomer context box, live metrics sourced from telx.network, and links back to official TELx documentation.",
-    "url": "/",
-    "tags": ["DeFi/TELx", "Builders"],
-    "headings": [
-      { "id": "pools-overview", "title": "Pools overview" },
-      { "id": "pools-context", "title": "How newcomers use this dashboard" },
-      { "id": "pools-table", "title": "Live TELx pools" }
+    "id": "deep-network",
+    "kind": "section",
+    "title": "Network and Technology — Deep Dive",
+    "summary": "Architectural Foundations: Why Telcoin Is Modular Telcoin Network is built on a modular architecture because monolithic blockchains simply cannot support the throughput required for global mobile financial flows. In a monolithic design, con",
+    "url": "/deep-dive#deep-network",
+    "tags": [
+      "Deep Dive"
     ],
-    "highlights": [
-      "Explains why TELx pool health matters before interacting",
-      "Live table with TVL, staking, volume, fees, and rewards",
-      "Warning banner pointing back to telx.network when data is unavailable"
-    ]
+    "headings": [],
+    "body": "Architectural Foundations: Why Telcoin Is Modular Telcoin Network is built on a modular architecture because monolithic blockchains simply cannot support the throughput required for global mobile financial flows. In a monolithic design, consensus, execution, and data availability fight over the same computational pipeline. This leads to congestion, high fees, and unpredictable performance. Telcoin sidesteps this by separating responsibilities entirely. Consensus nodes handle ordering and finality. Execution layers independently process smart contract logic. Data availability ensures every block’s data is globally visible and auditable. These layers communicate but never compete, allowing the network to scale like modern distributed systems rather than like yesterday’s blockchains. This architecture mirrors real-world financial infrastructure: SWIFT for messaging, ACH for clearing, domestic banking systems for finality. Telcoin recreates this model as a programmable, decentralized system capable of scaling far beyond typical L1 ceilings. And because gas is paid in TEL, the economic value tied to network activity grows as the architecture supports more throughput. Execution on Telcoin: EVM Without the Bottlenecks Developers interact with Telcoin like they interact with Ethereum: Solidity, Foundry, Hardhat, and RPC endpoints behave exactly as expected. But Telcoin isolates execution from consensus, which means smart contracts never slow down block production. The chain can scale its execution capacity by adding more execution layers without touching the validator set. This creates an environment where developers always have predictable gas fees, predictable performance, and predictable finality. For TEL holders, execution growth means more gas usage and a higher baseline demand for the token. Who Actually Runs the Validators This is the design decision that most distinguishes Telcoin Network from other Layer 1s. Validator slots are intended for GSMA-member mobile network operators rather than anonymous stakers. The GSMA is the industry body representing mobile operators worldwide, and its members are precisely the organizations that already hold telecom licences, run national-scale infrastructure, and answer to financial regulators in the markets they serve. The tradeoff is explicit and worth stating plainly. A permissioned validator set is less open than a permissionless one. In exchange, the network gets validators with legal identities, regulatory obligations, existing security operations, and a commercial reason to keep the chain running that has nothing to do with token price. For a settlement network handling regulated money, that tradeoff is the point rather than a compromise. Multi-Chain Presence Today TEL did not begin on Telcoin Network, and the token still circulates across several chains. TEL originated as an ERC-20 on Ethereum and is also present on Polygon and Base, with bridges connecting the deployments. A meaningful share of everyday user activity — staking and liquidity in particular — has historically run on Polygon because of its low transaction costs. One quirk trips up almost everyone reading raw chain data for the first time: TEL uses 2 decimals , not the 18 that most ERC-20 tokens use. A raw balance of 100000 is 1,000.00 TEL, not a fraction of a token. Any script reading balances directly from a contract must divide by 100. Scalability Path Because Telcoin is modular, scalability is limited only by how much execution the ecosystem demands. Consensus remains fast even if execution layers grow massively. Telecom validators can scale their infrastructure independently. Data availability expands as usage expands. Telcoin is designed to scale into billions of daily transactions — something no monolithic chain can claim."
   },
   {
-    "id": "portfolio",
-    "title": "TELx Portfolio — Claimable Rewards & LPT Stakes",
-    "summary": "Illustrative TELx portfolio view that shows claimable rewards, LPT stakes, and context on verifying information with official dashboards.",
-    "url": "/",
-    "tags": ["DeFi/TELx", "Builders"],
-    "headings": [
-      { "id": "portfolio-overview", "title": "Your TELx positions" },
-      { "id": "portfolio-context", "title": "How to read this mock-up" },
-      { "id": "portfolio-claimable", "title": "Claimable rewards" },
-      { "id": "portfolio-stakes", "title": "Your LPT stakes" }
+    "id": "deep-consensus",
+    "kind": "section",
+    "title": "Consensus — Deep Dive",
+    "summary": "Consensus: Narwhal and Bullshark Narwhal and Bullshark are the beating heart of Telcoin Network. Narwhal handles transaction ingestion using a DAG (Directed Acyclic Graph) so validators can process and propagate data in parallel. Bullshark ",
+    "url": "/deep-dive#deep-consensus",
+    "tags": [
+      "Deep Dive"
     ],
-    "highlights": [
-      "Context box clarifying the portfolio is a design-time simulation",
-      "Lists claimable TEL rewards with status chips and key notes",
-      "Breakdown of LPT stakes including active and archived pools"
-    ]
+    "headings": [],
+    "body": "Consensus: Narwhal and Bullshark Narwhal and Bullshark are the beating heart of Telcoin Network. Narwhal handles transaction ingestion using a DAG (Directed Acyclic Graph) so validators can process and propagate data in parallel. Bullshark establishes deterministic consensus in a single round. Together, they produce instant, irreversible finality — a property that’s essential for payments. In most blockchains, finality is probabilistic. You wait for six confirmations or more to be sure your transaction won’t be reorganized. Bullshark eliminates this uncertainty. Once a block is signed, it is permanently finalized. There is no chance of rollback, no fork risk, no ambiguity. This reliability is the reason telecoms, remittance firms, and banks can consider building on Telcoin. It transforms TEL from a speculative token into a settlement commodity. The Key Idea: Separating Data Availability from Ordering The insight behind Narwhal — which came out of academic distributed-systems research and was popularized by the Mysten Labs team — is that traditional BFT consensus protocols waste most of their capacity doing the wrong job. In a classic design, the leader proposes a block containing the actual transaction data, and that block must be broadcast to everyone. The leader’s bandwidth becomes the network’s ceiling. Narwhal splits these concerns. A mempool layer disseminates transaction data continuously and in parallel across all validators, building a DAG of certified batches. Every validator is contributing bandwidth all the time, not waiting for its turn to lead. By the time consensus runs, the data is already everywhere. Consensus then only has to agree on ordering — which is a tiny amount of metadata, not megabytes of transactions. This is why the approach scales: you have decoupled the expensive part (moving data) from the part that requires global agreement (deciding sequence). Why Narwhal Matters for Real Financial Workloads Telecoms often settle millions of microtransactions: airtime, data bundles, mobile-money transfers, and roaming charges. Traditional blockchain mempools collapse under this kind of transactional concurrency. Narwhal’s DAG structure allows Telcoin to ingest and broadcast transactions at telecom-grade throughput. When you remove mempool bottlenecks, you enable entire classes of high-frequency payment flows. And when those flows hit the settlement layer, TEL is burned as gas. Narwhal’s parallelism directly supports the economic capacity of the token. Bullshark: Ordering a DAG Without Extra Messages Bullshark is the consensus protocol that runs on top of Narwhal’s DAG. Its elegance is that it requires zero additional communication . Because every validator already holds the same DAG structure, each one can independently apply the same deterministic rules to walk that DAG and derive the same total ordering of transactions. Agreement emerges from shared data plus shared rules, not from another round of voting. Bullshark tolerates Byzantine faults up to the standard BFT threshold — the network stays correct and live as long as fewer than one third of validators by stake are faulty or malicious. Under good network conditions it commits with very low latency; under adverse conditions it falls back to a slower but still safe path. Safety is never traded away for speed. Why Bullshark Matters for Regulatory Institutions Bullshark’s deterministic finality satisfies requirements that banks and telecoms cannot compromise on. Transactions must be final, not probably final. Systems must be auditable. Settlements cannot roll back. These rules are non-negotiable in regulated environments. It is difficult to overstate how much this matters operationally. A bank that accepts a probabilistically final payment has to carry reversal risk on its balance sheet and build reconciliation processes to handle rollbacks. Deterministic finality removes that entire category of work. The payment either happened or it did not, and the answer never changes afterwards. Bullshark gives Telcoin the certainty needed to replace clearinghouses that have existed for decades. TEL becomes the economic unit behind a system regulated entities can trust."
+  },
+  {
+    "id": "deep-digital-cash",
+    "kind": "section",
+    "title": "Digital Cash — Deep Dive",
+    "summary": "Digital Cash: Regulated Money Built for the Blockchain Era Digital Cash is Telcoin’s family of fiat-backed digital currencies, issued through its regulated bank entity and designed for blockchain-native settlement. The design intent is that",
+    "url": "/deep-dive#deep-digital-cash",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "Digital Cash: Regulated Money Built for the Blockchain Era Digital Cash is Telcoin’s family of fiat-backed digital currencies, issued through its regulated bank entity and designed for blockchain-native settlement. The design intent is that each unit is fully reserved and redeemable on demand, with the issuing entity carrying statutory obligations rather than only contractual ones. The Telcoin Digital Asset Bank mints and burns Digital Cash. Telcoin Network settles it. The separation of responsibilities creates a hybrid system where fiat currency gains the programmability of blockchain without sacrificing regulatory compliance. When Digital Cash moves across Telcoin Network, TEL is consumed as gas. The more Digital Cash becomes a preferred instrument for remittances, merchant payments, telecom settlement, and mobile-money interoperability, the more TEL becomes the universal settlement asset behind it. Naming and the Multi-Currency Model Digital Cash uses an e prefix followed by the ISO currency code: eUSD for the US dollar, eEUR for the euro, eJPY for the Japanese yen, and so on. This is deliberately unlike the stablecoin market’s convention of brand-led names, and it signals the intent — these are digital representations of national currencies, not products with their own identities. The multi-currency approach matters more than it first appears. A remittance corridor is a currency pair, not a single currency. Sending value from Australia to the Philippines is an AUD-to-PHP problem. A network that only issues dollars forces every corridor through a dollar leg, adding two conversions and two spreads. Issuing many currencies natively lets value settle closer to the pair the user actually cares about. Note that the set of currencies designed for the system is broader than the set live and available to users at any given moment. Treat the grid below as the intended range rather than a live availability list, and check the Telcoin app for what you can actually hold today. How Digital Cash Differs from Conventional Stablecoins The mechanics look similar from the outside — deposit fiat, receive a token, redeem the token for fiat. The difference is in what stands behind the redemption promise. Issuer type. Most large stablecoins are issued by private companies. Digital Cash is issued through a chartered depository institution subject to banking supervision. Reserve treatment. The bank model places reserve requirements and examination under a supervisory regime rather than relying only on voluntary attestations. Redemption rights. A bank deposit relationship carries statutory rights; a token issued by an unregulated entity is a contractual claim whose strength depends entirely on the issuer’s terms. Currency coverage. The stablecoin market is overwhelmingly dollar-denominated. Digital Cash is designed as a multi-currency family from the start. None of this makes Digital Cash risk-free — every fiat-backed instrument carries issuer, reserve, and operational risk. It changes who supervises those risks and what recourse holders have. Mint, Redeem, and the Full Lifecycle A unit of Digital Cash follows a closed loop. A verified user deposits fiat with the bank entity. The bank holds that fiat in reserve and mints the corresponding Digital Cash on-chain to the user’s self-custodial wallet address. The user can now send, hold, or swap it — the bank is no longer in the transaction path, and settlement happens on Telcoin Network. Redemption reverses the flow. The user returns Digital Cash to the issuer, the tokens are burned, and fiat is released from reserve to the user’s bank account or mobile-money wallet. Because minting and burning are the only ways units enter and leave circulation, on-chain supply should always correspond to reserves held — which is what makes the instrument auditable."
+  },
+  {
+    "id": "deep-bank",
+    "kind": "section",
+    "title": "Telcoin Digital Asset Bank — Deep Dive",
+    "summary": "Why a Bank Charter At All Most crypto projects treat regulation as an obstacle to route around. Telcoin’s position is the inverse: for money that ordinary people rely on, regulation is the product. A payroll deposit, a remittance to family,",
+    "url": "/deep-dive#deep-bank",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "Why a Bank Charter At All Most crypto projects treat regulation as an obstacle to route around. Telcoin’s position is the inverse: for money that ordinary people rely on, regulation is the product. A payroll deposit, a remittance to family, or a merchant’s daily float are not speculative positions. Users need to know that the institution holding the backing assets is examined, capitalized, and legally obligated to give the money back. Pursuing a charter is slow and expensive, and it constrains what the business can do. That is precisely why it functions as a moat — it is a cost that a competitor cannot simply decide to skip. The Nebraska Route Telcoin pursued a charter in Nebraska, which passed the Nebraska Financial Innovation Act to create a state-supervised category of digital asset depository institution. The framework was designed for exactly this case: an institution that takes deposits and issues digital representations of them, supervised by a state banking department rather than operating in a regulatory gap. Telcoin has described its resulting entity as the first bank of its kind chartered in the United States. Because charter conditions, approval stages, and operational go-live dates are all distinct milestones that have moved over time, treat the current operating status as something to verify against Telcoin’s own announcements and the Nebraska Department of Banking and Finance rather than as settled fact from a community wiki. What the Bank Actually Does The bank entity’s role is narrow and deliberately so. It handles custody of fiat reserves, know-your-customer and anti-money-laundering programs, transaction surveillance, and the mint and redemption of Digital Cash. It does not custody users’ crypto assets — the wallet is self-custodial — and the blockchain never touches customer fiat, only the digital representation of it. This separation is what gives Telcoin the credibility to integrate with telecoms, merchants, and financial institutions. And because the bank is obligated to maintain reserves and redemption processes, Digital Cash becomes a legitimate monetary instrument rather than a corporate IOU. Reserve Management A digital asset depository institution of this type is expected to hold reserves in high-quality liquid assets rather than lending deposits out. That is a meaningful distinction from a conventional commercial bank: there is no fractional reserve lending against Digital Cash balances, which is what allows redemption on demand to be a credible promise. The tradeoff is that the business cannot earn a lending spread and must instead earn from reserve yield and transaction economics. It is a narrower, lower-risk business model — appropriate for an institution whose core promise is that the money is always there. Where the Bank Sits Relative to Everything Else Keeping the entities distinct is the single most useful thing a reader can do when evaluating Telcoin. The bank issues money. The Association governs the protocol. The network settles transactions. TELx provides liquidity. The wallet is the interface. These are separate legal and technical structures, and a claim about one is not automatically a claim about another."
+  },
+  {
+    "id": "deep-products",
+    "kind": "section",
+    "title": "Products and Compliance — Deep Dive",
+    "summary": "Telcoin Digital Asset Bank: The Compliance Anchor The Telcoin Digital Asset Bank acts as a regulated bridge between fiat and digital currency. It handles custody, KYC, AML, surveillance, and fiat settlement. The blockchain never touches cus",
+    "url": "/deep-dive#deep-products",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "Telcoin Digital Asset Bank: The Compliance Anchor The Telcoin Digital Asset Bank acts as a regulated bridge between fiat and digital currency. It handles custody, KYC, AML, surveillance, and fiat settlement. The blockchain never touches customer fiat — it only processes the digital representation of it. See the dedicated Bank section above for how the charter and reserve model work. Telecom Integration Telecoms operate one of the world’s largest financial rails: mobile money. These networks move enormous volumes annually. Yet cross-carrier settlement is slow and fragmented. Digital Cash gives telecoms a uniform settlement instrument and Telcoin gives them instant finality. Telecoms do not need TEL to operate mobile-money systems, but all of their Digital Cash settlement runs on Telcoin Network — and that consumes TEL. This is how enterprise adoption converts into direct token demand without forcing enterprises into speculative token holdings. Inter-Carrier Settlement in Practice When you roam onto a foreign network, or when a call crosses from one operator to another, the carriers owe each other money. Historically this is reconciled through bilateral agreements, clearing houses, and settlement cycles measured in weeks. Disputes are common because each side keeps its own records and the two do not always agree. A shared ledger changes the shape of the problem. If both carriers settle against the same record with deterministic finality, reconciliation becomes a read operation rather than a negotiation. The working capital that each carrier currently ties up waiting for settlement cycles is freed. This is an unglamorous use case, but it is a large one, and it is the kind of thing carriers will adopt for hard commercial reasons rather than enthusiasm for blockchain. Merchant Payments Card networks charge merchants a percentage of every sale and settle days later, with chargeback risk lingering for months. Digital Cash settles instantly and irreversibly, which removes both the float and the chargeback exposure. Irreversibility cuts both ways, of course — the consumer protection that chargebacks provide has to be reconstructed some other way, typically through escrow or dispute mechanisms built at the application layer. That is a solvable design problem, but it is a real one and worth naming rather than glossing over. Compliance as Architecture The important structural point is that compliance obligations sit at the layer where they belong. The bank runs KYC and AML because it is the regulated deposit-taking entity. Telecoms contribute verified identity because they already perform SIM registration. The blockchain layer stays neutral and does not attempt to encode jurisdiction-specific rules into consensus. This is why the design can serve many jurisdictions at once. Rules that vary by country are enforced by entities licensed in those countries, while the settlement layer underneath stays uniform."
+  },
+  {
+    "id": "deep-wallet",
+    "kind": "section",
+    "title": "The Telcoin Wallet — Deep Dive",
+    "summary": "The Interface Everything Else Exists to Support Nearly all of Telcoin’s architecture is invisible to the people it is built for. The wallet — available as a mobile app — is where the entire system becomes a product. Its design goal is that ",
+    "url": "/deep-dive#deep-wallet",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "The Interface Everything Else Exists to Support Nearly all of Telcoin’s architecture is invisible to the people it is built for. The wallet — available as a mobile app — is where the entire system becomes a product. Its design goal is that a user who has never heard the word ”blockchain” can send money to family and have it arrive, without ever encountering a gas fee dialog, a seed phrase, or a hexadecimal address. Self-Custody Without Seed Phrases The wallet is self-custodial: Telcoin does not hold users’ crypto assets, and the user’s keys are the user’s own. But the wallet deliberately avoids the standard twelve-word recovery phrase, because that mechanism has a catastrophic failure mode for mainstream users. Write it down and someone can steal it. Lose it and the money is gone permanently, with no recourse and no support line that can help. Instead the wallet uses a multi-key design that distributes key material across separate factors — the device, the user’s credentials, and recovery material — so that no single point of compromise or loss is fatal. Recovering access becomes a process a normal person can complete, rather than a test of whether they filed a piece of paper correctly three years ago. This is the central usability bet of the whole project. Self-custody has never reached mainstream adoption, and seed phrases are a large part of the reason. Solving recovery without reintroducing a custodian is genuinely hard, and it is where the wallet does much of its engineering work. What Users Can Actually Do Hold Digital Cash and supported crypto assets in one place. Send value domestically and across borders, including into mobile-money and bank endpoints in supported corridors. Swap between assets, with liquidity supplied by TELx. Stake TEL to earn rewards and unlock tiers. Verify identity once, then transact within the limits that verification unlocks. Abstracting Gas Away Requiring users to hold a separate gas token before they can move their own money is one of crypto’s most persistent usability failures. Someone who receives Digital Cash and holds no TEL should not discover that their money is stranded. Payment-focused networks address this through fee abstraction — sponsoring fees, paying them from the transferred asset, or bundling them into the quoted rate — so the user simply sees the amount that will arrive. Gas is still consumed in TEL underneath; the question is only who assembles it and when. From the user’s perspective there is a send button and a total, which is exactly how it should look."
+  },
+  {
+    "id": "deep-remittances",
+    "kind": "section",
+    "title": "Remittances and Corridors — Deep Dive",
+    "summary": "The Flagship Use Case Remittances are where Telcoin’s argument is strongest, because the incumbent experience is genuinely poor and the affected population is enormous. Hundreds of billions of dollars flow annually from workers in wealthier",
+    "url": "/deep-dive#deep-remittances",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "The Flagship Use Case Remittances are where Telcoin’s argument is strongest, because the incumbent experience is genuinely poor and the affected population is enormous. Hundreds of billions of dollars flow annually from workers in wealthier economies to families in lower- and middle-income countries. For many receiving households this is a larger and more stable source of income than foreign aid or direct investment. These flows are also remarkably resilient — they tend to hold up or even rise during downturns in the receiving country, precisely when they are needed most. Reducing the cost of moving them is one of the highest-leverage interventions available in global development, which is why it carries a UN Sustainable Development Goal target. What a ”Corridor” Means A corridor is a directional country pair — Australia to the Philippines, the United States to Mexico, Singapore to Indonesia. It is the unit that matters operationally, because each one requires its own licensing, banking relationships, payout partners, currency handling, and compliance posture. Serving a new corridor is not a software deployment; it is a regulatory and commercial project. This is why remittance providers expand corridor by corridor rather than launching globally, and why any claim about coverage should be checked against the provider’s current published list. Availability changes, and it changes in both directions. Where the Cost Actually Goes A remittance’s total cost breaks into four parts, and only the first is usually advertised: The stated fee — the visible, headline number. The exchange-rate margin — the spread between the rate quoted and the real mid-market rate. Frequently the largest component, and frequently invisible. Intermediary deductions — correspondent banks taking a cut in transit, so less arrives than was quoted. Payout costs — what the recipient pays or loses to collect the funds at the other end. Telcoin’s structural attack is on the second and third. Settling on a shared ledger removes intermediary hops entirely, and running currency conversion through transparent on-chain liquidity makes the spread visible and contestable rather than set unilaterally by the provider. The Last Mile Is Still the Hard Part Honesty matters here, because it is where crypto remittance projects routinely overstate their progress. Moving value across a blockchain is the easy half. The hard half is the recipient converting that value into something they can spend — cash in hand, a mobile-money balance, a bank deposit — in a country with its own licensing regime and its own payout infrastructure. That last mile requires local partnerships and local licences in every market served. It is the reason corridors open slowly. Telcoin’s telecom-first strategy is a direct response: mobile network operators already are the last mile in many of these markets, with agent networks and mobile-money systems already reaching the recipient. Partnering with the carrier is faster than rebuilding what the carrier already has."
+  },
+  {
+    "id": "deep-tokenomics",
+    "kind": "section",
+    "title": "TEL Tokenomics and Supply — Deep Dive",
+    "summary": "The Fixed Supply TEL has a fixed maximum supply of 100,000,000,000 — one hundred billion tokens. There is no protocol inflation minting new TEL into existence. Every token that will ever exist already exists, which means all ecosystem incen",
+    "url": "/deep-dive#deep-tokenomics",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "The Fixed Supply TEL has a fixed maximum supply of 100,000,000,000 — one hundred billion tokens. There is no protocol inflation minting new TEL into existence. Every token that will ever exist already exists, which means all ecosystem incentives, staking rewards, and liquidity programs are funded from allocations carved out of that fixed pool rather than from newly issued supply. The large token count is a denomination choice, not an economic one. A supply of 100 billion at a low unit price and a supply of 100 million at a high unit price describe the same network value. The relevant number is always market capitalization, never the price of a single token. Two Decimals — The Detail That Breaks Scripts TEL uses 2 decimal places on every chain where it is deployed. This is unusual: most ERC-20 tokens use 18. It makes intuitive sense for a currency-like asset — you get hundredths, the same as cents — but it is a reliable source of bugs for anyone reading contract data directly. A raw on-chain balance of 1000000 is 10,000.00 TEL. Divide raw values by 100, not by 10 18 . Tooling that assumes the default will report balances off by sixteen orders of magnitude. What TEL Is Actually For TEL is not a single-purpose token, and the different roles reinforce one another: Gas. Every transaction on Telcoin Network consumes TEL, tying token demand to real usage. Validator stake. Telecom validators post TEL as the economic bond securing consensus. User staking. Holders stake to earn rewards and unlock tiers, removing supply from circulation. Liquidity incentives. TELx directs TEL rewards to liquidity providers who make markets in TEL and Digital Cash. Governance. Staked TEL carries influence over Association decisions and emissions policy. The through-line is that TEL is consumed and locked in proportion to how much the network is used, which is closer to a commodity profile than to a pure equity-like claim. Where the Supply Sits Today The sibling Telcoin Proposal Tracker project maintains an independent, reproducible on-chain census of TEL across Ethereum, Polygon, and Base. It classifies addresses into exchange wallets, DEX pools, treasury and escrow, and retail holders, then reconciles the total against the fixed 100 billion supply. As of the 16 August 2026 snapshot, that census recorded roughly 99,700 holding addresses across the three chains — about 74,000 of them classified as retail after exchange, DEX, and treasury wallets are excluded. Approximately 20.7 billion TEL sat in identified centralized-exchange wallets. Two caveats are important. Address counts are not people — one user may hold several addresses, and a single exchange address may represent millions of users. And these figures are a snapshot from an independent community project using its own classification rules, not an official Telcoin disclosure. They move daily. Staking Mechanics User staking has historically run through a staking contract deployed on Polygon, chosen because transaction costs there make small stakes economically viable in a way that Ethereum mainnet fees would not. Staked TEL is locked, removing it from circulating supply for as long as the position is held. Rewards come from allocated pools rather than from inflation. This is a meaningful structural difference from inflationary proof-of-stake networks: a staker’s rewards are not diluting non-stakers by minting new supply, but the reward pools are finite and their emission schedule is a governance decision rather than a fixed protocol constant."
+  },
+  {
+    "id": "deep-incentives",
+    "kind": "section",
+    "title": "Incentives and Staking — Deep Dive",
+    "summary": "Token Economics: TEL as the Settlement Commodity TEL functions as gas, governance, staking collateral, reward fuel, liquidity incentive, and validator alignment. Its utility is multi-dimensional and woven throughout the system. Because Telc",
+    "url": "/deep-dive#deep-incentives",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "Token Economics: TEL as the Settlement Commodity TEL functions as gas, governance, staking collateral, reward fuel, liquidity incentive, and validator alignment. Its utility is multi-dimensional and woven throughout the system. Because Telcoin is built for real financial flows rather than speculative activity, its economics hinge on transaction volume rather than inflationary reward structures. As remittances, mobile money, wallet swaps, and telecom settlements grow, the network processes more transactions. Each transaction requires TEL at the settlement layer. This gives TEL a utility profile closer to a commodity — a resource consumed in proportion to economic activity. User Staking Users stake TEL inside the Telcoin Wallet to unlock referral tiers and governance power. Staked TEL is removed from circulation, creating natural supply restriction. As more users adopt staking for rewards or participation, TEL becomes increasingly scarce relative to demand. Validator Staking Telecom validators stake TEL to secure the chain. This is not a yield-maximization exercise. It is an operational requirement tied to real financial activity. Telecoms that settle significant volume daily have a profound incentive to keep the network secure and stable. Staking TEL becomes part of their operational footprint, locking large quantities of the token out of circulation. TELx: The Decentralized Liquidity Engine TELx is the liquidity layer of the ecosystem. It builds on established automated market maker infrastructure and layers TEL incentives on top, directing rewards to the liquidity providers who make markets in TEL, Digital Cash, and the other assets available in the Telcoin Wallet. The purpose is concrete rather than abstract. When a user swaps currencies in the wallet, the quality of the rate they receive depends entirely on how deep the underlying liquidity pool is. Thin liquidity means slippage, and slippage on a remittance is just another hidden fee. Paying liquidity providers to keep pools deep is therefore a direct investment in the product’s core promise. Deep liquidity improves execution quality, which improves user experience, which increases wallet activity, which increases transaction throughput — and throughput consumes TEL. That loop is the economic flywheel TELx exists to spin. What Liquidity Providers Are Actually Taking On Providing liquidity is not free yield, and anyone considering it should understand the exposure. An AMM position rebalances automatically as prices move, which means a provider ends up holding more of whichever asset is falling and less of whichever is rising. Compared to simply holding the two assets, this produces a shortfall — commonly called impermanent loss, though it becomes quite permanent if you withdraw while the divergence persists. TEL incentives are what compensate providers for taking that risk. Whether the compensation is adequate depends on emission rates, trading volume, and price volatility, all of which change. Pairs of two currencies that track each other closely carry much less of this risk than a volatile-to-stable pair. TELx Platform AMM Infrastructure Supported Chains Supported Assets"
+  },
+  {
+    "id": "deep-governance",
+    "kind": "section",
+    "title": "Governance — Deep Dive",
+    "summary": "How Governance Shapes the Network The Telcoin Association governs emissions, network decisions, ecosystem funding, and protocol direction. TEL stakers elect councils, submit proposals, and shape the trajectory of the financial network. Gove",
+    "url": "/deep-dive#deep-governance",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "How Governance Shapes the Network The Telcoin Association governs emissions, network decisions, ecosystem funding, and protocol direction. TEL stakers elect councils, submit proposals, and shape the trajectory of the financial network. Governance is not a symbolic add-on — it directly impacts how TELx emissions flow, how incentives evolve, and how the network grows. As more ecosystem participants emerge — telecoms, integrators, liquidity providers, developers — governance influence becomes valuable. Demand for influence becomes demand for TEL. Why an Association Rather Than a Company The Association is organized as a Swiss association, a structure that several major blockchain projects have adopted. The reasoning is that a member-governed, non-profit body is a more credible steward of neutral infrastructure than a private company would be. Carriers being asked to run validators and settle real money need assurance that the rules will not be changed unilaterally by a corporation pursuing its own commercial interests. The structure also creates a clean separation of concerns: the Association governs the protocol, while operating companies build products on top of it. Those are different jobs with different incentives, and conflating them is how neutral infrastructure stops being neutral. Councils and Working Groups Rather than putting every decision to a token-wide vote, governance is organized into elected councils and working groups covering distinct domains — network operations, liquidity and emissions, applications, and governance process itself. Stakers elect representatives to these bodies, and the bodies do the detailed work. This is a deliberate response to a well-documented failure of pure token voting: most holders lack the time or context to evaluate technical proposals, so direct votes suffer from low participation and outsized influence for large holders. Delegated, domain-specific bodies trade some directness for competence and continuity. What Governance Actually Controls TELx emissions — how much TEL flows to which liquidity pools, and on what schedule. Validator policy — requirements and standards for running network infrastructure. Protocol upgrades — changes to the network itself. Ecosystem funding — grants and support for development. Note what is not on that list. Governance does not control the bank’s regulatory obligations — a banking regulator does. It does not control the laws in any market. Understanding this boundary prevents a common misreading in which token governance is assumed to have authority over the regulated parts of the system. The Honest Assessment Decentralized governance is difficult everywhere it has been tried. Participation is typically low, informed participation lower still, and influence tends to concentrate among those with the largest stakes and the most time. Telcoin’s council model addresses some of this but does not escape it. Readers evaluating the project should look at actual participation rates and proposal histories rather than at the governance design on paper."
+  },
+  {
+    "id": "deep-community",
+    "kind": "section",
+    "title": "Community and Access — Deep Dive",
+    "summary": "The Telcoin Wallet: Self-Custody for the Real World The Telcoin Wallet uses a multi-key structure instead of seed phrases. Keys are distributed across factors, making it far harder for a user to lose access or be compromised. This makes sel",
+    "url": "/deep-dive#deep-community",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "The Telcoin Wallet: Self-Custody for the Real World The Telcoin Wallet uses a multi-key structure instead of seed phrases. Keys are distributed across factors, making it far harder for a user to lose access or be compromised. This makes self-custody viable for mainstream audiences who will never adopt seed-phrase security. The dedicated Wallet section above covers the mechanics in more detail. The wallet abstracts blockchain complexity entirely. Users simply see Digital Cash, crypto assets, swaps, and earnings. Behind the scenes, TEL powers settlement. Identity and Telecom-Anchored Verification Telecoms already handle KYC and SIM registration for enormous numbers of users. In many markets, registering a SIM requires government identification by law, which means carriers hold verified identity for populations that traditional banks never reached. Telcoin leverages this infrastructure to enable identity verification for compliance-heavy applications like remittances, merchant payments, and regulated money transfers. The privacy question this raises is real and deserves a direct answer rather than a reassuring one. Linking financial activity to telecom identity is powerful for compliance and correspondingly sensitive for users. The mitigating design principle is data minimization — verification should confirm that a user meets a requirement without broadcasting their identity on-chain to everyone. Identity attaches at the regulated layer, not to the public ledger. How well any implementation lives up to that principle is a fair thing for users to scrutinize. Getting Involved Telcoin has an unusually persistent community, much of it dating to the 2017 era. Governance forums carry proposals and council discussion, and independent community projects — including on-chain analytics trackers and this wiki — sit alongside official channels. For anyone new, the useful sequence is: read the official documentation first, then use community resources to fill in context, and treat any single source as fallible. Where Telcoin Fits in the Landscape Most blockchains aim at DeFi or gaming. Telcoin aims at payments, telecom settlement, and regulated digital money. Its architecture, partnerships, compliance posture, and throughput model place it in a category of its own: a global settlement network for mobile-first economies. Its genuine competitors are therefore not other Layer 1s. They are incumbent remittance operators, card networks, correspondent banking, and the growing field of regulated payment stablecoins. Measured against that field, Telcoin’s differentiator is the combination of telecom distribution and a bank charter — a pairing no purely-crypto competitor can easily assemble. TEL becomes the resource consumed by this system — the economic token that scales as global usage scales."
+  },
+  {
+    "id": "deep-security",
+    "kind": "section",
+    "title": "Security, Risks and Open Questions — Deep Dive",
+    "summary": "Why a Risk Section Belongs in a Wiki A resource that only lists strengths is marketing, not reference material. Anyone making decisions about Telcoin deserves the same clarity about what could go wrong as about what is designed to go right.",
+    "url": "/deep-dive#deep-security",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "Why a Risk Section Belongs in a Wiki A resource that only lists strengths is marketing, not reference material. Anyone making decisions about Telcoin deserves the same clarity about what could go wrong as about what is designed to go right. Nothing below is a prediction — these are the structural risks inherent to the design, stated plainly. Protecting Yourself: The Practical Part Most losses in this space have nothing to do with protocol flaws. They come from social engineering. A few rules cover the overwhelming majority of cases: No legitimate party ever needs your recovery credentials. Not support, not an administrator, not a moderator. Any request for them is an attack, without exception. Anyone who direct-messages you first is suspect. Impersonation of support staff in community channels is the single most common attack pattern. Reach official channels by typing the address yourself. Search results and links in messages are both routinely poisoned. Guaranteed returns are always fraud. ”Send tokens to receive more back” is never real. Install apps only from official app stores , and verify the publisher. Regulatory Risk Telcoin’s regulated posture is a genuine advantage, but it also means the project is exposed to regulatory outcomes in a way that unregulated projects are not. Charter conditions can change. Supervisory expectations evolve. Each new corridor requires its own approvals, any of which can be delayed or refused. Rules governing digital assets and payment tokens remain in flux across most major jurisdictions. Regulatory dependency cuts both ways: it is a barrier protecting Telcoin from competitors, and a constraint on Telcoin’s own pace. Adoption and Execution Risk The telecom strategy is the project’s biggest bet and its biggest dependency. Carriers are large, slow-moving organizations with long procurement cycles and considerable inertia. Convincing them to run validator infrastructure and route settlement through a new network is a multi-year enterprise sales problem, not a technical one. There is also the plain observation that the project has been building since 2017. Ambitious infrastructure genuinely takes a long time, and comparable financial infrastructure has taken decades to reach scale — but a reader should weigh the length of the roadmap alongside the strength of the thesis. Concentration and Technical Risk A permissioned validator set is more concentrated than a permissionless one by construction. It is worth asking how many independent validators are actually operating, how they are distributed across jurisdictions, and how much of the stake sits with the largest few. On the technical side, the usual caveats apply and apply fully: smart contracts can contain bugs regardless of auditing, and cross-chain bridges have historically been among the most frequently exploited components in the entire industry. TEL’s presence across multiple chains means bridge security is a live concern rather than a theoretical one. Questions Worth Asking Rather than accepting or dismissing the project wholesale, these are the questions whose answers actually move the needle: How many carriers are running validators today, and who are they? Which corridors are live right now, and what does a transfer actually cost end to end? What volume of Digital Cash is in circulation, and how is the reserve attested? How much network activity is genuine payment usage versus incentive farming? What is real governance participation, not just governance design? None of this is financial advice. This wiki is a community resource, not an official Telcoin publication, and nothing here should be treated as a recommendation to buy, sell, or hold anything."
+  },
+  {
+    "id": "deep-glossary",
+    "kind": "section",
+    "title": "Glossary and Primary Sources — Deep Dive",
+    "summary": "Core Terms TEL The native token of the Telcoin ecosystem. Fixed supply of 100 billion, 2 decimal places. Used for gas, staking, liquidity incentives, and governance. Telcoin Network Telcoin’s EVM-compatible Layer 1 blockchain, intended to b",
+    "url": "/deep-dive#deep-glossary",
+    "tags": [
+      "Deep Dive"
+    ],
+    "headings": [],
+    "body": "Core Terms TEL The native token of the Telcoin ecosystem. Fixed supply of 100 billion, 2 decimal places. Used for gas, staking, liquidity incentives, and governance. Telcoin Network Telcoin’s EVM-compatible Layer 1 blockchain, intended to be validated by GSMA-member mobile network operators. Digital Cash Telcoin’s family of fiat-backed digital currencies, named with an e prefix plus ISO code (eUSD, eEUR, eJPY). Issued and redeemed through the bank entity. Telcoin Digital Asset Bank The regulated entity chartered in Nebraska that issues Digital Cash, holds reserves, and runs KYC/AML. Telcoin Association The Swiss member-governed body that stewards the protocol, emissions policy, and network governance through elected councils. TELx The liquidity layer that incentivizes market-making in TEL and Digital Cash across supported chains. TAN — Telcoin Application Network The framework through which applications connect to the ecosystem and report activity for governance and compliance purposes. GSMA The global industry association representing mobile network operators. Its membership defines the pool from which Telcoin Network validators are drawn. Technical Terms Narwhal A DAG-based mempool protocol that disseminates transaction data in parallel across validators, separating data availability from consensus ordering. Bullshark A consensus protocol that derives a total ordering from Narwhal’s DAG deterministically, requiring no additional messages between validators. Deterministic finality The property that a committed transaction can never be reversed — as opposed to probabilistic finality, where confidence grows with each confirmation but never reaches certainty. Modular architecture A design separating consensus, execution, and data availability into independent layers that scale separately rather than competing for one pipeline. BFT — Byzantine Fault Tolerance The ability of a distributed system to operate correctly while some participants fail arbitrarily or act maliciously, typically tolerating up to one third of the network. EVM — Ethereum Virtual Machine The execution environment Ethereum smart contracts run in. EVM compatibility means existing Solidity tooling works largely unchanged. Self-custody An arrangement where the user controls their own keys and no third party can move or freeze their assets. Impermanent loss The shortfall a liquidity provider experiences relative to simply holding the two assets, caused by the pool automatically rebalancing as prices diverge. Corridor A directional country pair for remittances. Each requires its own licensing, partners, and compliance work. Checking Anything Here Against Primary Sources This wiki is written and maintained by the community. It is not published, reviewed, or endorsed by Telcoin, and it can be wrong or out of date. Anything that would affect a real decision should be verified against a primary source: Telcoin’s official site and documentation — for product status, supported corridors, and available currencies. Telcoin Association governance forums — for proposals, council composition, and emissions decisions. The Nebraska Department of Banking and Finance — for the bank entity’s charter status. Block explorers — for contract addresses, balances, and transaction history you can verify yourself. The Telcoin app itself — for what is actually live in your market today. Contract addresses in particular should always be confirmed through an official channel before use. Address substitution is a common attack, and a wiki is exactly the kind of place an attacker would like to plant a wrong one. Content last reviewed: 16 August 2026. On-chain figures cited in the Tokenomics section come from the community-run Telcoin Proposal Tracker snapshot of the same date."
   }
 ]

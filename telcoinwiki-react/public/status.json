@@ -1,4 +1,6 @@
 {
+  "digitalCashCurrencies": 20,
   "remittanceCorridors": 20,
-  "digitalCashCurrencies": 3
+  "_note": "digitalCashCurrencies matches the currency set illustrated in the Digital Cash deep dive. remittanceCorridors is carried over from an earlier snapshot and has not been re-verified against a primary source; treat it as indicative only.",
+  "_updated": "2026-08-16"
 }

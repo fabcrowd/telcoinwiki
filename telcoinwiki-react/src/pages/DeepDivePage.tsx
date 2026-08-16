@@ -31,6 +31,9 @@ export function DeepDivePage() {
             <a className="toc-chip" href="#deep-about">
               About Telcoin
             </a>
+            <a className="toc-chip" href="#deep-problem">
+              The Problem
+            </a>
             <a className="toc-chip" href="#deep-network">
               Network & Technology
             </a>
@@ -40,8 +43,20 @@ export function DeepDivePage() {
             <a className="toc-chip" href="#deep-digital-cash">
               Digital Cash
             </a>
+            <a className="toc-chip" href="#deep-bank">
+              Digital Asset Bank
+            </a>
             <a className="toc-chip" href="#deep-products">
               Products & Compliance
+            </a>
+            <a className="toc-chip" href="#deep-wallet">
+              Wallet
+            </a>
+            <a className="toc-chip" href="#deep-remittances">
+              Remittances
+            </a>
+            <a className="toc-chip" href="#deep-tokenomics">
+              Tokenomics
             </a>
             <a className="toc-chip" href="#deep-incentives">
               Incentives & Staking
@@ -51,6 +66,12 @@ export function DeepDivePage() {
             </a>
             <a className="toc-chip" href="#deep-community">
               Community & Access
+            </a>
+            <a className="toc-chip" href="#deep-security">
+              Risks & Open Questions
+            </a>
+            <a className="toc-chip" href="#deep-glossary">
+              Glossary & Sources
             </a>
           </nav>
           </div>

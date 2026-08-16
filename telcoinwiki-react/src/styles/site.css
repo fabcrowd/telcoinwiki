@@ -2705,6 +2705,55 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
   font-weight: 600;
 }
 
+.deep-dive-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 8%);
+  color: var(--tc-ink);
+  overflow-wrap: anywhere;
+}
+
+/* FAQ answers use the same inline-code convention as the Deep Dive. */
+.tc-card-glass code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 8%);
+  overflow-wrap: anywhere;
+}
+
+/* Glossary definition lists (Glossary & Primary Sources section) */
+.deep-dive-glossary {
+  margin: 0 0 var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.deep-dive-glossary dt {
+  color: var(--tc-ink);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.deep-dive-glossary dd {
+  margin: var(--space-1) 0 0;
+  padding-left: var(--space-4);
+  border-left: 2px solid rgb(255 255 255 / 12%);
+  color: var(--tc-ink-muted);
+  line-height: 1.7;
+}
+
+.deep-dive-review-note {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgb(255 255 255 / 12%);
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
 .deep-dive-content a {
   color: var(--tc-accent);
   text-decoration: none;
@@ -5057,6 +5106,13 @@ mark {
 }
 .search-modal__result-title{ font-size:1rem; }
 .search-modal__result-snippet{ font-size:.9rem; color:var(--tc-ink-muted); }
+/* Query-term highlighting injected by useSearchIndex. */
+.search-modal__result-snippet mark{
+  background:rgb(56 189 248 / 22%);
+  color:var(--tc-ink);
+  border-radius:3px;
+  padding:0 .15em;
+}
 
 .status-value{ display:inline-flex; align-items:center; gap:6px; font-weight:600; }
 .status-value--fallback{ opacity:.85; }
