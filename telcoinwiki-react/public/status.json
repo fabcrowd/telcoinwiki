@@ -1,6 +1,7 @@
 {
-  "digitalCashCurrencies": 20,
-  "remittanceCorridors": 20,
-  "_note": "digitalCashCurrencies matches the currency set illustrated in the Digital Cash deep dive. remittanceCorridors is carried over from an earlier snapshot and has not been re-verified against a primary source; treat it as indicative only.",
+  "digitalCashCurrenciesLive": 12,
+  "digitalCashCurrenciesAnnounced": 8,
+  "remittanceDestinationCountries": "20+",
+  "_note": "Corrected 2026-08-16 after cross-referencing Telcoin's own public statements. digitalCashCurrenciesLive counts eAUD, eCAD, eCFA, eGBP, eHKD, eJPY, eMXN, eNZD, eSDR, eSGD, eUSD, eZAR as live on Polygon per telco.in/en/digital-cash; digitalCashCurrenciesAnnounced counts eEUR, eCHF, eCZK, eDKK, eHUF, eISK, eNOK, eSEK as announced without a confirmed launch date. remittanceDestinationCountries reflects Telcoin's own published figure (20+ countries for mobile-money payouts, ~16 for fiat-funded transfers from the US/Canada) -- note this counts destination countries, not directional corridors, which is a different unit; the previous 'remittanceCorridors: 20' conflated the two. This file has no code consumer in the app as of 2026-08-16 (see docs/parity-tracker.md) -- kept accurate in case one is added, not because anything currently reads it.",
   "_updated": "2026-08-16"
 }

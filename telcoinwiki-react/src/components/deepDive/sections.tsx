@@ -259,35 +259,35 @@ export const SECTIONS: DeepDiveSection[] = [
 
         <h3>Naming and the Multi-Currency Model</h3>
         <p>
-          Digital Cash uses an <code>e</code> prefix followed by the ISO currency code: eUSD for the US dollar, eEUR for the euro, eJPY for the Japanese yen, and so on. This is deliberately unlike the stablecoin market’s convention of brand-led names, and it signals the intent — these are digital representations of national currencies, not products with their own identities.
+          Digital Cash uses an <code>e</code> prefix followed by a currency code: eUSD for the US dollar, eEUR for the euro, eJPY for the Japanese yen, and so on. Most follow the ISO 4217 code exactly, though not all — the West African CFA franc’s ISO code is XOF, but Telcoin brands it <strong>eCFA</strong> rather than eXOF, presumably for recognizability in the markets it serves. This is deliberately unlike the stablecoin market’s convention of brand-led names, and it signals the intent — these are digital representations of national currencies, not products with their own identities.
         </p>
         <p>
           The multi-currency approach matters more than it first appears. A remittance corridor is a currency pair, not a single currency. Sending value from Australia to the Philippines is an AUD-to-PHP problem. A network that only issues dollars forces every corridor through a dollar leg, adding two conversions and two spreads. Issuing many currencies natively lets value settle closer to the pair the user actually cares about.
         </p>
         <p>
-          Note that the set of currencies designed for the system is broader than the set live and available to users at any given moment. Treat the grid below as the intended range rather than a live availability list, and check the Telcoin app for what you can actually hold today.
+          The currencies below split into two groups, and conflating them is the most common mistake made about Digital Cash. <strong>Live today, on Polygon:</strong> eAUD, eCAD, eCFA (West African CFA Franc), eGBP, eHKD, eJPY, eMXN, eNZD, eSDR, eSGD, and eZAR — plus <strong>eUSD</strong>, the bank-issued dollar instrument described below. <strong>Announced but not yet live:</strong> eEUR (pending an EU e-money institution licence under MiCA) and a further batch — eCHF, eCZK, eDKK, eHUF, eISK, eNOK, eSEK — named on Telcoin’s roadmap without a confirmed launch date. Always check the Telcoin app for what you can actually hold today; this list will go stale faster than the rest of this page.
         </p>
         <div className="deep-dive-currency-grid">
-          <img src="/media/deep-dive/digital-cash/eAUD.svg" alt="eAUD - Australian Dollar Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eCAD.svg" alt="eCAD - Canadian Dollar Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eCHF.png" alt="eCHF - Swiss Franc Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eCZK.png" alt="eCZK - Czech Koruna Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eDKK.png" alt="eDKK - Danish Krone Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eEUR.png" alt="eEUR - Euro Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eGBP.svg" alt="eGBP - British Pound Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eHKD.svg" alt="eHKD - Hong Kong Dollar Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eHUF.png" alt="eHUF - Hungarian Forint Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eISK.png" alt="eISK - Icelandic Króna Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eJPY.svg" alt="eJPY - Japanese Yen Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eMXN.svg" alt="eMXN - Mexican Peso Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eNOK.png" alt="eNOK - Norwegian Krone Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eNZD.svg" alt="eNZD - New Zealand Dollar Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eSDR.svg" alt="eSDR - Special Drawing Rights Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eSEK.png" alt="eSEK - Swedish Krona Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eSGD.svg" alt="eSGD - Singapore Dollar Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eUSD.png" alt="eUSD - US Dollar Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eXOF.svg" alt="eXOF - West African CFA Franc Digital Cash" />
-          <img src="/media/deep-dive/digital-cash/eZAR.svg" alt="eZAR - South African Rand Digital Cash" />
+          <img src="/media/deep-dive/digital-cash/eAUD.svg" alt="eAUD - Australian Dollar Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eCAD.svg" alt="eCAD - Canadian Dollar Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eCFA.png" alt="eCFA - West African CFA Franc Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eGBP.svg" alt="eGBP - British Pound Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eHKD.svg" alt="eHKD - Hong Kong Dollar Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eJPY.svg" alt="eJPY - Japanese Yen Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eMXN.svg" alt="eMXN - Mexican Peso Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eNZD.svg" alt="eNZD - New Zealand Dollar Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eSDR.svg" alt="eSDR - Special Drawing Rights Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eSGD.svg" alt="eSGD - Singapore Dollar Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eUSD.png" alt="eUSD - US Dollar Digital Cash, bank-issued (live)" />
+          <img src="/media/deep-dive/digital-cash/eZAR.svg" alt="eZAR - South African Rand Digital Cash (live)" />
+          <img src="/media/deep-dive/digital-cash/eEUR.png" alt="eEUR - Euro Digital Cash (announced, not yet live)" />
+          <img src="/media/deep-dive/digital-cash/eCHF.png" alt="eCHF - Swiss Franc Digital Cash (announced, not yet live)" />
+          <img src="/media/deep-dive/digital-cash/eCZK.png" alt="eCZK - Czech Koruna Digital Cash (announced, not yet live)" />
+          <img src="/media/deep-dive/digital-cash/eDKK.png" alt="eDKK - Danish Krone Digital Cash (announced, not yet live)" />
+          <img src="/media/deep-dive/digital-cash/eHUF.png" alt="eHUF - Hungarian Forint Digital Cash (announced, not yet live)" />
+          <img src="/media/deep-dive/digital-cash/eISK.png" alt="eISK - Icelandic Króna Digital Cash (announced, not yet live)" />
+          <img src="/media/deep-dive/digital-cash/eNOK.png" alt="eNOK - Norwegian Krone Digital Cash (announced, not yet live)" />
+          <img src="/media/deep-dive/digital-cash/eSEK.png" alt="eSEK - Swedish Krona Digital Cash (announced, not yet live)" />
         </div>
 
         <h3>How Digital Cash Differs from Conventional Stablecoins</h3>
@@ -334,12 +334,18 @@ export const SECTIONS: DeepDiveSection[] = [
           <img src="/media/marquee/logos/icon-crypto-bank.svg" alt="Digital asset bank" className="deep-dive-icon" />
         </div>
 
-        <h3>The Nebraska Route</h3>
+        <h3>The Nebraska Route, and Where It Actually Stands</h3>
         <p>
-          Telcoin pursued a charter in Nebraska, which passed the Nebraska Financial Innovation Act to create a state-supervised category of digital asset depository institution. The framework was designed for exactly this case: an institution that takes deposits and issues digital representations of them, supervised by a state banking department rather than operating in a regulatory gap.
+          Telcoin pursued a charter under Nebraska’s Financial Innovation Act (Legislative Bill 92, signed 2023), which created a state-supervised category called a Digital Asset Depository Institution (DADI) — an entity that takes deposits and issues digital representations of them under a state banking department, rather than operating in a regulatory gap. The law requires a DADI to hold unencumbered, US-dollar-denominated liquid assets equal to at least 100 percent of the digital assets it has issued, and it explicitly carries no FDIC insurance — a fact the law requires the institution to disclose to every customer in writing.
         </p>
         <p>
-          Telcoin has described its resulting entity as the first bank of its kind chartered in the United States. Because charter conditions, approval stages, and operational go-live dates are all distinct milestones that have moved over time, treat the current operating status as something to verify against Telcoin’s own announcements and the Nebraska Department of Banking and Finance rather than as settled fact from a community wiki.
+          Telcoin’s application moved through two concrete, dated milestones. The Nebraska Department of Banking and Finance issued conditional approval on <strong>3 February 2025</strong>. The full charter followed on <strong>12 November 2025</strong>, signed by Governor Jim Pillen at the state capitol in Lincoln — Telcoin became the first company to hold a DADI charter, and Telcoin Digital Asset Bank became, by Telcoin’s and the state’s own description, the first chartered digital asset bank in the United States.
+        </p>
+        <p>
+          The charter authorizes the bank to issue eUSD — described as the first bank-issued, on-chain US dollar stablecoin — to connect conventional US bank accounts to blockchain-based digital assets, to offer compliant stablecoin yield, to take retail and commercial deposits (subject to further regulatory approval), and, notably, to explicitly connect US consumers to DeFi. The approval landed alongside the federal GENIUS Act, which gives stablecoin issuers a national framework to operate under for the first time.
+        </p>
+        <p className="deep-dive-review-note">
+          <em>As with anything regulatory, treat this as a snapshot rather than a permanent state — operational rollout (which products are actually live, in which US states, for which customers) is a separate question from charter status and moves faster than a wiki can track. Verify current operating scope against Telcoin’s own announcements or the Nebraska Department of Banking and Finance.</em>
         </p>
 
         <h3>What the Bank Actually Does</h3>
@@ -442,15 +448,18 @@ export const SECTIONS: DeepDiveSection[] = [
           <img src="/media/deep-dive/digital-cash/wallet-mockup-send-php-l.png" alt="Sending a transfer in the Telcoin Wallet" />
         </div>
 
-        <h3>Self-Custody Without Seed Phrases</h3>
+        <h3>Assisted Self-Custody: The Three-Key Design</h3>
         <p>
-          The wallet is self-custodial: Telcoin does not hold users’ crypto assets, and the user’s keys are the user’s own. But the wallet deliberately avoids the standard twelve-word recovery phrase, because that mechanism has a catastrophic failure mode for mainstream users. Write it down and someone can steal it. Lose it and the money is gone permanently, with no recourse and no support line that can help.
+          The wallet deliberately avoids the standard twelve-word recovery phrase, because that mechanism has a catastrophic failure mode for mainstream users. Write it down and someone can steal it. Lose it and the money is gone permanently, with no recourse and no support line that can help. Telcoin calls its alternative ”assisted self-custody,” and the mechanism is specific rather than a marketing phrase.
         </p>
         <p>
-          Instead the wallet uses a multi-key design that distributes key material across separate factors — the device, the user’s credentials, and recovery material — so that no single point of compromise or loss is fatal. Recovering access becomes a process a normal person can complete, rather than a test of whether they filed a piece of paper correctly three years ago.
+          Every wallet has three signing keys — a <strong>User Key</strong> generated and stored on the holder’s own device, a <strong>Telcoin Key</strong> held by Telcoin, and a <strong>Trusted Third-Party Key</strong> held by an independent party — and any two of the three are sufficient to authorize a transaction. Telcoin holds exactly one of the three, by design: it cannot unilaterally move or freeze funds, because doing so requires a second key it does not control. Access is also tied to the holder’s mobile number rather than to a piece of paper, which is what makes the recovery flow tractable for someone who has never managed a private key before.
         </p>
         <p>
-          This is the central usability bet of the whole project. Self-custody has never reached mainstream adoption, and seed phrases are a large part of the reason. Solving recovery without reintroducing a custodian is genuinely hard, and it is where the wallet does much of its engineering work.
+          The tradeoff worth naming plainly: this is a 2-of-3 threshold scheme, not pure single-signer self-custody. The user does not solely control their funds the way a hardware-wallet holder does — a second party’s key is always structurally required to move them. What it buys in exchange is a real answer to the seed-phrase loss problem, and a system where losing a phone doesn’t mean losing money, without handing full custody to any single party the way an exchange account does.
+        </p>
+        <p>
+          This is the central usability bet of the whole project. Self-custody has never reached mainstream adoption, and seed phrases are a large part of the reason. Solving recovery without reintroducing a single custodian is genuinely hard, and it is where the wallet does much of its engineering work.
         </p>
 
         <h3>What Users Can Actually Do</h3>
@@ -497,6 +506,9 @@ export const SECTIONS: DeepDiveSection[] = [
         </p>
         <p>
           This is why remittance providers expand corridor by corridor rather than launching globally, and why any claim about coverage should be checked against the provider’s current published list. Availability changes, and it changes in both directions.
+        </p>
+        <p>
+          As a concrete anchor rather than a permanent number: Telcoin has publicly described sending to mobile-money and e-wallet platforms in 20-plus countries, spanning more than 40 individual mobile money platforms, with fiat-funded transfers originating from the US and Canada reaching around 16 destination countries, at a total cost the company states as roughly 2 percent or less. Treat this as Telcoin’s own marketing figure, current as of when it was published — corridor counts are exactly the kind of number that goes stale fastest, and the Telcoin app is the only place to confirm what’s live in a specific pair today.
         </p>
 
         <h3>Where the Cost Actually Goes</h3>
@@ -611,7 +623,7 @@ export const SECTIONS: DeepDiveSection[] = [
 
         <h3>TELx: The Decentralized Liquidity Engine</h3>
         <p>
-          TELx is the liquidity layer of the ecosystem. It builds on established automated market maker infrastructure and layers TEL incentives on top, directing rewards to the liquidity providers who make markets in TEL, Digital Cash, and the other assets available in the Telcoin Wallet.
+          TELx is the liquidity layer of the ecosystem. It builds on established automated market maker infrastructure — Uniswap and Balancer — and layers TEL incentives on top, directing rewards to the liquidity providers who make markets in TEL, Digital Cash, and the other assets available in the Telcoin Wallet. Pools live mainly on Polygon today, with a smaller presence on Base; Ethereum has hosted TELx pools historically, and a governance proposal is underway to standardize pool structure across all three chains. TELx is also migrating its Uniswap pools to Uniswap v4, using a custom ”Telcoin Hook” contract that ties on-chain rewards to governance eligibility — check the TELx app for which pools and chains are actually live before providing liquidity.
         </p>
         <p>
           The purpose is concrete rather than abstract. When a user swaps currencies in the wallet, the quality of the rate they receive depends entirely on how deep the underlying liquidity pool is. Thin liquidity means slippage, and slippage on a remittance is just another hidden fee. Paying liquidity providers to keep pools deep is therefore a direct investment in the product’s core promise.
@@ -681,18 +693,21 @@ export const SECTIONS: DeepDiveSection[] = [
 
         <h3>Why an Association Rather Than a Company</h3>
         <p>
-          The Association is organized as a Swiss association, a structure that several major blockchain projects have adopted. The reasoning is that a member-governed, non-profit body is a more credible steward of neutral infrastructure than a private company would be. Carriers being asked to run validators and settle real money need assurance that the rules will not be changed unilaterally by a corporation pursuing its own commercial interests.
+          The Telcoin Association is a Swiss <em>Verein</em> — a nonprofit membership association under Swiss law — domiciled in Lugano, in the Canton of Ticino. The reasoning is that a member-governed, non-profit body is a more credible steward of neutral infrastructure than a private company would be. Carriers being asked to run validators and settle real money need assurance that the rules will not be changed unilaterally by a corporation pursuing its own commercial interests.
         </p>
         <p>
           The structure also creates a clean separation of concerns: the Association governs the protocol, while operating companies build products on top of it. Those are different jobs with different incentives, and conflating them is how neutral infrastructure stops being neutral.
         </p>
 
-        <h3>Councils and Working Groups</h3>
+        <h3>Miner Councils and the Miner Assembly</h3>
         <p>
-          Rather than putting every decision to a token-wide vote, governance is organized into elected councils and working groups covering distinct domains — network operations, liquidity and emissions, applications, and governance process itself. Stakers elect representatives to these bodies, and the bodies do the detailed work.
+          Telcoin’s governance uses unusual terminology worth learning, because it is not decorative — it is how the system is actually structured. Anyone contributing a resource the platform depends on is called a ”miner,” a broader category than the mining of a proof-of-work chain. There are four miner types, one per productive layer of the platform: <strong>Validators</strong> secure Telcoin Network, <strong>Liquidity Miners</strong> provide capital to TELx, and <strong>Developers</strong> and <strong>Stakers</strong> contribute to TAN, the application layer.
         </p>
         <p>
-          This is a deliberate response to a well-documented failure of pure token voting: most holders lack the time or context to evaluate technical proposals, so direct votes suffer from low participation and outsized influence for large holders. Delegated, domain-specific bodies trade some directness for competence and continuity.
+          Governance is deliberately polycentric rather than a single vote-on-everything body. Elected <strong>Miner Councils</strong> handle distinct domains — a Platform and Treasury Council for platform-wide policy and the TEL treasury, a TAN Council and a TELx Council for their respective layers, and a Compliance Council for legal and regulatory matters. The <strong>Miner Assembly</strong>, made up of all four miner groups together, sits above the councils and holds constitutional-level authority to amend the governance system itself.
+        </p>
+        <p>
+          This is a deliberate response to a well-documented failure of pure token voting: most holders lack the time or context to evaluate technical proposals, so direct votes suffer from low participation and outsized influence for large holders. Delegated, domain-specific councils trade some directness for competence and continuity.
         </p>
 
         <h3>What Governance Actually Controls</h3>
@@ -718,9 +733,9 @@ export const SECTIONS: DeepDiveSection[] = [
     title: 'Community and Access — Deep Dive',
     content: (
       <>
-        <h3>The Telcoin Wallet: Self-Custody for the Real World</h3>
+        <h3>TAN: The Application Layer Users Actually Touch</h3>
         <p>
-          The Telcoin Wallet uses a multi-key structure instead of seed phrases. Keys are distributed across factors, making it far harder for a user to lose access or be compromised. This makes self-custody viable for mainstream audiences who will never adopt seed-phrase security. The dedicated Wallet section above covers the mechanics in more detail.
+          Everything a consumer interacts with — the Telcoin Wallet included — lives in TAN, the Telcoin Application Network. It is the third layer of a three-layer stack: Telcoin Network settles transactions, TELx supplies liquidity, and TAN is where self-custodial mobile applications, built by GSMA telecom members, put both of those to work for an ordinary user. The wallet’s 2-of-3 key design instead of a seed phrase — covered in the dedicated Wallet section above — is a TAN-layer product decision, not a network-level one.
         </p>
         <p>
           The wallet abstracts blockchain complexity entirely. Users simply see Digital Cash, crypto assets, swaps, and earnings. Behind the scenes, TEL powers settlement.
@@ -835,19 +850,22 @@ export const SECTIONS: DeepDiveSection[] = [
           <dd>Telcoin’s EVM-compatible Layer 1 blockchain, intended to be validated by GSMA-member mobile network operators.</dd>
 
           <dt>Digital Cash</dt>
-          <dd>Telcoin’s family of fiat-backed digital currencies, named with an <code>e</code> prefix plus ISO code (eUSD, eEUR, eJPY). Issued and redeemed through the bank entity.</dd>
+          <dd>Telcoin’s family of fiat-backed digital currencies, named with an <code>e</code> prefix plus a currency code — usually the ISO 4217 code (eUSD, eEUR, eJPY), though not always: the West African CFA franc is branded eCFA rather than eXOF. Issued and redeemed through the bank entity.</dd>
 
           <dt>Telcoin Digital Asset Bank</dt>
-          <dd>The regulated entity chartered in Nebraska that issues Digital Cash, holds reserves, and runs KYC/AML.</dd>
+          <dd>The regulated entity holding Nebraska’s first Digital Asset Depository Institution charter (finalized 12 November 2025). Issues and redeems Digital Cash, holds 100%-reserved fiat, and runs KYC/AML.</dd>
 
           <dt>Telcoin Association</dt>
-          <dd>The Swiss member-governed body that stewards the protocol, emissions policy, and network governance through elected councils.</dd>
+          <dd>A Swiss nonprofit <em>Verein</em>, domiciled in Lugano, that stewards the protocol, emissions policy, and network governance through elected Miner Councils and the Miner Assembly.</dd>
+
+          <dt>Miner Council / Miner Assembly</dt>
+          <dd>Elected governance bodies within the Association. Miner Councils (Platform and Treasury, TAN, TELx, Compliance) handle domain-specific decisions; the Miner Assembly — all four miner groups together — holds constitutional-level authority over the governance system itself.</dd>
 
           <dt>TELx</dt>
-          <dd>The liquidity layer that incentivizes market-making in TEL and Digital Cash across supported chains.</dd>
+          <dd>The liquidity layer that incentivizes market-making in TEL and Digital Cash, currently concentrated on Polygon and Base with a standardization effort extending to Ethereum.</dd>
 
           <dt>TAN — Telcoin Application Network</dt>
-          <dd>The framework through which applications connect to the ecosystem and report activity for governance and compliance purposes.</dd>
+          <dd>The application layer of the platform: self-custodial mobile wallet apps, built by GSMA telecom members, that sit on top of Telcoin Network and TELx to serve end users. The Telcoin Wallet is a TAN application.</dd>
 
           <dt>GSMA</dt>
           <dd>The global industry association representing mobile network operators. Its membership defines the pool from which Telcoin Network validators are drawn.</dd>
@@ -856,10 +874,10 @@ export const SECTIONS: DeepDiveSection[] = [
         <h3>Technical Terms</h3>
         <dl className="deep-dive-glossary">
           <dt>Narwhal</dt>
-          <dd>A DAG-based mempool protocol that disseminates transaction data in parallel across validators, separating data availability from consensus ordering.</dd>
+          <dd>A DAG-based mempool protocol that disseminates transaction data in parallel across validators, separating data availability from consensus ordering. From the 2021 paper by Danezis, Kogias, Sonnino, and Spiegelman; also used by the Sui blockchain.</dd>
 
           <dt>Bullshark</dt>
-          <dd>A consensus protocol that derives a total ordering from Narwhal’s DAG deterministically, requiring no additional messages between validators.</dd>
+          <dd>A consensus protocol that derives a total ordering from Narwhal’s DAG deterministically, requiring no additional messages between validators. From the 2022 paper by Giridharan, Kokoris-Kogias, Sonnino, and Spiegelman.</dd>
 
           <dt>Deterministic finality</dt>
           <dd>The property that a committed transaction can never be reversed — as opposed to probabilistic finality, where confidence grows with each confirmation but never reaches certainty.</dd>
@@ -874,7 +892,7 @@ export const SECTIONS: DeepDiveSection[] = [
           <dd>The execution environment Ethereum smart contracts run in. EVM compatibility means existing Solidity tooling works largely unchanged.</dd>
 
           <dt>Self-custody</dt>
-          <dd>An arrangement where the user controls their own keys and no third party can move or freeze their assets.</dd>
+          <dd>An arrangement where a user’s assets are not held by a custodian. The Telcoin Wallet implements ”assisted self-custody” — a 2-of-3 key scheme, not a pure single-signer model — see the Wallet section for the distinction.</dd>
 
           <dt>Impermanent loss</dt>
           <dd>The shortfall a liquidity provider experiences relative to simply holding the two assets, caused by the pool automatically rebalancing as prices diverge.</dd>

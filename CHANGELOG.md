@@ -1,5 +1,74 @@
 # Changelog
 
+## 2026-08-16 (2) – Fact-check pass against primary sources
+
+Cross-referenced the content added earlier the same day against Telcoin's own
+announcements, Nebraska regulatory filings, and the Narwhal/Bullshark academic
+papers. Six real inaccuracies found and fixed:
+
+- **Bank charter was written as an open question; it's actually resolved.**
+  Telcoin Digital Asset Bank's Nebraska Digital Asset Depository Institution
+  charter went final on **12 November 2025** (conditional approval was 3
+  February 2025), signed by Governor Jim Pillen — the first such charter in
+  the US. It authorizes eUSD issuance, connecting conventional bank accounts
+  to blockchain assets, and (per Telcoin's own release) explicitly connecting
+  US consumers to DeFi. Nebraska law requires ≥100% liquid USD reserves and no
+  FDIC insurance. The Deep Dive Bank section and the matching FAQ answer were
+  rewritten from a hedge into dated, sourced fact.
+- **Wrong currency ticker.** The Digital Cash grid used `eXOF` for the West
+  African CFA franc; Telcoin's own site brands it `eCFA` (the asset file
+  already existed at `eCFA.png` and was simply unused). Swapped, and the
+  naming-convention paragraph now calls out this one exception explicitly.
+- **Digital Cash grid mixed live and roadmap currencies with no distinction.**
+  Split into 12 confirmed live (Polygon) vs. 8 announced-but-undated, each
+  image alt-tagged accordingly. `status.json` split the same way instead of a
+  single figure that quietly conflated both sets.
+- **TAN was misdefined.** Earlier copy described TAN (Telcoin Application
+  Network) as a compliance-reporting framework. It is actually the
+  application layer of a three-layer stack — Telcoin Network (settlement) →
+  TELx (liquidity) → TAN (self-custodial wallet apps built by GSMA telecom
+  members) — and the Telcoin Wallet is a TAN application. Fixed in the
+  Glossary, Governance, Community, and Wallet sections, and in a pre-existing
+  homepage card that had the same error.
+- **Wallet security claim was vague where a precise, verifiable one exists.**
+  "Multi-key design that distributes key material across factors" is now the
+  actual mechanism: three signing keys (device-held User Key, Telcoin-held
+  Telcoin Key, an independent Trusted Third-Party Key), 2-of-3 to authorize a
+  transaction, access tied to the phone number rather than a phrase. Also
+  corrected an internal contradiction: the wiki's own self-custody glossary
+  entry said "no third party can move or freeze assets," which isn't true of
+  a 2-of-3 scheme where Telcoin holds one key — softened to name the
+  "assisted self-custody" tradeoff explicitly, in the Deep Dive and the
+  matching FAQ answer alike.
+- **Governance section skipped the actual structure.** Rewrote to include
+  what the Association's own docs use as load-bearing terminology: elected
+  Miner Councils (Platform and Treasury, TAN, TELx, Compliance) representing
+  four miner types (Validators, Liquidity Miners, Developers, Stakers), and a
+  Miner Assembly with constitutional-level authority. Also corrected "Swiss
+  association" to the precise legal form, a Swiss *Verein* domiciled in
+  Lugano. Added Miner Council/Miner Assembly to the glossary.
+
+Smaller corrections: TELx's chain footprint was overstated as evenly
+Polygon/Base/Ethereum — pools are concentrated on Polygon and Base today,
+Ethereum has hosted pools historically, and a live governance proposal is
+standardizing across all three; noted the ongoing Uniswap v4 + "Telcoin Hook"
+migration. Added a sourced concrete figure to the Remittances section (20+
+destination countries, ~16 for US/Canada fiat-funded transfers, ~2% total
+cost, Telcoin's own published numbers, flagged as such). Cited the actual
+Narwhal (Danezis/Kogias/Sonnino/Spiegelman, 2021) and Bullshark
+(Giridharan/Kokoris-Kogias/Sonnino/Spiegelman, 2022) papers in the glossary
+instead of "academic research." Verified the founder background claim
+(Neuner: telecom fraud management, ~20 years) against three independent
+sources — it checked out as originally written.
+
+Re-verified after every content change: `tsc --noEmit`, full Jest suite (16
+tests), `npm run build`, and a real Chromium run against the built preview
+confirming the corrected facts actually render (eCFA image present, eXOF
+gone, new dates/terms appear in the DOM, search still resolves, no console
+errors, no failed requests). Lint returned to the pre-existing 10-problem
+baseline after re-running the same apostrophe-escaping pass the new prose
+needed.
+
 ## 2026-08-16 – Content expansion and search re-enabled
 
 ### Content

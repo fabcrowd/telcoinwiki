@@ -590,8 +590,8 @@ export const faqItems: FAQItemData[] = [
     question: 'Is Telcoin actually a bank?',
     answer: (
       <Fragment>
-        <p>The Telcoin Digital Asset Bank is a distinct regulated entity, chartered in Nebraska under a state framework created for digital asset depository institutions. Telcoin has described it as the first bank of its kind chartered in the United States.</p>
-        <p>Its role is narrow by design: hold fiat reserves, run KYC and AML, and mint and redeem Digital Cash. It does not custody your crypto — the wallet is self-custodial — and it is a separate structure from the Association that governs the protocol. Because charter conditions and operational milestones have moved over time, verify current status against Telcoin&apos;s announcements and the Nebraska Department of Banking and Finance.</p>
+        <p>Yes. Telcoin Digital Asset Bank holds a Nebraska Digital Asset Depository Institution charter, finalized on 12 November 2025 — the first of its kind granted in the United States. It is authorized to issue eUSD, connect conventional US bank accounts to blockchain assets, and take deposits subject to further regulatory approval.</p>
+        <p>Its role is narrow by design: hold fiat reserves (state law requires at least 100% liquid backing, with no FDIC insurance), run KYC and AML, and mint and redeem Digital Cash. It does not custody your crypto — the wallet is self-custodial — and it is a separate legal structure from the Association that governs the protocol. Operational rollout (which products are live, in which states) still moves faster than any wiki can track, so verify current scope against Telcoin&apos;s own announcements.</p>
         <p>
           <Link to="/deep-dive#deep-bank" className="text-telcoin-accent font-semibold inline-flex items-center gap-1">
             Learn More → Deep Dive: Telcoin Digital Asset Bank
@@ -607,10 +607,10 @@ export const faqItems: FAQItemData[] = [
     answer: (
       <Fragment>
         <p>No. The wallet deliberately avoids the standard twelve-word recovery phrase, because it has a catastrophic failure mode for ordinary users: write it down and it can be stolen, lose it and the money is gone permanently with no recourse.</p>
-        <p>Instead it uses a multi-key design that spreads key material across separate factors, so no single point of loss or compromise is fatal and recovery is a process a normal person can complete. The wallet remains self-custodial throughout — Telcoin does not hold your assets.</p>
+        <p>Instead every wallet has three signing keys — one on your device, one held by Telcoin, one held by an independent trusted third party — and any two of the three authorize a transaction. Telcoin holds exactly one key, so it cannot move your funds alone; it needs a second key it does not control. Telcoin calls this &quot;assisted self-custody,&quot; and it&apos;s a real qualifier worth understanding: it is not the same guarantee as sole control of your own keys, but it trades that for a workable recovery story if you lose your phone.</p>
         <p>
           <Link to="/deep-dive#deep-wallet" className="text-telcoin-accent font-semibold inline-flex items-center gap-1">
-            Learn More → Deep Dive: Self-Custody Without Seed Phrases
+            Learn More → Deep Dive: Assisted Self-Custody
           </Link>
         </p>
       </Fragment>
