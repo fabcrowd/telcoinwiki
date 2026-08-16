@@ -378,8 +378,63 @@ export function SlidingStack({
     return <CardContent item={item} prefersReducedMotion={prefersReducedMotion} />
   }, [prefersReducedMotion])
 
-  // Calculate container height and CSS variables for sticky positioning
-  // Optimized to match avax.network's approach (100lvh per card)
+  // Measured deck height, in px. Null until the first real layout pass —
+  // see the effect below for why this can't be a flat vh-based formula.
+  const [measuredHeight, setMeasuredHeight] = useState<number | null>(null)
+
+  // The deck's forced height must be tall enough that the LAST card's natural
+  // (pre-sticky) flow position — cumulative margin-top + height of every card
+  // before it, plus its own height — still ends before the deck's own bottom
+  // edge. Position: sticky can only ever hold a card at `top` while the
+  // element's static position hasn't reached the container's bottom yet; if
+  // the container is shorter than that cumulative offset, the sticky window
+  // is negative and the card never sticks at all — it just tracks scroll 1:1.
+  // A flat `viewportHeight * (0.5 + cardCount * 0.8)` heuristic can't know
+  // this, because per-card margins (the 60vh push-down on the first card,
+  // the header-height push on the second) and real content height (text +
+  // optional image) aren't fixed multiples of the viewport. So measure it.
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined' || !enableStickyStack) return
+
+    const measure = () => {
+      if (window.innerWidth <= 768) return // mobile uses static layout, not sticky stacking
+
+      const cards = cardRefs.current.filter((card): card is HTMLElement => card !== null)
+      if (cards.length === 0) return
+
+      let contentHeight = 0
+      cards.forEach((card) => {
+        const marginTop = parseFloat(getComputedStyle(card).marginTop) || 0
+        contentHeight += marginTop + card.getBoundingClientRect().height
+      })
+
+      // Real dwell room for the last card to hold its pinned position before
+      // the section ends, instead of overflowing straight through it.
+      const stickWindow = window.innerHeight * 0.9
+      setMeasuredHeight(Math.round(contentHeight + stickWindow))
+    }
+
+    measure()
+
+    const cards = cardRefs.current.filter((card): card is HTMLElement => card !== null)
+    const resizeObserver = new ResizeObserver(measure)
+    cards.forEach((card) => resizeObserver.observe(card))
+
+    let resizeTimeout: ReturnType<typeof setTimeout> | null = null
+    const handleResize = () => {
+      if (resizeTimeout !== null) clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(measure, 150)
+    }
+    window.addEventListener('resize', handleResize, { passive: true })
+
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', handleResize)
+      if (resizeTimeout !== null) clearTimeout(resizeTimeout)
+    }
+  }, [enableStickyStack, items.length])
+
+  // Calculate CSS variables for sticky positioning
   const cssVars = useMemo(() => {
     if (!enableStickyStack) {
       return {} as CSSProperties
@@ -387,15 +442,12 @@ export function SlidingStack({
 
     const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800
     const cardCount = items.length
-    
-    // Container height calculation (matches avax.network pattern)
-    // avax.network uses 100lvh (large viewport height) per card
-    // Cards stack within this space, so we need enough height for all cards
-    // Formula: Base offset + (cardCount * viewport height)
-    // Base: 0.5 viewport for initial positioning
-    // Per card: 0.8 viewport (cards overlap, so less than 1.0)
-    const containerHeight = viewportHeight * (0.5 + (cardCount * 0.8))
-    
+
+    // Fallback for the very first paint, before the measurement effect above
+    // has run — avoids a zero-height flash. Real layout always overrides it.
+    const fallbackHeight = viewportHeight * (0.5 + (cardCount * 0.8))
+    const containerHeight = measuredHeight ?? fallbackHeight
+
     // Tab height is set via CSS and doesn't need dynamic calculation
     const tabHeight = 88
 
@@ -408,9 +460,9 @@ export function SlidingStack({
       '--card-count': String(cardCount),
       '--card-tab-offset': `${tabHeight}px`,
     }
-    
+
     return vars
-  }, [items.length, enableStickyStack])
+  }, [items.length, enableStickyStack, measuredHeight])
 
   // Copy CSS variable from SlidingStack container to parent section
   // This allows the section to use --sticky-container-height in its height calculation

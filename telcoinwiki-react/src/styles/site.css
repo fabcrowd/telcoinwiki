@@ -3718,67 +3718,16 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
 }
 
 /* First card positioning - ensure it's visible below header when section enters view */
-/* Desktop only */
+/* Desktop only. Every home section (home-broken-money, home-section-2..5) renders
+   through the same StickyModule/SlidingStack loop in HomePage.tsx, so this rule
+   applies uniformly — no per-section ID scoping needed. */
 @media (min-width: 48rem) {
-  /* First card starts with margin to push stack to bottom initially */
   [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child {
-    /* Push card down initially */
-    margin-top: calc(100vh - var(--header-height, 6.375rem) - var(--padding-md, 1.25rem) - 150px);
-  }
-  
-  /* Ensure first section's first card is visible below header */
-  /* When section first enters viewport, first card should be below header */
-  /* Direct approach: Add large margin-top to first card to push it down */
-  /* Use very specific selector to override any Tailwind classes */
-  #home-broken-money [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
-  #home-broken-money [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
-  #home-broken-money [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
-    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
-    /* This ensures card appears much lower on page when section first enters view */
-    margin-top: calc(60vh + 100.75px + 4rem) !important;
-    margin-bottom: 0 !important;
-}
-
-  /* Section 2: Same styling as first section for consistent behavior */
-  #home-section-2 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
-  #home-section-2 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
-  #home-section-2 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
-    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
-    /* This ensures card appears much lower on page when section first enters view */
+    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset,
+       so it's still below the header when the section first enters view. */
     margin-top: calc(60vh + 100.75px + 4rem) !important;
     margin-bottom: 0 !important;
   }
-
-  /* Section 3: Same styling as first section for consistent behavior */
-  #home-section-3 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
-  #home-section-3 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
-  #home-section-3 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
-    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
-    /* This ensures card appears much lower on page when section first enters view */
-    margin-top: calc(60vh + 100.75px + 4rem) !important;
-    margin-bottom: 0 !important;
-}
-
-  /* Section 4: Same styling as first section for consistent behavior */
-  #home-section-4 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
-  #home-section-4 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
-  #home-section-4 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
-    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
-    /* This ensures card appears much lower on page when section first enters view */
-    margin-top: calc(60vh + 100.75px + 4rem) !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* Section 5: Same styling as first section for consistent behavior */
-  #home-section-5 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.sliding-stack__card,
-  #home-section-5 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child,
-  #home-section-5 [data-sliding-stack][data-sticky-stack] .sliding-stack__deck > :first-child.color-morph-card {
-    /* Push card down significantly - use actual header height (100.75px) + larger viewport offset */
-    /* This ensures card appears much lower on page when section first enters view */
-    margin-top: calc(60vh + 100.75px + 4rem) !important;
-    margin-bottom: 0 !important;
-  }
-  
 }
 
 /* Main card (parent) - pure CSS sticky like avax.network */
@@ -3786,10 +3735,11 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
 @media (min-width: 48rem) {
 [data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
   position: sticky !important;
-    /* Pin when main card's bottom reaches header bottom, then position 30px lower */
-    /* Header height is 100.75px, so pin at 130.75px from top */
-    /* This makes the card's bottom align with header bottom + 30px when it sticks */
-    top: calc(100.75px + 30px) !important;
+    /* Pin when main card's bottom reaches header bottom, then position 55px lower.
+       Header height is 100.75px, so pin at 155.75px from top. Applies uniformly to
+       every home section (home-broken-money, home-section-2..5) — they all render
+       through the same StickyModule loop in HomePage.tsx, so no ID scoping needed. */
+    top: calc(100.75px + 30px + 25px) !important;
   z-index: 2; /* Main card: z-index 2 */
   align-self: start;
   /* Performance optimizations for sticky positioning */
@@ -3797,34 +3747,6 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
   /* Main card unsticks when its containing block (Section) scrolls out */
   /* Removed will-change - sticky positioning doesn't need it */
   /* Section bottom aligns with Deck bottom so all cards release together */
-  }
-  
-  /* First section (Problem): Lower main card pin location by 25px */
-  #home-broken-money[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
-    /* Pin location lowered by 25px for problem section */
-    top: calc(100.75px + 30px + 25px) !important;
-  }
-  
-  /* Section 2: Same pin location as first section */
-  /* Main card visibility and stack cards are controlled by JavaScript (introStyle/stackStyle) */
-  #home-section-2[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
-    /* Pin location lowered by 25px for section 2 */
-    top: calc(100.75px + 30px + 25px) !important;
-  }
-
-  #home-section-3[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
-    /* Pin location lowered by 25px for section 3 - matches sections 1 and 2 */
-    top: calc(100.75px + 30px + 25px) !important;
-  }
-
-  #home-section-4[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
-    /* Pin location lowered by 25px for section 4 - matches other sections */
-    top: calc(100.75px + 30px + 25px) !important;
-  }
-
-  #home-section-5[data-sticky-module][data-sticky-stack] [data-sticky-module-lead] {
-    /* Pin location lowered by 25px for section 5 - matches other sections */
-    top: calc(100.75px + 30px + 25px) !important;
   }
 }
 
@@ -3839,63 +3761,6 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
   /* CRITICAL: Use !important to override any content-based height calculations */
   height: var(--sticky-container-height, 400vh) !important;
   min-height: var(--sticky-container-height, 400vh) !important;
-}
-
-/* Target only Section 1 (broken-money / "The Problem") - adjust its main card release timing */
-#home-broken-money[data-sticky-module][data-sticky-stack] {
-  /* Section height remains at full height */
-  /* Keep isolation: auto - isolate breaks sticky positioning */
-  isolation: auto !important;
-  /* CRITICAL: Each section must be completely independent */
-  /* Position relative ensures sticky children are scoped to this section */
-  position: relative;
-  /* Sections are sequential - each must complete before next begins */
-  /* Each section flows naturally in document order - no overlap */
-  display: block;
-}
-
-/* Section 2: Same styling as first section for consistent behavior */
-#home-section-2[data-sticky-module][data-sticky-stack] {
-  /* Section height remains at full height */
-  /* Keep isolation: auto - isolate breaks sticky positioning */
-  isolation: auto !important;
-  /* CRITICAL: Each section must be completely independent */
-  /* Position relative ensures sticky children are scoped to this section */
-  position: relative;
-  /* Sections are sequential - each must complete before next begins */
-  /* Each section flows naturally in document order - no overlap */
-  display: block;
-}
-
-/* Section 3: Same styling as first section for consistent behavior */
-#home-section-3[data-sticky-module][data-sticky-stack] {
-  /* Section height remains at full height */
-  /* Keep isolation: auto - isolate breaks sticky positioning */
-  isolation: auto !important;
-  /* CRITICAL: Each section must be completely independent */
-  /* Position relative ensures sticky children are scoped to this section */
-  position: relative;
-  /* Sections are sequential - each must complete before next begins */
-  /* Each section flows naturally in document order - no overlap */
-  display: block;
-}
-
-/* Section 4: Same styling as first section for consistent behavior */
-#home-section-4[data-sticky-module][data-sticky-stack] {
-  /* Section height remains at full height */
-  /* Keep isolation: auto - isolate breaks sticky positioning */
-  isolation: auto !important;
-  /* CRITICAL: Each section must be completely independent */
-  /* Position relative ensures sticky children are scoped to this section */
-  position: relative;
-  /* Sections are sequential - each must complete before next begins */
-  /* Each section flows naturally in document order - no overlap */
-  display: block;
-}
-
-/* Section 5: Same styling as first section for consistent behavior */
-#home-section-5[data-sticky-module][data-sticky-stack] {
-  /* Section height remains at full height */
   /* Keep isolation: auto - isolate breaks sticky positioning */
   isolation: auto !important;
   /* CRITICAL: Each section must be completely independent */
