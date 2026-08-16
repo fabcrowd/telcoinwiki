@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { PROTOCOL_SECTIONS } from '../components/protocol/sections'
 import type { ProtocolSection } from '../components/protocol/sections'
 
@@ -128,6 +128,11 @@ export function ProtocolPage() {
                 </a>
               ))}
             </nav>
+
+            <div className="atlas-callout">
+              <p>Prefer to see it move? Consensus and the ecosystem, as a live 3D model.</p>
+              <Link to="/atlas">Open the Network Atlas →</Link>
+            </div>
           </div>
         </div>
       </section>

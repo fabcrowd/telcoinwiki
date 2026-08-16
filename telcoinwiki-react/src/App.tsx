@@ -14,6 +14,9 @@ import { NotFoundPage } from './pages/NotFoundPage'
 const ProtocolPage = lazy(() =>
   import('./pages/ProtocolPage').then((m) => ({ default: m.ProtocolPage })),
 )
+// The WebGL engine and its shaders are meaningful weight for a page most
+// visitors won't land on directly; keep it out of the main and Protocol chunks.
+const AtlasPage = lazy(() => import('./pages/AtlasPage').then((m) => ({ default: m.AtlasPage })))
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -66,6 +69,21 @@ function App() {
             >
               <Suspense fallback={<div className="min-h-screen" />}>
                 <ProtocolPage />
+              </Suspense>
+            </CinematicLayout>
+          }
+        />
+        <Route
+          path="/atlas"
+          element={
+            <CinematicLayout
+              pageId="atlas"
+              navItems={NAV_ITEMS}
+              pageMeta={PAGE_META}
+              searchConfig={SEARCH_CONFIG}
+            >
+              <Suspense fallback={<div className="min-h-screen" />}>
+                <AtlasPage />
               </Suspense>
             </CinematicLayout>
           }

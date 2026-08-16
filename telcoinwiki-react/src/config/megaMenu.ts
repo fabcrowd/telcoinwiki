@@ -62,6 +62,7 @@ export const megaMenuSections: MegaSection[] = [
       { label: 'Staking a validator', href: '/protocol#proto-staking', description: 'The membership model and the three transactions.' },
       { label: 'Fees', href: '/protocol#proto-fees', description: 'Epoch-based base fees and the gas limit penalty.' },
       { label: 'Documentation index', href: '/protocol#proto-sources', description: 'Every primary source, mapped.' },
+      { label: 'Network Atlas', href: '/atlas', description: 'Consensus and the ecosystem, as a live 3D model.' },
     ],
   },
   {

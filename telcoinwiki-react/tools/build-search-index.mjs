@@ -67,6 +67,7 @@ async function loadContentModules() {
         export { faqItems, faqGroups } from ${JSON.stringify(join(projectRoot, 'src/components/faq/data.tsx'))}
         export { SECTIONS } from ${JSON.stringify(join(projectRoot, 'src/components/deepDive/sections.tsx'))}
         export { PROTOCOL_SECTIONS } from ${JSON.stringify(join(projectRoot, 'src/components/protocol/sections.tsx'))}
+        export { ECOSYSTEM, ECOSYSTEM_IDS } from ${JSON.stringify(join(projectRoot, 'src/lib/atlas/data.ts'))}
       `,
       resolveDir: projectRoot,
       loader: 'ts',
@@ -148,24 +149,51 @@ const PAGE_DOCS = [
     tags: ['Deep Dive', 'Reference'],
     headings: [],
   },
+  {
+    id: 'atlas',
+    title: 'Network Atlas — an interactive 3D model of Telcoin',
+    summary:
+      'A live, orbitable WebGL model: the Narwhal/Bullshark consensus DAG simulated round by round, and an ecosystem graph connecting TEL, Telcoin Network, GSMA validators, TELx, the wallet, Digital Cash and the Digital Asset Bank.',
+    url: '/atlas',
+    tags: ['Atlas', 'Interactive', '3D'],
+    // Populated below from the real ecosystem entity data, not hand-copied.
+    headings: [],
+  },
 ]
 
 async function main() {
   const { modules, cleanup } = await loadContentModules()
 
   try {
-    const { faqItems, faqGroups, SECTIONS, PROTOCOL_SECTIONS } = modules
+    const { faqItems, faqGroups, SECTIONS, PROTOCOL_SECTIONS, ECOSYSTEM, ECOSYSTEM_IDS } = modules
 
-    if (!Array.isArray(faqItems) || !Array.isArray(SECTIONS) || !Array.isArray(PROTOCOL_SECTIONS)) {
+    if (
+      !Array.isArray(faqItems) ||
+      !Array.isArray(SECTIONS) ||
+      !Array.isArray(PROTOCOL_SECTIONS) ||
+      !Array.isArray(ECOSYSTEM_IDS) ||
+      typeof ECOSYSTEM !== 'object'
+    ) {
       throw new Error('content modules did not export the expected arrays')
     }
 
     const faqDocs = buildFaqDocs(faqItems, faqGroups)
     const deepDocs = buildSectionDocs(SECTIONS, '/deep-dive')
     const protoDocs = buildSectionDocs(PROTOCOL_SECTIONS, '/protocol')
-    const sectionDocs = [...deepDocs, ...protoDocs]
+    // Ecosystem entities aren't accordion sections — each is a node in the
+    // WebGL scene, deep-linked via query params rather than a hash anchor.
+    const atlasDocs = ECOSYSTEM_IDS.map((id) => {
+      const entity = ECOSYSTEM[id]
+      return {
+        id: `atlas-${id}`,
+        title: entity.label,
+        body: [entity.kicker, entity.body, ...entity.facts].join(' — '),
+        url: `/atlas?scene=eco&node=${id}`,
+      }
+    })
+    const sectionDocs = [...deepDocs, ...protoDocs, ...atlasDocs]
 
-    const headingsFor = { 'deep-dive': deepDocs, protocol: protoDocs }
+    const headingsFor = { 'deep-dive': deepDocs, protocol: protoDocs, atlas: atlasDocs }
     const pageDocs = PAGE_DOCS.map((page) =>
       headingsFor[page.id]
         ? { ...page, headings: headingsFor[page.id].map((s) => ({ id: s.id, title: s.title })) }
@@ -189,7 +217,13 @@ async function main() {
         title: section.title,
         summary: section.body.slice(0, 240),
         url: section.url,
-        tags: [section.url.startsWith('/protocol') ? 'Protocol' : 'Deep Dive'],
+        tags: [
+          section.url.startsWith('/protocol')
+            ? 'Protocol'
+            : section.url.startsWith('/atlas')
+              ? 'Atlas'
+              : 'Deep Dive',
+        ],
         headings: [],
         body: section.body,
       })),
@@ -201,7 +235,7 @@ async function main() {
 
     const bytes = (o) => (JSON.stringify(o).length / 1024).toFixed(1)
     console.log(
-      `[search-index] ${searchIndex.length} docs (${pageDocs.length} pages, ${deepDocs.length} deep-dive + ${protoDocs.length} protocol sections, ${bytes(searchIndex)} kB) + ${faqDocs.length} FAQ entries (${bytes(faqDocs)} kB)`,
+      `[search-index] ${searchIndex.length} docs (${pageDocs.length} pages, ${deepDocs.length} deep-dive + ${protoDocs.length} protocol + ${atlasDocs.length} atlas sections, ${bytes(searchIndex)} kB) + ${faqDocs.length} FAQ entries (${bytes(faqDocs)} kB)`,
     )
   } finally {
     await cleanup()

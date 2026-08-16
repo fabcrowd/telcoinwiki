@@ -24,6 +24,7 @@ const config: Config = {
   testMatch: [
     '**/src/components/**/__tests__/**/*.test.ts?(x)',
     '**/src/hooks/**/__tests__/**/*.test.ts?(x)',
+    '**/src/lib/**/__tests__/**/*.test.ts?(x)',
   ],
 }
 

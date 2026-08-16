@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react'
+import { Link } from 'react-router-dom'
 
 // Lazy load DeepDiveFaqSections to reduce initial bundle size
 const DeepDiveFaqSections = lazy(() => import('../components/deepDive/DeepDiveFaqSections').then(module => ({ default: module.DeepDiveFaqSections })))
@@ -74,6 +75,11 @@ export function DeepDivePage() {
               Glossary & Sources
             </a>
           </nav>
+
+          <div className="atlas-callout">
+            <p>Consensus, TEL and the wallet — this ecosystem, orbitable in 3D.</p>
+            <Link to="/atlas">Open the Network Atlas →</Link>
+          </div>
           </div>
         </div>
       </section>
