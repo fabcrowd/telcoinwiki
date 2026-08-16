@@ -1,5 +1,85 @@
 # Changelog
 
+## 2026-08-16 (4) – Network Atlas: the 3D model, adapted into the site
+
+Ported the standalone WebGL "Telcoin Network Atlas" artifact into a real
+`/atlas` route, rebuilt for the site rather than dropped in as-is.
+
+### What changed from the artifact
+
+- **Rewritten as typed, per-instance TypeScript**, not a page-scoped IIFE:
+  `lib/atlas/mat4.ts` (matrix math), `lib/atlas/data.ts` (ecosystem/consensus
+  data), `lib/atlas/engine.ts` (the WebGL engine), `components/atlas/NetworkAtlas.tsx`
+  (the React shell). All simulation/camera/picking state lives inside the
+  engine's closure — nothing at module scope — so multiple mounts can never
+  share state.
+- **Full lifecycle correctness for an SPA.** The artifact was a single static
+  page that never unmounted; this route can mount and unmount many times per
+  session. `destroy()` now cancels the rAF handle, aborts every listener via
+  a single `AbortController`, disconnects both observers, deletes GL buffers
+  and programs, and calls `WEBGL_lose_context` — proactively releasing the
+  context rather than waiting on GC, since browsers cap live WebGL contexts
+  per page. Verified with 3x real SPA navigate-away-and-back: renders
+  correctly every time, zero console errors.
+- **Own visual identity, not a foreign console.** The HUD is restyled from
+  the site's own `--tc-*` tokens (border, ink, accent) instead of a bespoke
+  cyan/gold palette. Added one new semantic-only pair, `--tc-gold` /
+  `--tc-gold-soft`, explicitly for "regulated money" vs. "network machine" —
+  not a brand color. The artifact's own top brand bar was dropped entirely;
+  the site's real header does that job.
+- **Two new capabilities the standalone page didn't need:**
+  - Pauses the render loop when the tab is hidden or the stage scrolls out
+    of view (`IntersectionObserver` + `visibilitychange`) — real savings now
+    that this lives inside a normal scrollable page instead of being the
+    entire viewport.
+  - `/atlas?scene=eco&node=<id>` deep links pre-select a scene and entity on
+    mount. The search index now emits one of these per ecosystem entity
+    (8 new docs), so searching "Digital Asset Bank" lands pre-focused on
+    that exact node in the 3D graph, not just on the page.
+- **Grounded in the rest of the wiki, not an island.** Every ecosystem
+  entity's inspector panel carries a "Learn more" link into the matching
+  Deep Dive or Protocol section (TEL → `/protocol#proto-token`, TELx →
+  `/deep-dive#deep-incentives`, etc.), and the DAG inspector links to
+  `/protocol#proto-consensus` / `#proto-lifecycle`. These are plain `<a>`
+  tags (so right-click / open-in-new-tab still work) with a delegated
+  click handler that hands plain left-clicks to the router instead of a
+  full page reload. Added matching callouts on the Protocol and Deep Dive
+  hero cards linking back to `/atlas`.
+- **Lazy-loaded route** (12.4 kB gzipped) — the shaders and engine stay off
+  every other page's bundle.
+
+### Tests (24 new, 77 total across 11 suites)
+
+- `mat4.test.ts` — multiply-by-identity, `lookAt` orthonormality and eye
+  placement, `perspective`/`projectPoint` clip-space behavior.
+- `data.test.ts` — every ecosystem entity's `href` resolves to a real
+  Deep Dive or Protocol section id (regression guard, same shape as the
+  existing anchor tests); no orphan nodes; quorum is a genuine 2f+1
+  majority; `isEcosystemId` accepts every real id and rejects garbage.
+- `wiring.test.ts` — route/nav/header/mega-menu/page-meta all wired; every
+  `/atlas?scene=eco&node=` reference anywhere in source names a real entity.
+- `NetworkAtlas.test.tsx` — the no-WebGL fallback path (stubbed
+  deterministically, since jsdom's `getContext('webgl2')` behavior isn't
+  consistent across versions) renders without throwing; mount → unmount →
+  mount survives; garbage query params don't crash.
+- `jest.config.ts` `testMatch` extended to include `src/lib/**/__tests__/**`
+  — the existing glob only covered `components/` and `hooks/`, so these
+  wouldn't have run at all otherwise.
+
+### Verified
+
+tsc clean; 77/77 tests; lint unchanged at the pre-existing 10 problems;
+clean production build. Real-browser pass (48 checks): WebGL renders and
+draws real pixels, DAG simulation advances and commits, play/pause/resume,
+certificate and ecosystem-entity picking, cross-reference jump chips,
+SPA-navigating "Learn more" links (confirmed no full reload), header/mega-menu/
+callout navigation, 3x remount survival, valid and invalid deep-link query
+params, viewport-intersection pause verified with a genuine occlusion
+(not a too-short test viewport, which produced one false failure caught
+and root-caused before landing), 390px/768px with no overflow, and search
+surfacing the new per-entity `/atlas` docs alongside the existing Deep
+Dive ones.
+
 ## 2026-08-16 (3) – Protocol reference page
 
 New `/protocol` route: a working reference for Telcoin Network itself, researched

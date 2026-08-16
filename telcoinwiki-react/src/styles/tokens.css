@@ -53,4 +53,11 @@
   --tc-radius: 1rem;
   --tc-radius-lg: 1.25rem;
   --tc-shadow: 0 8px 24px rgba(5, 7, 20, 0.35);
+
+  /* Semantic-only accent, not a brand color: distinguishes "regulated fiat
+     money" (Digital Cash, the Bank) from network/token concepts across the
+     Network Atlas visualization. Never use for anything else. */
+  --tc-gold: #f0bf63;
+  --tc-gold-soft: rgba(240, 191, 99, 0.16);
+  --tc-gold-strong: #f7d493;
 }

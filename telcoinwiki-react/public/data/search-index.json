@@ -167,6 +167,53 @@
     "body": ""
   },
   {
+    "id": "atlas",
+    "kind": "page",
+    "title": "Network Atlas — an interactive 3D model of Telcoin",
+    "summary": "A live, orbitable WebGL model: the Narwhal/Bullshark consensus DAG simulated round by round, and an ecosystem graph connecting TEL, Telcoin Network, GSMA validators, TELx, the wallet, Digital Cash and the Digital Asset Bank.",
+    "url": "/atlas",
+    "tags": [
+      "Atlas",
+      "Interactive",
+      "3D"
+    ],
+    "headings": [
+      {
+        "id": "atlas-tel",
+        "title": "TEL"
+      },
+      {
+        "id": "atlas-network",
+        "title": "Telcoin Network"
+      },
+      {
+        "id": "atlas-validators",
+        "title": "GSMA Validators"
+      },
+      {
+        "id": "atlas-telx",
+        "title": "TELx"
+      },
+      {
+        "id": "atlas-wallet",
+        "title": "TAN · Wallet"
+      },
+      {
+        "id": "atlas-digitalcash",
+        "title": "Digital Cash"
+      },
+      {
+        "id": "atlas-bank",
+        "title": "Digital Asset Bank"
+      },
+      {
+        "id": "atlas-association",
+        "title": "Telcoin Association"
+      }
+    ],
+    "body": ""
+  },
+  {
     "id": "deep-about",
     "kind": "section",
     "title": "About Telcoin — Deep Dive",
@@ -501,5 +548,101 @@
     ],
     "headings": [],
     "body": "Everything above is drawn from Telcoin’s own published documentation. The index below maps the ecosystem’s documentation surface so you can go to the primary source for anything that matters — this wiki is a community summary and can lag behind or get things wrong. Protocol documentation — docs.telcoin.network Architecture — overview, native token, security, transaction lifecycle, consensus layer Getting started — reading chain data (cURL, programmatic, libraries), dapp development, development tools, faucet, hardware requirements Networks and RPC endpoints — endpoint and chain parameters RPC methods — the full eth_* and net_* surface: accounts, chain info, contract and state reads, balances and gas, blocks, transactions, submission, logs Filter methods — eth_newFilter , eth_newBlockFilter , eth_newPendingTransactionFilter , eth_getFilterChanges , eth_getFilterLogs , eth_uninstallFilter Staking — how staking works, why the membership model, how to stake, future direction Reference — constants, stablecoin contracts, Adiri testnet Protocol topics — basefees, gas limit penalty, EVM compatibility, epoch boundaries, canonical updates FAQs — economic incentives and rewards Governance documentation — telcoin.org Association — the non-profit Swiss Verein that governs the platform, and Telcoin Autonomous Ops (TAO) Participation — how to take part, including the route for GSMA mobile networks Platform — Telcoin Network, the TEL token, the TELx DeFi exchange, and the Telcoin Application Network Miners — validators, liquidity miners, developers and stakers Association governance — governance organisations, Miner Councils, the Miner Assembly, and association rules including harvesting rules Other primary surfaces telcoin.network — network overview and faucet tnips.telcoin.network — Telcoin Network Improvement Proposals roadmap.telcoin.network — published roadmap forum.telcoin.org — governance forum, proposals and council discussion github.com/Telcoin-Association — telcoin-network (protocol) and tn-contracts (smart contracts) telscan.io — block explorer Reviewed 16 August 2026 against docs.telcoin.network and telcoin.org. Figures such as the launch stake amount, chain IDs and hardware requirements are the values published at that date and are exactly the kind of thing that changes — check the source before relying on any of them."
+  },
+  {
+    "id": "atlas-tel",
+    "kind": "section",
+    "title": "TEL",
+    "summary": "The native token — The fuel and coordination asset of the whole platform. Fixed supply of 100 billion with just 2 decimal places — unusual for an ERC-20, and a reliable source of bugs when reading raw balances. — 100,000,000,000 fixed suppl",
+    "url": "/atlas?scene=eco&node=tel",
+    "tags": [
+      "Atlas"
+    ],
+    "headings": [],
+    "body": "The native token — The fuel and coordination asset of the whole platform. Fixed supply of 100 billion with just 2 decimal places — unusual for an ERC-20, and a reliable source of bugs when reading raw balances. — 100,000,000,000 fixed supply · 2 decimals — Gas on Telcoin Network — Staked by validators to secure consensus — LP rewards on TELx + governance weight"
+  },
+  {
+    "id": "atlas-network",
+    "kind": "section",
+    "title": "Telcoin Network",
+    "summary": "Settlement · Layer 1 — The EVM-compatible Layer 1 where value settles. A DAG consensus layer orders transactions and a Reth-based EVM executes them, giving instant deterministic finality suited to payments. — EVM-compatible — Solidity, Reth",
+    "url": "/atlas?scene=eco&node=network",
+    "tags": [
+      "Atlas"
+    ],
+    "headings": [],
+    "body": "Settlement · Layer 1 — The EVM-compatible Layer 1 where value settles. A DAG consensus layer orders transactions and a Reth-based EVM executes them, giving instant deterministic finality suited to payments. — EVM-compatible — Solidity, Reth execution — Narwhal/Bullshark DAG consensus — Validated by GSMA member mobile operators — Every transaction burns TEL as gas"
+  },
+  {
+    "id": "atlas-validators",
+    "kind": "section",
+    "title": "GSMA Validators",
+    "summary": "Security · block production — The block producers, and the decision that most sets Telcoin apart. Validator slots are permissioned to GSMA full-member mobile network operators, approved by the Compliance Council, who stake TEL and run the n",
+    "url": "/atlas?scene=eco&node=validators",
+    "tags": [
+      "Atlas"
+    ],
+    "headings": [],
+    "body": "Security · block production — The block producers, and the decision that most sets Telcoin apart. Validator slots are permissioned to GSMA full-member mobile network operators, approved by the Compliance Council, who stake TEL and run the nodes. — Permissioned to GSMA mobile operators — Stake 1,000,000 TEL for proof-of-stake consensus — Each runs Primary + Worker nodes — Earn TEL gas fees and issuance"
+  },
+  {
+    "id": "atlas-telx",
+    "kind": "section",
+    "title": "TELx",
+    "summary": "Liquidity layer — The liquidity engine. TELx layers TEL incentives over established AMMs so there is depth for TEL and Digital Cash — which is what keeps in-wallet swap rates tight. — Liquidity mining paid in TEL — Built on Uniswap + Balanc",
+    "url": "/atlas?scene=eco&node=telx",
+    "tags": [
+      "Atlas"
+    ],
+    "headings": [],
+    "body": "Liquidity layer — The liquidity engine. TELx layers TEL incentives over established AMMs so there is depth for TEL and Digital Cash — which is what keeps in-wallet swap rates tight. — Liquidity mining paid in TEL — Built on Uniswap + Balancer — Mainly Polygon, also Base — Migrating to Uniswap v4 (Telcoin Hook)"
+  },
+  {
+    "id": "atlas-wallet",
+    "kind": "section",
+    "title": "TAN · Wallet",
+    "summary": "Application layer — TAN — the Telcoin Application Network — is the third layer of the stack: self-custodial mobile apps built by GSMA telecom members. The Telcoin Wallet is a TAN app, and where the system becomes a product. — App layer atop",
+    "url": "/atlas?scene=eco&node=wallet",
+    "tags": [
+      "Atlas"
+    ],
+    "headings": [],
+    "body": "Application layer — TAN — the Telcoin Application Network — is the third layer of the stack: self-custodial mobile apps built by GSMA telecom members. The Telcoin Wallet is a TAN app, and where the system becomes a product. — App layer atop Network + TELx — Assisted self-custody: 2-of-3 keys — No seed phrase — access tied to your number — Holds Digital Cash + crypto, swaps, staking"
+  },
+  {
+    "id": "atlas-digitalcash",
+    "kind": "section",
+    "title": "Digital Cash",
+    "summary": "Regulated money — Fiat-backed digital currencies — eUSD, eGBP, eJPY and more — issued and redeemed by the Telcoin Digital Asset Bank and settled on Telcoin Network. Multi-currency by design, because a remittance is a currency pair. — Bank-i",
+    "url": "/atlas?scene=eco&node=digitalcash",
+    "tags": [
+      "Atlas"
+    ],
+    "headings": [],
+    "body": "Regulated money — Fiat-backed digital currencies — eUSD, eGBP, eJPY and more — issued and redeemed by the Telcoin Digital Asset Bank and settled on Telcoin Network. Multi-currency by design, because a remittance is a currency pair. — Bank-issued and fiat-backed (e.g. eUSD) — ~12 live on Polygon; more announced — Redeemable from 100% reserves — Named with an e- prefix (mostly ISO codes)"
+  },
+  {
+    "id": "atlas-bank",
+    "kind": "section",
+    "title": "Digital Asset Bank",
+    "summary": "The issuer — A distinct regulated entity holding Nebraska’s first Digital Asset Depository Institution charter, finalized 12 November 2025 — the first digital asset bank charter in the United States. — First US digital asset bank charter (N",
+    "url": "/atlas?scene=eco&node=bank",
+    "tags": [
+      "Atlas"
+    ],
+    "headings": [],
+    "body": "The issuer — A distinct regulated entity holding Nebraska’s first Digital Asset Depository Institution charter, finalized 12 November 2025 — the first digital asset bank charter in the United States. — First US digital asset bank charter (Nov 2025) — ≥100% USD-denominated reserves — No FDIC insurance (by statute) — Runs KYC/AML; mints and burns Digital Cash"
+  },
+  {
+    "id": "atlas-association",
+    "kind": "section",
+    "title": "Telcoin Association",
+    "summary": "Governance — A Swiss non-profit Verein domiciled in Lugano that stewards the protocol. Governance is polycentric: elected Miner Councils handle each domain, and the Miner Assembly holds constitutional authority. — Swiss Verein, domiciled in",
+    "url": "/atlas?scene=eco&node=association",
+    "tags": [
+      "Atlas"
+    ],
+    "headings": [],
+    "body": "Governance — A Swiss non-profit Verein domiciled in Lugano that stewards the protocol. Governance is polycentric: elected Miner Councils handle each domain, and the Miner Assembly holds constitutional authority. — Swiss Verein, domiciled in Lugano — Elected Miner Councils per domain — Miner Assembly = constitutional authority — Sets validator policy and TELx emissions"
   }
 ]
