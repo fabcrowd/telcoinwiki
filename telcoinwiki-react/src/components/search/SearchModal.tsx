@@ -20,7 +20,10 @@ export function SearchModal({ isOpen, onClose, searchConfig, initialQuery = '' }
   const resultRefs = useRef<Array<HTMLAnchorElement | null>>([])
   const previousFocusRef = useRef<HTMLElement | null>(null)
   const wasOpenRef = useRef(false)
-  const { search, isLoading, error, isFallback, reload, isDisabled } = useSearchIndex(searchConfig)
+  // `active` defers the index fetch until the overlay is actually opened.
+  const { search, isLoading, error, isFallback, reload, isDisabled } = useSearchIndex(searchConfig, {
+    active: isOpen,
+  })
   const [query, setQuery] = useState('')
   const trimmedQuery = query.trim()
   const searchEnabled = !isDisabled
@@ -249,7 +252,7 @@ export function SearchModal({ isOpen, onClose, searchConfig, initialQuery = '' }
 
           {searchEnabled && !isLoading && !error && query && isFallback ? (
             <p className="search-modal__status search-modal__status--notice" role="status">
-              Showing cached FAQ data while live updates are disabled.
+              Showing FAQ results only — the page index didn&apos;t load.
             </p>
           ) : null}
 
