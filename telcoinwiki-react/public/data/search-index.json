@@ -26,6 +26,73 @@
     "body": ""
   },
   {
+    "id": "protocol",
+    "kind": "page",
+    "title": "Protocol reference — Telcoin Network",
+    "summary": "Working reference for Telcoin Network: modular architecture, Narwhal/Bullshark consensus, transaction lifecycle and finality, the TEL native token and 0x7e1 precompile, epochs and committee selection, validator staking, fees and the gas limit penalty, EVM compatibility, hardware requirements, and an index of every primary documentation source.",
+    "url": "/protocol",
+    "tags": [
+      "Protocol",
+      "Reference",
+      "Developers"
+    ],
+    "headings": [
+      {
+        "id": "proto-overview",
+        "title": "What Telcoin Network is"
+      },
+      {
+        "id": "proto-architecture",
+        "title": "A modular blockchain, in four layers"
+      },
+      {
+        "id": "proto-lifecycle",
+        "title": "From signature to irreversible, in under half a second"
+      },
+      {
+        "id": "proto-consensus",
+        "title": "Narwhal and Bullshark"
+      },
+      {
+        "id": "proto-token",
+        "title": "TEL as a native token, and the 0x7e1 precompile"
+      },
+      {
+        "id": "proto-epochs",
+        "title": "Epochs and committee selection"
+      },
+      {
+        "id": "proto-staking",
+        "title": "The membership model and becoming a validator"
+      },
+      {
+        "id": "proto-fees",
+        "title": "Base fees, priority fees and the gas limit penalty"
+      },
+      {
+        "id": "proto-evm",
+        "title": "What is identical to Ethereum, and what is not"
+      },
+      {
+        "id": "proto-security",
+        "title": "The security model"
+      },
+      {
+        "id": "proto-node",
+        "title": "Validator hardware requirements"
+      },
+      {
+        "id": "proto-networks",
+        "title": "Networks and endpoints"
+      },
+      {
+        "id": "proto-sources",
+        "title": "The full documentation set"
+      }
+    ],
+    "body": ""
+  },
+  {
     "id": "deep-dive",
     "kind": "page",
     "title": "Deep Dive — Telcoin architecture, economics and risks",
@@ -278,5 +345,161 @@
     ],
     "headings": [],
     "body": "Core Terms TEL The native token of the Telcoin ecosystem. Fixed supply of 100 billion, 2 decimal places. Used for gas, staking, liquidity incentives, and governance. Telcoin Network Telcoin’s EVM-compatible Layer 1 blockchain, intended to be validated by GSMA-member mobile network operators. Digital Cash Telcoin’s family of fiat-backed digital currencies, named with an e prefix plus a currency code — usually the ISO 4217 code (eUSD, eEUR, eJPY), though not always: the West African CFA franc is branded eCFA rather than eXOF. Issued and redeemed through the bank entity. Telcoin Digital Asset Bank The regulated entity holding Nebraska’s first Digital Asset Depository Institution charter (finalized 12 November 2025). Issues and redeems Digital Cash, holds 100%-reserved fiat, and runs KYC/AML. Telcoin Association A Swiss nonprofit Verein , domiciled in Lugano, that stewards the protocol, emissions policy, and network governance through elected Miner Councils and the Miner Assembly. Miner Council / Miner Assembly Elected governance bodies within the Association. Miner Councils (Platform and Treasury, TAN, TELx, Compliance) handle domain-specific decisions; the Miner Assembly — all four miner groups together — holds constitutional-level authority over the governance system itself. TELx The liquidity layer that incentivizes market-making in TEL and Digital Cash, currently concentrated on Polygon and Base with a standardization effort extending to Ethereum. TAN — Telcoin Application Network The application layer of the platform: self-custodial mobile wallet apps, built by GSMA telecom members, that sit on top of Telcoin Network and TELx to serve end users. The Telcoin Wallet is a TAN application. GSMA The global industry association representing mobile network operators. Its membership defines the pool from which Telcoin Network validators are drawn. Technical Terms Narwhal A DAG-based mempool protocol that disseminates transaction data in parallel across validators, separating data availability from consensus ordering. From the 2021 paper by Danezis, Kogias, Sonnino, and Spiegelman; also used by the Sui blockchain. Bullshark A consensus protocol that derives a total ordering from Narwhal’s DAG deterministically, requiring no additional messages between validators. From the 2022 paper by Giridharan, Kokoris-Kogias, Sonnino, and Spiegelman. Deterministic finality The property that a committed transaction can never be reversed — as opposed to probabilistic finality, where confidence grows with each confirmation but never reaches certainty. Modular architecture A design separating consensus, execution, and data availability into independent layers that scale separately rather than competing for one pipeline. BFT — Byzantine Fault Tolerance The ability of a distributed system to operate correctly while some participants fail arbitrarily or act maliciously, typically tolerating up to one third of the network. EVM — Ethereum Virtual Machine The execution environment Ethereum smart contracts run in. EVM compatibility means existing Solidity tooling works largely unchanged. Self-custody An arrangement where a user’s assets are not held by a custodian. The Telcoin Wallet implements ”assisted self-custody” — a 2-of-3 key scheme, not a pure single-signer model — see the Wallet section for the distinction. Impermanent loss The shortfall a liquidity provider experiences relative to simply holding the two assets, caused by the pool automatically rebalancing as prices diverge. Corridor A directional country pair for remittances. Each requires its own licensing, partners, and compliance work. Checking Anything Here Against Primary Sources This wiki is written and maintained by the community. It is not published, reviewed, or endorsed by Telcoin, and it can be wrong or out of date. Anything that would affect a real decision should be verified against a primary source: Telcoin’s official site and documentation — for product status, supported corridors, and available currencies. Telcoin Association governance forums — for proposals, council composition, and emissions decisions. The Nebraska Department of Banking and Finance — for the bank entity’s charter status. Block explorers — for contract addresses, balances, and transaction history you can verify yourself. The Telcoin app itself — for what is actually live in your market today. Contract addresses in particular should always be confirmed through an official channel before use. Address substitution is a common attack, and a wiki is exactly the kind of place an attacker would like to plant a wrong one. Content last reviewed: 16 August 2026. On-chain figures cited in the Tokenomics section come from the community-run Telcoin Proposal Tracker snapshot of the same date."
+  },
+  {
+    "id": "proto-overview",
+    "kind": "section",
+    "title": "What Telcoin Network is",
+    "summary": "Telcoin Network is an EVM-compatible Layer 1 blockchain, secured by proof of stake and validated by GSMA Operator Member mobile network operators. TEL is the native gas token. The network is governed by the Telcoin Association, a non-profit",
+    "url": "/protocol#proto-overview",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "Telcoin Network is an EVM-compatible Layer 1 blockchain, secured by proof of stake and validated by GSMA Operator Member mobile network operators. TEL is the native gas token. The network is governed by the Telcoin Association, a non-profit Swiss Verein. The documented use cases are deliberately payments-shaped rather than general-purpose speculation: DeFi payments and services, stablecoin remittances, inter-carrier settlement, and games and loyalty programmes. Node operation rights are reserved for GSMA Full Member MNOs, who earn network fees and TEL issuance for securing blocks. 487 mainnet chain ID 2017 testnet chain ID < 0.5s documented finality 30M gas limit per block 1M TEL validator stake at launch > 2/3 honest stake required"
+  },
+  {
+    "id": "proto-architecture",
+    "kind": "section",
+    "title": "A modular blockchain, in four layers",
+    "summary": "The documentation frames Telcoin Network as modular rather than monolithic — “a modular blockchain separates the blockchain’s services into separate modules, each specializing in one aspect.” Four layers are named. Consensus layer Validates",
+    "url": "/protocol#proto-architecture",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "The documentation frames Telcoin Network as modular rather than monolithic — “a modular blockchain separates the blockchain’s services into separate modules, each specializing in one aspect.” Four layers are named. Consensus layer Validates and orders transactions across validator nodes. Narwhal handles the mempool; Bullshark finalises and records transactions into the settlement layer. Execution layer Described as the chain’s processing unit, analogous to a CPU. Runs everything from simple transfers to smart contracts on the EVM, which is what gives cross-chain tooling compatibility. Data availability layer Keeps the data needed for validation reachable across the network, using “a scalable number of workers which share collections of transactions” so any node can obtain what it needs to process and verify. Settlement layer The permanent ledger. Bullshark’s Byzantine fault tolerant consensus prevents forks and reorganisations, so committed transactions are irrevocably settled. This is the conceptual framing used by the protocol documentation. The implementation in the telcoin-network repository organises the same work differently again — an EpochManager orchestrating consensus, execution, networking and storage — which is a view of the same system at a different altitude, not a contradiction."
+  },
+  {
+    "id": "proto-lifecycle",
+    "kind": "section",
+    "title": "From signature to irreversible, in under half a second",
+    "summary": "Creation. A user initiates a transfer from a wallet or dApp and signs it with their private key, producing an immutable, signature-protected message ready for submission to validators. Certification. Validators check the signature, that the",
+    "url": "/protocol#proto-lifecycle",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "Creation. A user initiates a transfer from a wallet or dApp and signs it with their private key, producing an immutable, signature-protected message ready for submission to validators. Certification. Validators check the signature, that the sender holds enough funds plus gas, that any contract call data is correctly encoded, and that sufficient gas was supplied. Valid transactions enter the pending pool. When proposing, a validator draws transactions until it reaches the 30 million gas limit or runs out. Finalisation. A transaction certificate is broadcast to all validators, who verify and execute it, then compare effects — the node confirms that the state changes reported by each validator are identical. Once a supermajority of signatures is collected it produces an EffectsCertificate , and the transaction is executed, irreversible and final. The documentation puts the whole process at less than half a second , which is why the architecture has no notion of a pending block — there is no probabilistic waiting period to sit through."
+  },
+  {
+    "id": "proto-consensus",
+    "kind": "section",
+    "title": "Narwhal and Bullshark",
+    "summary": "Narwhal — a DAG-based mempool Narwhal structures transaction dissemination as a directed acyclic graph. The documentation credits it with three properties: parallel processing — “the DAG structure allows for concurrent transaction processin",
+    "url": "/protocol#proto-consensus",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "Narwhal — a DAG-based mempool Narwhal structures transaction dissemination as a directed acyclic graph. The documentation credits it with three properties: parallel processing — “the DAG structure allows for concurrent transaction processing, significantly boosting throughput”; efficiency , by removing the bottlenecks of a traditional sequential mempool; and scalability under substantial transaction volume. Bullshark — asynchronous consensus Bullshark is a DAG-based Byzantine Atomic Broadcast protocol. It operates asynchronously , meaning it stays correct without timing assumptions and so resists network delays and timing-based exploits, while being “optimized for the more common synchronous cases, ensuring high throughput and low latency.” Together they give the settlement layer its defining property: no forks, no reorganisations, and deterministic finality rather than confirmations that only ever approach certainty."
+  },
+  {
+    "id": "proto-token",
+    "kind": "section",
+    "title": "TEL as a native token, and the 0x7e1 precompile",
+    "summary": "TEL began as an ERC-20 on Ethereum and became the native gas token of Telcoin Network — an unusual direction of travel. Most chains launch a new native token and wrap it afterwards. Telcoin explicitly avoids the Polygon-style approach of ke",
+    "url": "/protocol#proto-token",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "TEL began as an ERC-20 on Ethereum and became the native gas token of Telcoin Network — an unusual direction of travel. Most chains launch a new native token and wrap it afterwards. Telcoin explicitly avoids the Polygon-style approach of keeping state synchronised between Ethereum and the chain through mechanisms like StateSender and checkpoints; core state lives on Telcoin Network itself. Because TEL exists on Ethereum, it has to be bridged. The protocol uses Axelar to bridge ERC-20 TEL across as wrapped TEL ( wTEL ), which users then unwrap into native TEL much as WETH9 works. Managing balances at the protocol level rather than inside a contract is what lets multiple TEL transfers execute in parallel without synchronous state conflicts. The documentation is candid that bridge dependencies are a risk for an early-stage chain, and points at recoverable token standards such as ERC-20R as a mitigation worth exploring. One balance, two interfaces The most distinctive divergence from Ethereum is a native ERC-20 interface for TEL exposed at precompile address 0x7e1 . Where Ethereum needs WETH to make ETH behave like a token, TEL is both the gas token and a standard ERC-20 at once: balanceOf() returns the native account balance — there is one balance, not two. Native transfers and ERC-20 transfers move the same underlying funds. Full ERC-20 support plus EIP-2612 gasless approvals via permit() . Infinite allowances do not decrement on repeated transfers, as a gas optimisation. Transfers to address(0) revert. Native transfers emit no Transfer event; only ERC-20 calls do."
+  },
+  {
+    "id": "proto-epochs",
+    "kind": "section",
+    "title": "Epochs and committee selection",
+    "summary": "Consensus is organised into fixed-duration epochs , each run by a stable validator committee. Committee selection at an epoch boundary is deterministic but seeded by verifiable randomness: Active validators are queried from the ConsensusReg",
+    "url": "/protocol#proto-epochs",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "Consensus is organised into fixed-duration epochs , each run by a stable validator committee. Committee selection at an epoch boundary is deterministic but seeded by verifiable randomness: Active validators are queried from the ConsensusRegistry contract. If there are too few, validators with PendingExit status are drawn on at random to fill the gaps. A 32-byte seed is derived as keccak256(aggregated BLS signature) of the final leader certificate. The list is shuffled with Fisher–Yates using that seed. The result is sorted by address for deterministic ordering. The committee is truncated to the target size and committed on-chain. Three operations run as system calls inside the final block of an epoch: validator reward distribution based on leader block counts, committee selection and shuffling , and base fee adjustment . They consume no block gas and surface only as state changes and modified header fields ( extra_data and withdrawals )."
+  },
+  {
+    "id": "proto-staking",
+    "kind": "section",
+    "title": "The membership model and becoming a validator",
+    "summary": "Why membership rather than stake-weighting The model is designed to grow the network by adding nodes rather than enlarging them . Under conventional stake-weighting an operator has no reason to run several nodes when concentrating stake on ",
+    "url": "/protocol#proto-staking",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "Why membership rather than stake-weighting The model is designed to grow the network by adding nodes rather than enlarging them . Under conventional stake-weighting an operator has no reason to run several nodes when concentrating stake on one earns the same. Requiring a fixed stake per node means an operator deploying more capital must launch more validators, each with “its own keys, its own infrastructure, and its own ConsensusNFT.” Rewards are weighted by header production, so uptime and reliability — not just capital — determine earnings. Because validators are mobile network operators vetted by governance, the ConsensusNFT whitelist supplies sybil resistance that a fixed stake alone could not. Stake versions Validators join under a stake version , each defining a StakeConfig : stakeAmount , minWithdrawAmount , epochIssuance and epochDuration . Governance can publish a new version with upgradeStakeVersion() , effective the next epoch. A validator’s version is fixed at stake time — there is no in-place upgrade, only exit and rejoin. Rewards are settled at each epoch boundary: weight = stakeAmount × consensusHeaderCount reward = (epochIssuance × weight) / totalWeight In a single-version committee the stake amount cancels out and rewards track header production alone. In a mixed committee a larger stake earns proportionally more per header, but a reliable smaller-stake validator can still out-earn an underperforming larger one. Joining, in three transactions Keys are generated with the telcoin-network keytool , producing a BLS keypair, network keypairs and a node-info.yaml carrying the public keys and proof of possession. Then, against the ConsensusRegistry system contract: Governance approval. Governance mints a ConsensusNFT to the validator’s ECDSA address via mint(validatorAddress) , whitelisting it. Stake. Call stake() with a 96-byte compressed BLS public key and a proof of possession (192-byte uncompressed key plus signature), sending 1,000,000 TEL — the launch stake amount. Activate. Once the node has synced (checked with the tn_syncing RPC method), call activate() . The validator becomes eligible for committee selection at the next epoch boundary. Validator lifecycle states Status Meaning Undefined Holds a ConsensusNFT but has not staked Staked Staked but not yet activated PendingActivation Called activate() , awaiting the epoch boundary Active Eligible for committee selection PendingExit Exit requested, outstanding committee obligations remain Exited Can unstake after one epoch Exiting is beginExit() , then unstake(validatorAddress) after a full epoch to reclaim stake plus rewards. Contract addresses are deliberately not reproduced here. Always take them from the official documentation or an explorer immediately before use — address substitution is a common attack, and a community wiki is exactly where someone would try to plant a wrong one."
+  },
+  {
+    "id": "proto-fees",
+    "kind": "section",
+    "title": "Base fees, priority fees and the gas limit penalty",
+    "summary": "An EIP-1559 fee market on an epoch clock Telcoin Network uses an EIP-1559-style base fee, but adjusts it at epoch boundaries rather than per block . Within an epoch the base fee is static across every batch and transaction. At the boundary ",
+    "url": "/protocol#proto-fees",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "An EIP-1559 fee market on an epoch clock Telcoin Network uses an EIP-1559-style base fee, but adjusts it at epoch boundaries rather than per block . Within an epoch the base fee is static across every batch and transaction. At the boundary the protocol measures aggregate gas usage and recalibrates: unchanged if the target was met, up if exceeded, down if under, with MAX_CHANGE_DENOMINATOR capping the rate of change and a protocol-defined floor below which it cannot fall. The practical effect is fee stability: one eth_gasPrice call gives you the definitive base fee for the rest of the epoch, with none of Ethereum’s block-to-block volatility. Where the money goes Transactions specify maxFeePerGas and maxPriorityFeePerGas exactly as on Ethereum. Priority fees go to batch producers whose transactions land in the final block. The base fee does not leave the system the way Ethereum’s does — it is burned with an equivalent amount minted to the governance safe, so in net terms 100% of base fees accrue to governance reserves that fund future rewards. The gas limit penalty Because consensus orders transactions before they execute, actual gas usage is unknown at submission — which opens the door to declaring an enormous gas limit on a cheap transaction and wasting batch capacity. The penalty targets exactly that. It applies only when a transaction consumes less than 10% of its declared limit , and never to transactions with a gas limit of 210,000 or below . usage_ratio = gas_used / gas_limit inefficiency = 0.10 - usage_ratio penalty_gas = (inefficiency² / 0.10²) × unused_gas Penalty applied to unused gas Gas limit actually used Penalty on the unused portion 9.9% Negligible 5% ~25% 2% ~62% 0.1% > 95% The curve ramps gently near the threshold and steeply for extreme over-estimation. Penalties are deducted from the refund rather than added to the bill, so they never increase the total fee paid, and they go to the governance address."
+  },
+  {
+    "id": "proto-evm",
+    "kind": "section",
+    "title": "What is identical to Ethereum, and what is not",
+    "summary": "Compatibility is close to total: “There are no custom opcodes, no modified gas costs, and no disabled instructions.” Contracts deploy as they would on Ethereum, and Hardhat, Foundry, ethers.js and viem work unmodified. Documented divergence",
+    "url": "/protocol#proto-evm",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "Compatibility is close to total: “There are no custom opcodes, no modified gas costs, and no disabled instructions.” Contracts deploy as they would on Ethereum, and Hardhat, Foundry, ethers.js and viem work unmodified. Documented divergences Area Difference TEL precompile Native ERC-20 interface at 0x7e1 ; gas token and token share one balance Base fee Collected by the governance address for protocol use rather than destroyed Transaction types Legacy, EIP-2930 and EIP-1559 supported; blob transactions (EIP-4844) not yet implemented Header fields nonce encodes epoch and round, difficulty packs batch index and worker ID, mix_hash carries consensus digests Chain IDs Mainnet 487 , testnet 2017 The header fields matter if you are writing indexers or explorers: those slots carry consensus-layer metadata on Telcoin Network, not the proof-of-work values their names imply."
+  },
+  {
+    "id": "proto-security",
+    "kind": "section",
+    "title": "The security model",
+    "summary": "The network “remains secure so long as over 2/3 of the network’s total stake is controlled by honest and non adversarial validators” — the standard Byzantine fault tolerant threshold, here resting on a validator set of vetted mobile network",
+    "url": "/protocol#proto-security",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "The network “remains secure so long as over 2/3 of the network’s total stake is controlled by honest and non adversarial validators” — the standard Byzantine fault tolerant threshold, here resting on a validator set of vetted mobile network operators. Private signature keys are required to authorise any transaction, and only asset owners can move their own holdings. Assets follow the rules written into their Solidity contracts by the contract creator. Finalised transactions create a permanent record that later operations build on. All network actions are publicly visible; users manage privacy by using multiple addresses. Aborted transactions still consume gas but leave state unchanged, which is what makes spam expensive. Smart contract deployment is permissionless, so the usual caution applies in full: interact only with contracts you trust and understand."
+  },
+  {
+    "id": "proto-node",
+    "kind": "section",
+    "title": "Validator hardware requirements",
+    "summary": "These are carrier-grade requirements, and a fair signal of what the network expects of the operators securing it. Published validator node specification Component Minimum Recommended CPU x86/x64, 16 cores / 32 threads, 4000+ PassMark single",
+    "url": "/protocol#proto-node",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "These are carrier-grade requirements, and a fair signal of what the network expects of the operators securing it. Published validator node specification Component Minimum Recommended CPU x86/x64, 16 cores / 32 threads, 4000+ PassMark single-thread 32 cores, higher clock prioritised Memory 128 GB DDR4/DDR5 ECC registered DIMM 128 GB or more at maximum speed Storage 4 TB TLC NVMe SSD 7.5 TB TLC NVMe SSD Bandwidth 1000 Mb/s sustained, 1-Gigabit Ethernet 1000+ Mb/s sustained, 10-Gigabit interface Operating system Linux LTS — Debian 11+, Ubuntu 20.04+, RHEL 8; kernel 3.10 or newer Operators are asked to submit their specification to the Telcoin DevOps team for approval before installation, so the list above is a starting point for a conversation rather than a self-serve checklist."
+  },
+  {
+    "id": "proto-networks",
+    "kind": "section",
+    "title": "Networks and endpoints",
+    "summary": "Published network parameters Parameter Adiri testnet Chain ID 0x7e1 (2017) Currency symbol TEL Public RPC https://rpc.adiri.tel Explorer https://telscan.io Adiri is currently the only deployed network. The public RPC endpoint sits behind a ",
+    "url": "/protocol#proto-networks",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "Published network parameters Parameter Adiri testnet Chain ID 0x7e1 (2017) Currency symbol TEL Public RPC https://rpc.adiri.tel Explorer https://telscan.io Adiri is currently the only deployed network. The public RPC endpoint sits behind a load balancer and is intended for single transactions and read queries; sustained development work should connect to a node directly. The documentation warns the testnet may be reset before mainnet to accommodate protocol changes, so treat any state there as disposable. Chain ID 0x7e1 is 2017 in decimal — the year Telcoin was founded — and the same value appears again as the address of the TEL precompile."
+  },
+  {
+    "id": "proto-sources",
+    "kind": "section",
+    "title": "The full documentation set",
+    "summary": "Everything above is drawn from Telcoin’s own published documentation. The index below maps the ecosystem’s documentation surface so you can go to the primary source for anything that matters — this wiki is a community summary and can lag be",
+    "url": "/protocol#proto-sources",
+    "tags": [
+      "Protocol"
+    ],
+    "headings": [],
+    "body": "Everything above is drawn from Telcoin’s own published documentation. The index below maps the ecosystem’s documentation surface so you can go to the primary source for anything that matters — this wiki is a community summary and can lag behind or get things wrong. Protocol documentation — docs.telcoin.network Architecture — overview, native token, security, transaction lifecycle, consensus layer Getting started — reading chain data (cURL, programmatic, libraries), dapp development, development tools, faucet, hardware requirements Networks and RPC endpoints — endpoint and chain parameters RPC methods — the full eth_* and net_* surface: accounts, chain info, contract and state reads, balances and gas, blocks, transactions, submission, logs Filter methods — eth_newFilter , eth_newBlockFilter , eth_newPendingTransactionFilter , eth_getFilterChanges , eth_getFilterLogs , eth_uninstallFilter Staking — how staking works, why the membership model, how to stake, future direction Reference — constants, stablecoin contracts, Adiri testnet Protocol topics — basefees, gas limit penalty, EVM compatibility, epoch boundaries, canonical updates FAQs — economic incentives and rewards Governance documentation — telcoin.org Association — the non-profit Swiss Verein that governs the platform, and Telcoin Autonomous Ops (TAO) Participation — how to take part, including the route for GSMA mobile networks Platform — Telcoin Network, the TEL token, the TELx DeFi exchange, and the Telcoin Application Network Miners — validators, liquidity miners, developers and stakers Association governance — governance organisations, Miner Councils, the Miner Assembly, and association rules including harvesting rules Other primary surfaces telcoin.network — network overview and faucet tnips.telcoin.network — Telcoin Network Improvement Proposals roadmap.telcoin.network — published roadmap forum.telcoin.org — governance forum, proposals and council discussion github.com/Telcoin-Association — telcoin-network (protocol) and tn-contracts (smart contracts) telscan.io — block explorer Reviewed 16 August 2026 against docs.telcoin.network and telcoin.org. Figures such as the launch stake amount, chain IDs and hardware requirements are the values published at that date and are exactly the kind of thing that changes — check the source before relying on any of them."
   }
 ]

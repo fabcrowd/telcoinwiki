@@ -53,6 +53,18 @@ export const megaMenuSections: MegaSection[] = [
     ],
   },
   {
+    id: 'protocol',
+    label: 'Protocol',
+    items: [
+      { label: 'Protocol reference', href: '/protocol', description: 'How the chain itself is built and run.' },
+      { label: 'Architecture', href: '/protocol#proto-architecture', description: 'The four modular layers.' },
+      { label: 'Transaction lifecycle', href: '/protocol#proto-lifecycle', description: 'Signature to finality in under half a second.' },
+      { label: 'Staking a validator', href: '/protocol#proto-staking', description: 'The membership model and the three transactions.' },
+      { label: 'Fees', href: '/protocol#proto-fees', description: 'Epoch-based base fees and the gas limit penalty.' },
+      { label: 'Documentation index', href: '/protocol#proto-sources', description: 'Every primary source, mapped.' },
+    ],
+  },
+  {
     id: 'evaluate',
     label: 'Evaluate',
     items: [

@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import { CinematicLayout } from './components/layout/CinematicLayout'
@@ -8,6 +9,11 @@ import { SEARCH_CONFIG } from './config/search'
 import { HomePage } from './pages/HomePage'
 import { DeepDivePage } from './pages/DeepDivePage'
 import { NotFoundPage } from './pages/NotFoundPage'
+
+// Reference content is long and rarely the entry point; keep it off the main bundle.
+const ProtocolPage = lazy(() =>
+  import('./pages/ProtocolPage').then((m) => ({ default: m.ProtocolPage })),
+)
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,6 +52,21 @@ function App() {
               searchConfig={SEARCH_CONFIG}
             >
               <DeepDivePage />
+            </CinematicLayout>
+          }
+        />
+        <Route
+          path="/protocol"
+          element={
+            <CinematicLayout
+              pageId="protocol"
+              navItems={NAV_ITEMS}
+              pageMeta={PAGE_META}
+              searchConfig={SEARCH_CONFIG}
+            >
+              <Suspense fallback={<div className="min-h-screen" />}>
+                <ProtocolPage />
+              </Suspense>
             </CinematicLayout>
           }
         />

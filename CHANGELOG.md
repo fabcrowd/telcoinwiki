@@ -1,5 +1,62 @@
 # Changelog
 
+## 2026-08-16 (3) – Protocol reference page
+
+New `/protocol` route: a working reference for Telcoin Network itself, researched
+from Telcoin's own published documentation (docs.telcoin.network and
+telcoin.org/documentation) rather than written from model knowledge.
+
+### Content — 13 sections
+
+Overview, modular architecture (the four layers as the docs frame them),
+transaction lifecycle, Narwhal/Bullshark consensus, the native token and the
+`0x7e1` TEL precompile, epochs and committee selection, the validator membership
+model and staking, fees and the gas limit penalty, EVM compatibility, the
+security model, validator hardware requirements, networks and endpoints, and a
+full index of every primary documentation source.
+
+Specifics captured that were not on the wiki before: mainnet chain ID 487 /
+testnet 2017, sub-half-second finality, the 30M gas limit per block, the 1M TEL
+launch stake, the `weight = stakeAmount x consensusHeaderCount` reward formula,
+the six validator lifecycle states, epoch-boundary base fee adjustment with base
+fees accruing to governance rather than being destroyed, the quadratic gas limit
+penalty below 10% utilisation (exempt at or below 210,000 gas), Axelar/wTEL
+bridging, Fisher-Yates committee shuffling seeded from an aggregated BLS
+signature, and the published node hardware specification.
+
+Contract addresses are deliberately *not* reproduced — the page says so and
+points at the primary source, because address substitution is a real attack and
+a community wiki is where someone would try it.
+
+### Design
+
+Built with the site's own system rather than a new one: `tc-card-glass` hero,
+`toc-chip` navigation, the existing deep-dive section chrome, and the telcoin-*
+tokens throughout. New elements (stat grid, spec tables, formula blocks,
+definition lists, source callouts) are all defined from existing tokens.
+Restored list markers on the new lists, which Tailwind preflight and
+`critical.css` both strip.
+
+### Integration
+
+- Lazy-loaded route so the reference stays off the main bundle (10.2 kB gzipped).
+- Added to header nav (desktop + mobile), NAV_ITEMS, PAGE_META and the mega menu.
+- Indexed by `tools/build-search-index.mjs`, which now renders both the deep-dive
+  and protocol content trees; the index grew from 17 to 31 documents. Verified
+  that "gas limit penalty", "validator hardware", "precompile", "Axelar",
+  "ConsensusNFT" and "epoch boundary" each resolve to the correct section.
+- Deep links now open the targeted section and scroll to it — the existing Deep
+  Dive drops you on a collapsed accordion, which made anchors from search
+  results much less useful.
+- New `protocol/__tests__/sections.test.ts` guards unique ids, the `proto-`
+  namespace, chip length, every `/protocol#` reference resolving, mega-menu
+  targets, and that the route, nav entry and header link all exist.
+
+Verified with tsc, 24 Jest tests across 4 suites, `npm run build`, and a real
+browser pass (rendering, deep linking, expand/collapse, search ranking, header
+navigation, no 404s, no console errors, no overflow at 390px). Lint unchanged at
+the pre-existing 10 problems.
+
 ## 2026-08-16 (2) – Fact-check pass against primary sources
 
 Cross-referenced the content added earlier the same day against Telcoin's own
