@@ -2715,6 +2715,170 @@ html.intro-lock-sections .site-main > :not(#home-hero) {
   overflow-wrap: anywhere;
 }
 
+/* ============================================================
+   Protocol reference page
+   Built on the existing deep-dive chrome; only the elements that
+   page does not already have are defined here, all from tokens.
+   ============================================================ */
+.proto-eyebrow {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tc-accent);
+  margin: 0;
+}
+
+.proto-toggle-all {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--tc-ink-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--tc-border);
+  border-radius: 999px;
+  padding: 0.4rem 0.95rem;
+  margin-bottom: var(--space-4);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.proto-toggle-all:hover,
+.proto-toggle-all:focus-visible {
+  color: var(--tc-ink);
+  border-color: var(--tc-border-strong);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Headline figures */
+.proto-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-6) 0 var(--space-2);
+}
+.proto-stat {
+  border: 1px solid var(--tc-border);
+  border-radius: var(--tc-radius);
+  background: rgba(255, 255, 255, 0.03);
+  padding: var(--space-4);
+}
+.proto-stat b {
+  display: block;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 700;
+  color: var(--tc-ink);
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+.proto-stat i {
+  display: block;
+  margin-top: 0.3rem;
+  font-style: normal;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--tc-ink-subtle);
+}
+
+.proto-content h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--tc-ink);
+  margin: var(--space-6) 0 var(--space-3);
+}
+.proto-content h4:first-child { margin-top: 0; }
+
+.proto-content ul:not(.proto-links) { list-style: disc outside; padding-left: 1.25rem; }
+.proto-content ul:not(.proto-links) li::marker { color: var(--tc-accent); }
+
+/* Definition list for the layer breakdown */
+.proto-deflist { margin: 0 0 var(--space-6); display: grid; gap: var(--space-4); }
+.proto-deflist dt { color: var(--tc-ink); font-weight: 600; }
+.proto-deflist dd {
+  margin: 0.3rem 0 0;
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--tc-border);
+  color: var(--tc-ink-muted);
+}
+
+/* Ordered process steps */
+.proto-steps {
+  margin: 0 0 var(--space-6);
+  padding-left: 1.45rem;
+  display: grid;
+  gap: var(--space-3);
+  /* Tailwind preflight and critical.css both strip markers; restore them. */
+  list-style: decimal outside;
+}
+.proto-steps li::marker { color: var(--tc-accent); font-variant-numeric: tabular-nums; }
+.proto-steps li { color: var(--tc-ink-muted); line-height: 1.75; }
+.proto-steps li b { color: var(--tc-ink); font-weight: 600; }
+
+/* Formulae / snippets */
+.proto-code {
+  margin: 0 0 var(--space-6);
+  padding: var(--space-4);
+  border: 1px solid var(--tc-border);
+  border-radius: var(--tc-radius);
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--tc-ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Specification tables */
+.proto-table-wrap { margin: 0 0 var(--space-6); overflow-x: auto; border-radius: var(--tc-radius); border: 1px solid var(--tc-border); }
+.proto-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 420px; }
+.proto-table caption {
+  caption-side: top;
+  text-align: left;
+  padding: var(--space-3) var(--space-4) 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--tc-ink-subtle);
+}
+.proto-table th,
+.proto-table td { text-align: left; padding: 0.62rem var(--space-4); vertical-align: top; }
+.proto-table thead th {
+  color: var(--tc-ink);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--tc-border-strong);
+}
+.proto-table tbody tr + tr td { border-top: 1px solid var(--tc-border); }
+.proto-table td { color: var(--tc-ink-muted); }
+.proto-table td:first-child { color: var(--tc-ink); }
+
+.proto-links {
+  margin: 0 0 var(--space-6);
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.45rem;
+  list-style: disc outside;
+}
+.proto-links li::marker { color: var(--tc-accent); }
+.proto-links li { color: var(--tc-ink-muted); line-height: 1.7; }
+.proto-links li b { color: var(--tc-ink); font-weight: 600; }
+
+/* Sourcing / caveat callout */
+.proto-note {
+  margin: 0 0 var(--space-6);
+  padding: var(--space-4);
+  border: 1px dashed var(--tc-border-strong);
+  border-radius: var(--tc-radius);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--tc-ink-subtle);
+  font-size: 0.87rem;
+}
+.proto-note:last-child { margin-bottom: 0; }
+
 /* FAQ answers use the same inline-code convention as the Deep Dive. */
 .tc-card-glass code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

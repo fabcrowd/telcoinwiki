@@ -81,6 +81,9 @@ export function Header({
             <Link to="/deep-dive" className="header-nav-link">
               Deep Dive
             </Link>
+            <Link to="/protocol" className="header-nav-link">
+              Protocol
+            </Link>
             <Link to="/#faq-section" className="header-nav-link">
               FAQ
             </Link>
@@ -179,6 +182,7 @@ export function Header({
               <Link to="/deep-dive" onClick={handleMobileLinkClick}>Deep Dive</Link>
             </li>
             <li className="nav-item">
+              <Link to="/protocol" onClick={handleMobileLinkClick}>Protocol</Link>
               <Link to="/#faq-section" onClick={handleMobileLinkClick}>FAQ</Link>
             </li>
           </ul>

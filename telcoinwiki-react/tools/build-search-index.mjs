@@ -66,6 +66,7 @@ async function loadContentModules() {
       contents: `
         export { faqItems, faqGroups } from ${JSON.stringify(join(projectRoot, 'src/components/faq/data.tsx'))}
         export { SECTIONS } from ${JSON.stringify(join(projectRoot, 'src/components/deepDive/sections.tsx'))}
+        export { PROTOCOL_SECTIONS } from ${JSON.stringify(join(projectRoot, 'src/components/protocol/sections.tsx'))}
       `,
       resolveDir: projectRoot,
       loader: 'ts',
@@ -101,12 +102,12 @@ function buildFaqDocs(faqItems, faqGroups) {
   })
 }
 
-function buildSectionDocs(sections) {
+function buildSectionDocs(sections, route) {
   return sections.map((section) => ({
     id: section.id,
     title: section.title,
     body: toText(section.content),
-    url: `/deep-dive#${section.id}`,
+    url: `${route}#${section.id}`,
   }))
 }
 
@@ -130,6 +131,15 @@ const PAGE_DOCS = [
     ],
   },
   {
+    id: 'protocol',
+    title: 'Protocol reference — Telcoin Network',
+    summary:
+      'Working reference for Telcoin Network: modular architecture, Narwhal/Bullshark consensus, transaction lifecycle and finality, the TEL native token and 0x7e1 precompile, epochs and committee selection, validator staking, fees and the gas limit penalty, EVM compatibility, hardware requirements, and an index of every primary documentation source.',
+    url: '/protocol',
+    tags: ['Protocol', 'Reference', 'Developers'],
+    headings: [],
+  },
+  {
     id: 'deep-dive',
     title: 'Deep Dive — Telcoin architecture, economics and risks',
     summary:
@@ -144,18 +154,21 @@ async function main() {
   const { modules, cleanup } = await loadContentModules()
 
   try {
-    const { faqItems, faqGroups, SECTIONS } = modules
+    const { faqItems, faqGroups, SECTIONS, PROTOCOL_SECTIONS } = modules
 
-    if (!Array.isArray(faqItems) || !Array.isArray(SECTIONS)) {
+    if (!Array.isArray(faqItems) || !Array.isArray(SECTIONS) || !Array.isArray(PROTOCOL_SECTIONS)) {
       throw new Error('content modules did not export the expected arrays')
     }
 
     const faqDocs = buildFaqDocs(faqItems, faqGroups)
-    const sectionDocs = buildSectionDocs(SECTIONS)
+    const deepDocs = buildSectionDocs(SECTIONS, '/deep-dive')
+    const protoDocs = buildSectionDocs(PROTOCOL_SECTIONS, '/protocol')
+    const sectionDocs = [...deepDocs, ...protoDocs]
 
+    const headingsFor = { 'deep-dive': deepDocs, protocol: protoDocs }
     const pageDocs = PAGE_DOCS.map((page) =>
-      page.id === 'deep-dive'
-        ? { ...page, headings: sectionDocs.map((s) => ({ id: s.id, title: s.title })) }
+      headingsFor[page.id]
+        ? { ...page, headings: headingsFor[page.id].map((s) => ({ id: s.id, title: s.title })) }
         : page,
     )
 
@@ -176,7 +189,7 @@ async function main() {
         title: section.title,
         summary: section.body.slice(0, 240),
         url: section.url,
-        tags: ['Deep Dive'],
+        tags: [section.url.startsWith('/protocol') ? 'Protocol' : 'Deep Dive'],
         headings: [],
         body: section.body,
       })),
@@ -188,7 +201,7 @@ async function main() {
 
     const bytes = (o) => (JSON.stringify(o).length / 1024).toFixed(1)
     console.log(
-      `[search-index] ${searchIndex.length} docs (${pageDocs.length} pages, ${sectionDocs.length} sections, ${bytes(searchIndex)} kB) + ${faqDocs.length} FAQ entries (${bytes(faqDocs)} kB)`,
+      `[search-index] ${searchIndex.length} docs (${pageDocs.length} pages, ${deepDocs.length} deep-dive + ${protoDocs.length} protocol sections, ${bytes(searchIndex)} kB) + ${faqDocs.length} FAQ entries (${bytes(faqDocs)} kB)`,
     )
   } finally {
     await cleanup()
