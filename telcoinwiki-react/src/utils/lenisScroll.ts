@@ -39,7 +39,17 @@ export function initLenisScroll(): Lenis | null {
 
   // Initialize Lenis with optimized settings for maximum performance
   lenisInstance = new Lenis({
-    autoRaf: true,
+    // autoRaf must stay OFF: Lenis is driven manually below via the GSAP
+    // ticker. Lenis's raf() reschedules itself via requestAnimationFrame
+    // whenever autoRaf is on, even when raf() is invoked externally — so
+    // with both enabled, every GSAP ticker tick spawned a brand-new,
+    // permanent, self-perpetuating Lenis RAF loop that never got cancelled
+    // (only the most recently started loop's id is tracked for cleanup).
+    // Confirmed via profiling: ~2,200 requestAnimationFrame calls/sec from
+    // inside Lenis alone after 8s on the page, FPS collapsing from ~60 to
+    // ~20 within a minute — this was the "performance degrades horribly
+    // after a while" bug.
+    autoRaf: false,
     prevent: (element: HTMLElement) => {
       // Prevent Lenis on specific elements
       return element.id === 'tags-items' || element.id === 'categories-items'
