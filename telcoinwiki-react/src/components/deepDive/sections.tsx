@@ -172,7 +172,7 @@ export const SECTIONS: DeepDiveSection[] = [
 
         <h3>Multi-Chain Presence Today</h3>
         <p>
-          TEL did not begin on Telcoin Network, and the token still circulates across several chains. TEL originated as an ERC-20 on Ethereum and is also present on Polygon and Base, with bridges connecting the deployments. A meaningful share of everyday user activity — staking and liquidity in particular — has historically run on Polygon because of its low transaction costs.
+          TEL did not begin on Telcoin Network, and the token still circulates across several chains. TEL originated as an ERC-20 on Ethereum and is also present on Polygon, Base, and Arbitrum, with bridges connecting the deployments. A meaningful share of everyday user activity — staking and liquidity in particular — has historically run on Polygon because of its low transaction costs.
         </p>
         <p>
           One quirk trips up almost everyone reading raw chain data for the first time: <strong>TEL uses 2 decimals</strong>, not the 18 that most ERC-20 tokens use. A raw balance of <code>100000</code> is 1,000.00 TEL, not a fraction of a token. Any script reading balances directly from a contract must divide by 100.
@@ -336,7 +336,7 @@ export const SECTIONS: DeepDiveSection[] = [
 
         <h3>The Nebraska Route, and Where It Actually Stands</h3>
         <p>
-          Telcoin pursued a charter under Nebraska’s Financial Innovation Act (Legislative Bill 92, signed 2023), which created a state-supervised category called a Digital Asset Depository Institution (DADI) — an entity that takes deposits and issues digital representations of them under a state banking department, rather than operating in a regulatory gap. The law requires a DADI to hold unencumbered, US-dollar-denominated liquid assets equal to at least 100 percent of the digital assets it has issued, and it explicitly carries no FDIC insurance — a fact the law requires the institution to disclose to every customer in writing.
+          Telcoin pursued a charter under Nebraska’s Financial Innovation Act (Legislative Bill 649, signed 2021, with cleanup amendments in 2023’s LB92), which created a state-supervised category called a Digital Asset Depository Institution (DADI) — an entity that takes deposits and issues digital representations of them under a state banking department, rather than operating in a regulatory gap. The law requires a DADI to hold unencumbered, US-dollar-denominated liquid assets equal to at least 100 percent of the digital assets it has issued, and it explicitly carries no FDIC insurance — a fact the law requires the institution to disclose to every customer in writing.
         </p>
         <p>
           Telcoin’s application moved through two concrete, dated milestones. The Nebraska Department of Banking and Finance issued conditional approval on <strong>3 February 2025</strong>. The full charter followed on <strong>12 November 2025</strong>, signed by Governor Jim Pillen at the state capitol in Lincoln — Telcoin became the first company to hold a DADI charter, and Telcoin Digital Asset Bank became, by Telcoin’s and the state’s own description, the first chartered digital asset bank in the United States.
@@ -453,7 +453,7 @@ export const SECTIONS: DeepDiveSection[] = [
           The wallet deliberately avoids the standard twelve-word recovery phrase, because that mechanism has a catastrophic failure mode for mainstream users. Write it down and someone can steal it. Lose it and the money is gone permanently, with no recourse and no support line that can help. Telcoin calls its alternative ”assisted self-custody,” and the mechanism is specific rather than a marketing phrase.
         </p>
         <p>
-          Every wallet has three signing keys — a <strong>User Key</strong> generated and stored on the holder’s own device, a <strong>Telcoin Key</strong> held by Telcoin, and a <strong>Trusted Third-Party Key</strong> held by an independent party — and any two of the three are sufficient to authorize a transaction. Telcoin holds exactly one of the three, by design: it cannot unilaterally move or freeze funds, because doing so requires a second key it does not control. Access is also tied to the holder’s mobile number rather than to a piece of paper, which is what makes the recovery flow tractable for someone who has never managed a private key before.
+          Every wallet has three signing keys — a <strong>User Key</strong> generated and stored on the holder’s own device, a <strong>Telcoin Key</strong> held by Telcoin, and a <strong>Trusted Third-party Key</strong> held by an independent party — and any two of the three are sufficient to authorize a transaction. Telcoin holds exactly one of the three, by design: it cannot unilaterally move or freeze funds, because doing so requires a second key it does not control. Access is also tied to the holder’s mobile number rather than to a piece of paper, which is what makes the recovery flow tractable for someone who has never managed a private key before.
         </p>
         <p>
           The tradeoff worth naming plainly: this is a 2-of-3 threshold scheme, not pure single-signer self-custody. The user does not solely control their funds the way a hardware-wallet holder does — a second party’s key is always structurally required to move them. What it buys in exchange is a real answer to the seed-phrase loss problem, and a system where losing a phone doesn’t mean losing money, without handing full custody to any single party the way an exchange account does.
@@ -704,7 +704,7 @@ export const SECTIONS: DeepDiveSection[] = [
           Telcoin’s governance uses unusual terminology worth learning, because it is not decorative — it is how the system is actually structured. Anyone contributing a resource the platform depends on is called a ”miner,” a broader category than the mining of a proof-of-work chain. There are four miner types, one per productive layer of the platform: <strong>Validators</strong> secure Telcoin Network, <strong>Liquidity Miners</strong> provide capital to TELx, and <strong>Developers</strong> and <strong>Stakers</strong> contribute to TAN, the application layer.
         </p>
         <p>
-          Governance is deliberately polycentric rather than a single vote-on-everything body. Elected <strong>Miner Councils</strong> handle distinct domains — a Platform and Treasury Council for platform-wide policy and the TEL treasury, a TAN Council and a TELx Council for their respective layers, and a Compliance Council for legal and regulatory matters. The <strong>Miner Assembly</strong>, made up of all four miner groups together, sits above the councils and holds constitutional-level authority to amend the governance system itself.
+          Governance is deliberately polycentric rather than a single vote-on-everything body. Elected <strong>Miner Councils</strong> handle distinct domains — a Platform Council for platform-wide policy, a separate Treasury Council with shared authority over the TEL treasury, a TAN Council and a TELx Council for their respective layers, and a Compliance Council for legal and regulatory matters. The <strong>Miner Assembly</strong>, made up of all four miner groups together, sits above the councils and holds constitutional-level authority to amend the governance system itself.
         </p>
         <p>
           This is a deliberate response to a well-documented failure of pure token voting: most holders lack the time or context to evaluate technical proposals, so direct votes suffer from low participation and outsized influence for large holders. Delegated, domain-specific councils trade some directness for competence and continuity.
@@ -859,7 +859,7 @@ export const SECTIONS: DeepDiveSection[] = [
           <dd>A Swiss nonprofit <em>Verein</em>, domiciled in Lugano, that stewards the protocol, emissions policy, and network governance through elected Miner Councils and the Miner Assembly.</dd>
 
           <dt>Miner Council / Miner Assembly</dt>
-          <dd>Elected governance bodies within the Association. Miner Councils (Platform and Treasury, TAN, TELx, Compliance) handle domain-specific decisions; the Miner Assembly — all four miner groups together — holds constitutional-level authority over the governance system itself.</dd>
+          <dd>Elected governance bodies within the Association. Five Miner Councils (Platform, Treasury, TAN, TELx, Compliance) handle domain-specific decisions; the Miner Assembly — all four miner groups together — holds constitutional-level authority over the governance system itself.</dd>
 
           <dt>TELx</dt>
           <dd>The liquidity layer that incentivizes market-making in TEL and Digital Cash, currently concentrated on Polygon and Base with a standardization effort extending to Ethereum.</dd>
@@ -874,10 +874,10 @@ export const SECTIONS: DeepDiveSection[] = [
         <h3>Technical Terms</h3>
         <dl className="deep-dive-glossary">
           <dt>Narwhal</dt>
-          <dd>A DAG-based mempool protocol that disseminates transaction data in parallel across validators, separating data availability from consensus ordering. From the 2021 paper by Danezis, Kogias, Sonnino, and Spiegelman; also used by the Sui blockchain.</dd>
+          <dd>A DAG-based mempool protocol that disseminates transaction data in parallel across validators, separating data availability from consensus ordering. From the 2021 paper by Danezis, Kokoris Kogias, Sonnino, and Spiegelman. Previously used by the Sui blockchain, which replaced it with a different consensus protocol (Mysticeti) in mid-2024.</dd>
 
           <dt>Bullshark</dt>
-          <dd>A consensus protocol that derives a total ordering from Narwhal’s DAG deterministically, requiring no additional messages between validators. From the 2022 paper by Giridharan, Kokoris-Kogias, Sonnino, and Spiegelman.</dd>
+          <dd>A consensus protocol that derives a total ordering from Narwhal’s DAG deterministically, requiring no additional messages between validators. From the 2022 paper by Spiegelman, Giridharan, Sonnino, and Kokoris-Kogias.</dd>
 
           <dt>Deterministic finality</dt>
           <dd>The property that a committed transaction can never be reversed — as opposed to probabilistic finality, where confidence grows with each confirmation but never reaches certainty.</dd>
