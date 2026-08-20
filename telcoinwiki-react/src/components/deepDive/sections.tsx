@@ -175,7 +175,7 @@ export const SECTIONS: DeepDiveSection[] = [
           TEL did not begin on Telcoin Network, and the token still circulates across several chains. TEL originated as an ERC-20 on Ethereum and is also present on Polygon, Base, and Arbitrum, with bridges connecting the deployments. A meaningful share of everyday user activity — staking and liquidity in particular — has historically run on Polygon because of its low transaction costs.
         </p>
         <p>
-          One quirk trips up almost everyone reading raw chain data for the first time: <strong>TEL uses 2 decimals</strong>, not the 18 that most ERC-20 tokens use. A raw balance of <code>100000</code> is 1,000.00 TEL, not a fraction of a token. Any script reading balances directly from a contract must divide by 100.
+          One quirk trips up almost everyone reading raw chain data for the first time: <strong>TEL uses 2 decimals</strong>, not the 18 that most ERC-20 tokens use. A raw balance of <code>100000</code> is 1,000.00 TEL, not a fraction of a token. Any script reading balances directly from a contract must divide by 100 — for now; see the Tokenomics section for a proposal that would change this.
         </p>
 
         <h3>Scalability Path</h3>
@@ -561,6 +561,9 @@ export const SECTIONS: DeepDiveSection[] = [
         <p>
           A raw on-chain balance of <code>1000000</code> is 10,000.00 TEL. Divide raw values by 100, not by 10<sup>18</sup>. Tooling that assumes the default will report balances off by sixteen orders of magnitude.
         </p>
+        <p className="deep-dive-review-note">
+          <em>Don’t treat this as permanent: Telcoin has an official proposal underway — internally called ”TEL3” — to migrate TEL from 2 to 18 decimals across all four chains, with a 1:1 bridged swap and a multi-year claim window. It has its own tracking page at tel3.telcoin.network and a governance thread on the Telcoin Association forum (”TELIP: The TEL Token Upgrade”). As of this writing that page’s own status banner reads ”Not Live” — the upgrade has not happened and is still going through governance review. Check tel3.telcoin.network for current status before assuming either decimal count.</em>
+        </p>
 
         <h3>What TEL Is Actually For</h3>
         <p>
@@ -844,7 +847,7 @@ export const SECTIONS: DeepDiveSection[] = [
         <h3>Core Terms</h3>
         <dl className="deep-dive-glossary">
           <dt>TEL</dt>
-          <dd>The native token of the Telcoin ecosystem. Fixed supply of 100 billion, 2 decimal places. Used for gas, staking, liquidity incentives, and governance.</dd>
+          <dd>The native token of the Telcoin ecosystem. Fixed supply of 100 billion, 2 decimal places today (a governance proposal to migrate to 18 decimals is under community discussion — see the Tokenomics section). Used for gas, staking, liquidity incentives, and governance.</dd>
 
           <dt>Telcoin Network</dt>
           <dd>Telcoin’s EVM-compatible Layer 1 blockchain, intended to be validated by GSMA-member mobile network operators.</dd>
